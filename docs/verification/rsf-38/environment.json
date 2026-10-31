@@ -1,0 +1,20 @@
+{
+  "os": "Linux 6.8.0-94-generic #106-Ubuntu SMP PREEMPT_DYNAMIC x86_64",
+  "python": {
+    "system": "Python 3.14.4",
+    "venv": "Python 3.14.4",
+    "build_module": "build 1.6.1",
+    "setuptools": "setuptools 78.1.1",
+    "wheel": "wheel 0.46.3",
+    "packaging": "packaging 25.0"
+  },
+  "optional_tools": {
+    "ffmpeg": "ffmpeg version 7.1-1ubuntu5",
+    "ffprobe": "ffprobe version 7.1-1ubuntu5",
+    "rust_oracle": "tools/rust-oracle/target/debug/rsf-rust-oracle (built, functional)",
+    "pillow": "12.1.1",
+    "jsonschema": "4.19.2",
+    "playwright": "installed in venv"
+  },
+  "git_commit": "472b1d3f9e29630b505fc2b3b7315f6b4e00beba"
+}

@@ -1,0 +1,129 @@
+{
+  "task": {
+    "id": "vky1aihwa7vdpeqvv40r33ig",
+    "title": "[M6] Operator frame selection, PTS provenance and timing separation",
+    "number": 29,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M6\n**Stable plan reference:** RSF-v1.1/M6-02\n**Implementation status:** Backlog (to-do); planned only, no implementation or verification claimed. Kaneo column is authoritative if later changed.\n**Responsible implementer:** Unassigned. Required skill: Authorized engineer for this bounded deliverable; independent reviewer is separate.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.1–2.3, 5.3, 6/M6\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Let the operator choose actual video frames for existing finite requirements.\n\n**Scope:** Video timeline/keyframe candidate selection, explicit mapping, crop/alpha placement and source provenance UI.\n\n## Acceptance criteria\n\n- [ ] Operator selects display-order frames and maps to declared action/view/frame/layer IDs; retain source hash, source PTS, selected frame hash and selection revision.\n- [ ] Show source PTS independently from ACT/runtime playback timing, including VFR and candidate gaps.\n- [ ] Manual placement/crop/alpha choices use versioned M4 recipes and before/after previews with affected approval invalidation.\n- [ ] No missing poses/views are inferred, auto-filled or aesthetically accepted; selection and review remain operator actions.\n\n## Verification\n\nSelection/reopen provenance tests, VFR timeline and runtime-timing separation checks; operator review flow.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-28 (M6-01; task ID mdehayoorrfc43z930ij72wx); RSF-18 (M3-04; task ID reuc1z3obcspcrn7xb55dzvk)\n\n**Non-goals / gate qualifications:** Only the stated deliverable; no adjacent milestone implementation or automatic artistic/native acceptance.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code changes / diff: Not implemented by this planning sync.\n- Test commands / exit statuses / artifact hashes: NOT_RUN (planning only).\n- Milestone gates / limitations: Not evaluated; structural, coverage, visual, preview and native states remain separate.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nNot performed for implementation. Implementer supplies evidence and moves to QA Review; a distinct read-only reviewer records QA_PASS / QA_FAIL / QA_BLOCKED. Operator-only visual/native decisions remain separate. No acceptance is granted by backlog creation.",
+    "status": "to-do",
+    "columnId": "eog035o4rzn6u301ylyctbvg",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 28,
+    "createdAt": "2026-10-29T10:08:08.126Z",
+    "userId": null,
+    "assigneeName": null,
+    "assigneeId": null,
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "relations": [
+    {
+      "id": "cudps31wnei4pllus27gc4r7",
+      "sourceTaskId": "mdehayoorrfc43z930ij72wx",
+      "targetTaskId": "vky1aihwa7vdpeqvv40r33ig",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.500Z",
+      "sourceTask": {
+        "id": "mdehayoorrfc43z930ij72wx",
+        "title": "[M6] Optional bounded FFprobe/FFmpeg candidate-frame import",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 28,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+        "assigneeName": "Codex"
+      },
+      "targetTask": {
+        "id": "vky1aihwa7vdpeqvv40r33ig",
+        "title": "[M6] Operator frame selection, PTS provenance and timing separation",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 29,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "km460xipb6rlxzz8jjqutva9",
+      "sourceTaskId": "reuc1z3obcspcrn7xb55dzvk",
+      "targetTaskId": "vky1aihwa7vdpeqvv40r33ig",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.520Z",
+      "sourceTask": {
+        "id": "reuc1z3obcspcrn7xb55dzvk",
+        "title": "[M3] Canonical pre-build approval and scoped invalidation",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 18,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+        "assigneeName": "Codex"
+      },
+      "targetTask": {
+        "id": "vky1aihwa7vdpeqvv40r33ig",
+        "title": "[M6] Operator frame selection, PTS provenance and timing separation",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 29,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "vvqr735s07p1zfcp7qem8bwj",
+      "sourceTaskId": "vky1aihwa7vdpeqvv40r33ig",
+      "targetTaskId": "kd4gq1ex5zq2k32rn38yso35",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.541Z",
+      "sourceTask": {
+        "id": "vky1aihwa7vdpeqvv40r33ig",
+        "title": "[M6] Operator frame selection, PTS provenance and timing separation",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 29,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "kd4gq1ex5zq2k32rn38yso35",
+        "title": "[M6] Video-derived Walk assignment through the existing compiler",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 30,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    }
+  ],
+  "additional_dependency": {
+    "id": "reuc1z3obcspcrn7xb55dzvk",
+    "title": "[M3] Canonical pre-build approval and scoped invalidation",
+    "number": 18,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M3\n**Stable plan reference:** RSF-v1.1/M3-04\n**Implementation status:** Implemented; independent QA_PASS. Acceptance supported by the execution evidence below.\n**Responsible implementer:** Codex (aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn). Independent read-only reviewer: forge_qa_reviewer /root/rsf18_independent_qa.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.3, 4.3–4.6, 5.2/E, 6/M3, 14\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Bind human review to exactly the composition visible before compilation.\n\n**Scope:** Canonical visual composition digest, operator approve/reject/batch scope, dependency tracking and stale-review workflow.\n\n## Acceptance criteria\n\n- [x] Canonical pre-build revision covers source-content hashes, assignments, ordered layers, recipes/crops/transforms, timing/offsets/anchors, target/profile and preview semantics.\n- [x] Only operator can approve/reject a displayed frame/view/action/batch with precise scope and digest; approval exists before output build hashes.\n- [x] Changes affecting visual inputs invalidate only affected scope; equivalent inputs/unrelated rebuilds do not invalidate approval; save/reopen preserves valid review.\n- [x] PARTIAL/UNVERIFIED preview yields explicitly provisional inspection, never faithful-runtime approval; native acceptance remains separate.\n- [x] Unchanged structural-only imports may record NOT_REQUIRED under explicit policy; replacement artwork requires applicable review. Missing/stale approval prevents production readiness.\n\n## Verification\n\nCanonical digest equivalence and affected-only invalidation tests; operator batch/rejection/reopen flow; future build hash independence check.\n\nActual execution evidence follows. Original planning scope is preserved; all automated review decisions used isolated synthetic art, never private artwork.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-17 (M3-03; task ID j4bq4r7uxi9z6l378go7oomo)\n\n**Non-goals / gate qualifications:** No auto-approval or aesthetic scoring.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence\n\n- core/review.py: canonical pre-build basis extends existing ledger dependency/composition identity with exact ordered-frame context, target/profile, timing/anchor constraints and renderer/preview semantics. Closed packaged review-event/v1 schema; optional project history preserves compatibility.\n- Service proposal reconstructs persisted current inputs; atomic exact-scope decisions and optimistic revisions reject stale/batch conflicts. History persists; generic saves cannot inject approvals. Ephemeral coverage projection preserves assignment revisions.\n- Workbench presents exact scope, actual source-layer previews, lineage and basis/evidence hashes before explicit Approve/Reject. Layer/frame/view/action/explicit batch selections are supported.\n- Provisional ordered source-layer review only, clearly PARTIAL; not compiled-animation/native/artistic acceptance. Unexecuted transforms cannot be approved or exempted. NOT_REQUIRED requires explicit unchanged-reference structural-only policy. export_ready=false.\n- Python3.14.4: focused19 PASS, public318 PASS, private36 PASS, all exit0. Six schema checkers PASS; node syntax PASS. Final offline installed distribution318 collected, OK(skipped2 optional-dependency tests), repeated wheel hash/isolation/private-asset exclusions PASS. Python3.12/3.13 NOT_RUN unavailable.\n- Actual Playwright MCP Chromium156.0.8078.73: coordinator and independent reviewer directly ran fresh synthetic journeys. Exact individual/batch approval, rejection, reopen, A/B/C stale with D retained, separate-context409 conflict, unexecuted translation block and prior RSF17 assignment/playback/comparison PASS. Zero unexpected JS/network failures. Expected422/409/409 negative responses.\n- Final installed-wheel browser rerun project rsf18-1793352821184:1 APPROVED,3 STALE,44 UNVERIFIED,export_ready=false. No private artwork approvals. Missing synthetic source separately becomes STALE/unreviewable, exact bytes restored.\n- Implementation manifest docs/evidence/rsf18/implementation-manifest.json SHA256 e2ae7746e00b1a54c3ac205a980f9bd9c5e24a406bf3dd6853345684cbe1d16f. Final installed browser wheel d7c46473d8acae0cfb0b66be25e685b488337b59bf45420fd99f0948edeaba9c. Reproducible sdist-derived wheel a4cb1f7d5a9d411c3d6d0fe93cbafb4614892919b8a5abb1f01878235e81e0ea (separate build route).\n- Deterministic workspace repeated bytes equal, SHA256 0728a38e01ba7f9a01fcde56fcda6f5379c9ef535a738271efd2f30e67edae77. Review-event/occurrence bases in docs/evidence/rsf18/determinism.json.\n- Accepted baseline386 files/no missing; seven existing paths changed incl generated SOURCES.txt, new bounded review implementation/tests/evidence. HEAD472b1d3f9e29630b505fc2b3b7315f6b4e00beba unchanged, no commits/push, private resources excluded.\n- Details: docs/architecture/RSF18_REVIEW.md; docs/evidence/rsf18/VERIFICATION.md, QA_REVIEW.md, browser-release-results.json, synthetic-review-dialog-qa.png.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nQA_PASS — configured forge_qa_reviewer /root/rsf18_independent_qa independently inspected live five criteria and ran current-source318 public,36 private,19 focused and six schema checks, all exit0. Reviewer directly executed Playwright MCP in fresh synthetic project rsf18-1793352647508; all seven journeys passed, no unexpected console/network failures. This improves RSF17 browser independence.\n\nEvidence-projection metadata correction was included in reviewer current-source tests. Independent installed-browser run preceded that metadata-only correction; coordinator reran full final installed-wheel browser suite afterward. Packaging was coordinator-executed. No mandatory findings remain. Reviewer made no source/Kaneo edits or real-art approvals.\n\n## Milestone gates and scope\n\nM0_VERIFIED retained (S/I/N previous exact scope); M1 planning accepted; M2_PREVIEW_AND_DIAGNOSTICS_VERIFIED retained. M3_LOCAL_OPERATOR_WORKBENCH_VERIFIED follows RSF15/16/17 Accepted plus this QA_PASS and final acceptance read-back, documented in docs/evidence/rsf18/M3_GATE_PACKET.md. Synthetic explicit operator interactions verify review mechanics under current operator instruction; prior RSF17 private UI import/count/assignment evidence remains applicable. No actual real-art approval is inferred. M4 ingestion/M5 compilation and new native output evidence remain unimplemented. RSF19 not started.",
+    "status": "done",
+    "columnId": "vnkxm3fyt0tmewq1rdokfops",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 17,
+    "createdAt": "2026-10-29T10:08:03.849Z",
+    "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "assigneeName": "Codex",
+    "assigneeId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "eligible": true,
+  "started": false
+}

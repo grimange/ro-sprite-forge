@@ -1,0 +1,65 @@
+{
+  "task": "RSF-37",
+  "evidence_files": [
+    {
+      "name": "PLAN.md",
+      "size": 2369,
+      "sha256": "4c0c2680c46669d2e6a39cf40c06cfd695256cd571f8de3fc73f16d4fa7ef9c4"
+    },
+    {
+      "name": "REPORT.md",
+      "size": 8120,
+      "sha256": "a454cda8143820e14435f880bab74c61ef3e2c49a31d06c77ce9256c95fcf94c"
+    },
+    {
+      "name": "commands.json",
+      "size": 1062,
+      "sha256": "9c085b1d2d78cef44eb249251f47708d2f17798d616c3fb3707c3d1b96500e93"
+    },
+    {
+      "name": "distribution.log",
+      "size": 180378,
+      "sha256": "14eb4e3db8eb592cdb29a40e3998c7c66cdfaeb4f6fc5e18f23e1458a621d14e"
+    },
+    {
+      "name": "environment.json",
+      "size": 611,
+      "sha256": "d24746ccb534c0216217075cac80493b99cfeb641d21be50fa9fe68a8687ce95"
+    },
+    {
+      "name": "focused.log",
+      "size": 4245,
+      "sha256": "f0a38c837112644e7633bb0a1cba6664c9ec0bc9d858be59717d1fc1cbc78ea3"
+    },
+    {
+      "name": "implementation-manifest.json",
+      "size": 1050,
+      "sha256": "d79a94ff772466d22c3a285be41b1a3522b363f34ea2247693501a421e49c0a9"
+    },
+    {
+      "name": "independent/QA_REPORT.md",
+      "size": 9694,
+      "sha256": "644000c70523395e92c8dabfc0807c5e12013c01a612f0939e4f2faaee4e9d71"
+    },
+    {
+      "name": "kaneo-start.json",
+      "size": 438,
+      "sha256": "349183e9b500605bf53778bda4fbb8f403d53fef21d3e47f8907d807708c91b4"
+    },
+    {
+      "name": "private.log",
+      "size": 14778,
+      "sha256": "d97863e12fbc9e2cc48d58615324992ff255b31f7bed98cf4044bfbe2e7f70c0"
+    },
+    {
+      "name": "public.log",
+      "size": 102523,
+      "sha256": "e1b64f4588d2eeb4a0fe868ad57c435b4c001c5b20dc161c474761ad5e19bc2e"
+    },
+    {
+      "name": "schemas.log",
+      "size": 733,
+      "sha256": "3601d1c79cc21d89f2d519556cb4e1bffb94bdb12cdbb6a9c552e48e3334b99b"
+    }
+  ]
+}

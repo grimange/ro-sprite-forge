@@ -1,0 +1,17 @@
+{
+  "task": "RSF-20",
+  "title": "Spritesheet extraction and rectangle validation",
+  "milestone": "M4",
+  "hashes": {
+    "src/ro_sprite_forge/core/extraction.py": "015b6bc3c741055aaa4cd09bce03f46625403cf105e6756cd4a7d7c7092a1e08",
+    "src/ro_sprite_forge/schemas/project-v1.json": "80e6804e6a767817a3c5f4aa34b810cf4cbb4f711764d5b91fd5bbd2b602e371",
+    "src/ro_sprite_forge/service/workbench.py": "6e48ae8e6250f11fe69fc49849ebba3aea9d4f4df6c28454d24754eafe5427ac",
+    "src/ro_sprite_forge/service/server.py": "4e9cda7da56b028a5b79b381c8bcc4ad9f8a37bf863c504590a1ba60fb27138d",
+    "src/ro_sprite_forge/static/index.html": "a503c103e0c72b74a8dd5e8fed0baca0b271ddf00eda40937d3312565a9aa22c",
+    "src/ro_sprite_forge/static/workbench.js": "d76d1e672ae70ad867ecb0b669e86d8051d6c1e37d1f0ca476d008b7685fe9b5",
+    "scripts/check_extraction_schema.py": "719a5dc2ae3aeaeeb6395ccf01970143a6e3e7aca52f6fdce3c0db2a6bce2069",
+    "tests/test_extraction.py": "d0f8d20ee2b1104237967f88a6f5914b8096e140527c01b4a13da764431ea236",
+    "tests/browser/rsf20-mcp.js": "7140529a7fcea972cc422ddbd3ba5d07be905ae4a748ccd939fad9f68e7519f4",
+    "docs/architecture/RSF20_EXTRACTION.md": "8c7c8661201f9e08c1f1548b77a882b7186899a31c409c9afc1c19f04133d81a"
+  }
+}

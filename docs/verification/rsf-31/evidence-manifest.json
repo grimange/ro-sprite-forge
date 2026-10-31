@@ -1,0 +1,65 @@
+{
+  "task": "RSF-31",
+  "evidence_files": [
+    {
+      "name": "PLAN.md",
+      "bytes": 4846,
+      "sha256": "fb240039256ce6f4ac9db97060ce59a7990c38b2e984d74b16846b835837336e"
+    },
+    {
+      "name": "environment.json",
+      "bytes": 471,
+      "sha256": "5125e5c7827b6884696d864f5c1cc165811daff6ed476c3d4d11de797196849b"
+    },
+    {
+      "name": "kaneo-start.json",
+      "bytes": 524,
+      "sha256": "2067e5e64088eaf6387dda7c4dfe7e46798445bee469b352e994adbcabfa0435"
+    },
+    {
+      "name": "commands.json",
+      "bytes": 1553,
+      "sha256": "21b4542778386ad47e6ab55d5669ad6891470202604fe6634b99390c573376aa"
+    },
+    {
+      "name": "implementation-manifest.json",
+      "bytes": 214,
+      "sha256": "991e9258f3bbcb74b29739675b4a0d03a6eb0acc042a0a4a579637b8137f8165"
+    },
+    {
+      "name": "focused.log",
+      "bytes": 5655,
+      "sha256": "da9b3263e576286500806b7a5fac09834710603f7ed77c00e3398643a0721cdf"
+    },
+    {
+      "name": "public.log",
+      "bytes": 78499,
+      "sha256": "7dd6ca23b91add107bad1632926e020f8ea56408630db733c7c1f54827e55289"
+    },
+    {
+      "name": "private.log",
+      "bytes": 12829,
+      "sha256": "ee73097fa47576b20bc996d7d5e5317c64d9ce7825c9f57f9b7cfc53ec4f1ed2"
+    },
+    {
+      "name": "schemas.log",
+      "bytes": 1122,
+      "sha256": "3077092d646515b9d4fd2a4154c12c39f580bd14dfb3b5ff4a4affb8a63dd4ea"
+    },
+    {
+      "name": "distribution.log",
+      "bytes": 148255,
+      "sha256": "dfc768e251c0bc54c5834921c28a913ff69ef5d87e66956319c276d35a69bc22"
+    },
+    {
+      "name": "REPORT.md",
+      "bytes": 9992,
+      "sha256": "0b3b9b4fc985f68e2805f0e3426b35aada39f85c1d55f28b104b26234d795a0d"
+    },
+    {
+      "name": "independent/QA_REPORT.md",
+      "bytes": 10593,
+      "sha256": "f792fdb735aae0f121f2b15b7034691ebb4dfec276f2a978a3d60f0bd4bc01d2"
+    }
+  ]
+}

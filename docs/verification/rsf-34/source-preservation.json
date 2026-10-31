@@ -1,0 +1,16 @@
+{
+  "baseline_file_count": 143,
+  "baseline_sha256": "102ee8a9241ca6b127eb311ca535ad219561f82868654bd4a24442353b3c67b9",
+  "generated_packaging_metadata": [
+    "src/ro_sprite_forge.egg-info/SOURCES.txt"
+  ],
+  "modified_existing_paths": [
+    "scripts/check_registry_schema.py",
+    "src/ro_sprite_forge/core/registry.py",
+    "src/ro_sprite_forge/schemas/compatibility-registry-v1.json"
+  ],
+  "schema": "rsf.source-preservation-evidence/v1",
+  "task": "RSF-34",
+  "unchanged_file_count": 139,
+  "unexpected_modifications": []
+}

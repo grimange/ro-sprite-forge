@@ -1,0 +1,245 @@
+[
+  {
+    "name": "focused",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "test_appearance",
+      "test_profile_registry",
+      "test_attachment_compatibility",
+      "-v"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.96,
+    "log": "logs/focused.log"
+  },
+  {
+    "name": "public",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit_code": 1,
+    "elapsed_seconds": 32.558,
+    "log": "logs/public.log"
+  },
+  {
+    "name": "private",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/private_fixture_hooks",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 28.604,
+    "log": "logs/private.log"
+  },
+  {
+    "name": "rust-parity",
+    "argv": [
+      ".venv/bin/python",
+      "tools/rust-oracle/test_parity.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 5.681,
+    "log": "logs/rust-parity.log"
+  },
+  {
+    "name": "check_animation_schema",
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_animation_schema.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.185,
+    "log": "logs/check_animation_schema.log"
+  },
+  {
+    "name": "check_comparison_schema",
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_comparison_schema.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.256,
+    "log": "logs/check_comparison_schema.log"
+  },
+  {
+    "name": "check_compilation_schema",
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_compilation_schema.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.17,
+    "log": "logs/check_compilation_schema.log"
+  },
+  {
+    "name": "check_contract_schemas",
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_contract_schemas.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.152,
+    "log": "logs/check_contract_schemas.log"
+  },
+  {
+    "name": "check_coverage_schema",
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_coverage_schema.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.246,
+    "log": "logs/check_coverage_schema.log"
+  },
+  {
+    "name": "check_extraction_schema",
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_extraction_schema.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.12,
+    "log": "logs/check_extraction_schema.log"
+  },
+  {
+    "name": "check_ingestion_schema",
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_ingestion_schema.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.115,
+    "log": "logs/check_ingestion_schema.log"
+  },
+  {
+    "name": "check_ledger_schema",
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_ledger_schema.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.116,
+    "log": "logs/check_ledger_schema.log"
+  },
+  {
+    "name": "check_registry_schema",
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_registry_schema.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.261,
+    "log": "logs/check_registry_schema.log"
+  },
+  {
+    "name": "check_review_schema",
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_review_schema.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.082,
+    "log": "logs/check_review_schema.log"
+  },
+  {
+    "name": "check_transformation_schema",
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_transformation_schema.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.115,
+    "log": "logs/check_transformation_schema.log"
+  },
+  {
+    "name": "check_video_schema",
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_video_schema.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.129,
+    "log": "logs/check_video_schema.log"
+  },
+  {
+    "name": "distribution",
+    "argv": [
+      ".venv/bin/python",
+      "tests/check_distribution.py",
+      "--wheelhouse",
+      "/tmp/rsf24-wheelhouse",
+      "--python",
+      "/usr/bin/python3.14"
+    ],
+    "exit_code": 1,
+    "elapsed_seconds": 31.8,
+    "log": "logs/distribution.log"
+  },
+  {
+    "name": "public-unrestricted",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "log": "logs/public-unrestricted.log",
+    "environment": "local socket access enabled"
+  },
+  {
+    "name": "distribution-unrestricted",
+    "argv": [
+      ".venv/bin/python",
+      "tests/check_distribution.py",
+      "--wheelhouse",
+      "/tmp/rsf24-wheelhouse",
+      "--python",
+      "/usr/bin/python3.14"
+    ],
+    "exit_code": 0,
+    "log": "logs/distribution-unrestricted.log",
+    "environment": "local socket access enabled"
+  },
+  {
+    "name": "public-synthetic-reproduction",
+    "argv": [
+      ".venv/bin/python",
+      "docs/verification/rsf-34/reproduce.py",
+      "docs/verification/rsf-34/synthetic"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "private-summary",
+    "argv": [
+      ".venv/bin/python",
+      "docs/verification/rsf-34/reproduce_private.py",
+      "docs/verification/rsf-34/private-summary.json"
+    ],
+    "exit_code": 0,
+    "log": "logs/private-summary.log"
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "id": "q9eh2soodxcc0qucu0pkoiy4",
+  "title": "[M4] Deterministic PNG-sequence ingestion and staging",
+  "number": 19,
+  "status": "done",
+  "columnId": "vnkxm3fyt0tmewq1rdokfops",
+  "priority": "no-priority",
+  "position": 18,
+  "userId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+  "assigneeName": "AGY",
+  "assigneeId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+  "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+  "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il",
+  "accepted_criteria": [
+    "Import ordered PNG sequences without inferred choreography, retain raw source hash plus staged pixel/asset identities and explicit source order.",
+    "Validate dimensions, decode budget, transparency expectations, hashes and invalid frame order with exact source/requirement error IDs.",
+    "Same sources/settings and pinned decoder/color policy reproduce identical staged hashes; original files are immutable.",
+    "Expose imported candidates to the existing assignment/preview API and local import tray without automatic assignment/approval."
+  ],
+  "qa_verdict": "QA_PASS"
+}

@@ -1,0 +1,600 @@
+{
+  "mixed": {
+    "canonical_sha256": "ed8df58916174c15935d6010086379832a8921b6285a83ce35024797ea2fcb90",
+    "counts": {
+      "optional": {
+        "action_view_slots": 0,
+        "action_view_slots_exact": 0,
+        "explicit_resolved_frames": 0,
+        "explicit_resolved_layers": 0,
+        "frame_occurrences_known": 0,
+        "inherited_resolved_frames": 0,
+        "inherited_resolved_layers": 0,
+        "layer_occurrences_exact": 0,
+        "layer_occurrences_known": 0,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      },
+      "required": {
+        "action_view_slots": 8,
+        "action_view_slots_exact": 8,
+        "explicit_resolved_frames": 48,
+        "explicit_resolved_layers": 56,
+        "frame_occurrences_known": 48,
+        "inherited_resolved_frames": 0,
+        "inherited_resolved_layers": 0,
+        "layer_occurrences_exact": 56,
+        "layer_occurrences_known": 56,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      }
+    },
+    "diagnostics": [],
+    "first_authority": {
+      "declaration": "per_frame",
+      "kind": "explicit"
+    },
+    "first_frame_id": "winter-walk/r1/body/action/Walk/slot8/view0/frame0",
+    "first_layer_id": "winter-walk/r1/body/action/Walk/slot8/view0/frame1/topologyc960a8ebecd97767a5ec9c40baaad976f9f275b7442ce7ca121008c59d9ba146/layer0",
+    "serialized_sha256": "f5127a7f416fcdcf3b68a32a1c6524f3e3e01568777c5cff9d9e88c3efa7de3b",
+    "status": {
+      "artwork_coverage": "UNASSIGNED",
+      "export_ready": false,
+      "full_profile_specified": false,
+      "native_evidence": "UNVERIFIED",
+      "specification": "COMPLETE_FOR_DECLARED_SCOPE",
+      "unique_artwork_effort": "UNKNOWN_UNTIL_ASSIGNMENTS",
+      "visual_review": "UNVERIFIED",
+      "work_order": "EXACT"
+    },
+    "target": {
+      "canonical_sha256": "4a913d256b0e1add0584094d4c01ea886229c0caf3707841d1b6b9de2056cb8c",
+      "id": "winter-walk",
+      "revision": 1
+    }
+  },
+  "monster": {
+    "canonical_sha256": "bd966b544c33cdb29e17c30cb8e74b5e3c79001bed13a5709f0dde35051b8dc1",
+    "counts": {
+      "optional": {
+        "action_view_slots": 0,
+        "action_view_slots_exact": 0,
+        "explicit_resolved_frames": 0,
+        "explicit_resolved_layers": 0,
+        "frame_occurrences_known": 0,
+        "inherited_resolved_frames": 0,
+        "inherited_resolved_layers": 0,
+        "layer_occurrences_exact": 0,
+        "layer_occurrences_known": 0,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      },
+      "required": {
+        "action_view_slots": 40,
+        "action_view_slots_exact": 40,
+        "explicit_resolved_frames": 0,
+        "explicit_resolved_layers": 0,
+        "frame_occurrences_known": 512,
+        "inherited_resolved_frames": 512,
+        "inherited_resolved_layers": 1776,
+        "layer_occurrences_exact": 1776,
+        "layer_occurrences_known": 1776,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      }
+    },
+    "diagnostics": [],
+    "first_authority": {
+      "frame_mapping": "ORDINAL_ONE_TO_ONE",
+      "inventory_sha256": "72597b73a1516671967d45dd1104060529022becbcc7f38aca97d33425470041",
+      "kind": "inherited",
+      "mapping_complete": true,
+      "namespace": {
+        "actor": "reference",
+        "part": "body",
+        "profile": "korangar-monster-v1"
+      },
+      "part": "body",
+      "reference_type": "rsf.inventory/v1",
+      "semantic_mapping": "SUPPORTED",
+      "source_frame": 0,
+      "source_frame_id": "reference/korangar-monster-v1/body/action/Attack1/slot16/view0/frame0",
+      "source_slot": 16,
+      "sources": {
+        "act": {
+          "bytes": 87004,
+          "format": "ACT 2.4",
+          "sha256": "31e1e75241bc534422e468ae134892c7b234d66022456b87b0423df5858370e2"
+        },
+        "spr": {
+          "bytes": 119327,
+          "format": "SPR 2.1",
+          "sha256": "a39f864209d63ae75bd62438da61775c510d7c55a78344b3065fb5918a55ce8f"
+        }
+      },
+      "target_runtime_slot": 16
+    },
+    "first_frame_id": "reference-topology/r1/body/action/Attack1/slot16/view0/frame0",
+    "first_layer_id": "reference-topology/r1/body/action/Attack1/slot16/view0/frame0/topology931373c968f7956e1c6e5b56c711f07fe1289f86b4ef463c8b56b5de6b23cb32/layer0",
+    "inventories": [
+      {
+        "canonical_sha256": "72597b73a1516671967d45dd1104060529022becbcc7f38aca97d33425470041",
+        "namespace": {
+          "actor": "reference",
+          "part": "body",
+          "profile": "korangar-monster-v1"
+        },
+        "sources": {
+          "act": {
+            "bytes": 87004,
+            "format": "ACT 2.4",
+            "sha256": "31e1e75241bc534422e468ae134892c7b234d66022456b87b0423df5858370e2"
+          },
+          "spr": {
+            "bytes": 119327,
+            "format": "SPR 2.1",
+            "sha256": "a39f864209d63ae75bd62438da61775c510d7c55a78344b3065fb5918a55ce8f"
+          }
+        },
+        "summary": {
+          "action_slots": 40,
+          "distinct_referenced_contents": 55,
+          "distinct_stored_contents": 56,
+          "frame_occurrences": 512,
+          "indexed_images": 57,
+          "layer_occurrences": 1776,
+          "numeric_action_groups": 5,
+          "referenced_images": 55,
+          "stored_images": 57,
+          "truecolor_images": 0,
+          "unused_images": 2,
+          "visible_layer_references": 1776
+        }
+      }
+    ],
+    "serialized_sha256": "99061ff7d0daac3b310525fd3e3087a34f458c7ad66326a684fbe8d256901498",
+    "status": {
+      "artwork_coverage": "UNASSIGNED",
+      "export_ready": false,
+      "full_profile_specified": true,
+      "native_evidence": "UNVERIFIED",
+      "specification": "COMPLETE_FOR_DECLARED_SCOPE",
+      "unique_artwork_effort": "UNKNOWN_UNTIL_ASSIGNMENTS",
+      "visual_review": "UNVERIFIED",
+      "work_order": "EXACT"
+    },
+    "target": {
+      "canonical_sha256": "d54f365e5aaefb94873b27280794054faa2f37a108aa5262e087d5f9aab87fce",
+      "id": "reference-topology",
+      "revision": 1
+    }
+  },
+  "multipart": {
+    "canonical_sha256": "89005d02936d0f648d46f3fa2db022ff7958cd84654fb5159cd50d0909ee9a26",
+    "counts": {
+      "optional": {
+        "action_view_slots": 0,
+        "action_view_slots_exact": 0,
+        "explicit_resolved_frames": 0,
+        "explicit_resolved_layers": 0,
+        "frame_occurrences_known": 0,
+        "inherited_resolved_frames": 0,
+        "inherited_resolved_layers": 0,
+        "layer_occurrences_exact": 0,
+        "layer_occurrences_known": 0,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      },
+      "required": {
+        "action_view_slots": 8,
+        "action_view_slots_exact": 8,
+        "explicit_resolved_frames": 48,
+        "explicit_resolved_layers": 96,
+        "frame_occurrences_known": 48,
+        "inherited_resolved_frames": 0,
+        "inherited_resolved_layers": 0,
+        "layer_occurrences_exact": 96,
+        "layer_occurrences_known": 96,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      }
+    },
+    "diagnostics": [],
+    "first_authority": {
+      "declaration": "explicit",
+      "kind": "explicit"
+    },
+    "first_frame_id": "winter-walk/r1/body/action/Walk/slot8/view0/frame0",
+    "first_layer_id": "winter-walk/r1/body/action/Walk/slot8/view0/frame0/topology178876ffec163e3ea9837dd50bb7377ccf2e30b93730775561596c1c5be77ecd/layer0",
+    "serialized_sha256": "ffcbabd72acd6e5223298f73c4e5db9709d75b3ce8f70d128750ac355852a7d8",
+    "status": {
+      "artwork_coverage": "UNASSIGNED",
+      "export_ready": false,
+      "full_profile_specified": false,
+      "native_evidence": "UNVERIFIED",
+      "specification": "COMPLETE_FOR_DECLARED_SCOPE",
+      "unique_artwork_effort": "UNKNOWN_UNTIL_ASSIGNMENTS",
+      "visual_review": "UNVERIFIED",
+      "work_order": "EXACT"
+    },
+    "target": {
+      "canonical_sha256": "9ad9c15915e9ed484bf7fddeb22674571e3f3930d2d4b7525d436d2ae1b95b96",
+      "id": "winter-walk",
+      "revision": 1
+    }
+  },
+  "player": {
+    "canonical_sha256": "94f1fafbdefdbc6e46f1060ee55c6c2bea8033e823a48a43fadc35eba9634286",
+    "counts": {
+      "optional": {
+        "action_view_slots": 0,
+        "action_view_slots_exact": 0,
+        "explicit_resolved_frames": 0,
+        "explicit_resolved_layers": 0,
+        "frame_occurrences_known": 0,
+        "inherited_resolved_frames": 0,
+        "inherited_resolved_layers": 0,
+        "layer_occurrences_exact": 0,
+        "layer_occurrences_known": 0,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      },
+      "required": {
+        "action_view_slots": 208,
+        "action_view_slots_exact": 208,
+        "explicit_resolved_frames": 0,
+        "explicit_resolved_layers": 0,
+        "frame_occurrences_known": 912,
+        "inherited_resolved_frames": 912,
+        "inherited_resolved_layers": 912,
+        "layer_occurrences_exact": 912,
+        "layer_occurrences_known": 912,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      }
+    },
+    "diagnostics": [],
+    "first_authority": {
+      "frame_mapping": "ORDINAL_ONE_TO_ONE",
+      "inventory_sha256": "ef4514c2eb170269dc9e60be4ffcade14d831bc49687eaef99aa481867b22f25",
+      "kind": "inherited",
+      "mapping_complete": true,
+      "namespace": {
+        "actor": "reference",
+        "part": "body",
+        "profile": "korangar-player-v1"
+      },
+      "part": "body",
+      "reference_type": "rsf.inventory/v1",
+      "semantic_mapping": "SUPPORTED",
+      "source_frame": 0,
+      "source_frame_id": "reference/korangar-player-v1/body/action/Attack1/slot40/view0/frame0",
+      "source_slot": 40,
+      "sources": {
+        "act": {
+          "bytes": 44748,
+          "format": "ACT 2.4",
+          "sha256": "a82086ba005506a16ee0740ebd1d33c43de8cc4ee1a622ea933ff9e0502c1c77"
+        },
+        "spr": {
+          "bytes": 183563,
+          "format": "SPR 2.1",
+          "sha256": "7f4efe357b0f80e71ba2dcdb93d1c110988b1b8f382e1dbfc722e3a2cf85a533"
+        }
+      },
+      "target_runtime_slot": 40
+    },
+    "first_frame_id": "reference-topology/r1/body/action/Attack1/slot40/view0/frame0",
+    "first_layer_id": "reference-topology/r1/body/action/Attack1/slot40/view0/frame0/topology119131f153860b4937ae835d91e3459c319054891307863f950af2d822db4d69/layer0",
+    "inventories": [
+      {
+        "canonical_sha256": "ef4514c2eb170269dc9e60be4ffcade14d831bc49687eaef99aa481867b22f25",
+        "namespace": {
+          "actor": "reference",
+          "part": "body",
+          "profile": "korangar-player-v1"
+        },
+        "sources": {
+          "act": {
+            "bytes": 44748,
+            "format": "ACT 2.4",
+            "sha256": "a82086ba005506a16ee0740ebd1d33c43de8cc4ee1a622ea933ff9e0502c1c77"
+          },
+          "spr": {
+            "bytes": 183563,
+            "format": "SPR 2.1",
+            "sha256": "7f4efe357b0f80e71ba2dcdb93d1c110988b1b8f382e1dbfc722e3a2cf85a533"
+          }
+        },
+        "summary": {
+          "action_slots": 104,
+          "distinct_referenced_contents": 108,
+          "distinct_stored_contents": 108,
+          "frame_occurrences": 456,
+          "indexed_images": 110,
+          "layer_occurrences": 456,
+          "numeric_action_groups": 13,
+          "referenced_images": 110,
+          "stored_images": 110,
+          "truecolor_images": 0,
+          "unused_images": 0,
+          "visible_layer_references": 456
+        }
+      },
+      {
+        "canonical_sha256": "8405db6190c39e76d1df1a351a07ce0cf5a0bb6242ca5cd3f16b4fd57cf0dbae",
+        "namespace": {
+          "actor": "reference",
+          "part": "head",
+          "profile": "korangar-player-v1"
+        },
+        "sources": {
+          "act": {
+            "bytes": 61044,
+            "format": "ACT 2.4",
+            "sha256": "96cb4c7daada65ead29ade650c34da1cba93937d3b360c5468506c3d056219de"
+          },
+          "spr": {
+            "bytes": 8084,
+            "format": "SPR 2.1",
+            "sha256": "dfc548c5cfd9aeb66616c5912df78773c2798834f9412a309a5a2b4f5868ac95"
+          }
+        },
+        "summary": {
+          "action_slots": 104,
+          "distinct_referenced_contents": 15,
+          "distinct_stored_contents": 15,
+          "frame_occurrences": 456,
+          "indexed_images": 15,
+          "layer_occurrences": 912,
+          "numeric_action_groups": 13,
+          "referenced_images": 15,
+          "stored_images": 15,
+          "truecolor_images": 0,
+          "unused_images": 0,
+          "visible_layer_references": 456
+        }
+      }
+    ],
+    "serialized_sha256": "f669623101f384d72df77ecfa1627f00d30542a302e4360b0399ab8b4e7c56d4",
+    "status": {
+      "artwork_coverage": "UNASSIGNED",
+      "export_ready": false,
+      "full_profile_specified": true,
+      "native_evidence": "UNVERIFIED",
+      "specification": "COMPLETE_FOR_DECLARED_SCOPE",
+      "unique_artwork_effort": "UNKNOWN_UNTIL_ASSIGNMENTS",
+      "visual_review": "UNVERIFIED",
+      "work_order": "EXACT"
+    },
+    "target": {
+      "canonical_sha256": "8266a23497e7007d2ee391fefdfd62aaeb79145dc48cd3a5d214c7547eeee2a4",
+      "id": "reference-topology",
+      "revision": 1
+    }
+  },
+  "single": {
+    "canonical_sha256": "b1d08c801da71c3b47bae227e9fcf0fee751eaa1a471e3c9ef53c8ecf6b824ea",
+    "counts": {
+      "optional": {
+        "action_view_slots": 0,
+        "action_view_slots_exact": 0,
+        "explicit_resolved_frames": 0,
+        "explicit_resolved_layers": 0,
+        "frame_occurrences_known": 0,
+        "inherited_resolved_frames": 0,
+        "inherited_resolved_layers": 0,
+        "layer_occurrences_exact": 0,
+        "layer_occurrences_known": 0,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      },
+      "required": {
+        "action_view_slots": 8,
+        "action_view_slots_exact": 8,
+        "explicit_resolved_frames": 48,
+        "explicit_resolved_layers": 48,
+        "frame_occurrences_known": 48,
+        "inherited_resolved_frames": 0,
+        "inherited_resolved_layers": 0,
+        "layer_occurrences_exact": 48,
+        "layer_occurrences_known": 48,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      }
+    },
+    "diagnostics": [],
+    "first_authority": {
+      "declaration": "explicit",
+      "kind": "explicit"
+    },
+    "first_frame_id": "winter-walk/r1/body/action/Walk/slot8/view0/frame0",
+    "first_layer_id": "winter-walk/r1/body/action/Walk/slot8/view0/frame0/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+    "serialized_sha256": "ebb30388982a71e51837137779f465f549554fd80ebe8b0af5c4e5c2a6eead8e",
+    "status": {
+      "artwork_coverage": "UNASSIGNED",
+      "export_ready": false,
+      "full_profile_specified": false,
+      "native_evidence": "UNVERIFIED",
+      "specification": "COMPLETE_FOR_DECLARED_SCOPE",
+      "unique_artwork_effort": "UNKNOWN_UNTIL_ASSIGNMENTS",
+      "visual_review": "UNVERIFIED",
+      "work_order": "EXACT"
+    },
+    "target": {
+      "canonical_sha256": "4cfa9577fec2f355c85b090f366e6ab9b905a341b5aebc0b999c995d982da9e7",
+      "id": "winter-walk",
+      "revision": 1
+    }
+  },
+  "template": {
+    "canonical_sha256": "473f001557a3cf5b43fb4b96650d77c66af7e7a23e83259ab258a596a4097bd1",
+    "counts": {
+      "optional": {
+        "action_view_slots": 0,
+        "action_view_slots_exact": 0,
+        "explicit_resolved_frames": 0,
+        "explicit_resolved_layers": 0,
+        "frame_occurrences_known": 0,
+        "inherited_resolved_frames": 0,
+        "inherited_resolved_layers": 0,
+        "layer_occurrences_exact": 0,
+        "layer_occurrences_known": 0,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      },
+      "required": {
+        "action_view_slots": 8,
+        "action_view_slots_exact": 8,
+        "explicit_resolved_frames": 48,
+        "explicit_resolved_layers": 48,
+        "frame_occurrences_known": 48,
+        "inherited_resolved_frames": 0,
+        "inherited_resolved_layers": 0,
+        "layer_occurrences_exact": 48,
+        "layer_occurrences_known": 48,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      }
+    },
+    "diagnostics": [],
+    "first_authority": {
+      "declaration": "template",
+      "id": "single-layer",
+      "kind": "explicit",
+      "scope_confirmed": true,
+      "template_sha256": "4eedc212c0366e724bd9f650bf20aa608b31c51a480830cb92e6649dd4f70971",
+      "version": 1
+    },
+    "first_frame_id": "winter-walk/r1/body/action/Walk/slot8/view0/frame0",
+    "first_layer_id": "winter-walk/r1/body/action/Walk/slot8/view0/frame0/topologyb6316bf542d0ac378f2098b694c9dc12df15e2c2b9263f0c7ea1502e16dbb8b8/layer0",
+    "serialized_sha256": "4200e0232049ee3435a6654ff45a2165793584dd0fc7e9c74bcdac077b471a5a",
+    "status": {
+      "artwork_coverage": "UNASSIGNED",
+      "export_ready": false,
+      "full_profile_specified": false,
+      "native_evidence": "UNVERIFIED",
+      "specification": "COMPLETE_FOR_DECLARED_SCOPE",
+      "unique_artwork_effort": "UNKNOWN_UNTIL_ASSIGNMENTS",
+      "visual_review": "UNVERIFIED",
+      "work_order": "EXACT"
+    },
+    "target": {
+      "canonical_sha256": "00a06bc28b23e3f309c616b6ab339e42f9acf9d800027f8923c8d6abb96f2175",
+      "id": "winter-walk",
+      "revision": 1
+    }
+  },
+  "underspecified": {
+    "canonical_sha256": "6aba5a9d38110acf9dc05a1e0716d6d25434b2622454ed7da68095825ad4d58d",
+    "counts": {
+      "optional": {
+        "action_view_slots": 0,
+        "action_view_slots_exact": 0,
+        "explicit_resolved_frames": 0,
+        "explicit_resolved_layers": 0,
+        "frame_occurrences_known": 0,
+        "inherited_resolved_frames": 0,
+        "inherited_resolved_layers": 0,
+        "layer_occurrences_exact": 0,
+        "layer_occurrences_known": 0,
+        "underspecified_frames": 0,
+        "underspecified_slots": 0,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      },
+      "required": {
+        "action_view_slots": 8,
+        "action_view_slots_exact": 8,
+        "explicit_resolved_frames": 0,
+        "explicit_resolved_layers": 0,
+        "frame_occurrences_known": 48,
+        "inherited_resolved_frames": 0,
+        "inherited_resolved_layers": 0,
+        "layer_occurrences_exact": null,
+        "layer_occurrences_known": 0,
+        "underspecified_frames": 48,
+        "underspecified_slots": 8,
+        "unexpanded_action_part_declarations": 0,
+        "unknown_frame_count_slots": 0
+      }
+    },
+    "diagnostics": [
+      {
+        "code": "UNDERSPECIFIED_LAYER_TOPOLOGY",
+        "path": "/actions/0/parts/0/views/0/topology"
+      },
+      {
+        "code": "UNDERSPECIFIED_LAYER_TOPOLOGY",
+        "path": "/actions/0/parts/0/views/1/topology"
+      },
+      {
+        "code": "UNDERSPECIFIED_LAYER_TOPOLOGY",
+        "path": "/actions/0/parts/0/views/2/topology"
+      },
+      {
+        "code": "UNDERSPECIFIED_LAYER_TOPOLOGY",
+        "path": "/actions/0/parts/0/views/3/topology"
+      },
+      {
+        "code": "UNDERSPECIFIED_LAYER_TOPOLOGY",
+        "path": "/actions/0/parts/0/views/4/topology"
+      },
+      {
+        "code": "UNDERSPECIFIED_LAYER_TOPOLOGY",
+        "path": "/actions/0/parts/0/views/5/topology"
+      },
+      {
+        "code": "UNDERSPECIFIED_LAYER_TOPOLOGY",
+        "path": "/actions/0/parts/0/views/6/topology"
+      },
+      {
+        "code": "UNDERSPECIFIED_LAYER_TOPOLOGY",
+        "path": "/actions/0/parts/0/views/7/topology"
+      }
+    ],
+    "first_authority": null,
+    "first_frame_id": "winter-walk/r1/body/action/Walk/slot8/view0/frame0",
+    "first_layer_id": null,
+    "serialized_sha256": "ac0d4bc38239aa6598cbe5f6a9fbf2b0d0c6b14206888949eb1d5e333ecdd218",
+    "status": {
+      "artwork_coverage": "UNASSIGNED",
+      "export_ready": false,
+      "full_profile_specified": false,
+      "native_evidence": "UNVERIFIED",
+      "specification": "UNDERSPECIFIED",
+      "unique_artwork_effort": "UNKNOWN_UNTIL_ASSIGNMENTS",
+      "visual_review": "UNVERIFIED",
+      "work_order": "PROVISIONAL"
+    },
+    "target": {
+      "canonical_sha256": "7460703d9d25b48ec2dfd0f969a01a8125d907a4e4ba6e7fc9ac9e9c3e9196e5",
+      "id": "winter-walk",
+      "revision": 1
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "commands": [
+    {
+      "command": "PYTHONPATH=src:tests .venv/bin/python -m unittest tests/test_preview.py",
+      "exit_status": 0,
+      "log": "preview-tests.log",
+      "sha256": "655449feb6d3b9124483f29ce3c890fed3fbc3c2a305a0ff97ea874e63413623"
+    },
+    {
+      "command": "PYTHONPATH=src:tests .venv/bin/python -m unittest discover -s tests -p \"test_*.py\"",
+      "exit_status": 0,
+      "log": "public-tests.log",
+      "sha256": "a583d8734c6292e7b662fa63dbc19b303949e75020037e9e4be19bc3f3ca1cbe"
+    },
+    {
+      "command": "PYTHONPATH=src:tests:tests/private_fixture_hooks .venv/bin/python -m unittest discover -s tests/private_fixture_hooks -p \"test_*.py\"",
+      "exit_status": 0,
+      "log": "private-tests.log",
+      "sha256": "e93d13b325fb46687e8944737c9db608bb32419783b4547727adaf2ed6938257"
+    },
+    {
+      "command": "python3 -c \"check Draft 2020-12 schema validation\"",
+      "exit_status": 0,
+      "log": "preview-schema.log",
+      "sha256": "1e33a6652f1e252d7acc54afeda56945388e4440e9f8c73ea08bbbd3f33cbb28"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python tests/check_distribution.py --wheelhouse /tmp/rsf4-wheelhouse --python /usr/bin/python3.14",
+      "exit_status": 0,
+      "log": "distribution.log",
+      "sha256": "4f0898561b141b9794e822a80d70b1d30ba4c89b8643d086d52559f6b63f2cb0"
+    }
+  ],
+  "counts": {
+    "installed_tests": 192,
+    "preview_tests": 20,
+    "private_tests": 22,
+    "public_tests": 192
+  },
+  "examples_sha256": "752cf2912f6a9818ea598aac14af7d0dcdc2879b51e099540d7644f0425efe0c",
+  "gates": {
+    "M0_I": "PASS",
+    "M0_N": "PASS",
+    "M0_S": "PASS",
+    "RSF_10_COVERAGE": "PASS",
+    "RSF_11_PREVIEW": "PASS",
+    "RSF_7_CONTRACTS": "PASS",
+    "RSF_8_TOPOLOGY": "PASS",
+    "RSF_9_LEDGER": "PASS"
+  },
+  "implementation_manifest_sha256": "35908b0a8d654ef677179ef0c20c71c33b02d19000b7b2e67b36e2a5b8104e73",
+  "python": "3.14.4",
+  "schema": "rsf.verification-evidence/v1",
+  "task": "RSF-11"
+}

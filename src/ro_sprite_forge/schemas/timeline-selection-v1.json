@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ro-sprite-forge.local/schemas/timeline-selection-v1.json",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "rsf.timeline-selection/v1"
+    },
+    "timing_version": {
+      "const": "1.0.0"
+    },
+    "act_document_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "profile_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "category": {
+      "enum": [
+        "player",
+        "npc",
+        "monster",
+        "unverified"
+      ]
+    },
+    "action": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "requested_slot": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "resolved_slot": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "view": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 7
+    },
+    "direction": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 7
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "camera_direction": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 7
+    },
+    "frame": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "frame_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "source_delay": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "mode": {
+      "enum": [
+        "MANUAL",
+        "TIMED"
+      ]
+    },
+    "timing_status": {
+      "enum": [
+        "NOT_EVALUATED",
+        "SUPPORTED",
+        "UNVERIFIED",
+        "DIAGNOSTIC"
+      ]
+    },
+    "timing_rule": {
+      "anyOf": [
+        {
+          "enum": [
+            "EXPLICIT_DIAGNOSTIC_INTERVAL",
+            "EXTERNAL_DURATION_U32",
+            "ACT_DELAY_F32",
+            "PLAYER_IDLE_FRAME_ZERO"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "elapsed_ms": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "speed": {
+      "anyOf": [
+        {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "context": {
+      "type": "object",
+      "properties": {
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "movement_speed": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "frame_time": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "frame_duration_ms": {
+      "anyOf": [
+        {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "looping": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "terminal_hold": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "native_completion": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "fallback": {
+      "const": "NONE"
+    },
+    "reachability": {
+      "enum": [
+        "SUPPORTED",
+        "UNSUPPORTED",
+        "UNVERIFIED"
+      ]
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "canonical_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schema",
+    "timing_version",
+    "act_document_sha256",
+    "profile_sha256",
+    "category",
+    "action",
+    "requested_slot",
+    "resolved_slot",
+    "view",
+    "direction",
+    "camera_direction",
+    "frame",
+    "frame_count",
+    "source_delay",
+    "mode",
+    "timing_status",
+    "timing_rule",
+    "elapsed_ms",
+    "speed",
+    "context",
+    "frame_time",
+    "frame_duration_ms",
+    "looping",
+    "terminal_hold",
+    "native_completion",
+    "fallback",
+    "reachability",
+    "diagnostics",
+    "canonical_sha256"
+  ],
+  "additionalProperties": false
+}

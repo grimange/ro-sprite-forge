@@ -1,0 +1,10 @@
+{
+  "task": "RSF-31",
+  "changes": [
+    {
+      "path": "tests/test_vfr_diagnostics.py",
+      "before_sha256": null,
+      "sha256": "0cc8b6ed7de5a968b535470e181dd408b499576884c9c9d92136bd5c5f223c7a"
+    }
+  ]
+}

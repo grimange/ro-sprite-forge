@@ -1,0 +1,471 @@
+{
+  "$id": "https://ro-sprite-forge.invalid/schemas/runtime-profile-v2.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "items": {
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+              "type": "string"
+            },
+            "maxItems": 64,
+            "minItems": 0,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "group": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "maximum": 511,
+                "minimum": 0,
+                "type": "integer"
+              }
+            ]
+          },
+          "id": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "maxLength": 80,
+                "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+                "type": "string"
+              }
+            ]
+          },
+          "mapping": {
+            "enum": [
+              "SUPPORTED",
+              "UNSUPPORTED",
+              "UNVERIFIED"
+            ]
+          },
+          "reachability": {
+            "enum": [
+              "SUPPORTED",
+              "UNSUPPORTED",
+              "UNVERIFIED"
+            ]
+          },
+          "slots": {
+            "items": {
+              "maximum": 4095,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "maxItems": 8,
+            "minItems": 0,
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "id",
+          "group",
+          "slots",
+          "mapping",
+          "reachability",
+          "evidence"
+        ],
+        "type": "object"
+      },
+      "maxItems": 512,
+      "minItems": 0,
+      "type": "array"
+    },
+    "canonical_sha256": {
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+      "type": "string"
+    },
+    "category": {
+      "enum": [
+        "player",
+        "npc",
+        "monster",
+        "unverified"
+      ]
+    },
+    "id": {
+      "maxLength": 80,
+      "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+      "type": "string"
+    },
+    "legacy_profile_sha256": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "type": "string"
+        }
+      ]
+    },
+    "parts": {
+      "additionalProperties": false,
+      "properties": {
+        "attachments": {
+          "additionalProperties": false,
+          "properties": {
+            "declarations": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "evidence": {
+                    "items": {
+                      "maxLength": 64,
+                      "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                      "type": "string"
+                    },
+                    "maxItems": 64,
+                    "minItems": 0,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "id": {
+                    "maxLength": 80,
+                    "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+                    "type": "string"
+                  },
+                  "status": {
+                    "enum": [
+                      "SUPPORTED",
+                      "UNSUPPORTED",
+                      "UNVERIFIED"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "status",
+                  "evidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 128,
+              "minItems": 0,
+              "type": "array"
+            },
+            "status": {
+              "enum": [
+                "SUPPORTED",
+                "UNSUPPORTED",
+                "UNVERIFIED"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "declarations"
+          ],
+          "type": "object"
+        },
+        "order": {
+          "items": {
+            "maxLength": 80,
+            "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+            "type": "string"
+          },
+          "maxItems": 32,
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "relationships": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "child": {
+                "maxLength": 80,
+                "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+                "type": "string"
+              },
+              "evidence": {
+                "items": {
+                  "maxLength": 64,
+                  "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                  "type": "string"
+                },
+                "maxItems": 64,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "parent": {
+                "maxLength": 80,
+                "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+                "type": "string"
+              },
+              "rule": {
+                "enum": [
+                  "player_head_anchor_delta",
+                  "unverified"
+                ]
+              },
+              "status": {
+                "enum": [
+                  "SUPPORTED",
+                  "UNSUPPORTED",
+                  "UNVERIFIED"
+                ]
+              }
+            },
+            "required": [
+              "parent",
+              "child",
+              "rule",
+              "status",
+              "evidence"
+            ],
+            "type": "object"
+          },
+          "maxItems": 32,
+          "minItems": 0,
+          "type": "array"
+        }
+      },
+      "required": [
+        "order",
+        "relationships",
+        "attachments"
+      ],
+      "type": "object"
+    },
+    "profile_version": {
+      "maxLength": 20,
+      "pattern": "^[1-9][0-9]{0,5}\\.[0-9]{1,6}\\.[0-9]{1,6}(?![\\s\\S])",
+      "type": "string"
+    },
+    "resolution": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "delay_slot": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            },
+            "requested_slot": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            },
+            "resolved_slot": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            },
+            "unmapped_action": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            },
+            "view": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "view",
+            "requested_slot",
+            "resolved_slot",
+            "delay_slot",
+            "unmapped_action"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "schema": {
+      "const": "rsf.runtime-profile/v2"
+    },
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "maxLength": 1024,
+                "minLength": 1,
+                "type": "string"
+              },
+              "sections": {
+                "maxLength": 1024,
+                "minLength": 1,
+                "type": "string"
+              },
+              "sha256": {
+                "maxLength": 64,
+                "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "sha256",
+              "sections"
+            ],
+            "type": "object"
+          },
+          "maxItems": 64,
+          "minItems": 0,
+          "type": "array"
+        },
+        "repository": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            }
+          ]
+        },
+        "revision": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "maxLength": 40,
+              "pattern": "^[0-9a-f]{40}(?![\\s\\S])",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [
+        "repository",
+        "revision",
+        "evidence"
+      ],
+      "type": "object"
+    },
+    "timing": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "attack_hurt_frame": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            },
+            "completion_check": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            },
+            "default_interval_ms": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            },
+            "looping": {
+              "items": {
+                "maxLength": 80,
+                "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+                "type": "string"
+              },
+              "maxItems": 128,
+              "minItems": 0,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "nonloop_end": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            },
+            "nonlooping": {
+              "items": {
+                "maxLength": 80,
+                "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+                "type": "string"
+              },
+              "maxItems": 128,
+              "minItems": 0,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "pickup_interval_ms": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            },
+            "player_idle": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            },
+            "walk_interval_ms": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "default_interval_ms",
+            "walk_interval_ms",
+            "pickup_interval_ms",
+            "attack_hurt_frame",
+            "player_idle",
+            "nonloop_end",
+            "completion_check",
+            "looping",
+            "nonlooping"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "views": {
+      "items": {
+        "maximum": 7,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "maxItems": 8,
+      "minItems": 0,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "profile_version",
+    "category",
+    "source",
+    "legacy_profile_sha256",
+    "actions",
+    "views",
+    "resolution",
+    "timing",
+    "parts"
+  ],
+  "type": "object"
+}

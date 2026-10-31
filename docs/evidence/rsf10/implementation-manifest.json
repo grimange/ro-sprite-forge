@@ -1,0 +1,9 @@
+{
+  "docs/architecture/RSF10_COVERAGE.md": "431898f509c8fd63ab762895768761d573c9543fc28660928490ae46267d50bf",
+  "scripts/check_coverage_schema.py": "0a545893ca4d827fd1a00061e79253e875302425963f484a1f67c1e19fad8d97",
+  "src/ro_sprite_forge/cli.py": "e321bfbafc9429b966f5f30fca21764610ad5015aaeed90a0776d5f32475303c",
+  "src/ro_sprite_forge/core/coverage.py": "5f6bbe40b22d6da2585adcf724b84cd900ce093c9dbf6db4384d9ada687fc2c3",
+  "src/ro_sprite_forge/schemas/coverage-report-v1.json": "109abaa2fc8fa639519a0cb5df2c73ec269896c86b37b97071f3614d20de09e6",
+  "tests/private_fixture_hooks/test_coverage_fixtures.py": "5805e48de2cdb0e8abea48619a98126631983282681f636cb54bd22b804968f3",
+  "tests/test_coverage.py": "3f255b31668c2cc21c78ad66a1f88be990c0d44b673cfc0c58accb641ac5cf3d"
+}

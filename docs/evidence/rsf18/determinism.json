@@ -1,0 +1,166 @@
+{
+  "schema": "rsf18.verification-example/v1",
+  "synthetic_only": true,
+  "canonical_workspace_repeat_equal": true,
+  "workspace_sha256": "0728a38e01ba7f9a01fcde56fcda6f5379c9ef535a738271efd2f30e67edae77",
+  "review_event": {
+    "schema": "rsf.review-event/v1",
+    "project_id": "demo",
+    "project_revision": 6,
+    "target": {
+      "canonical_sha256": "67e678e58181fc612f556ee7f4cc7d2d2a9b97bb27ec17ae9ed94205dd380826",
+      "id": "demo-target",
+      "revision": 1
+    },
+    "revision": 1,
+    "decision": "APPROVED",
+    "members": [
+      {
+        "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame0/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+        "basis_sha256": "7545b5192c4b85177da325134dfc9fcea217e24726dc9db14bd4b810cea63344",
+        "evidence_sha256": "8414493c84989810e9a72d2a9405604f07e18a225510ddf2a47b4b3075e1110e"
+      },
+      {
+        "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame1/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+        "basis_sha256": "4f3ff9df93a17a2fc5ee23a26959275a66b358f88b262bf81937f9126e6d059b",
+        "evidence_sha256": "d1bcdb78a74d4c3149457232038c80b47d2540936fba4742366430fd7e8b0421"
+      },
+      {
+        "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame2/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+        "basis_sha256": "6ca218c16fbf6c0f9e3bc6c89324e853a144be7c326ed4526a5f1dc8b7bd2aa6",
+        "evidence_sha256": "3858b94cea9621abc01536df5d8fd31372718afa46b053ebb163abf6ade6ae09"
+      },
+      {
+        "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame3/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+        "basis_sha256": "c4fcd52599c936ae109b85d7e3c0439e16ab7c792f56ee0fd6f112fd1a0492a6",
+        "evidence_sha256": "b3c7512cb15e16d04ce4f1a77e830c0f200e75fc53788f1b593e46ba2c3e4705"
+      }
+    ],
+    "provenance": "EXPLICIT_SINGLE_OPERATOR_WORKBENCH_ACTION",
+    "identity_assurance": "LOCAL_REQUEST_ONLY",
+    "policy": null,
+    "preview_semantics": "rsf.operator-layer-review/v1",
+    "limitations": [
+      "PROVISIONAL: ordered source-layer inspection; not a compiled animation or native rendering approval.",
+      "Only executed source recipes are reviewable; timing, placement and attachments remain separate technical evidence.",
+      "Visual review does not establish replacement coverage, export readiness or native acceptance."
+    ],
+    "canonical_sha256": "4dfd77406b33131a904213618c605a7be460cc2a2c03347943d6e2c0f97a3d4c",
+    "id": "review-4dfd77406b33131a904213618c605a7be460cc2a2c03347943d6e2c0f97a3d4c"
+  },
+  "before": {
+    "APPROVED": 4,
+    "REJECTED": 0,
+    "STALE": 0,
+    "UNVERIFIED": 44,
+    "NOT_REQUIRED": 0
+  },
+  "after": {
+    "APPROVED": 1,
+    "REJECTED": 0,
+    "STALE": 3,
+    "UNVERIFIED": 44,
+    "NOT_REQUIRED": 0
+  },
+  "export_ready": false,
+  "examples": [
+    {
+      "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame0/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+      "before": {
+        "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame0/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+        "state": "APPROVED",
+        "basis_sha256": "7545b5192c4b85177da325134dfc9fcea217e24726dc9db14bd4b810cea63344",
+        "review_id": "review-4dfd77406b33131a904213618c605a7be460cc2a2c03347943d6e2c0f97a3d4c",
+        "causes": [],
+        "recorded_basis_sha256": "7545b5192c4b85177da325134dfc9fcea217e24726dc9db14bd4b810cea63344",
+        "recorded_evidence_sha256": "8414493c84989810e9a72d2a9405604f07e18a225510ddf2a47b4b3075e1110e",
+        "decision": "APPROVED"
+      },
+      "after": {
+        "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame0/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+        "state": "STALE",
+        "basis_sha256": "7c4f66fea4bb49ba3a3ffaa2bddca0748059de00014e517fc6fee2cc30a4e809",
+        "review_id": "review-4dfd77406b33131a904213618c605a7be460cc2a2c03347943d6e2c0f97a3d4c",
+        "causes": [
+          "COMPOSITION_CHANGED_OR_REQUIREMENT_UNAVAILABLE"
+        ],
+        "recorded_basis_sha256": "7545b5192c4b85177da325134dfc9fcea217e24726dc9db14bd4b810cea63344",
+        "recorded_evidence_sha256": "8414493c84989810e9a72d2a9405604f07e18a225510ddf2a47b4b3075e1110e",
+        "decision": "APPROVED"
+      }
+    },
+    {
+      "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame1/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+      "before": {
+        "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame1/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+        "state": "APPROVED",
+        "basis_sha256": "4f3ff9df93a17a2fc5ee23a26959275a66b358f88b262bf81937f9126e6d059b",
+        "review_id": "review-4dfd77406b33131a904213618c605a7be460cc2a2c03347943d6e2c0f97a3d4c",
+        "causes": [],
+        "recorded_basis_sha256": "4f3ff9df93a17a2fc5ee23a26959275a66b358f88b262bf81937f9126e6d059b",
+        "recorded_evidence_sha256": "d1bcdb78a74d4c3149457232038c80b47d2540936fba4742366430fd7e8b0421",
+        "decision": "APPROVED"
+      },
+      "after": {
+        "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame1/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+        "state": "STALE",
+        "basis_sha256": "ff7cd9ce061104559e30da48768b627effb3f898d89195ce98d80cf18355bd27",
+        "review_id": "review-4dfd77406b33131a904213618c605a7be460cc2a2c03347943d6e2c0f97a3d4c",
+        "causes": [
+          "COMPOSITION_CHANGED_OR_REQUIREMENT_UNAVAILABLE"
+        ],
+        "recorded_basis_sha256": "4f3ff9df93a17a2fc5ee23a26959275a66b358f88b262bf81937f9126e6d059b",
+        "recorded_evidence_sha256": "d1bcdb78a74d4c3149457232038c80b47d2540936fba4742366430fd7e8b0421",
+        "decision": "APPROVED"
+      }
+    },
+    {
+      "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame2/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+      "before": {
+        "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame2/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+        "state": "APPROVED",
+        "basis_sha256": "6ca218c16fbf6c0f9e3bc6c89324e853a144be7c326ed4526a5f1dc8b7bd2aa6",
+        "review_id": "review-4dfd77406b33131a904213618c605a7be460cc2a2c03347943d6e2c0f97a3d4c",
+        "causes": [],
+        "recorded_basis_sha256": "6ca218c16fbf6c0f9e3bc6c89324e853a144be7c326ed4526a5f1dc8b7bd2aa6",
+        "recorded_evidence_sha256": "3858b94cea9621abc01536df5d8fd31372718afa46b053ebb163abf6ade6ae09",
+        "decision": "APPROVED"
+      },
+      "after": {
+        "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame2/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+        "state": "STALE",
+        "basis_sha256": "bbc71a5f53320c7240fef204ddca04f0340c9c1d2165e9ccedc972a1e90ae752",
+        "review_id": "review-4dfd77406b33131a904213618c605a7be460cc2a2c03347943d6e2c0f97a3d4c",
+        "causes": [
+          "COMPOSITION_CHANGED_OR_REQUIREMENT_UNAVAILABLE"
+        ],
+        "recorded_basis_sha256": "6ca218c16fbf6c0f9e3bc6c89324e853a144be7c326ed4526a5f1dc8b7bd2aa6",
+        "recorded_evidence_sha256": "3858b94cea9621abc01536df5d8fd31372718afa46b053ebb163abf6ade6ae09",
+        "decision": "APPROVED"
+      }
+    },
+    {
+      "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame3/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+      "before": {
+        "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame3/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+        "state": "APPROVED",
+        "basis_sha256": "c4fcd52599c936ae109b85d7e3c0439e16ab7c792f56ee0fd6f112fd1a0492a6",
+        "review_id": "review-4dfd77406b33131a904213618c605a7be460cc2a2c03347943d6e2c0f97a3d4c",
+        "causes": [],
+        "recorded_basis_sha256": "c4fcd52599c936ae109b85d7e3c0439e16ab7c792f56ee0fd6f112fd1a0492a6",
+        "recorded_evidence_sha256": "b3c7512cb15e16d04ce4f1a77e830c0f200e75fc53788f1b593e46ba2c3e4705",
+        "decision": "APPROVED"
+      },
+      "after": {
+        "requirement_id": "demo-target/r1/body/action/Walk/slot8/view0/frame3/topologyd42cb041af04217047739b5d172cab9915112a1ef39b5aa11a2b98bcc1c17b94/layer0",
+        "state": "APPROVED",
+        "basis_sha256": "c4fcd52599c936ae109b85d7e3c0439e16ab7c792f56ee0fd6f112fd1a0492a6",
+        "review_id": "review-4dfd77406b33131a904213618c605a7be460cc2a2c03347943d6e2c0f97a3d4c",
+        "causes": [],
+        "recorded_basis_sha256": "c4fcd52599c936ae109b85d7e3c0439e16ab7c792f56ee0fd6f112fd1a0492a6",
+        "recorded_evidence_sha256": "b3c7512cb15e16d04ce4f1a77e830c0f200e75fc53788f1b593e46ba2c3e4705",
+        "decision": "APPROVED"
+      }
+    }
+  ]
+}

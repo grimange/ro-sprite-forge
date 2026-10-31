@@ -1,0 +1,63 @@
+{
+  "task": "RSF-23",
+  "title": "[M5] Modified ACT/SPR writer and metadata-preserving replacements",
+  "milestone": "M5",
+  "files": {
+    "src/ro_sprite_forge/formats/spr.py": {
+      "bytes": 12492,
+      "sha256": "9ed664e175c92c8a417c8fc7985be142dc81c98e34977d8de4aef05f87f198d1"
+    },
+    "src/ro_sprite_forge/schemas/compilation-manifest-v1.json": {
+      "bytes": 12216,
+      "sha256": "d8eebcf31db89e2c9fd728eadd4d37bd507cf054b88c290eec9a98a4fefd08fa"
+    },
+    "src/ro_sprite_forge/schemas/project-v1.json": {
+      "bytes": 18877,
+      "sha256": "3474bd2e7a6e99d4ae88a1ac2da5d51fc171a8e78681c6c4823ed422ea209343"
+    },
+    "src/ro_sprite_forge/core/compiler.py": {
+      "bytes": 67865,
+      "sha256": "ce026a4d5ab2460147166fe05e289ad0b5f4aacc753fa85b7fe386d723a31691"
+    },
+    "src/ro_sprite_forge/cli.py": {
+      "bytes": 53536,
+      "sha256": "c0ccdcfbc0c33f79f8c55bc742b5c3cb27d9a29dc1b56a824aeeddb00e34077d"
+    },
+    "src/ro_sprite_forge/service/workbench.py": {
+      "bytes": 47296,
+      "sha256": "44e9734f11a58faad349fcec5593fee1c49f54c845d38c575ea83fa336988b33"
+    },
+    "src/ro_sprite_forge/service/server.py": {
+      "bytes": 33667,
+      "sha256": "68bef547808a10195903653d7859728c7b1116eabc7d0804d68e00678125dc85"
+    },
+    "src/ro_sprite_forge/static/index.html": {
+      "bytes": 34447,
+      "sha256": "1b45849bfb1b8abb5c8b87bf439c111740094f9ccf81094f850a2d5476b26cb6"
+    },
+    "src/ro_sprite_forge/static/workbench.js": {
+      "bytes": 79238,
+      "sha256": "93d18a63e61b2c5ab296b84104510dea4fb7d18105a16953d5cdf1c20298f7ab"
+    },
+    "scripts/check_compilation_schema.py": {
+      "bytes": 7854,
+      "sha256": "47ee2d207a9075fd4e330a1e8fc5e5d726fb74b43a09a537112c54d579a2bac9"
+    },
+    "tests/test_compiler.py": {
+      "bytes": 59830,
+      "sha256": "0cbdd948aaddfe3c5cc23cc1d4f3fbf4ceaf87315d34fa8fcc4d8e00be292e3b"
+    },
+    "tests/private_fixture_hooks/test_compiler_fixtures.py": {
+      "bytes": 18781,
+      "sha256": "2930ea8503b7ba952cdd47d55558eca7f966e007483502588fef6ec3d5cc8cec"
+    },
+    "tests/browser/rsf23-mcp.js": {
+      "bytes": 9614,
+      "sha256": "b0fa298c724726cd01d59615e98dd16d68a241bb047eee19ba0914656f7227e5"
+    },
+    "docs/architecture/RSF23_COMPILER.md": {
+      "bytes": 8650,
+      "sha256": "6fbdfda0736fa1ff46c4503abde4edff13cfc866da79ad07779e714d3ef9af4f"
+    }
+  }
+}

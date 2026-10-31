@@ -1,0 +1,10 @@
+{
+  "task": "RSF-30",
+  "changes": [
+    {
+      "path": "tests/test_video_walk_compilation.py",
+      "before_sha256": null,
+      "sha256": "085a24ccb6dd82c8be1655e69d02e125b767998760428441177b52cac6f6640f"
+    }
+  ]
+}

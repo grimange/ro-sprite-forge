@@ -1,0 +1,54 @@
+[
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-distribution.log",
+    "sha256": "62c1f818ce0fa946b233cfe0f376af907c8dce78857422ae1ebd57976bf1a538"
+  },
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-focused.log",
+    "sha256": "ce17daab0e1b87278616be2beaa773b0a5dfcefab90e4f3cbc310180ce9fd10d"
+  },
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-private.log",
+    "sha256": "8d590e7d05bc8232284e075edaad63dde19ba16de329ed3592ea0967906daa86"
+  },
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-probe-durable.log",
+    "sha256": "fa05498b44e4558921a403eaa347d1ab3fd2f6ed8ef60aaee3c67af6eb4a2400"
+  },
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-probe.log",
+    "sha256": "52432dbb8eaf59d9b8c79031a2b883ba5913f784192f15d185c7723c05748ebf"
+  },
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-public.log",
+    "sha256": "9aa7f28cfc28baa5efbaea4507e173d7bc42a9ef70688a34ed1330368ce7b6ec"
+  },
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat.log",
+    "sha256": "b5ecc65eecb0e5430cd91162b9b0391e32633e7884fa47e746e9b47e64d60ae5"
+  },
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro.log",
+    "sha256": "b5ecc65eecb0e5430cd91162b9b0391e32633e7884fa47e746e9b47e64d60ae5"
+  },
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-rust.log",
+    "sha256": "255ae3c8cc6debca471e338901d2f1d384fcfb3a88c404ac261fede3e2a5d92e"
+  },
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-schemas.log",
+    "sha256": "f8e8c540419380d510473848738809b76bb71e5bfb9c782289237ebfd5dd24e6"
+  },
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-probe.py",
+    "sha256": "1fa2a8986627a42c2e8ab76b2981e9dbbcc67d329883bdf35e534399d1e0a009"
+  },
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/artifacts.json",
+    "sha256": "f8b3f8223597542669b99be4735dc147ce880d9e2d7d41c536596b6a3034c6cb"
+  },
+  {
+    "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/artifacts.json",
+    "sha256": "f8b3f8223597542669b99be4735dc147ce880d9e2d7d41c536596b6a3034c6cb"
+  }
+]

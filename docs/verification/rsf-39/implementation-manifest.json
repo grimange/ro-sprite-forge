@@ -1,0 +1,17 @@
+{
+  "task_id": "bcez9nz3cvf77pewx0q7zgz9",
+  "task_key": "RSF-39",
+  "title": "[M8] Synthetic end-to-end tutorial and separate native release acceptance",
+  "milestone": "M8 — Release Readiness",
+  "timestamp": "2026-10-31T16:47:30+08:00",
+  "author": "Antigravity (AGY)",
+  "role": "Principal Release Acceptance Engineer / Native Game Asset Integration & Verification Specialist",
+  "files": {
+    "tests/test_playwright_workbench.py": "ef217075f8ebc2a834b843b1cc0ffb9df0dc39cfbfd8a3df8b6d887d0b3a686b",
+    "tests/test_synthetic_release_tutorial.py": "71ecdc078935d33c1ac599af8c1165fb7f0d3944cddf2c900498f31b1df5bc37",
+    "src/ro_sprite_forge/static/workbench.js": "62707aed65a4dc6ef5bbee1edd210becbb6915451c0bb934faef2ae974d507b2",
+    "docs/operator/PERSISTENCE_AND_RECOVERY.md": "d1826a2a50aa8f6eee65661358cd36b606a5a244d79a5310a9b58b04b84aff06",
+    "docs/verification/rsf-39/dist/ro_sprite_forge-0.1.0-py3-none-any.whl": "67193932f138fd401f20fb35e48c68d5c3f1140f9c30f09d125ea80c6a490fc6",
+    "docs/verification/rsf-39/dist/ro_sprite_forge-0.1.0.tar.gz": "3928ef0c299357959f7ab546d8ae7c947e4d11400c57f6df37ef08fc514e7cbb"
+  }
+}

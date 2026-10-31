@@ -1,0 +1,19 @@
+{
+  "capture_observations": 84,
+  "cases": 160,
+  "compared_prepared_layers": 2688,
+  "native_report_sha256": "80b023d2b5cdc9a8bc59a8d643d425a6b4b2c7716d311727e0bbbc4f6a61c72e",
+  "result": "NATIVE_CHECKS_PASSED",
+  "schema": "rsf.native-verification.v1",
+  "scope": "isolated native presentation; gameplay reachability and audio not tested",
+  "selected_frames": 1664,
+  "source_hashes": {
+    "data\\sprite\\novice_body.act": "a82086ba005506a16ee0740ebd1d33c43de8cc4ee1a622ea933ff9e0502c1c77",
+    "data\\sprite\\novice_body.spr": "7f4efe357b0f80e71ba2dcdb93d1c110988b1b8f382e1dbfc722e3a2cf85a533",
+    "data\\sprite\\novice_head.act": "96cb4c7daada65ead29ade650c34da1cba93937d3b360c5468506c3d056219de",
+    "data\\sprite\\novice_head.spr": "dfc548c5cfd9aeb66616c5912df78773c2798834f9412a309a5a2b4f5868ac95",
+    "data\\sprite\\orc_skeleton.act": "31e1e75241bc534422e468ae134892c7b234d66022456b87b0423df5858370e2",
+    "data\\sprite\\orc_skeleton.spr": "a39f864209d63ae75bd62438da61775c510d7c55a78344b3065fb5918a55ce8f"
+  },
+  "visual_review": "NOT_REQUIRED"
+}

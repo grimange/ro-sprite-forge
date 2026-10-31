@@ -1,0 +1,1492 @@
+{
+  "$id": "https://ro-sprite-forge.invalid/schemas/project-v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RSF Project Manifest Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "project_id",
+    "name",
+    "revision",
+    "created_at",
+    "updated_at",
+    "actor",
+    "profile",
+    "sources",
+    "reviews",
+    "canonical_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "rsf.project/v1"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "actor": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "profile": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "target": {
+      "type": "object"
+    },
+    "inventory": {
+      "type": "object"
+    },
+    "ledger": {
+      "type": "object"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sha256",
+          "filename",
+          "size",
+          "blob_path"
+        ],
+        "properties": {
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "filename": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "blob_path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "origin": {
+            "enum": [
+              "AUTHORED",
+              "CLASSIC_REFERENCE",
+              "UNVERIFIED"
+            ]
+          },
+          "kind": {
+            "type": "string"
+          },
+          "width": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "height": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "mode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "transparency_kind": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "has_transparency": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "sequence_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "ordinal": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "extraction_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "recipe_sha256": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source_sheet_sha256": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "rect_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "crop_rect": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "integer"
+            }
+          },
+          "recipe_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source_sha256": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "loss_report": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "reviews": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "scope",
+          "revision",
+          "approved",
+          "timestamp"
+        ],
+        "properties": {
+          "scope": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "approved": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "canonical_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "resources": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "part",
+          "act",
+          "spr",
+          "inventory"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+          },
+          "part": {
+            "enum": [
+              "body",
+              "head"
+            ]
+          },
+          "act": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "spr": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "inventory": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "review_events": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "id",
+          "canonical_sha256",
+          "project_id",
+          "project_revision",
+          "revision",
+          "target",
+          "decision",
+          "policy",
+          "provenance",
+          "identity_assurance",
+          "preview_semantics",
+          "limitations",
+          "members"
+        ],
+        "properties": {
+          "schema": {
+            "const": "rsf.review-event/v1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^review-[0-9a-f]{64}$",
+            "maxLength": 2048
+          },
+          "canonical_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "maxLength": 2048
+          },
+          "project_id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+            "maxLength": 2048
+          },
+          "project_revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+          },
+          "target": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "revision",
+              "canonical_sha256"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:-]{0,127})(?![\\s\\S])"
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "canonical_sha256": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "pattern": "^(?:[a-f0-9]{64})(?![\\s\\S])"
+              }
+            }
+          },
+          "decision": {
+            "enum": [
+              "APPROVED",
+              "REJECTED",
+              "NOT_REQUIRED"
+            ]
+          },
+          "policy": {
+            "enum": [
+              null,
+              "UNCHANGED_REFERENCE_STRUCTURAL_ONLY"
+            ]
+          },
+          "provenance": {
+            "const": "EXPLICIT_SINGLE_OPERATOR_WORKBENCH_ACTION"
+          },
+          "identity_assurance": {
+            "const": "LOCAL_REQUEST_ONLY"
+          },
+          "preview_semantics": {
+            "const": "rsf.operator-layer-review/v1"
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 2048
+            },
+            "minItems": 1,
+            "maxItems": 256
+          },
+          "members": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 256,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "requirement_id",
+                "basis_sha256",
+                "evidence_sha256"
+              ],
+              "properties": {
+                "requirement_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                },
+                "basis_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$",
+                  "maxLength": 2048
+                },
+                "evidence_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$",
+                  "maxLength": 2048
+                }
+              }
+            }
+          }
+        },
+        "$defs": {}
+      }
+    },
+    "sequences": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "id",
+          "name",
+          "frame_count",
+          "sequence_sha256",
+          "canonical_sha256",
+          "frames"
+        ],
+        "properties": {
+          "schema": {
+            "const": "rsf.sequence/v1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "frame_count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1024
+          },
+          "sequence_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "canonical_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "frames": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "sha256",
+                "filename"
+              ],
+              "properties": {
+                "ordinal": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "filename": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "width": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
+                },
+                "height": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
+                },
+                "mode": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "transparency_kind": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "has_transparency": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "extractions": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "id",
+          "name",
+          "source_sha256",
+          "item_count",
+          "collection_sha256",
+          "canonical_sha256",
+          "items"
+        ],
+        "properties": {
+          "schema": {
+            "const": "rsf.spritesheet-extraction/v1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "source_filename": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "item_count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1024
+          },
+          "collection_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "canonical_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "id",
+                "x",
+                "y",
+                "width",
+                "height",
+                "extracted_sha256"
+              ],
+              "properties": {
+                "ordinal": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+                },
+                "x": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "y": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "width": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "height": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "extracted_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "recipe_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "filename": {
+                  "type": "string"
+                },
+                "mode": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "transparency_kind": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "has_transparency": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "recipes": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "id",
+          "name",
+          "source_sha256",
+          "operations",
+          "semantics",
+          "canonical_sha256"
+        ],
+        "properties": {
+          "schema": {
+            "const": "rsf.image-recipe/v1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "source_filename": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "operations": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "op"
+              ],
+              "properties": {
+                "op": {
+                  "enum": [
+                    "crop",
+                    "flip",
+                    "scale",
+                    "offset",
+                    "matte_key",
+                    "color_mode"
+                  ]
+                },
+                "x": {
+                  "type": "integer"
+                },
+                "y": {
+                  "type": "integer"
+                },
+                "width": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "height": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "direction": {
+                  "enum": [
+                    "horizontal",
+                    "vertical",
+                    "both"
+                  ]
+                },
+                "scale_x": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "scale_y": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "filter": {
+                  "enum": [
+                    "nearest",
+                    "bilinear",
+                    "bicubic"
+                  ]
+                },
+                "offset_x": {
+                  "type": "integer"
+                },
+                "offset_y": {
+                  "type": "integer"
+                },
+                "canvas_width": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "canvas_height": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "overflow": {
+                  "enum": [
+                    "clip",
+                    "expand"
+                  ]
+                },
+                "color": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                  },
+                  "minItems": 3,
+                  "maxItems": 4
+                },
+                "tolerance": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 255
+                },
+                "replacement_alpha": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 255
+                },
+                "target_mode": {
+                  "enum": [
+                    "RGBA",
+                    "RGB",
+                    "P",
+                    "L",
+                    "LA"
+                  ]
+                },
+                "dither": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "semantics": {
+            "const": "1.0.0"
+          },
+          "canonical_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "compilations": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "required": [
+          "schema",
+          "id",
+          "writer_version",
+          "compilation_mode",
+          "replacement_policy",
+          "isolation_strategy",
+          "part",
+          "input_resources",
+          "output_resources",
+          "replacements",
+          "preservation_summary",
+          "verification",
+          "status",
+          "canonical_sha256"
+        ],
+        "properties": {
+          "schema": {
+            "const": "rsf.compilation-manifest/v1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+          },
+          "writer_version": {
+            "enum": [
+              "1.0.0",
+              "1.1.0",
+              "1.2.0"
+            ]
+          },
+          "compilation_mode": {
+            "enum": [
+              "preserve",
+              "bounded_replacement",
+              "production_export"
+            ]
+          },
+          "replacement_policy": {
+            "enum": [
+              "preserve_pool",
+              "explicit_rgba",
+              "indexed_exact"
+            ]
+          },
+          "isolation_strategy": {
+            "enum": [
+              "auto",
+              "always_append",
+              "in_place_only"
+            ]
+          },
+          "part": {
+            "enum": [
+              "body",
+              "head"
+            ]
+          },
+          "canonical_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "video_imports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "policy",
+          "inspection",
+          "ffmpeg",
+          "request",
+          "items",
+          "visual_review",
+          "automatic_assignment",
+          "canonical_sha256"
+        ],
+        "properties": {
+          "schema": {
+            "const": "rsf.video-candidates/v1"
+          },
+          "policy": {
+            "const": "rsf.video-rgba-presentation/v1"
+          },
+          "inspection": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "schema",
+              "source",
+              "policy",
+              "ffprobe",
+              "container",
+              "streams",
+              "selected_stream",
+              "stream_selection",
+              "time_base",
+              "timing",
+              "decoded_frame_count",
+              "frames",
+              "canonical_sha256"
+            ],
+            "properties": {
+              "schema": {
+                "const": "rsf.video-inspection/v1"
+              },
+              "source": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "sha256",
+                  "size"
+                ],
+                "properties": {
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "size": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 33554432
+                  }
+                }
+              },
+              "policy": {
+                "const": "rsf.video-rgba-presentation/v1"
+              },
+              "ffprobe": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "version",
+                  "version_report_sha256",
+                  "executable_sha256"
+                ],
+                "properties": {
+                  "version": {
+                    "type": "string",
+                    "maxLength": 2048
+                  },
+                  "version_report_sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "executable_sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                }
+              },
+              "container": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "format",
+                  "start",
+                  "duration"
+                ],
+                "properties": {
+                  "format": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 2048
+                  },
+                  "start": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": false,
+                    "required": [
+                      "numerator",
+                      "denominator"
+                    ],
+                    "properties": {
+                      "numerator": {
+                        "type": "integer"
+                      },
+                      "denominator": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    }
+                  },
+                  "duration": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": false,
+                    "required": [
+                      "numerator",
+                      "denominator"
+                    ],
+                    "properties": {
+                      "numerator": {
+                        "type": "integer"
+                      },
+                      "denominator": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    }
+                  }
+                }
+              },
+              "streams": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "codec_name",
+                    "pix_fmt",
+                    "color_transfer",
+                    "color_space",
+                    "color_range",
+                    "coded_width",
+                    "coded_height",
+                    "start_pts",
+                    "duration_ts",
+                    "nb_frames",
+                    "time_base",
+                    "r_frame_rate",
+                    "avg_frame_rate",
+                    "index",
+                    "width",
+                    "height"
+                  ],
+                  "properties": {
+                    "codec_name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "maxLength": 2048
+                    },
+                    "pix_fmt": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "maxLength": 2048
+                    },
+                    "color_transfer": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "maxLength": 2048
+                    },
+                    "color_space": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "maxLength": 2048
+                    },
+                    "color_range": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "maxLength": 2048
+                    },
+                    "coded_width": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "coded_height": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "start_pts": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "duration_ts": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "nb_frames": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "time_base": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "additionalProperties": false,
+                      "required": [
+                        "numerator",
+                        "denominator"
+                      ],
+                      "properties": {
+                        "numerator": {
+                          "type": "integer"
+                        },
+                        "denominator": {
+                          "type": "integer",
+                          "minimum": 1
+                        }
+                      }
+                    },
+                    "r_frame_rate": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "additionalProperties": false,
+                      "required": [
+                        "numerator",
+                        "denominator"
+                      ],
+                      "properties": {
+                        "numerator": {
+                          "type": "integer"
+                        },
+                        "denominator": {
+                          "type": "integer",
+                          "minimum": 1
+                        }
+                      }
+                    },
+                    "avg_frame_rate": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "additionalProperties": false,
+                      "required": [
+                        "numerator",
+                        "denominator"
+                      ],
+                      "properties": {
+                        "numerator": {
+                          "type": "integer"
+                        },
+                        "denominator": {
+                          "type": "integer",
+                          "minimum": 1
+                        }
+                      }
+                    },
+                    "index": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "width": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 4096
+                    },
+                    "height": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 4096
+                    }
+                  }
+                },
+                "minItems": 1,
+                "maxItems": 16
+              },
+              "selected_stream": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "stream_selection": {
+                "enum": [
+                  "ONLY_VIDEO_STREAM",
+                  "EXPLICIT"
+                ]
+              },
+              "time_base": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "numerator",
+                  "denominator"
+                ],
+                "properties": {
+                  "numerator": {
+                    "type": "integer"
+                  },
+                  "denominator": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              },
+              "timing": {
+                "enum": [
+                  "UNKNOWN",
+                  "IRREGULAR_PTS",
+                  "REGULAR_PTS_OBSERVED"
+                ]
+              },
+              "decoded_frame_count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4096
+              },
+              "frames": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "ordinal",
+                    "pts",
+                    "best_effort_timestamp",
+                    "packet_dts",
+                    "picture_type"
+                  ],
+                  "properties": {
+                    "ordinal": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 4095
+                    },
+                    "pts": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "best_effort_timestamp": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "packet_dts": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "picture_type": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "maxLength": 2048
+                    }
+                  }
+                },
+                "minItems": 1,
+                "maxItems": 4096
+              },
+              "canonical_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "ffmpeg": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "version",
+              "version_report_sha256",
+              "executable_sha256"
+            ],
+            "properties": {
+              "version": {
+                "type": "string",
+                "maxLength": 2048
+              },
+              "version_report_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "executable_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "request": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stream",
+              "mode",
+              "values",
+              "ordering",
+              "timestamp_policy",
+              "decoder_threads",
+              "synchronization",
+              "autorotate",
+              "output"
+            ],
+            "properties": {
+              "stream": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "mode": {
+                "enum": [
+                  "ordinal",
+                  "pts"
+                ]
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "maxItems": 64,
+                "uniqueItems": true
+              },
+              "ordering": {
+                "const": "REQUEST_ORDER"
+              },
+              "timestamp_policy": {
+                "const": "EXACT_SOURCE_PTS_ONLY"
+              },
+              "decoder_threads": {
+                "const": 1
+              },
+              "synchronization": {
+                "const": "PASSTHROUGH"
+              },
+              "autorotate": {
+                "const": false
+              },
+              "output": {
+                "const": "RGBA8_PNG_BITEXACT"
+              }
+            }
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "order",
+                "requested",
+                "ordinal",
+                "pts",
+                "best_effort_timestamp",
+                "time_base",
+                "png_sha256",
+                "rgba_sha256",
+                "width",
+                "height",
+                "size",
+                "mode",
+                "transparency_kind",
+                "has_transparency"
+              ],
+              "properties": {
+                "order": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 63
+                },
+                "requested": {
+                  "type": "integer"
+                },
+                "ordinal": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4095
+                },
+                "pts": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "best_effort_timestamp": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "time_base": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "numerator",
+                    "denominator"
+                  ],
+                  "properties": {
+                    "numerator": {
+                      "type": "integer"
+                    },
+                    "denominator": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                },
+                "png_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "rgba_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "width": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 4096
+                },
+                "height": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 4096
+                },
+                "size": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 33554432
+                },
+                "mode": {
+                  "const": "RGBA"
+                },
+                "transparency_kind": {
+                  "enum": [
+                    "OPAQUE",
+                    "PARTIALLY_TRANSPARENT",
+                    "FULLY_TRANSPARENT"
+                  ]
+                },
+                "has_transparency": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "minItems": 1,
+            "maxItems": 64
+          },
+          "visual_review": {
+            "const": "UNVERIFIED"
+          },
+          "automatic_assignment": {
+            "const": false
+          },
+          "canonical_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "minItems": 0,
+      "maxItems": 64
+    }
+  },
+  "$defs": {}
+}

@@ -1,0 +1,1097 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ro-sprite-forge.local/schemas/animation-inspection-v1.json",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "rsf.animation-inspection/v1"
+    },
+    "semantics": {
+      "type": "object",
+      "properties": {
+        "renderer": {
+          "const": "1.1.0"
+        },
+        "geometry": {
+          "const": "1.0.0"
+        },
+        "timing": {
+          "const": "1.0.0"
+        },
+        "coordinates": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "renderer",
+        "geometry",
+        "timing",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "object",
+      "properties": {
+        "body_act": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "body_spr": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "head_act": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "head_spr": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "body_act",
+        "body_spr"
+      ],
+      "additionalProperties": false,
+      "dependentRequired": {
+        "head_act": [
+          "head_spr"
+        ],
+        "head_spr": [
+          "head_act"
+        ]
+      }
+    },
+    "selection": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "rsf.timeline-selection/v1"
+        },
+        "timing_version": {
+          "const": "1.0.0"
+        },
+        "act_document_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "profile_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "category": {
+          "enum": [
+            "player",
+            "npc",
+            "monster",
+            "unverified"
+          ]
+        },
+        "action": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requested_slot": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resolved_slot": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "view": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 7
+        },
+        "direction": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 7
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "camera_direction": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 7
+        },
+        "frame": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "frame_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "source_delay": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mode": {
+          "enum": [
+            "MANUAL",
+            "TIMED"
+          ]
+        },
+        "timing_status": {
+          "enum": [
+            "NOT_EVALUATED",
+            "SUPPORTED",
+            "UNVERIFIED",
+            "DIAGNOSTIC"
+          ]
+        },
+        "timing_rule": {
+          "anyOf": [
+            {
+              "enum": [
+                "EXPLICIT_DIAGNOSTIC_INTERVAL",
+                "EXTERNAL_DURATION_U32",
+                "ACT_DELAY_F32",
+                "PLAYER_IDLE_FRAME_ZERO"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "elapsed_ms": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "speed": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "duration_ms": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "movement_speed": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "frame_time": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frame_duration_ms": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "looping": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "terminal_hold": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "native_completion": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fallback": {
+          "const": "NONE"
+        },
+        "reachability": {
+          "enum": [
+            "SUPPORTED",
+            "UNSUPPORTED",
+            "UNVERIFIED"
+          ]
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "canonical_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "schema",
+        "timing_version",
+        "act_document_sha256",
+        "profile_sha256",
+        "category",
+        "action",
+        "requested_slot",
+        "resolved_slot",
+        "view",
+        "direction",
+        "camera_direction",
+        "frame",
+        "frame_count",
+        "source_delay",
+        "mode",
+        "timing_status",
+        "timing_rule",
+        "elapsed_ms",
+        "speed",
+        "context",
+        "frame_time",
+        "frame_duration_ms",
+        "looping",
+        "terminal_hold",
+        "native_completion",
+        "fallback",
+        "reachability",
+        "diagnostics",
+        "canonical_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "source_frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "part": {
+            "enum": [
+              "body",
+              "head"
+            ]
+          },
+          "slot": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "frame": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "raw_delay": {
+            "type": "number"
+          },
+          "motion_bounds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 8,
+            "maxItems": 8
+          },
+          "anchors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "opaque": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "x": {
+                  "type": "integer"
+                },
+                "y": {
+                  "type": "integer"
+                },
+                "attribute": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "opaque",
+                "x",
+                "y",
+                "attribute"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "event_index": {
+            "type": "integer"
+          },
+          "raw_events": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{80}$"
+            }
+          },
+          "omitted_layer_ordinals": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "required": [
+          "part",
+          "slot",
+          "frame",
+          "raw_delay",
+          "motion_bounds",
+          "anchors",
+          "event_index",
+          "raw_events",
+          "omitted_layer_ordinals"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "layers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "part": {
+            "enum": [
+              "body",
+              "head"
+            ]
+          },
+          "layer_ordinal": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "image_pool": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "image_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "source_transform": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "integer"
+              },
+              "y": {
+                "type": "integer"
+              },
+              "sprite": {
+                "type": "integer"
+              },
+              "mirror": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "color": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "scale_x": {
+                "type": "number"
+              },
+              "scale_y": {
+                "type": "number"
+              },
+              "angle": {
+                "type": "integer"
+              },
+              "pool": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "sprite",
+              "mirror",
+              "color",
+              "scale_x",
+              "scale_y",
+              "angle",
+              "pool"
+            ],
+            "additionalProperties": false
+          },
+          "rendered": {
+            "type": "object",
+            "properties": {
+              "layer_index": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "part": {
+                "enum": [
+                  "body",
+                  "head"
+                ]
+              },
+              "sprite": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "pool": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "offset": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "integer"
+                  },
+                  "y": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y"
+                ],
+                "additionalProperties": false
+              },
+              "source_size": {
+                "type": "object",
+                "properties": {
+                  "width": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "height": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "required": [
+                  "width",
+                  "height"
+                ],
+                "additionalProperties": false
+              },
+              "rendered_size": {
+                "type": "object",
+                "properties": {
+                  "width": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "height": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "required": [
+                  "width",
+                  "height"
+                ],
+                "additionalProperties": false
+              },
+              "mirror": {
+                "type": "boolean"
+              },
+              "scale": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y"
+                ],
+                "additionalProperties": false
+              },
+              "angle": {
+                "type": "number"
+              },
+              "color": {
+                "type": "object",
+                "properties": {
+                  "r": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "g": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "b": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "a": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "raw": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "r",
+                  "g",
+                  "b",
+                  "a",
+                  "raw"
+                ],
+                "additionalProperties": false
+              },
+              "clipped": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "layer_index",
+              "part",
+              "sprite",
+              "pool",
+              "offset",
+              "source_size",
+              "rendered_size",
+              "mirror",
+              "scale",
+              "angle",
+              "color",
+              "clipped"
+            ],
+            "additionalProperties": false
+          },
+          "geometry": {
+            "type": "object",
+            "properties": {
+              "stages": {
+                "type": "object",
+                "properties": {
+                  "source": {
+                    "type": "object",
+                    "properties": {
+                      "extent": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer"
+                        },
+                        "minItems": 4,
+                        "maxItems": 4
+                      },
+                      "alpha": {
+                        "anyOf": [
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "integer"
+                            },
+                            "minItems": 4,
+                            "maxItems": 4
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "extent",
+                      "alpha"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "mirrored": {
+                    "type": "object",
+                    "properties": {
+                      "extent": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer"
+                        },
+                        "minItems": 4,
+                        "maxItems": 4
+                      },
+                      "alpha": {
+                        "anyOf": [
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "integer"
+                            },
+                            "minItems": 4,
+                            "maxItems": 4
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "extent",
+                      "alpha"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "scaled": {
+                    "type": "object",
+                    "properties": {
+                      "extent": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer"
+                        },
+                        "minItems": 4,
+                        "maxItems": 4
+                      },
+                      "alpha": {
+                        "anyOf": [
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "integer"
+                            },
+                            "minItems": 4,
+                            "maxItems": 4
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "extent",
+                      "alpha"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "rotated": {
+                    "type": "object",
+                    "properties": {
+                      "extent": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer"
+                        },
+                        "minItems": 4,
+                        "maxItems": 4
+                      },
+                      "alpha": {
+                        "anyOf": [
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "integer"
+                            },
+                            "minItems": 4,
+                            "maxItems": 4
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "extent",
+                      "alpha"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "source",
+                  "mirrored",
+                  "scaled",
+                  "rotated"
+                ],
+                "additionalProperties": false
+              },
+              "transformed_bounds": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 4,
+                "maxItems": 4
+              },
+              "unclipped_visible_bounds": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 4,
+                    "maxItems": 4
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "visible_bounds": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 4,
+                    "maxItems": 4
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "source_offset": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "anchor_shift": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "registration": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "integer_center": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "clipping": {
+                "enum": [
+                  "OUTSIDE",
+                  "PARTIAL",
+                  "INSIDE"
+                ]
+              },
+              "transparent": {
+                "type": "boolean"
+              },
+              "clipped_regions": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "minItems": 4,
+                  "maxItems": 4
+                }
+              },
+              "canvas_intersection": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 4,
+                    "maxItems": 4
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "stages",
+              "transformed_bounds",
+              "unclipped_visible_bounds",
+              "visible_bounds",
+              "source_offset",
+              "anchor_shift",
+              "registration",
+              "integer_center",
+              "clipping",
+              "transparent",
+              "clipped_regions",
+              "canvas_intersection"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "part",
+          "layer_ordinal",
+          "image_pool",
+          "image_index",
+          "source_transform",
+          "rendered",
+          "geometry"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "canvas": {
+      "type": "object",
+      "properties": {
+        "origin": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "integer"
+            },
+            "y": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ],
+          "additionalProperties": false
+        },
+        "dimensions": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "width",
+            "height"
+          ],
+          "additionalProperties": false
+        },
+        "bounds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "auto_fit": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "origin",
+        "dimensions",
+        "bounds",
+        "auto_fit"
+      ],
+      "additionalProperties": false
+    },
+    "frame_bounds": {
+      "type": "object",
+      "properties": {
+        "transformed": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 4,
+              "maxItems": 4
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unclipped_visible": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 4,
+              "maxItems": 4
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "visible": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 4,
+              "maxItems": 4
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "transformed",
+        "unclipped_visible",
+        "visible"
+      ],
+      "additionalProperties": false
+    },
+    "empty_frame": {
+      "type": "boolean"
+    },
+    "fully_transparent": {
+      "type": "boolean"
+    },
+    "fidelity": {
+      "type": "object",
+      "properties": {
+        "geometry": {
+          "enum": [
+            "VERIFIED",
+            "PARTIAL",
+            "UNVERIFIED",
+            "INVALID"
+          ]
+        },
+        "native_pixel_parity": {
+          "const": "UNVERIFIED"
+        },
+        "overall": {
+          "const": "PARTIAL"
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "geometry",
+        "native_pixel_parity",
+        "overall",
+        "limitations"
+      ],
+      "additionalProperties": false
+    },
+    "preview_png_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "review": {
+      "const": "UNVERIFIED"
+    },
+    "artwork_coverage": {
+      "const": "NOT_EVALUATED"
+    },
+    "canonical_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schema",
+    "semantics",
+    "sources",
+    "selection",
+    "source_frames",
+    "layers",
+    "canvas",
+    "frame_bounds",
+    "empty_frame",
+    "fully_transparent",
+    "fidelity",
+    "preview_png_sha256",
+    "review",
+    "artwork_coverage",
+    "canonical_sha256"
+  ],
+  "additionalProperties": false
+}

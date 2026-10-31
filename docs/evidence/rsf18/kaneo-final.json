@@ -1,0 +1,183 @@
+{
+  "schema": "rsf18-kaneo-final/v1",
+  "task": {
+    "id": "reuc1z3obcspcrn7xb55dzvk",
+    "title": "[M3] Canonical pre-build approval and scoped invalidation",
+    "number": 18,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M3\n**Stable plan reference:** RSF-v1.1/M3-04\n**Implementation status:** Implemented; independent QA_PASS. Acceptance supported by the execution evidence below.\n**Responsible implementer:** Codex (aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn). Independent read-only reviewer: forge_qa_reviewer /root/rsf18_independent_qa.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.3, 4.3–4.6, 5.2/E, 6/M3, 14\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Bind human review to exactly the composition visible before compilation.\n\n**Scope:** Canonical visual composition digest, operator approve/reject/batch scope, dependency tracking and stale-review workflow.\n\n## Acceptance criteria\n\n- [x] Canonical pre-build revision covers source-content hashes, assignments, ordered layers, recipes/crops/transforms, timing/offsets/anchors, target/profile and preview semantics.\n- [x] Only operator can approve/reject a displayed frame/view/action/batch with precise scope and digest; approval exists before output build hashes.\n- [x] Changes affecting visual inputs invalidate only affected scope; equivalent inputs/unrelated rebuilds do not invalidate approval; save/reopen preserves valid review.\n- [x] PARTIAL/UNVERIFIED preview yields explicitly provisional inspection, never faithful-runtime approval; native acceptance remains separate.\n- [x] Unchanged structural-only imports may record NOT_REQUIRED under explicit policy; replacement artwork requires applicable review. Missing/stale approval prevents production readiness.\n\n## Verification\n\nCanonical digest equivalence and affected-only invalidation tests; operator batch/rejection/reopen flow; future build hash independence check.\n\nActual execution evidence follows. Original planning scope is preserved; all automated review decisions used isolated synthetic art, never private artwork.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-17 (M3-03; task ID j4bq4r7uxi9z6l378go7oomo)\n\n**Non-goals / gate qualifications:** No auto-approval or aesthetic scoring.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence\n\n- core/review.py: canonical pre-build basis extends existing ledger dependency/composition identity with exact ordered-frame context, target/profile, timing/anchor constraints and renderer/preview semantics. Closed packaged review-event/v1 schema; optional project history preserves compatibility.\n- Service proposal reconstructs persisted current inputs; atomic exact-scope decisions and optimistic revisions reject stale/batch conflicts. History persists; generic saves cannot inject approvals. Ephemeral coverage projection preserves assignment revisions.\n- Workbench presents exact scope, actual source-layer previews, lineage and basis/evidence hashes before explicit Approve/Reject. Layer/frame/view/action/explicit batch selections are supported.\n- Provisional ordered source-layer review only, clearly PARTIAL; not compiled-animation/native/artistic acceptance. Unexecuted transforms cannot be approved or exempted. NOT_REQUIRED requires explicit unchanged-reference structural-only policy. export_ready=false.\n- Python3.14.4: focused19 PASS, public318 PASS, private36 PASS, all exit0. Six schema checkers PASS; node syntax PASS. Final offline installed distribution318 collected, OK(skipped2 optional-dependency tests), repeated wheel hash/isolation/private-asset exclusions PASS. Python3.12/3.13 NOT_RUN unavailable.\n- Actual Playwright MCP Chromium156.0.8078.73: coordinator and independent reviewer directly ran fresh synthetic journeys. Exact individual/batch approval, rejection, reopen, A/B/C stale with D retained, separate-context409 conflict, unexecuted translation block and prior RSF17 assignment/playback/comparison PASS. Zero unexpected JS/network failures. Expected422/409/409 negative responses.\n- Final installed-wheel browser rerun project rsf18-1793352821184:1 APPROVED,3 STALE,44 UNVERIFIED,export_ready=false. No private artwork approvals. Missing synthetic source separately becomes STALE/unreviewable, exact bytes restored.\n- Implementation manifest docs/evidence/rsf18/implementation-manifest.json SHA256 e2ae7746e00b1a54c3ac205a980f9bd9c5e24a406bf3dd6853345684cbe1d16f. Final installed browser wheel d7c46473d8acae0cfb0b66be25e685b488337b59bf45420fd99f0948edeaba9c. Reproducible sdist-derived wheel a4cb1f7d5a9d411c3d6d0fe93cbafb4614892919b8a5abb1f01878235e81e0ea (separate build route).\n- Deterministic workspace repeated bytes equal, SHA256 0728a38e01ba7f9a01fcde56fcda6f5379c9ef535a738271efd2f30e67edae77. Review-event/occurrence bases in docs/evidence/rsf18/determinism.json.\n- Accepted baseline386 files/no missing; seven existing paths changed incl generated SOURCES.txt, new bounded review implementation/tests/evidence. HEAD472b1d3f9e29630b505fc2b3b7315f6b4e00beba unchanged, no commits/push, private resources excluded.\n- Details: docs/architecture/RSF18_REVIEW.md; docs/evidence/rsf18/VERIFICATION.md, QA_REVIEW.md, browser-release-results.json, synthetic-review-dialog-qa.png.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nQA_PASS — configured forge_qa_reviewer /root/rsf18_independent_qa independently inspected live five criteria and ran current-source318 public,36 private,19 focused and six schema checks, all exit0. Reviewer directly executed Playwright MCP in fresh synthetic project rsf18-1793352647508; all seven journeys passed, no unexpected console/network failures. This improves RSF17 browser independence.\n\nEvidence-projection metadata correction was included in reviewer current-source tests. Independent installed-browser run preceded that metadata-only correction; coordinator reran full final installed-wheel browser suite afterward. Packaging was coordinator-executed. No mandatory findings remain. Reviewer made no source/Kaneo edits or real-art approvals.\n\n## Milestone gates and scope\n\nM0_VERIFIED retained (S/I/N previous exact scope); M1 planning accepted; M2_PREVIEW_AND_DIAGNOSTICS_VERIFIED retained. M3_LOCAL_OPERATOR_WORKBENCH_VERIFIED follows RSF15/16/17 Accepted plus this QA_PASS and final acceptance read-back, documented in docs/evidence/rsf18/M3_GATE_PACKET.md. Synthetic explicit operator interactions verify review mechanics under current operator instruction; prior RSF17 private UI import/count/assignment evidence remains applicable. No actual real-art approval is inferred. M4 ingestion/M5 compilation and new native output evidence remain unimplemented. RSF19 not started.",
+    "status": "done",
+    "columnId": "vnkxm3fyt0tmewq1rdokfops",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 17,
+    "createdAt": "2026-10-29T10:08:03.849Z",
+    "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "assigneeName": "Codex",
+    "assigneeId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "m3_tasks": [
+    {
+      "id": "e7nsxcjfb2xk226im4v11aic",
+      "title": "[M3] Safe local service and atomic project persistence",
+      "number": 15,
+      "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M3\n**Stable plan reference:** RSF-v1.1/M3-01\n**Implementation status:** Accepted (done); verified by independent QA Review.\n**Responsible implementer:** AGY (ICJQmirJliEFAZN3jBl3ZitHCandT0FG). Independent reviewer: forge-qa-reviewer subagent.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§4.1–4.3, 5.4, 6/M3, 8\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Expose core use cases safely to a local human workbench.\n\n**Scope:** Small Python HTTP adapter, filesystem JSON/content-addressed storage, create/open/import/save/reopen, backups and service limits.\n\n## Acceptance criteria\n\n- [x] Default bind is loopback; enforce Host/origin validation and CSRF/unsafe-method protection from the first server implementation.\n- [x] Imports/uploads have bounded sizes and isolated staging; reject traversal, symlink escapes, collisions, source overwrite and project-defined command execution.\n- [x] Versioned manifests and blobs publish atomically with backups; refresh/reopen preserves source hashes, assignments and review records.\n- [x] HTTP uses the same core validators/use cases as CLI with readable typed errors and no database/network service dependency in core.\n\n## Verification\n\nLocal request/CSRF/origin and path-escape/upload-limit tests; interrupted-write/reopen checks and CLI/API behavior parity.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-10 (M1-04; task ID uzuir12040jroddz4idk8ahi); RSF-11 (M2-01; task ID gspmf9so83jbn57y0anhz522)\n\n**Non-goals / gate qualifications:** No public/LAN listener, database, task tracker or new image/video ingestion.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence\n\n- Deliverables:\n  - `src/ro_sprite_forge/schemas/project-v1.json`\n  - `src/ro_sprite_forge/core/project.py`\n  - `src/ro_sprite_forge/service/security.py`\n  - `src/ro_sprite_forge/service/server.py`\n  - `src/ro_sprite_forge/core/errors.py`\n  - `src/ro_sprite_forge/cli.py`\n  - `tests/test_project.py`\n  - `tests/test_service.py`\n  - `docs/architecture/RSF15_SERVICE.md`\n- Verification commands & exit statuses:\n  - `test_project.py`: Exit 0 (15/15 passed in 0.026s)\n  - `test_service.py`: Exit 0 (17/17 passed in 0.555s)\n  - Full public tests: Exit 0 (277/277 passed in 4.119s)\n  - Audited private tests: Exit 0 (36/36 passed in 11.714s)\n  - Wheel distribution check: Exit 0 (`DISTRIBUTION_CHECK_PASS`, 277 tests in isolated wheel install)\n- Security & persistence invariants:\n  - Loopback default bind (`127.0.0.1`, `localhost`, `::1`); non-loopback rejected with `PERMISSION_DENIED`.\n  - Host validation prevents DNS rebinding attacks.\n  - Origin validation forbids cross-origin browser abuse; zero wildcard `*` CORS.\n  - Cryptographically unpredictable 32-byte CSRF token required on all state-changing methods.\n  - Content-addressed blob storage (`blobs/<sha256>`), path containment checks, symlink escape rejection.\n  - Atomic manifest publication (`os.replace`) with `manifest.json.bak` backup and optimistic concurrency control.\n\n## Independent QA result\n\nIndependent technical QA completed by `forge-qa-reviewer`: **`QA_PASS`**. All acceptance criteria verified, zero regressions across 277 public tests and 36 private fixture tests, clean wheel distribution. Task moved to Accepted.",
+      "status": "done",
+      "columnId": "vnkxm3fyt0tmewq1rdokfops",
+      "priority": "no-priority",
+      "startDate": null,
+      "dueDate": null,
+      "position": 14,
+      "createdAt": "2026-10-29T10:08:03.715Z",
+      "userId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+      "assigneeName": "AGY",
+      "assigneeId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+      "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+      "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+    },
+    {
+      "id": "ufpaifaxq9q2fa55w0ixs9iq",
+      "title": "[M3] Requirements-first operator workspace and readiness reports",
+      "number": 16,
+      "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M3\n**Stable plan reference:** RSF-v1.1/M3-02\n**Implementation status:** Accepted (done); verified by independent QA review (QA_PASS).\n**Responsible implementer:** AGY (ICJQmirJliEFAZN3jBl3ZitHCandT0FG). Independent reviewer: forge-qa-reviewer.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§5.1–5.4, 6/M3, 14\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Let an operator understand the finite work order without editing JSON.\n\n**Scope:** Single workspace, project/profile/target controls, requirements tree, filters/checklist/report and validate/build-readiness presentation.\n\n## Acceptance criteria\n\n- [x] Create/open project, select/define target/profile and explicitly declare/inherit topology before artwork; show underspecified declarations as blockers.\n- [x] Tree groups action/view/frame/layer and filters unassigned, invalid, unreviewed, unsupported, reused, ready and underspecified; exact IDs and topology provenance are visible.\n- [x] Show separate slot/motion/layer/identity/content counters and scoped/full, structure, visual, preview and native states.\n- [x] Export missing checklist/reports and readable validation errors from shared core API; missing source or mapping cannot produce fake green completion.\n- [x] Keyboard-accessible controls and non-color-only error states work without a dashboard maze or ordinary JSON editing.\n\n## Verification\n\nOperator walkthrough with synthetic projects and optional private imported Novice/Orc; UI/core state consistency checks.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-15 (M3-01; task ID e7nsxcjfb2xk226im4v11aic) - ACCEPTED\n\n**Non-goals / gate qualifications:** Modified build execution arrives in M5; no fake working Build action. Timeline playback controls belong to RSF-17. Canonical approval workflow belongs to RSF-18.\n\n## Implementation evidence (add at QA handoff)\n\n- Changes / paths: `src/ro_sprite_forge/core/project.py`, `src/ro_sprite_forge/service/server.py`, `src/ro_sprite_forge/static/workbench.css`, `src/ro_sprite_forge/static/workbench.js`, `src/ro_sprite_forge/static/index.html`, `pyproject.toml`, `MANIFEST.in`, `tests/test_workbench.py`, `docs/architecture/RSF16_WORKBENCH.md`.\n- Test commands & results:\n  - `tests/test_workbench.py`: 9 PASS (workbench-tests.log)\n  - Public test suite: 286 PASS (public-tests.log)\n  - Private fixture suite: 36 PASS (private-tests.log)\n  - Distribution check: DISTRIBUTION_CHECK_PASS (distribution.log)\n- RSF-15 integration corrections verified:\n  - Concurrent-save race condition serialized with per-project lock.\n  - Upload limit reconciled to 48 MiB in server.py.\n- Manifest: docs/evidence/rsf16/implementation-manifest.json\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\n- Verdict: **QA_PASS**\n- Reviewer: Independent Read-Only QA Reviewer (`forge-qa-reviewer`)\n- Report: `docs/evidence/rsf16/QA_REVIEW.md`\n- Acceptance: All 5 acceptance criteria and both RSF-15 integration corrections objectively verified. Task marked Accepted.",
+      "status": "done",
+      "columnId": "vnkxm3fyt0tmewq1rdokfops",
+      "priority": "no-priority",
+      "startDate": null,
+      "dueDate": null,
+      "position": 15,
+      "createdAt": "2026-10-29T10:08:03.752Z",
+      "userId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+      "assigneeName": "AGY",
+      "assigneeId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+      "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+      "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+    },
+    {
+      "id": "j4bq4r7uxi9z6l378go7oomo",
+      "title": "[M3] Frame/layer assignment inspector and playback timeline",
+      "number": 17,
+      "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M3\n**Stable plan reference:** RSF-v1.1/M3-03\n**Implementation status:** Implemented; independent QA_PASS; accepted after QA Review. Kaneo column is authoritative.\n**Responsible implementer:** Codex (aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn); independent reviewer forge_qa_reviewer (/root/rsf17_independent_qa).\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§5.2–5.4, 6/M3\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Make imported resources assignable and inspectable in the local workspace.\n\n**Scope:** Existing-resource source tray, exact/batch assignments/reuse, action/view/frame/layer inspector, synchronized preview and timeline.\n\n## Acceptance criteria\n\n- [x] Operator imports Novice or Orc via UI, sees exact counts, selects missing requirements and assigns/reuses existing resource images with explicit scope.\n- [x] Inspector exposes source hash, ordered layers, transforms, anchors, timing and reuse before/after previews; confirmation never invents art.\n- [x] Timeline supports frame scrub/step/play/loop/speed and action/view switch, reference/candidate comparison and fidelity labels.\n- [x] Mappings persist across save/reopen; batch assignments use the same ledger validation as CLI.\n\n## Verification\n\nSynthetic operator assignment/reopen flow, invalid/reuse cases, timeline/inspector checks; private fixtures optional with NOT_RUN reasons.\n\nActual commands, results, versions, limitations and hashes are recorded below and in docs/evidence/rsf17/VERIFICATION.md. No new artwork approval or native runtime run is claimed.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-16 (M3-02; task ID ufpaifaxq9q2fa55w0ixs9iq); RSF-13 (M2-03; task ID sr7zifcthz9m09btrmjlaosv)\n\n**Non-goals / gate qualifications:** PNG/sheet tray M4, video PTS selection M6; no editor or automatic aesthetics.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence\n\n- Changed adapter service/workbench.py, HTTP server, project-v1 schema and static workbench assets; focused Python tests and Playwright MCP scripts. No changes to core codecs, canonical ledger/topology/timeline/compositor or Korangar.\n- Final manifest: docs/evidence/rsf17/implementation-manifest.json, SHA-256 e79b1cc8c6a414e7c503e4c855a5e01234fc326145459a8e9bd865c78c20b1ac. Wheel SHA-256 56232d721f7ae998ef3e7f33f99e4c838665f5062c552f27f5e62c92f92ad9f2.\n- Python 3.14.4: focused unittest 13 PASS, full public 299 PASS, private 36 PASS; all exit 0. Final offline installed distribution 299 tests OK (one optional-Pillow skip), repeated builds/isolation/exclusions PASS. Five schema validators PASS. Python 3.12/3.13 NOT_RUN (unavailable).\n- Actual Playwright MCP Chromium 156.0.8078.73: baseline/create/filter/export, single/batch/reuse, persistence, timeline/speed/action/view, comparison and errors PASS. Synthetic result: 48 requirements, 3 direct + 1 reuse + 44 unassigned, zero approvals; no unexpected console/network errors. Expected missing-candidate 422 and stale-save 409 separately verified. Native confirmation dialog separately tested; long automated journey uses an explicit confirmation shim.\n- Private Novice imported through UI: 104 slots, 456 motions, 110 referenced images, 108 distinct contents. ACT a82086ba005506a16ee0740ebd1d33c43de8cc4ee1a622ea933ff9e0502c1c77; SPR 7f4efe357b0f80e71ba2dcdb93d1c110988b1b8f382e1dbfc722e3a2cf85a533. Assignment/reuse persisted. No private screenshot published.\n- Deterministic example: 2 direct + 2 reuse + 44 unassigned, zero approvals; repeated workspace bytes equal. Ledger SHA-256 c9879d69a6982bf74cd01d8fad7808f51dd368e6780f3f4be8d1faa31898e7e1.\n- No accepted baseline files missing (364 hash records); no commit/push. Sources and private original resources preserved.\n\n## Independent QA result\n\nQA_PASS — configured forge_qa_reviewer /root/rsf17_independent_qa. Reviewer independently reran 13 focused, 299 public, 36 private, contract schema and earlier installed-distribution checks. Two findings corrected and independently retested: missing/corrupt resource reopening and playback resume after scrub/speed change. No mandatory findings remain. Full report: docs/evidence/rsf17/QA_REVIEW.md.\n\nReviewer had no Playwright MCP tools in its context: coordinator executed reviewer-selected browser assertions and reviewer inspected scripts/results. This is not claimed as a separate reviewer-controlled MCP launch. Actual MCP assertions verified resume frame 3, speed-resume frame 3, terminal Attack frame 4, missing-source reopening and native confirmation.\n\n## Limits and gates\n\nAssignment-source preview executes mirror on this path; other valid recipes explicitly report TRANSFORMATION_NOT_EXECUTED. Animation previews use explicitly selected existing resources; no modified compilation or implicit replacement art. Availability, validity, fidelity and visual approval stay separate. M0_VERIFIED and M2_PREVIEW_AND_DIAGNOSTICS_VERIFIED retained; M1 planning remains accepted; M3 remains incomplete pending RSF-18. No new human artistic approval or native run. RSF-18 not started.\n",
+      "status": "done",
+      "columnId": "vnkxm3fyt0tmewq1rdokfops",
+      "priority": "no-priority",
+      "startDate": null,
+      "dueDate": null,
+      "position": 16,
+      "createdAt": "2026-10-29T10:08:03.805Z",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "assigneeName": "Codex",
+      "assigneeId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+      "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+    }
+  ],
+  "m3_verdict": "M3_LOCAL_OPERATOR_WORKBENCH_VERIFIED",
+  "comments": [
+    {
+      "id": "u8f4qpovcjvibzywtqxmbewl",
+      "taskId": "reuc1z3obcspcrn7xb55dzvk",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "RSF-18 implementation handoff for independent QA. Codex ownership retained. Added canonical composition review bases and sealed review-event/v1 history, explicit exact-scope proposal/decision endpoints, restricted NOT_REQUIRED policy, existing-ledger review projection/coverage integration, dependency revision propagation, and workbench review confirmation/limitations/stale reporting. New tests/test_review.py: 19 focused tests passed. Playwright MCP Chromium 156.0.8078.73 installed-service journeys passed: individual approval/reopen, rejection, exact batch, A/B/C stale with D preserved, isolated-context stale submission, unsupported transform blocked, RSF-17 assignment/playback/comparison regression; zero unexpected console/request failures. Separate removed-synthetic-SPR check blocked review and removed current approval; restored original synthetic bytes. Full regressions/distribution and independent QA running. All decisions are synthetic test fixtures; no real artwork approved. Partial previews explicitly provisional; export/native readiness unchanged. Evidence accumulating under docs/evidence/rsf18/; no commits/push/private assets.",
+      "createdAt": "2026-10-30T09:28:02.968Z",
+      "updatedAt": "2026-10-30T09:28:02.968Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    },
+    {
+      "id": "lxh0vzguw1qxumm4hbzy2j70",
+      "taskId": "reuc1z3obcspcrn7xb55dzvk",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Final acceptance read-back confirmed: RSF-18 Accepted (done), owner Codex aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn, all five acceptance criteria checked, independent forge_qa_reviewer QA_PASS. RSF-15/16/17 are Accepted; M3_LOCAL_OPERATOR_WORKBENCH_VERIFIED for the declared local operator workflow. Review mechanics were tested with synthetic operator decisions only; no private artwork was approved. Provisional ordered source-layer review, unexecuted-transform restrictions, export_ready=false and separate native evidence remain explicit. Durable evidence: docs/evidence/rsf18/M3_GATE_PACKET.md, QA_REVIEW.md, VERIFICATION.md, browser-release-results.json, implementation-manifest.json (SHA256 e2ae7746e00b1a54c3ac205a980f9bd9c5e24a406bf3dd6853345684cbe1d16f). M4/RSF-19 not started.",
+      "createdAt": "2026-10-30T09:38:39.354Z",
+      "updatedAt": "2026-10-30T09:38:39.354Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    }
+  ],
+  "next_task": {
+    "id": "q9eh2soodxcc0qucu0pkoiy4",
+    "title": "[M4] Deterministic PNG-sequence ingestion and staging",
+    "number": 19,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M4\n**Stable plan reference:** RSF-v1.1/M4-01\n**Implementation status:** Backlog (to-do); planned only, no implementation or verification claimed. Kaneo column is authoritative if later changed.\n**Responsible implementer:** Unassigned. Required skill: Authorized engineer for this bounded deliverable; independent reviewer is separate.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§4.6, 5.3, 6/M4, 8\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Import human-supplied images with trustworthy ordering and provenance.\n\n**Scope:** PNG hashes/dimensions/transparency, isolated staging, source ordering and explicit frame mapping.\n\n## Acceptance criteria\n\n- [ ] Import ordered PNG sequences without inferred choreography, retain raw source hash plus staged pixel/asset identities and explicit source order.\n- [ ] Validate dimensions, decode budget, transparency expectations, hashes and invalid frame order with exact source/requirement error IDs.\n- [ ] Same sources/settings and pinned decoder/color policy reproduce identical staged hashes; original files are immutable.\n- [ ] Expose imported candidates to the existing assignment/preview API and local import tray without automatic assignment/approval.\n\n## Verification\n\nReimport equality, order/hash mismatch, malformed/oversized/transparent input tests and safe staging checks.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-18 (M3-04; task ID reuc1z3obcspcrn7xb55dzvk)\n\n**Non-goals / gate qualifications:** No FFmpeg/video ingestion until M6, invented frames or playable-output claim.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code changes / diff: Not implemented by this planning sync.\n- Test commands / exit statuses / artifact hashes: NOT_RUN (planning only).\n- Milestone gates / limitations: Not evaluated; structural, coverage, visual, preview and native states remain separate.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nNot performed for implementation. Implementer supplies evidence and moves to QA Review; a distinct read-only reviewer records QA_PASS / QA_FAIL / QA_BLOCKED. Operator-only visual/native decisions remain separate. No acceptance is granted by backlog creation.",
+    "status": "to-do",
+    "columnId": "eog035o4rzn6u301ylyctbvg",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 18,
+    "createdAt": "2026-10-29T10:08:03.878Z",
+    "userId": null,
+    "assigneeName": null,
+    "assigneeId": null,
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "next_task_relations": [
+    {
+      "id": "s2n2aeqrv2alhnchpwd4ntju",
+      "sourceTaskId": "reuc1z3obcspcrn7xb55dzvk",
+      "targetTaskId": "q9eh2soodxcc0qucu0pkoiy4",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.117Z",
+      "sourceTask": {
+        "id": "reuc1z3obcspcrn7xb55dzvk",
+        "title": "[M3] Canonical pre-build approval and scoped invalidation",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 18,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+        "assigneeName": "Codex"
+      },
+      "targetTask": {
+        "id": "q9eh2soodxcc0qucu0pkoiy4",
+        "title": "[M4] Deterministic PNG-sequence ingestion and staging",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 19,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "lfglpplls4esjkcu8xuouccp",
+      "sourceTaskId": "q9eh2soodxcc0qucu0pkoiy4",
+      "targetTaskId": "okckipkcfdqspilmisaewm5y",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.148Z",
+      "sourceTask": {
+        "id": "q9eh2soodxcc0qucu0pkoiy4",
+        "title": "[M4] Deterministic PNG-sequence ingestion and staging",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 19,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "okckipkcfdqspilmisaewm5y",
+        "title": "[M4] Spritesheet extraction and rectangle validation",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 20,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    }
+  ],
+  "pending_writes": []
+}

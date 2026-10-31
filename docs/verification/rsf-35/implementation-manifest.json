@@ -1,0 +1,379 @@
+{
+  "account_id": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+  "evidence": [
+    {
+      "path": "docs/verification/rsf-35/M7_GATE_PACKET.md",
+      "sha256": "25ec9de33f6a076fbe192dff569caa1c3010fcc9cd375175c936470241d863bf"
+    },
+    {
+      "path": "docs/verification/rsf-35/QA_REPORT.md",
+      "sha256": "90d9280899ea385aa0353811e1d3fdb70e0c2d5884ff6732553c4fb50cdd94d7"
+    },
+    {
+      "path": "docs/verification/rsf-35/REPORT.md",
+      "sha256": "96b4285ae1ccbf22f0d4501c07fb9c09d2107a57883826ab2aecb0443dfcaa73"
+    },
+    {
+      "path": "docs/verification/rsf-35/USAGE.md",
+      "sha256": "865a03a47b9b246be0def5c7f5934a1c628a2f6e956de3e1b9782541b8da0927"
+    },
+    {
+      "path": "docs/verification/rsf-35/commands.json",
+      "sha256": "40ff75fdab4e78527ada674f11c6163c58708e01b4a34efe2295d7dd74a92b0e"
+    },
+    {
+      "path": "docs/verification/rsf-35/distribution-initial.log",
+      "sha256": "a4d6c8c7b0d04815ff3bd27a6a3bbda6d48dcdbaa187ef8323ffee39b83e3968"
+    },
+    {
+      "path": "docs/verification/rsf-35/distribution.log",
+      "sha256": "2bb4f3e4fa2115fb15536e4a8b44ac00d3728989707163a4afc3395c94ad5f3c"
+    },
+    {
+      "path": "docs/verification/rsf-35/environment.json",
+      "sha256": "9feec0220c353f4005c762e5a56725d675764c99e0e0c83b20992f38436aec59"
+    },
+    {
+      "path": "docs/verification/rsf-35/focused-tests.log",
+      "sha256": "4dba74883469b2654cf06587b6d02d6b1293a18f2023a3107014b838feb60e93"
+    },
+    {
+      "path": "docs/verification/rsf-35/implementation-paths.json",
+      "sha256": "f8a5c9e836f8a6f5471deedcf2e19b7f12510eb783adb9f6fb3dcdb2cd5cb53e"
+    },
+    {
+      "path": "docs/verification/rsf-35/implementation.diff",
+      "sha256": "98da743c18440dce5230022dd1f38f549c808d735319188bd03c1aff66cd1698"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/evidence-hashes.json",
+      "sha256": "e0db66c04f2ee06c36f44d68781ca0f09dbdf573ab06ccfdaf9a52a39ab8e7a6"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-distribution.log",
+      "sha256": "62c1f818ce0fa946b233cfe0f376af907c8dce78857422ae1ebd57976bf1a538"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-focused.log",
+      "sha256": "ce17daab0e1b87278616be2beaa773b0a5dfcefab90e4f3cbc310180ce9fd10d"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-private.log",
+      "sha256": "8d590e7d05bc8232284e075edaad63dde19ba16de329ed3592ea0967906daa86"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-probe-durable.log",
+      "sha256": "fa05498b44e4558921a403eaa347d1ab3fd2f6ed8ef60aaee3c67af6eb4a2400"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-probe.log",
+      "sha256": "52432dbb8eaf59d9b8c79031a2b883ba5913f784192f15d185c7723c05748ebf"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-probe.py",
+      "sha256": "1fa2a8986627a42c2e8ab76b2981e9dbbcc67d329883bdf35e534399d1e0a009"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-public.log",
+      "sha256": "9aa7f28cfc28baa5efbaea4507e173d7bc42a9ef70688a34ed1330368ce7b6ec"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/Dodge-compilation.json",
+      "sha256": "813af9412228cf19e65efc697eb71bf6d58aaf3e59615ed28104940fcfe64b1e"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/Dodge-requirements.json",
+      "sha256": "33e09f64c39f5ff255208a0a3cb075049724b60801aa649da82b775c604cc7ab"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/Guard-compilation.json",
+      "sha256": "e860e7ecaf5ea525b6746dc3ec64e9fdf78a4a656cbe439dcb2d1c3c4f4e0c30"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/Guard-requirements.json",
+      "sha256": "4d7f491d6a8abdbee48f850a910d6528feef4965bbf54de4ad9a9107b5aa6837"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/artifacts.json",
+      "sha256": "f8b3f8223597542669b99be4735dc147ce880d9e2d7d41c536596b6a3034c6cb"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/compilations.json",
+      "sha256": "039b426efb203fcb316b8146ef74c57647de22d3ec6c63643fa1164d868037cf"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/ledger.json",
+      "sha256": "620d98e8369f8e156fa562325f969c55aeb474ab4b796cdcc2cbecd39a8f9564"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/previews.json",
+      "sha256": "f73d43a9e51ee0cf4b4a38d5dc1c5278cc6ae249dd8bb7d7fc4042bc8992bab7"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/requirements.json",
+      "sha256": "6e64fa053c93dc34eae66243c78be597a7f124efb2ac66d343d87db0932d62d9"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/support.json",
+      "sha256": "289931d507cc507b446ada8b325fc5617c975541295900f86d5888b173b835c0"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/target.json",
+      "sha256": "d916b154e16715eefb3d1d0d323b63c20141b5520b0586e3d935c99447967efc"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/wave-0.png",
+      "sha256": "99c0652e57b399768949f92284b3b4449fd5df0b50657644dea9fd77ba7b0a4b"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/wave-1.png",
+      "sha256": "adef4d083457a3f114bdda2be13bb216d28b5f22fc87827a8f2a8194d2a5f811"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/wave-2.png",
+      "sha256": "9c33b42573becbc62e181aa30bab8d7a9e1fa3f3a201d312e49125df23c7fcb3"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro/wave-3.png",
+      "sha256": "946db0fd32ebe8333d15254262e39afac187a04668f7667dfa946c2bcf305cd6"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/Dodge-compilation.json",
+      "sha256": "813af9412228cf19e65efc697eb71bf6d58aaf3e59615ed28104940fcfe64b1e"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/Dodge-requirements.json",
+      "sha256": "33e09f64c39f5ff255208a0a3cb075049724b60801aa649da82b775c604cc7ab"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/Guard-compilation.json",
+      "sha256": "e860e7ecaf5ea525b6746dc3ec64e9fdf78a4a656cbe439dcb2d1c3c4f4e0c30"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/Guard-requirements.json",
+      "sha256": "4d7f491d6a8abdbee48f850a910d6528feef4965bbf54de4ad9a9107b5aa6837"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/artifacts.json",
+      "sha256": "f8b3f8223597542669b99be4735dc147ce880d9e2d7d41c536596b6a3034c6cb"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/compilations.json",
+      "sha256": "039b426efb203fcb316b8146ef74c57647de22d3ec6c63643fa1164d868037cf"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/ledger.json",
+      "sha256": "620d98e8369f8e156fa562325f969c55aeb474ab4b796cdcc2cbecd39a8f9564"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/previews.json",
+      "sha256": "f73d43a9e51ee0cf4b4a38d5dc1c5278cc6ae249dd8bb7d7fc4042bc8992bab7"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/requirements.json",
+      "sha256": "6e64fa053c93dc34eae66243c78be597a7f124efb2ac66d343d87db0932d62d9"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/support.json",
+      "sha256": "289931d507cc507b446ada8b325fc5617c975541295900f86d5888b173b835c0"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/target.json",
+      "sha256": "d916b154e16715eefb3d1d0d323b63c20141b5520b0586e3d935c99447967efc"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/wave-0.png",
+      "sha256": "99c0652e57b399768949f92284b3b4449fd5df0b50657644dea9fd77ba7b0a4b"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/wave-1.png",
+      "sha256": "adef4d083457a3f114bdda2be13bb216d28b5f22fc87827a8f2a8194d2a5f811"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/wave-2.png",
+      "sha256": "9c33b42573becbc62e181aa30bab8d7a9e1fa3f3a201d312e49125df23c7fcb3"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat/wave-3.png",
+      "sha256": "946db0fd32ebe8333d15254262e39afac187a04668f7667dfa946c2bcf305cd6"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro-repeat.log",
+      "sha256": "b5ecc65eecb0e5430cd91162b9b0391e32633e7884fa47e746e9b47e64d60ae5"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-repro.log",
+      "sha256": "b5ecc65eecb0e5430cd91162b9b0391e32633e7884fa47e746e9b47e64d60ae5"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-rust.log",
+      "sha256": "255ae3c8cc6debca471e338901d2f1d384fcfb3a88c404ac261fede3e2a5d92e"
+    },
+    {
+      "path": "docs/verification/rsf-35/independent-qa/rsf35-qa-schemas.log",
+      "sha256": "f8e8c540419380d510473848738809b76bb71e5bfb9c782289237ebfd5dd24e6"
+    },
+    {
+      "path": "docs/verification/rsf-35/preservation.json",
+      "sha256": "dd9ba8d450f852408fc5c80d97752323238413e31819e8144965fbce6cd6e576"
+    },
+    {
+      "path": "docs/verification/rsf-35/private-tests.log",
+      "sha256": "8128d1fbdeba525bbb881cdf1fcd3961f0e59fff1c43f4231620bc27d8f0ec44"
+    },
+    {
+      "path": "docs/verification/rsf-35/public-tests.log",
+      "sha256": "4186321db83dd6e8ea9788c7791e5f909a6af4919abf782b005269df812dfd67"
+    },
+    {
+      "path": "docs/verification/rsf-35/reproduce.py",
+      "sha256": "6770ef32af59185b6fa9206928a62b8a00cbbfd3ce901b8b7a2733f411b3fa99"
+    },
+    {
+      "path": "docs/verification/rsf-35/reproduction.log",
+      "sha256": "b5ecc65eecb0e5430cd91162b9b0391e32633e7884fa47e746e9b47e64d60ae5"
+    },
+    {
+      "path": "docs/verification/rsf-35/rust-parity.log",
+      "sha256": "1344fa867a00d28d830037914a2b0049e943517413c7ac62c37e0c815bb1efd2"
+    },
+    {
+      "path": "docs/verification/rsf-35/schemas.log",
+      "sha256": "dae585b3aff1df05b08b9273394d85fdd38ed54ddbe89dc9cbd060799b127b79"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/Dodge-compilation.json",
+      "sha256": "813af9412228cf19e65efc697eb71bf6d58aaf3e59615ed28104940fcfe64b1e"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/Dodge-requirements.json",
+      "sha256": "33e09f64c39f5ff255208a0a3cb075049724b60801aa649da82b775c604cc7ab"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/Guard-compilation.json",
+      "sha256": "e860e7ecaf5ea525b6746dc3ec64e9fdf78a4a656cbe439dcb2d1c3c4f4e0c30"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/Guard-requirements.json",
+      "sha256": "4d7f491d6a8abdbee48f850a910d6528feef4965bbf54de4ad9a9107b5aa6837"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/artifacts.json",
+      "sha256": "f8b3f8223597542669b99be4735dc147ce880d9e2d7d41c536596b6a3034c6cb"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/compilations.json",
+      "sha256": "039b426efb203fcb316b8146ef74c57647de22d3ec6c63643fa1164d868037cf"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/ledger.json",
+      "sha256": "620d98e8369f8e156fa562325f969c55aeb474ab4b796cdcc2cbecd39a8f9564"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/previews.json",
+      "sha256": "f73d43a9e51ee0cf4b4a38d5dc1c5278cc6ae249dd8bb7d7fc4042bc8992bab7"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/requirements.json",
+      "sha256": "6e64fa053c93dc34eae66243c78be597a7f124efb2ac66d343d87db0932d62d9"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/support.json",
+      "sha256": "289931d507cc507b446ada8b325fc5617c975541295900f86d5888b173b835c0"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/target.json",
+      "sha256": "d916b154e16715eefb3d1d0d323b63c20141b5520b0586e3d935c99447967efc"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/wave-0.png",
+      "sha256": "99c0652e57b399768949f92284b3b4449fd5df0b50657644dea9fd77ba7b0a4b"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/wave-1.png",
+      "sha256": "adef4d083457a3f114bdda2be13bb216d28b5f22fc87827a8f2a8194d2a5f811"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/wave-2.png",
+      "sha256": "9c33b42573becbc62e181aa30bab8d7a9e1fa3f3a201d312e49125df23c7fcb3"
+    },
+    {
+      "path": "docs/verification/rsf-35/synthetic/wave-3.png",
+      "sha256": "946db0fd32ebe8333d15254262e39afac187a04668f7667dfa946c2bcf305cd6"
+    }
+  ],
+  "excluded_from_self_hash": [
+    "implementation-manifest.json",
+    "kaneo-final-readback.json"
+  ],
+  "implementation": [
+    {
+      "before_sha256": "e6d603f0712683e98d9aed0be4ad31131a3febfbb42287af13a06d44484e44e1",
+      "path": "src/ro_sprite_forge/core/compiler.py",
+      "sha256": "f719b9aaf3b73efd6cdb3d4a4bc94da939e03b46fcef6126552a7fb97b4f6ff5"
+    },
+    {
+      "before_sha256": "735e1138948065804f81260b270786d479f41f3b0d3f612193b85edf6973fc33",
+      "path": "src/ro_sprite_forge/core/contracts.py",
+      "sha256": "acda32eeb9ac1870546273c6748f669a9acf04208e916a46ad03fd6c8ff66fe7"
+    },
+    {
+      "before_sha256": null,
+      "path": "src/ro_sprite_forge/core/custom_actions.py",
+      "sha256": "407cfd7e6a948dee9e4b6bfae3f4f5ccdeb3bdef40d820964c7a47717633bc27"
+    },
+    {
+      "before_sha256": "138f327b65e2652de404fe62e1fae5faeb895b58476753db2ab4aebc71a95c8c",
+      "path": "src/ro_sprite_forge/core/ledger.py",
+      "sha256": "cf3a5f31c8f7d2628f18f9a28e7dac8b18169e033a563bf0a54af33ce1f90873"
+    },
+    {
+      "before_sha256": "eb9a3bcb22ad59cf289208cb94c519abd57908b8627294a2d5e91bf259939c07",
+      "path": "src/ro_sprite_forge/core/registry.py",
+      "sha256": "b545e2aadf17dd94c50a1c81aa86ec557249509f384d3084989cba1aa4d3e567"
+    },
+    {
+      "before_sha256": "d3353ac7a5ad7c86e7ef00e20a223258f368fadc381d1f3dde2eb89ab7e629e7",
+      "path": "src/ro_sprite_forge/core/review.py",
+      "sha256": "9bf2b3bd38ce8c0c2335862e08d1851cc3708f0e9ac6b86a622f48fcc4873b49"
+    },
+    {
+      "before_sha256": "aefe75307d3d7f6f2f0d8bbdb24cdacf986e49ee6604e1813a110452062b2631",
+      "path": "src/ro_sprite_forge/core/topology.py",
+      "sha256": "25cb6ef853a8ecbac01a99d9d273455adcb3c6a30737d9bab96e3cd1c6765fc5"
+    },
+    {
+      "before_sha256": "de650ce4c33b2fb8e5321ab17217fa4fc518822353d072eee33588c7424118f5",
+      "path": "src/ro_sprite_forge/schemas/compatibility-registry-v1.json",
+      "sha256": "18ea06eb4a72a9bb052710a9cd19a6b1ca32ea41467edf0bd41585e7a6bed4be"
+    },
+    {
+      "before_sha256": "263c0f0797a7aaab16a1458fee223ad4f1db14eece4fc0f00039f1acd2a0e4b1",
+      "path": "src/ro_sprite_forge/schemas/target-v2.json",
+      "sha256": "1ca87ca897415ef807d9623f38d79d2021859105e229ad139cdb1316d9d3a49a"
+    },
+    {
+      "before_sha256": "c480e7bb1d3c1ca28a3d4c9d18e46325a3e071144c848ea02524a8ed99a2db5d",
+      "path": "src/ro_sprite_forge.egg-info/SOURCES.txt",
+      "sha256": "202c0a6e91ed399826ff2f3c67981abf5bc261d2b689c2c2a6af65363d8dff14"
+    },
+    {
+      "before_sha256": null,
+      "path": "tests/test_custom_actions.py",
+      "sha256": "788ae1292a7014013efc39e4668efa617e83ab8b8877240655e3a69253453366"
+    },
+    {
+      "before_sha256": null,
+      "path": "scripts/check_custom_action_schema.py",
+      "sha256": "281859ec9534d1c38747bda28ded3cc2f1a536d90c00dbf4caaa59c4b2d3e820"
+    }
+  ],
+  "implementer": "Codex",
+  "milestone_verdict": "FULLY_ACCEPTED",
+  "outcome": "RSF-35_IMPLEMENTED_AND_QA_PASSED",
+  "qa": "QA_PASS",
+  "reason": "Avoid self-reference and preserve subsequent final tracker read-back separately.",
+  "reviewer": "/root/rsf35_qa",
+  "task": "RSF-35",
+  "task_id": "ly1cfaohrp6e00qxg4g1tfcj"
+}

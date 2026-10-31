@@ -1,0 +1,154 @@
+{
+  "task": {
+    "id": "vky1aihwa7vdpeqvv40r33ig",
+    "title": "[M6] Operator frame selection, PTS provenance and timing separation",
+    "number": 29,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M6\n**Stable plan reference:** RSF-v1.1/M6-02\n**Implementation status:** Accepted after independent QA_PASS; all four live criteria verified.\n**Responsible implementer:** Codex — aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn. Independent reviewer: separate read-only forge_qa_reviewer context /root/rsf24_qa.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.1–2.3, 5.3, 6/M6\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Let the operator choose actual video frames for existing finite requirements.\n\n**Scope:** Video timeline/keyframe candidate selection, explicit mapping, crop/alpha placement and source provenance UI.\n\n## Acceptance criteria\n\n- [x] Operator selects display-order frames and maps to declared action/view/frame/layer IDs; retain source hash, source PTS, selected frame hash and selection revision.\n- [x] Show source PTS independently from ACT/runtime playback timing, including VFR and candidate gaps.\n- [x] Manual placement/crop/alpha choices use versioned M4 recipes and before/after previews with affected approval invalidation.\n- [x] No missing poses/views are inferred, auto-filled or aesthetically accepted; selection and review remain operator actions.\n\n## Verification\n\nSelection/reopen provenance tests, VFR timeline and runtime-timing separation checks; operator review flow.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. Actual results follow below; no real artwork approval or new native run is claimed.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-28 (M6-01; task ID mdehayoorrfc43z930ij72wx); RSF-18 (M3-04; task ID reuc1z3obcspcrn7xb55dzvk)\n\n**Non-goals / gate qualifications:** Only the stated deliverable; no adjacent milestone implementation or automatic artistic/native acceptance.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Changes: existing video adapter metadata factoring, exact HTTP DTOs, revision-aware preview/staging, local workbench video controls, tests and documentation. Exact 13 changed paths and SHA-256 values: docs/verification/rsf-29/implementation-manifest.json (805b5d8241f2b14b93ec5e92ea9627d37a0b8062b2338919793b1df2e7c7d51e); 121 baseline files unchanged. No commits/pushes.\n- Verification: 26 focused +26 existing media tests, 504 public PASS; private 40 PASS/1 legacy skip; 11 schema scripts PASS; installed distribution 504 discovered/494 PASS/10 optional skips. All exit 0. Actual coordinator Playwright MCP and separate reviewer Chromium journeys PASS. Commands and logs: docs/verification/rsf-29/commands.json and REPORT.md. Final wheel c04263a2e178182f6bd1a4aca07414286423ba172d0c6e2909cf6c8deaa05ef4.\n- Scope: exact VFR PTS [300,0,120] resolves [4,0,2]; explicit ordering preserved, previews do not commit, confirmed staging/reopen/manual assignment work. Source timing remains independent of ACT timing. M4 crop/placement/alpha previews and scoped review invalidation verified. Exact metadata decimal strings; supported selection bound ±(2^53−1), larger requests rejected. No automatic assignment/approval. M0–M5 accepted scope retained; Rust/native GPU NOT_RUN for this UI slice; M6 remains open.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nQA_PASS — separate configured forge_qa_reviewer /root/rsf24_qa independently executed backend/public/private/schema/distribution checks, fresh Chromium primary/workflow journeys and known-pixel/derived-image probe. All four live criteria PASS. No mandatory source defect; generated PKG-INFO inventory omission corrected and refreshed seal independently verified. Reviewer made no edits, Kaneo writes or ownership changes. Report: docs/verification/rsf-29/independent/QA_REPORT.md. Large-PTS/capability browser presentations simulated, backend tests independently cover exact persistence/tool absence. Human artistic authority unchanged.",
+    "status": "done",
+    "columnId": "vnkxm3fyt0tmewq1rdokfops",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 28,
+    "createdAt": "2026-10-29T10:08:08.126Z",
+    "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "assigneeName": "Codex",
+    "assigneeId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "comments": [
+    {
+      "id": "v1jkub3n2wh5k9omc2lp0ogs",
+      "taskId": "vky1aihwa7vdpeqvv40r33ig",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "RSF-29 implementation ready for independent QA. Codex ownership preserved (aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn). Evidence: docs/verification/rsf-29/REPORT.md, implementation-manifest.json, browser-primary.json, browser-workflow.json. Added bounded workbench video inspection/exact ordinal or PTS selection/real preview/ordering/confirmed staging using RSF-28. Exact decimal-string media DTOs; unchanged RSF-28 ±(2^53−1) selection bound enforced; oversized metadata remains lossless. Preview no commit; staging verifies preview identity/current revision. All coordinator checks exit 0: new HTTP/wire 26, RSF28 media 26, public 504, private 40 PASS +1 legacy native-report skip, 11 schemas, installed distribution 504 run/10 optional skips. Chromium 156.0.8078.73 actual journeys A–G pass including VFR [300,0,120]→[4,0,2], known RGBA pixels, reordering/staging/reopen, timing separation, manual M4 crop/placement/alpha preview and scoped invalidation, PNG regression and typed errors. No automatic assignment/review. No compiler/native changes or new M5 claims. Independent reviewer will independently execute backend and browser checks; acceptance pending their verdict.",
+      "createdAt": "2026-10-31T00:32:01.909Z",
+      "updatedAt": "2026-10-31T00:32:01.909Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    },
+    {
+      "id": "q78j7iljh03uawfrqp3a5ppl",
+      "taskId": "vky1aihwa7vdpeqvv40r33ig",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Independent QA_PASS — configured forge_qa_reviewer /root/rsf24_qa, separate read-only context. All four live criteria PASS. Reviewer independently ran focused 26/public 504/private 40+1 legacy skip/schema 11/distribution 494+10 optional skips, all exit 0; actual isolated Chrome 156 primary/workflow journeys and independent mathematical RGBA probe PASS. MCP shared profile was locked, so reviewer used installed Playwright in fresh context. Exact VFR PTS [300,0,120]→ordinals[4,0,2], explicit reordered collection, no-commit preview, stage/reopen/idempotency/manual assignment, runtime timing separation and M4 recipe/scoped invalidation verified. No mandatory source defect; generated PKG-INFO inventory omission corrected, all 13 changed +121 unchanged paths independently verified. Manifest SHA256 805b5d8241f2b14b93ec5e92ea9627d37a0b8062b2338919793b1df2e7c7d51e. Reviewer report/logs/screenshots: docs/verification/rsf-29/independent/. Coordinator final package check exit0; wheel c04263a2e178182f6bd1a4aca07414286423ba172d0c6e2909cf6c8deaa05ef4 matches independent wheel. Source selection stays explicitly bounded ±(2^53−1), larger metadata lossless; browser oversized-PTS/capability negatives deliberately simulated with independent backend persistence/tool-absence checks. No automatic assignment/art approval or new native claim. Codex ownership preserved; RSF-29 objectively eligible for Accepted. M6 still open; RSF-30 not started.",
+      "createdAt": "2026-10-31T00:38:39.881Z",
+      "updatedAt": "2026-10-31T00:38:39.881Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    }
+  ],
+  "next_task": {
+    "id": "kd4gq1ex5zq2k32rn38yso35",
+    "title": "[M6] Video-derived Walk assignment through the existing compiler",
+    "number": 30,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M6\n**Stable plan reference:** RSF-v1.1/M6-03\n**Implementation status:** Backlog (to-do); planned only, no implementation or verification claimed. Kaneo column is authoritative if later changed.\n**Responsible implementer:** Unassigned. Required skill: Authorized engineer for this bounded deliverable; independent reviewer is separate.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§6/M6 acceptance, 7, 14\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Prove video is another source for the established Walk workflow.\n\n**Scope:** One declared Walk action/view selection → image ledger → preview/review → deterministic M5 compiler/oracle path.\n\n## Acceptance criteria\n\n- [ ] Choose/approve video-derived frames for an already declared Walk scope with explicit ordered topology.\n- [ ] Route selected staged images through the same assignment, recipe, composition approval, fail-closed build and Rust verification path as PNG inputs.\n- [ ] Missing other views remain missing; narrow scope never becomes full-profile acceptance; anatomy/style quality stays operator-owned.\n- [ ] Record source PTS and selected hashes in provenance while runtime timing is separately declared; native proof is attached only if actually performed for these exact outputs.\n\n## Verification\n\nOperator-selected synthetic video Walk integration with identical image-path validators/build/oracle; scoped gap and stale-review regressions.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-29 (M6-02; task ID vky1aihwa7vdpeqvv40r33ig)\n\n**Non-goals / gate qualifications:** M5-05 establishes prior native workflow; video runtime-verified claim still requires fresh exact-output native proof.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code changes / diff: Not implemented by this planning sync.\n- Test commands / exit statuses / artifact hashes: NOT_RUN (planning only).\n- Milestone gates / limitations: Not evaluated; structural, coverage, visual, preview and native states remain separate.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nNot performed for implementation. Implementer supplies evidence and moves to QA Review; a distinct read-only reviewer records QA_PASS / QA_FAIL / QA_BLOCKED. Operator-only visual/native decisions remain separate. No acceptance is granted by backlog creation.",
+    "status": "to-do",
+    "columnId": "eog035o4rzn6u301ylyctbvg",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 29,
+    "createdAt": "2026-10-29T10:08:08.148Z",
+    "userId": null,
+    "assigneeName": null,
+    "assigneeId": null,
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "next_relations": [
+    {
+      "id": "vvqr735s07p1zfcp7qem8bwj",
+      "sourceTaskId": "vky1aihwa7vdpeqvv40r33ig",
+      "targetTaskId": "kd4gq1ex5zq2k32rn38yso35",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.541Z",
+      "sourceTask": {
+        "id": "vky1aihwa7vdpeqvv40r33ig",
+        "title": "[M6] Operator frame selection, PTS provenance and timing separation",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 29,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+        "assigneeName": "Codex"
+      },
+      "targetTask": {
+        "id": "kd4gq1ex5zq2k32rn38yso35",
+        "title": "[M6] Video-derived Walk assignment through the existing compiler",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 30,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "cob95cwakke2omor1s14169t",
+      "sourceTaskId": "kd4gq1ex5zq2k32rn38yso35",
+      "targetTaskId": "r9wtccay03qkpx6i4jco8971",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.559Z",
+      "sourceTask": {
+        "id": "kd4gq1ex5zq2k32rn38yso35",
+        "title": "[M6] Video-derived Walk assignment through the existing compiler",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 30,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "r9wtccay03qkpx6i4jco8971",
+        "title": "[M6] VFR, candidate-frame diagnostics and repeatability verification",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 31,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "g2q9e4bxm8rjeqjqdu4l0uma",
+      "sourceTaskId": "kd4gq1ex5zq2k32rn38yso35",
+      "targetTaskId": "u6ktol9i5uld3lnmxrub22si",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.937Z",
+      "sourceTask": {
+        "id": "kd4gq1ex5zq2k32rn38yso35",
+        "title": "[M6] Video-derived Walk assignment through the existing compiler",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 30,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "u6ktol9i5uld3lnmxrub22si",
+        "title": "[M8] Operator documentation, error catalog and workflow ergonomics",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 38,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    }
+  ],
+  "pending_writes": false
+}

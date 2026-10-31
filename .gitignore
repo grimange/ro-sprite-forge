@@ -2,6 +2,18 @@
 __pycache__/
 *.py[codz]
 *$py.class
+.playwright-mcp/
+
+# Operator-required local-only AI configuration
+/AGENTS.md
+/CLAUDE.md
+/GEMINI.md
+/.agents/
+/.claude/
+/.codex/
+
+# Private Novice/Orc renders; retain local evidence without committing artwork.
+/docs/evidence/rsf13/artifacts/**/*.png
 
 # C extensions
 *.so

@@ -1,0 +1,21 @@
+{
+  "baseline_files": 146,
+  "unchanged": 137,
+  "authorized_changed": [
+    "scripts/check_custom_action_schema.py",
+    "src/ro_sprite_forge.egg-info/SOURCES.txt",
+    "src/ro_sprite_forge/core/compiler.py",
+    "src/ro_sprite_forge/core/contracts.py",
+    "src/ro_sprite_forge/core/custom_actions.py",
+    "src/ro_sprite_forge/core/ledger.py",
+    "src/ro_sprite_forge/core/registry.py",
+    "src/ro_sprite_forge/core/review.py",
+    "src/ro_sprite_forge/core/topology.py",
+    "src/ro_sprite_forge/schemas/compatibility-registry-v1.json",
+    "src/ro_sprite_forge/schemas/target-v2.json",
+    "tests/test_custom_actions.py"
+  ],
+  "unexpected_changed": [],
+  "missing": [],
+  "private_binaries_in_evidence": []
+}

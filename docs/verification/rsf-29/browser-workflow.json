@@ -1,0 +1,112 @@
+{
+  "pid": "rsf29-browser-1793406627385",
+  "journeys": [
+    "E explicit assignment and runtime timing separation",
+    "G PNG/source tray/preview regression",
+    "M4 crop+placement+alpha before-after and scoped review invalidation",
+    "audio-first absolute stream 1",
+    "synthetic large metadata precision display and rejection",
+    "simulated optional dependency UI plus working PNG import",
+    "real invalid-container failure preserves committed state"
+  ],
+  "fast": {
+    "act_document_sha256": "0100cc97bb2349b2c7e0fc7d7a32a207fa21c37bb0197161bf5999d5cb654242",
+    "action": "Walk",
+    "camera_direction": 0,
+    "canonical_sha256": "f519be3333b19fd45304ff92c614fb8f85629d667cad57aeb8798ec17f0af7d6",
+    "category": "player",
+    "context": {
+      "movement_speed": 100
+    },
+    "diagnostics": [],
+    "direction": null,
+    "elapsed_ms": 113,
+    "fallback": "NONE",
+    "frame": 2,
+    "frame_count": 3,
+    "frame_duration_ms": 53.33333206176758,
+    "frame_time": 2,
+    "looping": true,
+    "mode": "TIMED",
+    "native_completion": null,
+    "profile_sha256": "ed217ae19faa0f078d76fe4bd1c865ea4f0ce2a4d13237682a4a866dbd63429c",
+    "reachability": "UNVERIFIED",
+    "requested_slot": 8,
+    "resolved_slot": 8,
+    "schema": "rsf.timeline-selection/v1",
+    "source_delay": 4,
+    "speed": 1,
+    "terminal_hold": false,
+    "timing_rule": "ACT_DELAY_F32",
+    "timing_status": "SUPPORTED",
+    "timing_version": "1.0.0",
+    "view": 0
+  },
+  "slow": {
+    "act_document_sha256": "0100cc97bb2349b2c7e0fc7d7a32a207fa21c37bb0197161bf5999d5cb654242",
+    "action": "Walk",
+    "camera_direction": 0,
+    "canonical_sha256": "0723b01a747a4b735b1d18210af354dc0bad8109c1c2e98db7866777a226152a",
+    "category": "player",
+    "context": {
+      "movement_speed": 250
+    },
+    "diagnostics": [],
+    "direction": null,
+    "elapsed_ms": 267,
+    "fallback": "NONE",
+    "frame": 2,
+    "frame_count": 3,
+    "frame_duration_ms": 133.33334350585938,
+    "frame_time": 2,
+    "looping": true,
+    "mode": "TIMED",
+    "native_completion": null,
+    "profile_sha256": "ed217ae19faa0f078d76fe4bd1c865ea4f0ce2a4d13237682a4a866dbd63429c",
+    "reachability": "UNVERIFIED",
+    "requested_slot": 8,
+    "resolved_slot": 8,
+    "schema": "rsf.timeline-selection/v1",
+    "source_delay": 4,
+    "speed": 1,
+    "terminal_hold": false,
+    "timing_rule": "ACT_DELAY_F32",
+    "timing_status": "SUPPORTED",
+    "timing_version": "1.0.0",
+    "view": 0
+  },
+  "recipe": {
+    "availability": "AVAILABLE",
+    "has_transparency": true,
+    "height": 16,
+    "image_identity": null,
+    "loss_report": [
+      "CROPPED_DISCARDED_PIXELS",
+      "ALPHA_CHANNEL_KEYED"
+    ],
+    "mode": "RGBA",
+    "part": null,
+    "preview": "AVAILABLE",
+    "recipe_id": "video-manual-recipe",
+    "recipe_sha256": "fd21e8f4ec8591eee9f01dd249f42095d2a3ddd5fd7e41cc3558bf1fa2fc47e2",
+    "source": {
+      "external_ref": "video-manual-recipe.png",
+      "id": "blob-c47c90c05eb58b54757725ae8cdab92acdf57c33cd2f0548807c227cf9b7fdfe",
+      "image": null,
+      "kind": "IMAGE",
+      "origin": "AUTHORED",
+      "provenance": null,
+      "revision": 1,
+      "sha256": "c47c90c05eb58b54757725ae8cdab92acdf57c33cd2f0548807c227cf9b7fdfe"
+    },
+    "source_sha256": "1c5c3e4c120ee8a2861bf12636a1b96344f578171f7543869ea4a8b437883382",
+    "transparency_kind": "PARTIALLY_TRANSPARENT",
+    "validation": "VALID",
+    "width": 16
+  },
+  "errors": [],
+  "failures": [],
+  "expectedErrors": [
+    "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+  ]
+}

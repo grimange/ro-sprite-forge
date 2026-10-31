@@ -1,0 +1,21 @@
+{
+  "baseline_files": 146,
+  "changed": {
+    "tools/korangar-native/README.md": {
+      "after": "8fdfb873df33b00e9693877bcb2ba4d8171d399ecaaefb17efec473435efb42c",
+      "before": "02ebe104fedbdbde96259660e4778171c749fd7dea3e9eb3668f41efece439ff"
+    },
+    "tools/korangar-native/main.rs": {
+      "after": "fa9ba5b237178edcc23415ec4f5302b3458b2c37f9279dbb2ca0c862b326bf77",
+      "before": "c939e4d3d374da5e2f9333c160f4684b6ba46f90c11b44be5f6e094782ba4d83"
+    },
+    "tools/korangar-native/prepare.py": {
+      "after": "dfbd902dff5d523d9b7e4aa587dda809d9ef884715438735a39e5de0059b528e",
+      "before": "c59a92d0720140f8fbbdde3d3bbaee85e4c7e8183906e79e5e22744605c8856c"
+    }
+  },
+  "private_capture_cache": ".cache/rsf27-native-private",
+  "private_capture_count": 36,
+  "source_compiler_changed": false,
+  "unchanged": 143
+}

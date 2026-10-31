@@ -1,0 +1,518 @@
+[
+  {
+    "path": "src/ro_sprite_forge/__init__.py",
+    "sha256": "e56c525a13f870cf1d0ece55671b2249c65aee1cfaeb13ec84522e1c6a78f43f"
+  },
+  {
+    "path": "src/ro_sprite_forge/__main__.py",
+    "sha256": "991186c483faea80036995a448bd53b57481736d00d4436ca53db8f9302595b3"
+  },
+  {
+    "path": "src/ro_sprite_forge/adapters/__init__.py",
+    "sha256": "b18407002bc2c73e3fd41828d424fdf666a8b2fddf5336bcded4b18e90850306"
+  },
+  {
+    "path": "src/ro_sprite_forge/adapters/_media_exec.py",
+    "sha256": "894910de40d7edca6d80e692e72798250bbd5be00d4124818791ef82d8f67e83"
+  },
+  {
+    "path": "src/ro_sprite_forge/adapters/video.py",
+    "sha256": "6bf56b413ee10c8d4d11966cafe7eeffb5593bfd6bc04abdfaa60d256f22310b"
+  },
+  {
+    "path": "src/ro_sprite_forge/cli.py",
+    "sha256": "7e374b6bc71703c05e620619191a0b0b1215ae21bc7751026a8eb48b27298e7d"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/__init__.py",
+    "sha256": "31ef56bac65851bfc6fb7b72e62400b48098b529b25f8a7d153a7e389b1ffd00"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/animation.py",
+    "sha256": "33ad645374e196272a8b7bb94dbf49d4cd613e35ab13b6432b97665bfff13b66"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/build.py",
+    "sha256": "0fc251e0740fea26c66187d89e4820f33e128cbcca21d2bf6c4ac569811c7884"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/canonical.py",
+    "sha256": "67b29f8a371dde9551a2d81212bf8df298aa08e7d7294b4496fe69bdcccf346c"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/comparison.py",
+    "sha256": "c82dd0290122812b4c32b4e76c85ab1ad153191e5290b07d3380763bd4c1a007"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/compiler.py",
+    "sha256": "e6d603f0712683e98d9aed0be4ad31131a3febfbb42287af13a06d44484e44e1"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/contact_sheet.py",
+    "sha256": "93e2dd7d9df08fa35a3a0c3b4217f65460b35cd3794be73d263d88ad593dd99d"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/contracts.py",
+    "sha256": "3802fdf7b9916e832e53385b99380b053a4946aec835b9a9a648900dcf4fdcc1"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/coverage.py",
+    "sha256": "5f6bbe40b22d6da2585adcf724b84cd900ce093c9dbf6db4384d9ada687fc2c3"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/errors.py",
+    "sha256": "324b0669452000c4b2594338ee04701cb57b1bb9dc70b9ebb3d931308a007a69"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/extraction.py",
+    "sha256": "015b6bc3c741055aaa4cd09bce03f46625403cf105e6756cd4a7d7c7092a1e08"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/ingestion.py",
+    "sha256": "ffcf0fe7cf71a3e89635219de7dfe3adf81f55dd969ed8feec926fe556855c1a"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/inventory.py",
+    "sha256": "725647ed7c3856c56e61907ebbf51b053bffed9f7ad0465de45f8f55ae27ec3c"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/ledger.py",
+    "sha256": "138f327b65e2652de404fe62e1fae5faeb895b58476753db2ab4aebc71a95c8c"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/operations.py",
+    "sha256": "fb255aabba50b2aaf4d18df55b67d298e57fa37a6593c12c9ef3e2539d726e45"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/preservation.py",
+    "sha256": "6b9982d66baea154bc3710417fc51c190cd8711d8cb0f45ef763f6c99480cc42"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/profiles.py",
+    "sha256": "68a9efff81ebee7f054ce1540d411cf0249ec2b2afa16999fb60e0c2a4008574"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/project.py",
+    "sha256": "89e3f4de48569e90a3c27f56b01bd4c6449a9981d4e6191b93f02dae16364847"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/requirements.py",
+    "sha256": "335a5061923ddd1ca2327c047d4b8c85ace162186b66cb64e6300cdc35b155a2"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/review.py",
+    "sha256": "d3353ac7a5ad7c86e7ef00e20a223258f368fadc381d1f3dde2eb89ab7e629e7"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/timeline.py",
+    "sha256": "fb7f364b6284f03e825b843e76c71813de1b384674c7de4c6e09cb4d0bd3d9fb"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/topology.py",
+    "sha256": "aefe75307d3d7f6f2f0d8bbdb24cdacf986e49ee6604e1813a110452062b2631"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/transformations.py",
+    "sha256": "cba06b238ae94d338e2aae22b98fa39b866d4e767f2de37697e3ec46d02932be"
+  },
+  {
+    "path": "src/ro_sprite_forge/formats/__init__.py",
+    "sha256": "cc5a49ebcb5be524db34d712161e8bad949f02900ebabdf08afe6b0ee575b71d"
+  },
+  {
+    "path": "src/ro_sprite_forge/formats/act.py",
+    "sha256": "fd618d580cfc43f4c3ebcc6af41b6a721535aafe3be4edcf83e562aeb8946447"
+  },
+  {
+    "path": "src/ro_sprite_forge/formats/errors.py",
+    "sha256": "d737be141558f29510cd65cd980885ff05d327a21c44df6504356b842ba19577"
+  },
+  {
+    "path": "src/ro_sprite_forge/formats/preview.py",
+    "sha256": "33df1e286eed879d13c32548e5ca5d30cbd1e9176a25e1432c56015608aefb19"
+  },
+  {
+    "path": "src/ro_sprite_forge/formats/reader.py",
+    "sha256": "1e7f77b926e84296b2bb1491f87c24fdb61bd31d628341a723064c525c743533"
+  },
+  {
+    "path": "src/ro_sprite_forge/formats/ro_reference.py",
+    "sha256": "add79952736a5b8c9fa3ee4e85737704344ca349b8cae25e7b127cb455db0287"
+  },
+  {
+    "path": "src/ro_sprite_forge/formats/spr.py",
+    "sha256": "9ed664e175c92c8a417c8fc7985be142dc81c98e34977d8de4aef05f87f198d1"
+  },
+  {
+    "path": "src/ro_sprite_forge/report_io.py",
+    "sha256": "ac60f628c39c36ce6a999f2ffa3e8b2ee92637d9946d5f0d935f72f8a84a3979"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/actor-v1.json",
+    "sha256": "3b5ef0e8fc97c66143d58c78bf22ddb2bddfe30b18159b7118e3ec436880662e"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/animation-inspection-v1.json",
+    "sha256": "a285537e0219a98c21dd7f15f106ba932fad1d7d3283ad07e31e58abb28d4979"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/assignment-ledger-v1.json",
+    "sha256": "93c03b30ea61ded9ba5947d4979076a0c05d42f577fd05cd972b0525e6889e7e"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/compilation-manifest-v1.json",
+    "sha256": "4873078e1c34d2118031f8ab0a3d91e069c2b8bd9642adcf300fe3ee5aac04e5"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/contact-sheet-v1.json",
+    "sha256": "ffc33c9b1f6967db1aa0c4290011f56d7ac40898105a94061dba0a94bf78345e"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/coverage-report-v1.json",
+    "sha256": "109abaa2fc8fa639519a0cb5df2c73ec269896c86b37b97071f3614d20de09e6"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/preview-comparison-v1.json",
+    "sha256": "add6025de5e1285f3e18c41778bc4ad6db7f6b006c8a59e548dad1aeec819bdb"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/preview-parity-report-v1.json",
+    "sha256": "411d5f7012d2972557276bbfe6be114d326f366bcac961e37d34e40eb52722d1"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/preview-result-v1.json",
+    "sha256": "ecc47dfcdd95e4ce8cc833c7c4df1e385799cc055bf9e601704ee53d40fddf31"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/project-v1.json",
+    "sha256": "a0a1d1a5d7f27ef6b31ce87488cc13ca5b0a9a7cdc7ebe4e5801cf8fab0f6899"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/review-event-v1.json",
+    "sha256": "26ff84f69b07624c0492621242f8e1503eb90990a05fc054fcb8a342f98b984d"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/runtime-profile-v2.json",
+    "sha256": "8f86deb0f51dfccc609d5db2e4fd56642070861cd37fb5ce41247f62a7bdf38a"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/sequence-manifest-v1.json",
+    "sha256": "da0637f0712b827dbe4e8437808fdfcabb08f0b1eff7a57dbbdf3989a49e0b05"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/target-v2.json",
+    "sha256": "263c0f0797a7aaab16a1458fee223ad4f1db14eece4fc0f00039f1acd2a0e4b1"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/timeline-selection-v1.json",
+    "sha256": "5a56621fedd20cb994ca73ee797e3ea32f121920a1def35dbdeb33d629b4075d"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/video-candidates-v1.json",
+    "sha256": "95cc3ef0e8530d781f0e14c68f4f4f031be096cb6725a2970e680a1e6810273d"
+  },
+  {
+    "path": "src/ro_sprite_forge/service/__init__.py",
+    "sha256": "dd21c74b8ee25bd87ec7510bd1707788cc3c7a65e1f5b8a62eb39e768c8bc096"
+  },
+  {
+    "path": "src/ro_sprite_forge/service/media.py",
+    "sha256": "9426a37644131a39f24d97c5a0a9008d062c03e5671247c722601261753fdcd1"
+  },
+  {
+    "path": "src/ro_sprite_forge/service/security.py",
+    "sha256": "76cb0b6efe23cd52f0e8c063e0d06a0789424060f3116012fef3a544a4158586"
+  },
+  {
+    "path": "src/ro_sprite_forge/service/server.py",
+    "sha256": "68bef547808a10195903653d7859728c7b1116eabc7d0804d68e00678125dc85"
+  },
+  {
+    "path": "src/ro_sprite_forge/service/workbench.py",
+    "sha256": "75a803a36738ee06b5b5376993a03392709944889a1fc6810ca513ff6bfa134a"
+  },
+  {
+    "path": "src/ro_sprite_forge/static/index.html",
+    "sha256": "3f147b1fd54a2eafa06471f33bd872f6d9c3e5fd42cffa316ad0e4ac7c0940b4"
+  },
+  {
+    "path": "src/ro_sprite_forge/static/workbench.css",
+    "sha256": "44267f51c0c8827e0ffb572412d93b7ec05c4695d0c4465b0f2c0c14a8e5bf07"
+  },
+  {
+    "path": "src/ro_sprite_forge/static/workbench.js",
+    "sha256": "02cfba716656495523362a3e003b69fe60103b0495597ca58a241b0d998ea778"
+  },
+  {
+    "path": "src/ro_sprite_forge.egg-info/PKG-INFO",
+    "sha256": "75941f263db9895b22fa13d9858cc2b58d1802e3fb215a8f40b31d6edb0017e1"
+  },
+  {
+    "path": "src/ro_sprite_forge.egg-info/SOURCES.txt",
+    "sha256": "0994c3c28fef1a31e1e242107eb0e6abe2b39aa97aac39470f2a982114cc1b3e"
+  },
+  {
+    "path": "src/ro_sprite_forge.egg-info/dependency_links.txt",
+    "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  {
+    "path": "src/ro_sprite_forge.egg-info/entry_points.txt",
+    "sha256": "a8a7cadc7e9a3f37f020f55e2f6bf687dd419802e9169702533a13ad46dba0a0"
+  },
+  {
+    "path": "src/ro_sprite_forge.egg-info/top_level.txt",
+    "sha256": "cf463c52aa96a47eac931d26aabcd1c9e83a0d4e216426c1583265b9280265a0"
+  },
+  {
+    "path": "tests/browser/rsf17-mcp.js",
+    "sha256": "4d6ab28022dc1c3f46b1feaac8620744dc04e94324c6d87d238138e1ff4b19b2"
+  },
+  {
+    "path": "tests/browser/rsf17-private-mcp.js",
+    "sha256": "8c143b67826f1da342e5cff021e894a3da8889bc594c17ba05ad2efdaf69aedf"
+  },
+  {
+    "path": "tests/browser/rsf18-mcp.js",
+    "sha256": "06496923edf758d5d946559ba76d7f1b4bf66a23d35ab5eae9eaa001f9518e6c"
+  },
+  {
+    "path": "tests/browser/rsf19-mcp.js",
+    "sha256": "da9cba19f47d005a357f1fe7389a784eee752f016cf6ac0df6b18bc1644fc4b8"
+  },
+  {
+    "path": "tests/browser/rsf20-mcp.js",
+    "sha256": "7140529a7fcea972cc422ddbd3ba5d07be905ae4a748ccd939fad9f68e7519f4"
+  },
+  {
+    "path": "tests/browser/rsf21-mcp.js",
+    "sha256": "8611e5eabd91c8fd82aacf15b3a5f82e9f82d028d93ceb8546c3d9ed23e88694"
+  },
+  {
+    "path": "tests/browser/rsf22-mcp.js",
+    "sha256": "b1dca72cfe5a78bc5a5b81a997e655981bf756a8036c7c674626db5ac0f811c9"
+  },
+  {
+    "path": "tests/browser/rsf23-mcp.js",
+    "sha256": "6a350925041b281e82a8f38c31d5356ba3a384e3d1093242416daab125b9f704"
+  },
+  {
+    "path": "tests/check_distribution.py",
+    "sha256": "8b217426640e3b2ec0350a4c8e7199aa4fa49e080135af38263c6df30a8805f0"
+  },
+  {
+    "path": "tests/private_fixture_hooks/README.md",
+    "sha256": "34b800e5348b2b433c23ebdda2f3fb71afbfd2bf753403b493fb8b0da2b5063a"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_animation_fixtures.py",
+    "sha256": "7eae2da964923100f68bda0916ddda46efe53743e8ff6355ad482ddc1fca86a3"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_audited_fixtures.py",
+    "sha256": "cd0688158ae084865a0e7e8bba3f391b13e0b24f55a7a8e1a81d72d332ca112a"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_comparison_fixtures.py",
+    "sha256": "01e12b029d24232689111af8f5db6eaee7e6f4b794fcddb3d18cd12fe2b14759"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_compiler_fixtures.py",
+    "sha256": "2930ea8503b7ba952cdd47d55558eca7f966e007483502588fef6ec3d5cc8cec"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_contract_fixtures.py",
+    "sha256": "6add88eb85f070a90bd288608e5f6c22ecf215b18988944fd6f1f9940b5d113a"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_coverage_fixtures.py",
+    "sha256": "5805e48de2cdb0e8abea48619a98126631983282681f636cb54bd22b804968f3"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_inventory_fixtures.py",
+    "sha256": "9cc4669d405540843971ece95115b6c41856bcd559fa7860995274f87c44907b"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_ledger_fixtures.py",
+    "sha256": "6ae1868acabfde5ded76da81b67672cfaadcc2d1580941748e6e162583883911"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_parity_evidence.py",
+    "sha256": "f92d6defc7d84a3a18dfa897e5f228246d2080c96519cedc811840bbd9a97b6b"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_preservation_fixtures.py",
+    "sha256": "02945839362b1510e233ec9b85e94b2f64e2130ae4afad177096ebd07e1ee967"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_preview_fixtures.py",
+    "sha256": "cfc54eb514854f9a9382bea387b541ae5e4cf7b539148e6a01c44574b61d84fe"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_topology_fixtures.py",
+    "sha256": "50ca56522f5899ea6f0c2082931437eb4eb4c0fd74ff2b545a7f840b6139c69d"
+  },
+  {
+    "path": "tests/private_fixture_hooks/test_walk_compilation_fixtures.py",
+    "sha256": "1c62787ca7da5629dcf535754157f7afd0b71ccd0dd17d36f4ac99d81667c902"
+  },
+  {
+    "path": "tests/synthetic/README.md",
+    "sha256": "74389d87993f9bed79fdca81e52ea3fe3000ebcbe7c14bb0ae7f6511f0f19422"
+  },
+  {
+    "path": "tests/test_animation.py",
+    "sha256": "072bf2f8be18375622d2df8f8f98f1e5871b7a9325ba57a9cb47574fa5fbb46b"
+  },
+  {
+    "path": "tests/test_canonical_builds.py",
+    "sha256": "f59494f55959cd1bdb15b42052f99dea8c0cedca393bd1821b1d3bddfa7af787"
+  },
+  {
+    "path": "tests/test_codecs.py",
+    "sha256": "5c1e1d6f6013e1967e79d6402cfa53e114ec238fd273eba7714a29d1ca324a96"
+  },
+  {
+    "path": "tests/test_comparison.py",
+    "sha256": "40e34a0cd715756dc5050d93a8a959c4dcee9db2e861a6216939d12c419bcf12"
+  },
+  {
+    "path": "tests/test_compiler.py",
+    "sha256": "763b31305ee7537a45dc42d80cfb7acc386f8f06d53ce26245a16f7d3b85697b"
+  },
+  {
+    "path": "tests/test_contracts.py",
+    "sha256": "b8c174fb753ca19e81a579312667515ceade7bb8b68633304da900c7bda68697"
+  },
+  {
+    "path": "tests/test_coverage.py",
+    "sha256": "3f255b31668c2cc21c78ad66a1f88be990c0d44b673cfc0c58accb641ac5cf3d"
+  },
+  {
+    "path": "tests/test_extraction.py",
+    "sha256": "d0f8d20ee2b1104237967f88a6f5914b8096e140527c01b4a13da764431ea236"
+  },
+  {
+    "path": "tests/test_foundation.py",
+    "sha256": "03eec65417e4ad5afab2d042a45f7cddb5adb36f36bd6e81ad5d6846c242773f"
+  },
+  {
+    "path": "tests/test_image_pool_remapping.py",
+    "sha256": "201547cd2a6126712a155341ba8add3452c256485efe5eb3c5b488ebe0d7e823"
+  },
+  {
+    "path": "tests/test_ingestion.py",
+    "sha256": "1591626aea39c8c37fd90c7bb5e59799df62487b040a45d7ae19000aa69f7aea"
+  },
+  {
+    "path": "tests/test_interactive.py",
+    "sha256": "265fbdcba0bc0a61039a06b057d03bbff156fdf8aaabb881fbf2e44bbabbd8e1"
+  },
+  {
+    "path": "tests/test_inventory.py",
+    "sha256": "32386e9eba604e43501253f76980a0e3c6ff892a61c6a65cff8d9af696a155b4"
+  },
+  {
+    "path": "tests/test_ledger.py",
+    "sha256": "377706d39fa6ca9407e4e0e9c9c52392a32b2780928ade8ab21d9f4d4d2ea158"
+  },
+  {
+    "path": "tests/test_preservation.py",
+    "sha256": "eb08e5d7761d13bf8e96bc859b4a0eab9a935f850c08203b67de5e5f9a3fdc02"
+  },
+  {
+    "path": "tests/test_preview.py",
+    "sha256": "9b4f0fdd49ed80ba43c53740612dd316ed4beb2d987eeb90e67134d4e8bbc497"
+  },
+  {
+    "path": "tests/test_project.py",
+    "sha256": "7648224fd051e67515de7795813bb43537ad70cacb3706b1e8d11a6bac5efd98"
+  },
+  {
+    "path": "tests/test_review.py",
+    "sha256": "004c0306d44c904ba7c9e25e1032f124168b8872b824dc6d66f3b8277aeb51f2"
+  },
+  {
+    "path": "tests/test_service.py",
+    "sha256": "e16e4b0f509c9eae748777a43aee88ce5196efdfe6dca4bbe4587420216f8866"
+  },
+  {
+    "path": "tests/test_topology.py",
+    "sha256": "53421268c3e547aba5da402ce8e23419d66852b23bf4a316e0c2a7b7705a7c57"
+  },
+  {
+    "path": "tests/test_transformations.py",
+    "sha256": "b5a5e6d0fb2b8372bab768727e1a0d183c717c8838906bb9a4b8205a17472ba5"
+  },
+  {
+    "path": "tests/test_video.py",
+    "sha256": "4f01efc00b313a3a5cbdc1b75e3ff083e97884ec1796381369b9ed18e84dd375"
+  },
+  {
+    "path": "tests/test_walk_compilation.py",
+    "sha256": "5cfd37609f4a2cc043a50345c96d0309d520c7025e29d54929ffd60a40481b3b"
+  },
+  {
+    "path": "tests/test_walk_workflow.py",
+    "sha256": "ba89b88271dca8c3c65784db75c5a61fa554ba172323dc310a6841eff2eb1191"
+  },
+  {
+    "path": "tests/test_workbench.py",
+    "sha256": "683453ccd4f727cacb5338067cf3ab9c835add07bd071b54ce5e063b321d7344"
+  },
+  {
+    "path": "scripts/check_animation_schema.py",
+    "sha256": "820368523f61b034f0af769e1d4ed940992581c50ba098c519d4975f5df01e40"
+  },
+  {
+    "path": "scripts/check_comparison_schema.py",
+    "sha256": "fbc8d851c075da136209475f18a0fbe0fd95c31b948e18482cb3a2576e1f89e3"
+  },
+  {
+    "path": "scripts/check_compilation_schema.py",
+    "sha256": "47ee2d207a9075fd4e330a1e8fc5e5d726fb74b43a09a537112c54d579a2bac9"
+  },
+  {
+    "path": "scripts/check_contract_schemas.py",
+    "sha256": "762b2887d78ed7448812b64528d084de597b0fde1402b46a55fc5c3ea8609464"
+  },
+  {
+    "path": "scripts/check_coverage_schema.py",
+    "sha256": "0a545893ca4d827fd1a00061e79253e875302425963f484a1f67c1e19fad8d97"
+  },
+  {
+    "path": "scripts/check_extraction_schema.py",
+    "sha256": "719a5dc2ae3aeaeeb6395ccf01970143a6e3e7aca52f6fdce3c0db2a6bce2069"
+  },
+  {
+    "path": "scripts/check_ingestion_schema.py",
+    "sha256": "bd837697231c18fed73e430036ff0a29f4a6a15133f303e1cb9764a1cc8ab049"
+  },
+  {
+    "path": "scripts/check_ledger_schema.py",
+    "sha256": "4317cf1134638fbcbcd9b49bcb1d972f4538b7628dd138f3a86d07d5710fc03b"
+  },
+  {
+    "path": "scripts/check_review_schema.py",
+    "sha256": "fcf448b2757339e8c79a47c99b60c0f902c18c51498ea0c9181cae1790e6a0c0"
+  },
+  {
+    "path": "scripts/check_transformation_schema.py",
+    "sha256": "bf0b0f0b4a2ac51d0ceb72db178a0862eea6a000ab02999d6fccbbee6c8f5e14"
+  },
+  {
+    "path": "scripts/check_video_schema.py",
+    "sha256": "9acafe11e36390d6f0a56776625c61690d6cf2b84314d10522576b2bcd3dff62"
+  },
+  {
+    "path": "scripts/validate_antigravity_kit.py",
+    "sha256": "f75b4c6100b227e690dbb26aaa7addd6f6397b136b8b00118048a27b954e9f8e"
+  },
+  {
+    "path": "scripts/validate_codex_kit.py",
+    "sha256": "678169f9e894adbfbbbf442c8a04e41a280898fd81b7bab8158c3812fef69816"
+  },
+  {
+    "path": "scripts/verify_preview_parity.py",
+    "sha256": "9f04f8a9d5376d676c51102d39ffbfa9b7032c95bb65d57d81400456acd87eca"
+  }
+]

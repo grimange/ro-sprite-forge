@@ -1,0 +1,142 @@
+{
+  "task": {
+    "id": "akj2012swhvsebugprsl0v5j",
+    "title": "[M1] Explicit or inherited ordered layer-topology requirements",
+    "number": 8,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M1\n**Stable plan reference:** RSF-v1.1/M1-02\n**Implementation status:** Implemented and independently QA_PASS; Accepted. All five criteria supported.\n**Responsible implementer:** Codex implementer; independent forge_qa_reviewer is separate.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§3.3–3.4, 6/M1 acceptance, 7\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Make exact frame/layer work orders possible without inventing choreography.\n\n**Scope:** Per-frame ordered layer roles, reference/template inheritance and specification diagnostics.\n\n## Acceptance criteria\n\n- [x] Each required action/view declares frame count and each frame an ordered layer set, roles and applicable registration/anchor/reuse constraints.\n- [x] Explicit inheritance records reference hash/revision and mapping completeness; versioned named single-layer templates require explicit scope confirmation.\n- [x] Missing counts emit UNDERSPECIFIED_FRAME_COUNT; missing/partly unmapped topology emits UNDERSPECIFIED_LAYER_TOPOLOGY. No silent one-layer default.\n- [x] Underspecified targets may produce provisional frame-only lists but cannot be exact work orders, COMPLETE_FOR_DECLARED_SCOPE or export-ready.\n- [x] Single-layer versus multipart synthetic declarations yield distinct correct totals before any artwork upload.\n\n## Verification\n\nExplicit/template/reference topology tests including partial mapping, layer order, missing declarations and no-art work-order generation.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. Current executable results and limits are recorded below; this structural task grants no artwork or native approval.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-7 (M1-01; task ID rnecskanbq7j2i8m936ti62p)\n\n**Non-goals / gate qualifications:** Only the stated deliverable; no adjacent milestone implementation or automatic artistic/native acceptance.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence\n\nVersioned resolved requirements, explicit/per-frame topology, hash-pinned inventory inheritance, single-layer/v1 named template with exact-scope confirmation, deterministic IDs, counts, diagnostics and CLI resolve. Existing v1 identities remain unchanged.\n\nSource: docs/evidence/rsf8/implementation-manifest.json SHA256 f9a08a6bd65e637044af2f3b0f44576b42861c4f3ac2bb9c245d0a19e00fc3dc. Full commands/results: docs/evidence/rsf8/VERIFICATION.md. Computed examples: docs/evidence/rsf8/examples.json SHA256 65f37331f83ddc840fcb26c94072d80831c209d90093784c70e4c997387e35f1.\n\nCPython 3.14.4: 119 public tests, 14 private tests, 3 schemas (13 valid/55 invalid), installed distribution 119 tests/repeated wheel identical, Rust oracle 11 synthetic + 3 audited pair agreements, native verifier 9 unit tests; all exit 0. Examples 48/48,48/96,mixed48/56; Orc512/1776; Novice body/head912/912. Art UNASSIGNED. Python3.12/3.13 unavailable; full native playback not rerun for this structural task. Existing M0-S/I/N PASS and M0_VERIFIED retained.\n\nAccepted source baseline archive: de960b8fa8482ec22e5938ebb5183dc5a448aa555b7afeffc66bcddc8a71c433. No commit/push. No private assets distributed.\n\n## Independent QA\n\nQA_PASS from configured forge_qa_reviewer, separate context /root/rsf8_independent_qa. Independently executed public119, private14 (no skips), schemas3/13valid/55invalid, installed119/repeated wheel identical, Rust oracle11 and all3 audited pairs AGREEMENT, native verifier9; all exit0 on CPython3.14.4. Recomputed example hashes and verified complete143-file baseline + final8-file implementation manifest. Retested empty parts/views correction: mixed known/unknown work retains null exact totals and PROVISIONAL. No mandatory findings remain. Reviewer made no source or Kaneo edits. Full verdict: docs/evidence/rsf8/QA_REVIEW.md. No artwork/native approval or overall M1 acceptance is implied. Existing accepted M0 gates remain applicable.\n",
+    "status": "done",
+    "columnId": "vnkxm3fyt0tmewq1rdokfops",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 7,
+    "createdAt": "2026-10-29T10:07:56.506Z",
+    "userId": null,
+    "assigneeName": null,
+    "assigneeId": null,
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "comments": [
+    {
+      "id": "lh34itxisbian2q2og13gd6e",
+      "taskId": "akj2012swhvsebugprsl0v5j",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Independent QA_PASS — /root/rsf8_independent_qa (configured forge_qa_reviewer). All five live criteria supported. Final implementation manifest f9a08a6bd65e637044af2f3b0f44576b42861c4f3ac2bb9c245d0a19e00fc3dc; examples65f37331f83ddc840fcb26c94072d80831c209d90093784c70e4c997387e35f1. Reviewer independently passed119public/14private/schema13valid55invalid/distribution119/Rust11+3audited/nativeunit9, reproduced canonical examples and source immutability. Empty dimensions accounting corrected and independently retested; no unresolved defects. Full QA_REVIEW.md and VERIFICATION.md under docs/evidence/rsf8. M0-S/I/N remain PASS; M0_VERIFIED retained. New art UNASSIGNED; M1 overall not claimed; no new native run. Coordinator records supported objective acceptance; RSF9 remains untouched.",
+      "createdAt": "2026-10-30T03:12:10.954Z",
+      "updatedAt": "2026-10-30T03:12:10.954Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    }
+  ],
+  "next_task": {
+    "id": "bbiahdelxdqg6o5aupyfj699",
+    "title": "[M1] Artwork ledger and explicit transform-reuse graph",
+    "number": 9,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M1\n**Stable plan reference:** RSF-v1.1/M1-03\n**Implementation status:** Backlog (to-do); planned only, no implementation or verification claimed. Kaneo column is authoritative if later changed.\n**Responsible implementer:** Unassigned. Required skill: Authorized engineer for this bounded deliverable; independent reviewer is separate.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.3, 3.1, 3.4, 4.3–4.4, 6/M1\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Record exactly which supplied artwork fulfills each ordered requirement and who approved reuse.\n\n**Scope:** Source-hash assignments, transforms/crops, reuse edges, cycle validation and orthogonal review/validity records.\n\n## Acceptance criteria\n\n- [ ] Ledger maps stable part/action/view/frame/layer IDs to exact source hash, crop/transform recipe, revisions and declared reuse; attachment parent/child/anchor links are explicit.\n- [ ] Reuse graph detects cycles, invalid/missing references and hash changes; mirroring/transform reuse counts only when explicitly declared and accepted.\n- [ ] Missing source, invalid hash, available-but-unapproved art, reused original/classic fallback and runtime unsupported states remain distinct.\n- [ ] Source-art effort counts derive only from declared approved reuse; duplicate decoded pixels never imply aesthetic equivalence or newly authored replacement coverage.\n\n## Verification\n\nGraph cycle and broken-edge tests; mixed validation/review/runtime states and explicit versus inferred reuse regression cases.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-8 (M1-02; task ID akj2012swhvsebugprsl0v5j)\n\n**Non-goals / gate qualifications:** No automatic visual approval, generated imagery or runtime fallback completion.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code changes / diff: Not implemented by this planning sync.\n- Test commands / exit statuses / artifact hashes: NOT_RUN (planning only).\n- Milestone gates / limitations: Not evaluated; structural, coverage, visual, preview and native states remain separate.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nNot performed for implementation. Implementer supplies evidence and moves to QA Review; a distinct read-only reviewer records QA_PASS / QA_FAIL / QA_BLOCKED. Operator-only visual/native decisions remain separate. No acceptance is granted by backlog creation.",
+    "status": "to-do",
+    "columnId": "eog035o4rzn6u301ylyctbvg",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 8,
+    "createdAt": "2026-10-29T10:07:56.525Z",
+    "userId": null,
+    "assigneeName": null,
+    "assigneeId": null,
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "next_relations": [
+    {
+      "id": "phkh7frqtzkqjm1uue5d77st",
+      "sourceTaskId": "akj2012swhvsebugprsl0v5j",
+      "targetTaskId": "bbiahdelxdqg6o5aupyfj699",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:18.804Z",
+      "sourceTask": {
+        "id": "akj2012swhvsebugprsl0v5j",
+        "title": "[M1] Explicit or inherited ordered layer-topology requirements",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 8,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "bbiahdelxdqg6o5aupyfj699",
+        "title": "[M1] Artwork ledger and explicit transform-reuse graph",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 9,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "tnt3p9dm0js7c5gh5teua92j",
+      "sourceTaskId": "bbiahdelxdqg6o5aupyfj699",
+      "targetTaskId": "uzuir12040jroddz4idk8ahi",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:18.830Z",
+      "sourceTask": {
+        "id": "bbiahdelxdqg6o5aupyfj699",
+        "title": "[M1] Artwork ledger and explicit transform-reuse graph",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 9,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "uzuir12040jroddz4idk8ahi",
+        "title": "[M1] Coverage evaluation and exported missing-art work orders",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 10,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "gdtikycr4q36lvjn30m37icm",
+      "sourceTaskId": "bbiahdelxdqg6o5aupyfj699",
+      "targetTaskId": "gspmf9so83jbn57y0anhz522",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:18.855Z",
+      "sourceTask": {
+        "id": "bbiahdelxdqg6o5aupyfj699",
+        "title": "[M1] Artwork ledger and explicit transform-reuse graph",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 9,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "gspmf9so83jbn57y0anhz522",
+        "title": "[M2] Order-preserving multilayer preview compositor",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 11,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    }
+  ],
+  "pending_operations": []
+}

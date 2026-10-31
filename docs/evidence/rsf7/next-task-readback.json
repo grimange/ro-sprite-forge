@@ -1,0 +1,18 @@
+{
+  "id": "akj2012swhvsebugprsl0v5j",
+  "title": "[M1] Explicit or inherited ordered layer-topology requirements",
+  "number": 8,
+  "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M1\n**Stable plan reference:** RSF-v1.1/M1-02\n**Implementation status:** Backlog (to-do); planned only, no implementation or verification claimed. Kaneo column is authoritative if later changed.\n**Responsible implementer:** Unassigned. Required skill: Authorized engineer for this bounded deliverable; independent reviewer is separate.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§3.3–3.4, 6/M1 acceptance, 7\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Make exact frame/layer work orders possible without inventing choreography.\n\n**Scope:** Per-frame ordered layer roles, reference/template inheritance and specification diagnostics.\n\n## Acceptance criteria\n\n- [ ] Each required action/view declares frame count and each frame an ordered layer set, roles and applicable registration/anchor/reuse constraints.\n- [ ] Explicit inheritance records reference hash/revision and mapping completeness; versioned named single-layer templates require explicit scope confirmation.\n- [ ] Missing counts emit UNDERSPECIFIED_FRAME_COUNT; missing/partly unmapped topology emits UNDERSPECIFIED_LAYER_TOPOLOGY. No silent one-layer default.\n- [ ] Underspecified targets may produce provisional frame-only lists but cannot be exact work orders, COMPLETE_FOR_DECLARED_SCOPE or export-ready.\n- [ ] Single-layer versus multipart synthetic declarations yield distinct correct totals before any artwork upload.\n\n## Verification\n\nExplicit/template/reference topology tests including partial mapping, layer order, missing declarations and no-art work-order generation.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-7 (M1-01; task ID rnecskanbq7j2i8m936ti62p)\n\n**Non-goals / gate qualifications:** Only the stated deliverable; no adjacent milestone implementation or automatic artistic/native acceptance.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code changes / diff: Not implemented by this planning sync.\n- Test commands / exit statuses / artifact hashes: NOT_RUN (planning only).\n- Milestone gates / limitations: Not evaluated; structural, coverage, visual, preview and native states remain separate.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nNot performed for implementation. Implementer supplies evidence and moves to QA Review; a distinct read-only reviewer records QA_PASS / QA_FAIL / QA_BLOCKED. Operator-only visual/native decisions remain separate. No acceptance is granted by backlog creation.",
+  "status": "to-do",
+  "columnId": "eog035o4rzn6u301ylyctbvg",
+  "priority": "no-priority",
+  "startDate": null,
+  "dueDate": null,
+  "position": 7,
+  "createdAt": "2026-10-29T10:07:56.506Z",
+  "userId": null,
+  "assigneeName": null,
+  "assigneeId": null,
+  "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+  "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+}

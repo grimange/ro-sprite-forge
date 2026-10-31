@@ -1,0 +1,70 @@
+[
+  {
+    "name": "focused",
+    "command": "PYTHONPATH=src:tests .venv/bin/python -m unittest test_custom_actions -v",
+    "run_count": 18,
+    "skipped": 0,
+    "exit_code": 0
+  },
+  {
+    "name": "public",
+    "command": "PYTHONPATH=src:tests .venv/bin/python -m unittest discover -s tests -p 'test_*.py' -v",
+    "run_count": 636,
+    "skipped": 0,
+    "exit_code": 0
+  },
+  {
+    "name": "private",
+    "command": "PYTHONPATH=src:tests .venv/bin/python -m unittest discover -s tests/private_fixture_hooks -v",
+    "run_count": 52,
+    "skipped": 1,
+    "exit_code": 0
+  },
+  {
+    "name": "rust",
+    "command": "PYTHONPATH=src .venv/bin/python -m unittest discover -s tools/rust-oracle -p 'test_*.py' -v",
+    "run_count": 11,
+    "skipped": 0,
+    "exit_code": 0
+  },
+  {
+    "name": "distribution",
+    "command": ".venv/bin/python tests/check_distribution.py --wheelhouse /tmp/rsf24-wheelhouse --python /home/ra/Documents/ro-sprite-forge/.venv/bin/python",
+    "run_count": 636,
+    "skipped": 12,
+    "exit_code": 0,
+    "skip_breakdown": {
+      "optional_jsonschema": 4,
+      "optional_rust_executable": 8
+    }
+  },
+  {
+    "name": "schemas",
+    "command": "See commands array: each validator was executed individually.",
+    "run_count": 13,
+    "skipped": 0,
+    "exit_code": 0,
+    "commands": [
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_animation_schema.py",
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_comparison_schema.py",
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_compilation_schema.py",
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_contract_schemas.py",
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_coverage_schema.py",
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_custom_action_schema.py",
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_extraction_schema.py",
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_ingestion_schema.py",
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_ledger_schema.py",
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_registry_schema.py",
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_review_schema.py",
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_transformation_schema.py",
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python scripts/check_video_schema.py"
+    ]
+  },
+  {
+    "name": "reproduction",
+    "command": "PYTHONPATH=src:tests .venv/bin/python docs/verification/rsf-35/reproduce.py docs/verification/rsf-35/synthetic",
+    "run_count": 2,
+    "skipped": 0,
+    "exit_code": 0
+  }
+]

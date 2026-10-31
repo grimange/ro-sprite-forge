@@ -1,0 +1,70 @@
+{
+  "task": "RSF-36",
+  "evidence_files": [
+    {
+      "name": "PLAN.md",
+      "size": 2193,
+      "sha256": "f82368947f622c5d72927ef2489fc75e45ee9502c455e2e77f031b909fe17a70"
+    },
+    {
+      "name": "REPORT.md",
+      "size": 7262,
+      "sha256": "872d47281f508f9e56bd0cf143cfe06aed9cfe33ac1632dd66ff253e0cf12fb3"
+    },
+    {
+      "name": "commands.json",
+      "size": 1259,
+      "sha256": "1ad195e4f474effd8b22cbf72efbefa40cf51d627d8484ff7c0f2d9d3b4f2dd3"
+    },
+    {
+      "name": "distribution.log",
+      "size": 176341,
+      "sha256": "0c333ff516896594a8ce224c6ee6fec51a4864b956b390632e22c27b918464aa"
+    },
+    {
+      "name": "environment.json",
+      "size": 611,
+      "sha256": "d24746ccb534c0216217075cac80493b99cfeb641d21be50fa9fe68a8687ce95"
+    },
+    {
+      "name": "focused.log",
+      "size": 2967,
+      "sha256": "60e4e153d336c02d3ef36835dc6c53467fc89e3b9dca493a3b18120f7a2ed312"
+    },
+    {
+      "name": "implementation-manifest.json",
+      "size": 1046,
+      "sha256": "fc9e19bedbcaef5fe6a7157b5bca5c699b30a81c6432b5008b8da39f420aba85"
+    },
+    {
+      "name": "independent/QA_REPORT.md",
+      "size": 8351,
+      "sha256": "1b96d25f539ce03b87058f339d92d521ee6686b4b371e9fc9f2997c8f476fa75"
+    },
+    {
+      "name": "kaneo-start.json",
+      "size": 440,
+      "sha256": "6c7ba12df32f1656922f1b242452845518f617f0c64729f9e04bfb939c47fe7e"
+    },
+    {
+      "name": "private.log",
+      "size": 14778,
+      "sha256": "ec9e454d6436e0087ff2548088a0293bcccc0645034708f03e6ea25fa5f02bc6"
+    },
+    {
+      "name": "public.log",
+      "size": 98557,
+      "sha256": "0db45253eaf3c1fd6961420bc399880d8743ff6bdb5a4b4aa423048510aac0be"
+    },
+    {
+      "name": "release-manifest.json",
+      "size": 2243,
+      "sha256": "2e5ff806837355990b79deee891bf7b14e08d316a02710a19d52d5faf25f861b"
+    },
+    {
+      "name": "schemas.log",
+      "size": 733,
+      "sha256": "3601d1c79cc21d89f2d519556cb4e1bffb94bdb12cdbb6a9c552e48e3334b99b"
+    }
+  ]
+}

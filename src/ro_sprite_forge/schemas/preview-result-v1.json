@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ro-sprite-forge.local/schemas/preview-result-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "renderer_version",
+    "fidelity",
+    "dimensions",
+    "origin",
+    "bounds",
+    "layers_rendered",
+    "layers",
+    "unsupported_semantics",
+    "errors",
+    "png_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "const": "rsf.preview-result/v1"
+    },
+    "renderer_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "fidelity": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16,
+      "enum": ["VERIFIED", "PARTIAL", "UNVERIFIED", "INVALID"]
+    },
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height"],
+      "properties": {
+        "width": { "type": "integer", "minimum": 1, "maximum": 8192 },
+        "height": { "type": "integer", "minimum": 1, "maximum": 8192 }
+      }
+    },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y"],
+      "properties": {
+        "x": { "type": "integer", "minimum": -8192, "maximum": 8192 },
+        "y": { "type": "integer", "minimum": -8192, "maximum": 8192 }
+      }
+    },
+    "bounds": {
+      "anyOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["min_x", "min_y", "max_x", "max_y", "width", "height"],
+          "properties": {
+            "min_x": { "type": "integer", "minimum": 0, "maximum": 8192 },
+            "min_y": { "type": "integer", "minimum": 0, "maximum": 8192 },
+            "max_x": { "type": "integer", "minimum": 0, "maximum": 8192 },
+            "max_y": { "type": "integer", "minimum": 0, "maximum": 8192 },
+            "width": { "type": "integer", "minimum": 0, "maximum": 8192 },
+            "height": { "type": "integer", "minimum": 0, "maximum": 8192 }
+          }
+        }
+      ]
+    },
+    "layers_rendered": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 256
+    },
+    "layers": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "layer_index",
+          "part",
+          "sprite",
+          "pool",
+          "offset",
+          "source_size",
+          "rendered_size",
+          "mirror",
+          "scale",
+          "angle",
+          "color",
+          "clipped"
+        ],
+        "properties": {
+          "layer_index": { "type": "integer", "minimum": 0, "maximum": 256 },
+          "part": {
+            "anyOf": [
+              { "type": "string", "minLength": 1, "maxLength": 64 },
+              { "type": "integer", "minimum": 0, "maximum": 64 }
+            ]
+          },
+          "sprite": { "type": "integer", "minimum": -1, "maximum": 65535 },
+          "pool": { "type": "integer", "minimum": 0, "maximum": 1 },
+          "offset": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["x", "y"],
+            "properties": {
+              "x": { "type": "integer", "minimum": -8192, "maximum": 8192 },
+              "y": { "type": "integer", "minimum": -8192, "maximum": 8192 }
+            }
+          },
+          "source_size": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["width", "height"],
+            "properties": {
+              "width": { "type": "integer", "minimum": 0, "maximum": 8192 },
+              "height": { "type": "integer", "minimum": 0, "maximum": 8192 }
+            }
+          },
+          "rendered_size": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["width", "height"],
+            "properties": {
+              "width": { "type": "integer", "minimum": 0, "maximum": 8192 },
+              "height": { "type": "integer", "minimum": 0, "maximum": 8192 }
+            }
+          },
+          "mirror": { "type": "boolean" },
+          "scale": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["x", "y"],
+            "properties": {
+              "x": { "type": "number", "minimum": -100.0, "maximum": 100.0 },
+              "y": { "type": "number", "minimum": -100.0, "maximum": 100.0 }
+            }
+          },
+          "angle": { "type": "number", "minimum": -3600.0, "maximum": 3600.0 },
+          "color": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["r", "g", "b", "a", "raw"],
+            "properties": {
+              "r": { "type": "integer", "minimum": 0, "maximum": 255 },
+              "g": { "type": "integer", "minimum": 0, "maximum": 255 },
+              "b": { "type": "integer", "minimum": 0, "maximum": 255 },
+              "a": { "type": "integer", "minimum": 0, "maximum": 255 },
+              "raw": { "type": "integer", "minimum": 0, "maximum": 4294967295 }
+            }
+          },
+          "clipped": { "type": "boolean" }
+        }
+      }
+    },
+    "unsupported_semantics": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 256,
+      "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+    },
+    "errors": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 256,
+      "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+    },
+    "png_sha256": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_hashes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 64,
+        "maxLength": 64,
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    }
+  }
+}

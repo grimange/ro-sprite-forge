@@ -1,0 +1,113 @@
+[
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests": 452,
+    "skipped": 0,
+    "log": "public.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/private_fixture_hooks",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests": 41,
+    "skipped": 1,
+    "log": "private.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "tools/rust-oracle/test_parity.py"
+    ],
+    "exit_code": 0,
+    "tests": 11,
+    "skipped": 0,
+    "log": "rust.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "tests/check_distribution.py",
+      "--wheelhouse",
+      "/tmp/rsf24-wheelhouse",
+      "--python",
+      "/usr/bin/python3.14"
+    ],
+    "exit_code": 0,
+    "tests": 452,
+    "skipped": 9,
+    "log": "distribution.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_walk_compilation.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests": 7,
+    "skipped": 0
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/private_fixture_hooks",
+      "-p",
+      "test_walk_compilation_fixtures.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests": 3,
+    "skipped": 0
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_canonical_builds.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests": 14,
+    "skipped": 0
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "docs/verification/rsf-26/reproduce.py",
+      "--output-dir",
+      "docs/verification/rsf-26"
+    ],
+    "exit_code": 0
+  }
+]

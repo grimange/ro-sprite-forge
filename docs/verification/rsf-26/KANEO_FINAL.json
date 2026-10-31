@@ -1,0 +1,48 @@
+{
+  "task": {
+    "id": "tju1c32n1jrxitklr5hnj6la",
+    "title": "[M5] Walk compilation and independent multilayer regression verification",
+    "number": 26,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M5\n**Stable plan reference:** RSF-v1.1/M5-04\n**Implementation status:** Accepted (done) after independent QA_PASS; all five mandatory criteria verified.\n**Responsible implementer:** Codex (aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn); independent read-only forge_qa_reviewer is separate.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§6/M5 acceptance, 7, 14\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Prove the M4 Walk composition compiles correctly before native acceptance.\n\n**Scope:** Synthetic Walk image-to-compiler exercise, Rust canonical verification and Novice/Orc regressions.\n\n## Acceptance criteria\n\n- [x] Use a synthetic legally distributable test monster with Walk action/views/frames/layers declared before art, exact PNG assignments and operator-approved composition.\n- [x] Compile through production pipeline twice, compare output hashes and independently decode ordered layers/image mapping/timing/anchors with Rust.\n- [x] Reconstruct real Orc Skeleton multilayer package without losing 12-layer death motion or transformed placement; bounded Novice replacement leaves unrelated slots/head unchanged.\n- [x] Record requirements/assignment/composition snapshot, output hashes, structural/coverage and oracle results; missing private fixtures are NOT_RUN and do not erase their regression requirement.\n- [x] One-view or smaller-than-runtime scope stays diagnostic/incomplete for full profile; structural/oracle PASS cannot claim native Walk proof.\n\n## Verification\n\nReproduce synthetic bounded Walk end-to-end build/oracle comparison and private optional Novice/Orc regressions; capture commands/versions/statuses/hashes.\n\nActual commands, environment/tool versions, exits, hashes and NOT_RUN reasons are preserved in docs/verification/rsf-26. Synthetic operator review declarations are test inputs only; native execution is not claimed.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-25 (M5-03; task ID udjjt7jp22k3owbo05s8mnf8); RSF-5 (M0-05; task ID dpexmlk6wggb1xri9yefzjnq)\n\n**Non-goals / gate qualifications:** Native runtime claim belongs to M5-05, no automatic visual decisions.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence\n\nNew tests: tests/test_walk_compilation.py and tests/private_fixture_hooks/test_walk_compilation_fixtures.py. Durable evidence: docs/verification/rsf-26/VERIFICATION.md, implementation.diff, implementation-manifest.json, source/requirements/assignment/composition snapshots and logs. No existing production source changes; all 90 baseline file hashes unchanged. No commit/push.\n\nCoordinator exits all 0: 7 new public + 3 private focused tests; 14 canonical baseline; full public 452 PASS; private 40 PASS + 1 existing native-report skip; Rust parity 11 PASS; 10 schema checkers PASS; isolated installed distribution 443 PASS + 9 optional-tool skips (452 discovered), repeated wheels identical/private resources excluded. Python 3.14.4; 3.12/3.13 NOT_RUN unavailable. No UI changes/browser tests; native NOT_RUN.\n\nSynthetic independent Rust original/output comparison: 3 targeted + 51 unaffected + 6 hidden, 0 mismatches. Two clean CLI builds identical ACT 43fffe83c1333772126a51e171a5d33d3b03ab1706f670f869099b1633b7617b, SPR 0d49b375c22b5cd738c8a448d564409e4bfdbf90a1a6593a62ec4db3756a6a81, canonical build file 3a7832608569ed9248bf42e1d3f0274ba0548937c76897e3450918aa219d1bd1. Novice: 1 targeted + 455 unaffected, other 103 slots/head unchanged. Orc: 1 targeted + 1775 unaffected, all 112 twelve-layer Death frames preserved. Metadata/raw RLE/palette/source immutability, cache/current authority, unbound production and failure publication regressions PASS. Synthetic operator decisions only, no real visual approval.\n\nImplementation-manifest SHA-256: 9abb48737184ef3cbaefd468dd143f6eb8aafb36b8b7242903ca1fa8238ffc47.\n\nM5-S PASS (bounded structural/preservation); M5-I PASS (supported Rust decoded fields/pixels); M5-N UNVERIFIED. M5 remains open; RSF-27 not started.\n\n## Independent QA result\n\nQA_PASS from separate read-only forge_qa_reviewer (/root/rsf24_qa). All five live criteria independently PASS, no mandatory finding. Independent focused/full public/private/Rust/schema and two-process reproduction PASS. Distribution evidence reviewed rather than independently rerun. No reviewer code edits, tracker writes or ownership changes. Durable QA report docs/verification/rsf-26/QA_REVIEW.md SHA256 34f9b53d66764a1100cfe3308dc615853efb7434ad2013aea57050f74b820d3f. Implementer Codex ownership retained. No technical correction required. M5-N remains UNVERIFIED; M5 open.",
+    "status": "done",
+    "columnId": "vnkxm3fyt0tmewq1rdokfops",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 25,
+    "createdAt": "2026-10-29T10:08:08.004Z",
+    "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "assigneeName": "Codex",
+    "assigneeId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "comments": [
+    {
+      "id": "gh9ocxya5qqejza7epxf128t",
+      "taskId": "tju1c32n1jrxitklr5hnj6la",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Implementation/coordinator verification complete; evidence docs/verification/rsf-26/VERIFICATION.md and implementation-manifest.json (SHA256 9abb48737184ef3cbaefd468dd143f6eb8aafb36b8b7242903ca1fa8238ffc47). Ownership remains verified Codex. QA Review requested with a separate read-only forge_qa_reviewer; no existing source changes. 452 public PASS, 40 private PASS/1 pre-existing native skip, 11 Rust PASS, 10 schema checkers PASS, distribution 443 PASS/9 optional skips. M5-S/I PASS within scope; M5-N UNVERIFIED; no next-task start.",
+      "createdAt": "2026-10-30T22:49:00.535Z",
+      "updatedAt": "2026-10-30T22:49:00.535Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    },
+    {
+      "id": "rdgh64nc3vb9k3rb2ckeziz5",
+      "taskId": "tju1c32n1jrxitklr5hnj6la",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Independent QA_PASS received from separate repository-configured forge_qa_reviewer agent /root/rsf24_qa, read-only/no edits/no tracker writes/no ownership transfer. Durable report docs/verification/rsf-26/QA_REVIEW.md SHA256 34f9b53d66764a1100cfe3308dc615853efb7434ad2013aea57050f74b820d3f. All five live criteria independently PASS; no mandatory finding/correction remains. Independently executed: 7 public+3 private focused PASS; full public452 PASS; private40PASS/1existingnative-reportskip; Rust11PASS; all10 schema checkers PASS; independent reproduction two CLI builds matches golden ACT/SPR/canonical build/Rust/effective mapping and both private regressions; 24 implementation hashes+90baseline hashes match. Distribution443PASS/9optional skips evidence reviewed, not independently rerun. Whole project snapshot timestamp differences were investigated and correctly excluded from canonical binary identity. M5-S PASS bounded, M5-I PASS supported independent decoding, M5-N UNVERIFIED; no actual artistic/native approval and M5 stays open. Coordinator may mark objective checklist Accepted under existing workflow, preserving Codex assignment.",
+      "createdAt": "2026-10-30T22:53:00.893Z",
+      "updatedAt": "2026-10-30T22:53:00.893Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    }
+  ],
+  "read_back_verified": true,
+  "pending_writes": false
+}

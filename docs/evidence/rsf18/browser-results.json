@@ -1,0 +1,41 @@
+{
+  "result": "RSF18_BROWSER_E2E_PASS",
+  "execution": "Coordinator Playwright MCP against installed wheel, local isolated synthetic project",
+  "browser": "Chromium 156.0.8078.73",
+  "project": "rsf18-1793352426658",
+  "journeys": [
+    "RSF17 baseline/assign/reuse/playback/comparison",
+    "individual approval/reopen",
+    "rejection",
+    "explicit batch scope",
+    "A-B-C invalidation/D preservation",
+    "isolated-context stale submission",
+    "unexecuted transform blocked"
+  ],
+  "review_counts": {
+    "APPROVED": 1,
+    "REJECTED": 0,
+    "STALE": 3,
+    "UNVERIFIED": 44,
+    "NOT_REQUIRED": 0
+  },
+  "unexpected_console_errors": [],
+  "failed_requests": [],
+  "expected_error_responses": [
+    422,
+    409,
+    409
+  ],
+  "missing_source_followup": {
+    "result": "MISSING_SYNTHETIC_SOURCE_REVIEW_BLOCKED",
+    "method": "Moved only synthetic SPR blob out of fixture, verified via MCP; restored exact bytes",
+    "counts": {
+      "APPROVED": 0,
+      "STALE": 4,
+      "UNVERIFIED": 44
+    },
+    "error": "REVIEW_SOURCE_UNAVAILABLE_OR_INVALID",
+    "spr_sha256": "de30db5187e2d172614fdc405308b09665dff94e2586f1b87a4c85f8a7e5fc92"
+  },
+  "synthetic_decisions_only": true
+}

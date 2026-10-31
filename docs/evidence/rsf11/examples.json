@@ -1,0 +1,884 @@
+{
+  "affine_transformations": {
+    "bounds": {
+      "height": 4,
+      "max_x": 32,
+      "max_y": 25,
+      "min_x": 29,
+      "min_y": 21,
+      "width": 3
+    },
+    "dimensions": {
+      "height": 48,
+      "width": 48
+    },
+    "errors": [],
+    "fidelity": "VERIFIED",
+    "layers": [
+      {
+        "angle": 45.0,
+        "clipped": false,
+        "color": {
+          "a": 220,
+          "b": 100,
+          "g": 150,
+          "r": 200,
+          "raw": 3697579720
+        },
+        "layer_index": 0,
+        "mirror": true,
+        "offset": {
+          "x": 4,
+          "y": -2
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 8,
+          "width": 8
+        },
+        "scale": {
+          "x": 1.5,
+          "y": 0.8
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 4
+      }
+    ],
+    "layers_rendered": 1,
+    "origin": {
+      "x": 24,
+      "y": 24
+    },
+    "png_sha256": "755824dcb7bfd4bef4925fcee95db4dd5c563495f3b66440dcb433715760407d",
+    "renderer_version": "1.0.0",
+    "schema": "rsf.preview-result/v1",
+    "unsupported_semantics": []
+  },
+  "alpha_blending": {
+    "bounds": {
+      "height": 4,
+      "max_x": 19,
+      "max_y": 19,
+      "min_x": 15,
+      "min_y": 15,
+      "width": 4
+    },
+    "dimensions": {
+      "height": 32,
+      "width": 32
+    },
+    "errors": [],
+    "fidelity": "VERIFIED",
+    "layers": [
+      {
+        "angle": 0.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 0,
+        "mirror": false,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 4,
+          "width": 4
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 0
+      },
+      {
+        "angle": 0.0,
+        "clipped": false,
+        "color": {
+          "a": 128,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 2164260863
+        },
+        "layer_index": 1,
+        "mirror": false,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 4,
+          "width": 4
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 2
+      }
+    ],
+    "layers_rendered": 2,
+    "origin": {
+      "x": 16,
+      "y": 16
+    },
+    "png_sha256": "19a9ab68f317d732e0e1afcee601d17f11459ff3bedf829449f65603bd25757c",
+    "renderer_version": "1.0.0",
+    "schema": "rsf.preview-result/v1",
+    "unsupported_semantics": []
+  },
+  "corrupt_sprite_reference": {
+    "bounds": null,
+    "dimensions": {
+      "height": 256,
+      "width": 256
+    },
+    "errors": [
+      "Indexed sprite index 999 out of range [0, 6)"
+    ],
+    "fidelity": "INVALID",
+    "layers": [],
+    "layers_rendered": 0,
+    "origin": {
+      "x": 128,
+      "y": 192
+    },
+    "png_sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c",
+    "renderer_version": "1.0.0",
+    "schema": "rsf.preview-result/v1",
+    "unsupported_semantics": []
+  },
+  "multipart_anchor_alignment": {
+    "bounds": {
+      "height": 19,
+      "max_x": 43,
+      "max_y": 50,
+      "min_x": 31,
+      "min_y": 31,
+      "width": 12
+    },
+    "dimensions": {
+      "height": 64,
+      "width": 64
+    },
+    "errors": [],
+    "fidelity": "VERIFIED",
+    "layers": [
+      {
+        "angle": 0.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 0,
+        "mirror": false,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 4,
+          "width": 4
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 0
+      },
+      {
+        "angle": 0.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 1,
+        "mirror": false,
+        "offset": {
+          "x": 8,
+          "y": 15
+        },
+        "part": "head",
+        "pool": 0,
+        "rendered_size": {
+          "height": 4,
+          "width": 4
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 1
+      }
+    ],
+    "layers_rendered": 2,
+    "origin": {
+      "x": 32,
+      "y": 32
+    },
+    "png_sha256": "39cde0f980c406bc8f63db8f0b938673736edf66c24b48f6a22f11ebcde78257",
+    "renderer_version": "1.0.0",
+    "schema": "rsf.preview-result/v1",
+    "unsupported_semantics": []
+  },
+  "safe_boundary_clipping": {
+    "bounds": {
+      "height": 1,
+      "max_x": 1,
+      "max_y": 1,
+      "min_x": 0,
+      "min_y": 0,
+      "width": 1
+    },
+    "dimensions": {
+      "height": 16,
+      "width": 16
+    },
+    "errors": [],
+    "fidelity": "VERIFIED",
+    "layers": [
+      {
+        "angle": 0.0,
+        "clipped": true,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 0,
+        "mirror": false,
+        "offset": {
+          "x": -2,
+          "y": -2
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 4,
+          "width": 4
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 0
+      }
+    ],
+    "layers_rendered": 1,
+    "origin": {
+      "x": 0,
+      "y": 0
+    },
+    "png_sha256": "c2393c0ba089165043aff9a84412121f27e3f41d5a3a0cee08ea353db845addf",
+    "renderer_version": "1.0.0",
+    "schema": "rsf.preview-result/v1",
+    "unsupported_semantics": []
+  },
+  "single_opaque_layer": {
+    "bounds": {
+      "height": 4,
+      "max_x": 19,
+      "max_y": 19,
+      "min_x": 15,
+      "min_y": 15,
+      "width": 4
+    },
+    "dimensions": {
+      "height": 32,
+      "width": 32
+    },
+    "errors": [],
+    "fidelity": "VERIFIED",
+    "layers": [
+      {
+        "angle": 0.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 0,
+        "mirror": false,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 4,
+          "width": 4
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 0
+      }
+    ],
+    "layers_rendered": 1,
+    "origin": {
+      "x": 16,
+      "y": 16
+    },
+    "png_sha256": "06baa3e680aa3d1675738131d9e41f446941cacb35a9c929b83add34cf5574e6",
+    "renderer_version": "1.0.0",
+    "schema": "rsf.preview-result/v1",
+    "unsupported_semantics": []
+  },
+  "synthetic_12_layer_motion": {
+    "bounds": {
+      "height": 10,
+      "max_x": 83,
+      "max_y": 72,
+      "min_x": 45,
+      "min_y": 62,
+      "width": 38
+    },
+    "dimensions": {
+      "height": 128,
+      "width": 128
+    },
+    "errors": [],
+    "fidelity": "VERIFIED",
+    "layers": [
+      {
+        "angle": 0.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 0,
+        "mirror": false,
+        "offset": {
+          "x": -18,
+          "y": 0
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 4,
+          "width": 4
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 0
+      },
+      {
+        "angle": 30.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 1,
+        "mirror": true,
+        "offset": {
+          "x": -15,
+          "y": 2
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 6,
+          "width": 7
+        },
+        "scale": {
+          "x": 1.05,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 1
+      },
+      {
+        "angle": 60.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 2,
+        "mirror": false,
+        "offset": {
+          "x": -12,
+          "y": 4
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 8,
+          "width": 7
+        },
+        "scale": {
+          "x": 1.1,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 2
+      },
+      {
+        "angle": 90.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 3,
+        "mirror": true,
+        "offset": {
+          "x": -9,
+          "y": 0
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 5,
+          "width": 4
+        },
+        "scale": {
+          "x": 1.15,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 3
+      },
+      {
+        "angle": 120.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 4,
+        "mirror": false,
+        "offset": {
+          "x": -6,
+          "y": 2
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 8,
+          "width": 7
+        },
+        "scale": {
+          "x": 1.2,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 4
+      },
+      {
+        "angle": 150.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 5,
+        "mirror": true,
+        "offset": {
+          "x": -3,
+          "y": 4
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 6,
+          "width": 7
+        },
+        "scale": {
+          "x": 1.25,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 0
+      },
+      {
+        "angle": 180.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 6,
+        "mirror": false,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 4,
+          "width": 6
+        },
+        "scale": {
+          "x": 1.3,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 1
+      },
+      {
+        "angle": 210.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 7,
+        "mirror": true,
+        "offset": {
+          "x": 3,
+          "y": 2
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 8,
+          "width": 8
+        },
+        "scale": {
+          "x": 1.35,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 2
+      },
+      {
+        "angle": 240.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 8,
+        "mirror": false,
+        "offset": {
+          "x": 6,
+          "y": 4
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 8,
+          "width": 8
+        },
+        "scale": {
+          "x": 1.4,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 3
+      },
+      {
+        "angle": 270.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 9,
+        "mirror": true,
+        "offset": {
+          "x": 9,
+          "y": 0
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 6,
+          "width": 4
+        },
+        "scale": {
+          "x": 1.45,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 4
+      },
+      {
+        "angle": 300.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 10,
+        "mirror": false,
+        "offset": {
+          "x": 12,
+          "y": 2
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 8,
+          "width": 8
+        },
+        "scale": {
+          "x": 1.5,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 0
+      },
+      {
+        "angle": 330.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 11,
+        "mirror": true,
+        "offset": {
+          "x": 15,
+          "y": 4
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 8,
+          "width": 9
+        },
+        "scale": {
+          "x": 1.55,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 1
+      }
+    ],
+    "layers_rendered": 12,
+    "origin": {
+      "x": 64,
+      "y": 64
+    },
+    "png_sha256": "c72ff903a292036b3f41c1a310004e9b66f47308b33856c962073da42b9a5742",
+    "renderer_version": "1.0.0",
+    "schema": "rsf.preview-result/v1",
+    "unsupported_semantics": []
+  },
+  "two_overlapping_layers_order": {
+    "bounds": {
+      "height": 4,
+      "max_x": 19,
+      "max_y": 19,
+      "min_x": 15,
+      "min_y": 15,
+      "width": 4
+    },
+    "dimensions": {
+      "height": 32,
+      "width": 32
+    },
+    "errors": [],
+    "fidelity": "VERIFIED",
+    "layers": [
+      {
+        "angle": 0.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 0,
+        "mirror": false,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 4,
+          "width": 4
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 0
+      },
+      {
+        "angle": 0.0,
+        "clipped": false,
+        "color": {
+          "a": 255,
+          "b": 255,
+          "g": 255,
+          "r": 255,
+          "raw": 4294967295
+        },
+        "layer_index": 1,
+        "mirror": false,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "part": "body",
+        "pool": 0,
+        "rendered_size": {
+          "height": 4,
+          "width": 4
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "source_size": {
+          "height": 4,
+          "width": 4
+        },
+        "sprite": 1
+      }
+    ],
+    "layers_rendered": 2,
+    "origin": {
+      "x": 16,
+      "y": 16
+    },
+    "png_sha256": "f82ede9f6de407e92ab068569e6633990d8e88babf0cbed8e08187fc95a3a529",
+    "renderer_version": "1.0.0",
+    "schema": "rsf.preview-result/v1",
+    "unsupported_semantics": []
+  }
+}

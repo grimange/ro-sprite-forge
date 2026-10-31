@@ -1,0 +1,19 @@
+{
+  "checked_acceptance_items": 5,
+  "column": "QA Review",
+  "column_id": "bnbwdupscc2quo8im9o6w3ol",
+  "independent_qa": "QA_PASS",
+  "m0_i": "PASS",
+  "m0_n": "UNVERIFIED_OPERATOR_DECISION_PENDING",
+  "m0_s": "PASS",
+  "native_technical_checks": "PASS",
+  "operator_native_decision": "PENDING",
+  "overall_m0": "NOT_YET_ACCEPTED",
+  "pending_operation": "Operator native decision; Accepted and M0_VERIFIED only after acceptance",
+  "status": "in-review",
+  "sync": "READ_BACK_CONFIRMED",
+  "task": "lyjs5izms0mcj700m7o25dam",
+  "ticket": "RSF-6",
+  "title": "[M0] Pinned Korangar exact-slot verification and M0 gate packet",
+  "unchecked_acceptance_items": 0
+}

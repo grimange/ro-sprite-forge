@@ -1,0 +1,54 @@
+{
+  "task": {
+    "id": "o5jlgmryf188c7lr43saqz7c",
+    "number": 34,
+    "title": "[M7] Costume and visual-outfit compatibility boundaries",
+    "status": "done",
+    "columnId": "vnkxm3fyt0tmewq1rdokfops",
+    "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "assignee": "Codex",
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M7\n**Stable plan reference:** RSF-v1.1/M7-03\n**Implementation status:** Implemented; independent QA_PASS. Accepted transition is recorded by the live Kaneo column.\n**Responsible implementer:** Codex `aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn`; independent configured reviewer `/root/rsf34_qa`.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.1–2.2, 3.2, 6/M7\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Keep optional clothing composition separate from the base asset compiler.\n\n**Scope:** Variant compatibility and separate optional clothing-composition adapter contract over approved supplied art.\n\n## Acceptance criteria\n\n- [x] Represent alternate body styles/costume/animation variants with explicit target/action compatibility rather than gameplay job substitution.\n- [x] Any optional clothing adapter stays separate from generic compiler and consumes operator-approved artwork with exact assignment provenance.\n- [x] No automatic garment segmentation/redraw, invisible fallback or unchanged original outfit counts as newly authored clothing coverage.\n- [x] Report unsupported variant/equipment combinations and retain scoped/full, review and native status distinctions.\n\n## Verification\n\nSynthetic variant/mismatch/retained-classic-art cases; inspect optional adapter boundary and operator approval requirements.\n\nActual commands, exit statuses, source identities, environment and NOT_RUN limits are recorded in docs/verification/rsf-34/commands.json, environment.json, REPORT.md and QA_REPORT.md. The independent reviewer reproduced applicable checks. No artistic approval or new native run is claimed.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-33 (M7-02; task ID ohmigbqn0escc46dkopt2h0c)\n\n**Non-goals / gate qualifications:** No mandatory clothing subsystem, AI art generation or automatic art acceptance.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code: optional core/appearance.py; compatible registry v1 cosmetic_pairings extension; registry load identity fix; synthetic/private tests and schema checker. Exact six changed implementation paths and hashes: docs/verification/rsf-34/implementation-manifest.json (SHA-256 9510cfb09211fbe6ab5711d85fe8654d3bdcbbd45a34e0099c6e696d1efbc7c2).\n- Checks (all exit 0): focused 79 (35 new), public 618, private 52 run / 51 PASS / one legacy skip, Rust parity 11 plus three actual source comparisons, 12 schema checkers; isolated distribution 618 run / 606 PASS / 12 optional Rust-tool skips. Four repeated synthetic modes byte-identical: determinism SHA-256 68ae25c64b6a6894245d7bb3916777bbb856497a46481d12fc7d01327e856be9.\n- Scoped structural compatibility passes. Genetic/Jack 104 slots supported; Genetic/shield 96/104, exact Pickup mismatch retained. Existing shield parent is novice-male-body-v1; no Dragon Knight body is enrolled. Separate head rehosting requires explicit binding. New cosmetic compilation/native remain UNVERIFIED; export_ready=false. Python 3.14 tested; 3.12/3.13 unavailable. No UI/native changes; browser/GPU NOT_RUN. M7 remains open for RSF-35.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\n**QA_PASS**, separate configured forge_qa_reviewer `/root/rsf34_qa`. Independently executed focused, full public, private, Rust, schema, reproduction, fresh alpha/frame/hash/pool probes and installed-distribution checks; all passed. No findings, source edits, Kaneo writes or ownership changes by reviewer. Original logs/probe and exact commands: docs/verification/rsf-34/QA_REPORT.md and independent-qa/. Verified QA comment ww1u7xe6w8204olfqbavgh0i. Human artwork approval remains separate. Coordinator may perform authorized objective acceptance after this verdict."
+  },
+  "checklist_checked": 4,
+  "qa_verdict": "QA_PASS",
+  "qa_comment": {
+    "id": "ww1u7xe6w8204olfqbavgh0i",
+    "taskId": "o5jlgmryf188c7lr43saqz7c",
+    "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "content": "Independent QA_PASS — configured forge_qa_reviewer /root/rsf34_qa, separate read-only context. Reviewer independently executed: focused79 (35new), public618, private52run/51PASS/1legacy skip, Rust11 plus3actual private source-pair comparisons, all12schema scripts, all4representation deterministic reproductions, fresh alpha/frame/source-immutability/invalid-pool probes, isolated distribution618run/606PASS/12optional Rust-tool skips. All commands exit0. No reproducible findings; no correction/retest needed. Reviewer made no source/Kaneo/ownership writes. Durable evidence: docs/verification/rsf-34/QA_REPORT.md and independent-qa/. Probe SHA25631afb28c322be293ce481a16eb3eb97152eba944da9a45cd72957e8933cbc296; implementation-manifest SHA2569510cfb09211fbe6ab5711d85fe8654d3bdcbbd45a34e0099c6e696d1efbc7c2; repeated synthetic evidence SHA25668ae25c64b6a6894245d7bb3916777bbb856497a46481d12fc7d01327e856be9. Actual Genetic/Jack104slots; Genetic/shield96of104, Pickup mismatches explicit. Existing shield record parent is novice-male-body-v1, no enrolled Dragon Knight body; substituted bytes rejected. Scoped/aggregate review invalidation verified. New cosmetic compilation/nativeUNVERIFIED/exportfalse; no artistic approval. Python3.14 tested,3.12/3.13NOT_RUN; browser/nativeGPU NOT_RUN (no relevant changes). All four mandatory live criteria satisfied. M7 stays open forRSF35. Preserve Codex implementer ownership.",
+    "createdAt": "2026-10-31T05:16:32.619Z",
+    "updatedAt": "2026-10-31T05:16:32.619Z",
+    "user": {
+      "name": "Codex",
+      "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+    }
+  },
+  "transitions": [
+    "Ready",
+    "In Progress",
+    "QA Review",
+    "Accepted"
+  ],
+  "next": {
+    "id": "ly1cfaohrp6e00qxg4g1tfcj",
+    "number": 35,
+    "title": "[M7] Offline custom actions and explicit runtime-support reporting",
+    "status": "to-do",
+    "assignee": null,
+    "dependencies": [
+      {
+        "id": "wbh6jvha6imo9jeub9zmhovj",
+        "number": 32,
+        "title": "[M7] Additional job/body profiles and compatibility registry",
+        "status": "done"
+      },
+      {
+        "id": "udjjt7jp22k3owbo05s8mnf8",
+        "number": 25,
+        "title": "[M5] Canonical deterministic builds, export gates and provenance",
+        "status": "done"
+      }
+    ]
+  },
+  "pending_tracker_writes": false
+}

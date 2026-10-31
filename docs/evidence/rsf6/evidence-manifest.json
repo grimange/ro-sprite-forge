@@ -1,0 +1,17 @@
+{
+  "M0_GATE_PACKET.md": "385b67b0b4fdc0e4a7d3de1778dc29f1fef382bf39b865c28d65c0710d00dfbb",
+  "OPERATOR_ACCEPTANCE.md": "73f67615823fefac46e04ebfdf631e4b0dd0a6a217668a38708b45372c4b5823",
+  "QA_REVIEW.md": "a7366cbfd631679675b480f8e6ae57e4fe9b12ae49dc433aaa2a40c6098016e1",
+  "VERIFICATION.md": "2e264bde4e2932ec5e2e76ed352b334e4a29184de9d71f93624a944f67dd8398",
+  "accepted-manifest.json": "c862ae770baf0a8c94c64e9fadc2a0ab254112bc3f8e74f1dafc0d4217367a0f",
+  "accepted-source.tar.gz": "5bbae7227df21bfb449cf573f43c94200e43b193921da471f39044315637c931",
+  "closure-readback.json": "612141d87b0e2b5620dc5235faceaec32b4aaa1b4aa0efc99eea13a3800b8907",
+  "implementation-manifest.json": "87ee5ec5bc511eae9919b36dff9840396fd514ebae3e1dd5001fd33cd6d9fc77",
+  "kaneo-readback.json": "22db105ad884d0134c5cd8ceb2be9bbc7af23424d55d0f7c678274dd71a374e3",
+  "native-environment.json": "5cf0e50dc03a9ae2e3d3a79f97c4f41784b9f394bdd2a1d8c126c45d3bcd0f7b",
+  "native-report.json.gz": "f18296f381a3dd72c211da51ae29ddfcbdceb62994fbbac36e5424b6a7714f39",
+  "native-result.json": "25ef6cabcee3c37c156fe2cea09821d4530653605767a9ade1833701484be13f",
+  "shader-manifest.json": "b8745db90319d89e0543658351c22d078b3a650f4a383b4c56de57da93ed9354",
+  "source-manifest.json": "5b3066f7b0ec11e729455d0e36c9471397efc5f31b4f5eab1e090e54ed21ad2c",
+  "staging-negative.json": "3f06b4733503ec732f309331599dbfea2e2333131c4fb348ccc1c55833037ae7"
+}

@@ -1,0 +1,6 @@
+{
+  "case": "positive_staging_hash_mismatch",
+  "diagnostic": "RESOURCE_MISMATCH",
+  "exit_status": 101,
+  "output_created": false
+}

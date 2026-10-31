@@ -1,0 +1,8 @@
+{
+  "docs/architecture/RSF11_PREVIEW.md": "9fb502e5c891e92f6792ad306b14e256cdbb20573bc78a4a1ad7f16fe22804d9",
+  "src/ro_sprite_forge/cli.py": "799e531bf9f1e5e221944315b5b2afbf8d108b6b12df09809db2ea4d525f8bc9",
+  "src/ro_sprite_forge/formats/preview.py": "7bbc90c767a2412843524b14b8c992935d47c9051bca9ccc1efb252aedbf126f",
+  "src/ro_sprite_forge/schemas/preview-result-v1.json": "ecc47dfcdd95e4ce8cc833c7c4df1e385799cc055bf9e601704ee53d40fddf31",
+  "tests/private_fixture_hooks/test_preview_fixtures.py": "cfc54eb514854f9a9382bea387b541ae5e4cf7b539148e6a01c44574b61d84fe",
+  "tests/test_preview.py": "9b4f0fdd49ed80ba43c53740612dd316ed4beb2d987eeb90e67134d4e8bbc497"
+}

@@ -1,0 +1,893 @@
+--- before/src/ro_sprite_forge/core/compiler.py
++++ after/src/ro_sprite_forge/core/compiler.py
+@@ -504,6 +504,18 @@
+     return sealed(value)
+ 
+ 
++def _compilation_slot(layer, mode):
++    offline = layer.get("offline")
++    if offline is not None:
++        check(mode != "production_export", "RUNTIME_ACTION_MAPPING_UNAVAILABLE: offline actions cannot authorize production export.")
++        authority = layer.get("authority") or {}
++        check(offline["compilation"] == "BOUND_EXISTING_SLOT_DIAGNOSTIC" and authority.get("kind") == "inherited",
++              "UNSUPPORTED_ACT_SLOT: offline action has no explicit diagnostic storage binding.")
++        check(layer.get("runtime_slot") is None, "CONFLICTING_NATIVE_ACTION_BINDING: offline actions cannot claim runtime slots.")
++        return authority["source_slot"]
++    return layer["runtime_slot"]
++
++
+ def plan_compilation(
+     act_bytes: bytes,
+     spr_bytes: bytes,
+@@ -610,7 +622,11 @@
+         if layer["part"] != part:
+             blockers.append(f"PART_MISMATCH: {rid} belongs to {layer['part']}, expected {part}")
+             continue
+-        slot = layer["runtime_slot"]
++        try:
++            slot = _compilation_slot(layer, compilation_mode)
++        except ForgeError as exc:
++            blockers.append(str(exc))
++            continue
+         frame_idx = layer["frame"]
+         layer_ord = layer["ordinal"]
+         if slot is None or not (0 <= slot < len(orig_act["actions"])):
+@@ -652,6 +668,7 @@
+                 blockers.append(f"UNSUPPORTED_LEDGER_TRANSFORMATION: {rid}")
+ 
+         planned_items.append({
++            **(dict(runtime_slot=None, diagnostic_storage_slot=slot, runtime_mapping="UNSUPPORTED") if layer.get("offline") else {}),
+             "requirement_id": rid,
+             "assignment_id": row["id"],
+             "slot": slot,
+@@ -705,6 +722,10 @@
+             plan["production_authorized"] = candidate["manifest"]["status"]["production_authorized"]
+             plan["remapping"] = candidate["manifest"]["remapping"]
+             plan["selected_replacements"] = candidate["manifest"]["replacements"]
++            for item in plan["selected_replacements"]:
++                if req_layers[item["requirement_id"]].get("offline"):
++                    item.update(runtime_slot=None, diagnostic_storage_slot=item["slot"],
++                                runtime_mapping="UNSUPPORTED")
+         except ForgeError as exc:
+             blockers.append(str(exc))
+             plan["ready_to_compile"] = False
+@@ -1121,7 +1142,7 @@
+             layer["part"] == part,
+             f"PART_MISMATCH: requirement '{rid}' targets part {layer['part']!r}, but compilation is for part {part!r}.",
+         )
+-        slot = layer["runtime_slot"]
++        slot = _compilation_slot(layer, compilation_mode)
+         frame_idx = layer["frame"]
+         layer_ord = layer["ordinal"]
+         check(
+@@ -1527,6 +1548,8 @@
+             f"BOUNDED_REPLACEMENT_ONLY: {len(replacement_records)} layer occurrence(s) replaced across "
+             f"{len(modified_slots)} slot(s); {untouched_slots_count} numeric slot(s) retain classic reference art outside completeness."
+         )
++    for action_id in sorted({l["action"] for l in requirements["layers"] if l.get("offline") and l["id"] in selected_req_ids}):
++        diagnostics.append(f"RUNTIME_ACTION_MAPPING_UNAVAILABLE: {action_id}; existing ACT storage is diagnostic only, not runtime invocation support.")
+     if not export_ready:
+         diagnostics.append("INCOMPLETE_ACTOR_SCOPE: export_ready remains False; not authorized as a full-profile production export.")
+ 
+--- before/src/ro_sprite_forge/core/contracts.py
++++ after/src/ro_sprite_forge/core/contracts.py
+@@ -288,6 +288,15 @@
+     frames = layers = 0
+     for i, action in enumerate(v['actions']):
+         path = f'/actions/{i}'
++        if 'offline' in action:
++            require(type(action['offline']['timing']['loop']) is bool, path + '/offline/timing/loop', 'Expected boolean loop policy.')
++            require(action['id'] not in {a['id'] for a in pv['actions']}, path + '/id',
++                    'CONFLICTING_NATIVE_ACTION_BINDING: offline IDs cannot replace profile actions.')
++            if action['offline']['compilation'] == 'BOUND_EXISTING_SLOT_DIAGNOSTIC':
++                require(bool(action['parts']) and all(p['views'] and all(
++                    w['topology'] is not None and w['topology']['kind'] == 'inherited'
++                    for w in p['views']) for p in action['parts']), path + '/offline/compilation',
++                    'UNBOUND_DIAGNOSTIC_COMPOSITION: explicit hash-bound inherited storage required.')
+         _unique([p['part'] for p in action['parts']], path + '/parts')
+         if action['requirement'] == 'OUT_OF_SCOPE':
+             require(not action['parts'], path + '/parts', 'Excluded action cannot declare production work.')
+@@ -315,6 +324,12 @@
+                                 vp + '/topology/inventory_sha256', 'Inherited topology must pin an associated actor resource.')
+     require(frames <= 65536, '/actions', 'Frame declaration budget exceeded.')
+     require(layers <= 262144, '/actions', 'Layer declaration budget exceeded.')
++    if any('offline' in a for a in v['actions']):
++        v['actions'].sort(key=lambda a: a['id'])
++        for action in v['actions']:
++            action['parts'].sort(key=lambda p: p['part'])
++            for part in action['parts']:
++                part['views'].sort(key=lambda w: w['view'])
+     return TargetContract(canonical_bytes(sealed(v)))
+ 
+ 
+@@ -345,6 +360,8 @@
+         if action['requirement'] == 'OUT_OF_SCOPE':
+             continue
+         mapped = mapping.get(action['id'])
++        if 'offline' in action:
++            mapped = dict(mapping='UNSUPPORTED', reachability='UNSUPPORTED', slots=[])
+         runtime.append({'action': action['id'], 'mapping': mapped['mapping'] if mapped else 'UNVERIFIED',
+                         'reachability': mapped['reachability'] if mapped else 'UNVERIFIED',
+                         'slots': mapped['slots'] if mapped and mapped['mapping'] == 'SUPPORTED' else []})
+--- before/src/ro_sprite_forge/core/custom_actions.py
++++ after/src/ro_sprite_forge/core/custom_actions.py
+@@ -0,0 +1,159 @@
++"""Offline action adapters for existing targets, ledger, compositor and timeline.
++
++No native slot allocation, runtime dispatcher, artwork approval or binary encoder.
++The optional target action declaration is rsf.offline-action/v1. Registry entries
++are capability references to that target, not another animation project.
++"""
++from copy import deepcopy
++import io
++
++from ro_sprite_forge.core.canonical import canonical_bytes, check, digest, sealed
++from ro_sprite_forge.core.contracts import reference
++from ro_sprite_forge.core.topology import resolve_topology
++
++
++def action_composition_basis(target, action):
++    """Action-local visual authority, opt-in for targets containing offline actions."""
++    semantic = deepcopy(action)
++    if 'offline' in semantic:
++        semantic['offline'].pop('label', None)
++    # Declaration order does not alter the action's composition identity.
++    semantic['parts'].sort(key=lambda p: p['part'])
++    for part in semantic['parts']:
++        part['views'].sort(key=lambda v: v['view'])
++    return digest(canonical_bytes(dict(schema='rsf.action-composition/v1',
++        target_id=target['id'], actor=target['actor'], runtime_profile=target['runtime_profile'],
++        action=semantic)))
++
++
++def action_support(target, *, actor, profile, inventories=()):
++    """Report source-defined mappings separately from dispatch/native execution.
++
++    The report never promotes source evidence into native verification. An offline
++    declaration explicitly has no runtime mapping, including when its diagnostic
++    storage happens to be an existing ACT slot.
++    """
++    req = resolve_topology(target, actor=actor, profile=profile, inventories=inventories)
++    tv, pv = target.to_dict(), profile.to_dict()
++    mappings = {a['id']: a for a in pv['actions']}
++    rows = []
++    for action in sorted(tv['actions'], key=lambda a: a['id']):
++        if action['requirement'] == 'OUT_OF_SCOPE':
++            continue
++        slots = [s for s in req['slots'] if s['action'] == action['id']]
++        complete = bool(slots) and all(s['resolution'] == 'RESOLVED' for s in slots)
++        offline = action.get('offline')
++        mapping = mappings.get(action['id']) if not offline else None
++        supported = bool(mapping and mapping['mapping'] == 'SUPPORTED')
++        rows.append(dict(action_id=action['id'],
++            definition_sha256=action_composition_basis(tv, action),
++            kind='OFFLINE_ONLY' if offline else 'PROFILE_ACTION',
++            authoring='SUPPORTED' if complete else 'PARTIAL',
++            preview='ASSIGNMENTS_REQUIRED' if complete else 'UNSUPPORTED',
++            timing=offline['timing'] if offline else dict(authority='RUNTIME_PROFILE', profile=reference(profile)),
++            runtime_mapping='SUPPORTED' if supported else 'UNSUPPORTED' if offline else 'UNVERIFIED',
++            runtime_slots=[dict(view=s['view'], part=s['part'], slot=s['runtime_slot'])
++                           for s in slots] if supported else [],
++            runtime_evidence=pv['source'] if supported else None,
++            gameplay_reachability=mapping['reachability'] if supported else 'UNSUPPORTED' if offline else 'UNVERIFIED',
++            compilation=offline['compilation'] if offline else 'EXISTING_COMPILER_POLICY',
++            diagnostic_storage=[dict(part=s['part'], view=s['view'],
++                source_slot=s['authority']['source_slot'], inventory_sha256=s['authority']['inventory_sha256'])
++                for s in slots if s['authority'] and s['authority']['kind'] == 'inherited']
++                if offline and offline['compilation'] == 'BOUND_EXISTING_SLOT_DIAGNOSTIC' else [],
++            native_verification='UNVERIFIED', production_authorized=False,
++            diagnostics=[] if supported else ['RUNTIME_ACTION_MAPPING_UNAVAILABLE'] if offline else ['RUNTIME_MAPPING_UNVERIFIED'] ))
++    return sealed(dict(schema='rsf.action-support/v1', target=reference(target),
++        runtime_profile=reference(profile), requirements_sha256=req['canonical_sha256'], actions=rows))
++
++
++def preview_offline_action(target, *, actor, profile, ledger, source_bytes,
++                           action_id, view, frame=0, part='body', elapsed_ms=None,
++                           inventories=(), canvas_size=(128, 128)):
++    """Render assigned PNG pixels with the existing compositor and diagnostic clock.
++
++    A transient single-sequence compositor input is not an ACT file or runtime
++    mapping. Source-backed geometry is retained where inherited; explicit topology
++    uses the compositor's declared identity transform at the origin.
++    """
++    from PIL import Image
++    from ro_sprite_forge.core.ingestion import validate_png
++    from ro_sprite_forge.core.ledger import resolve_ledger, load_ledger, AssignmentLedger
++    from ro_sprite_forge.core.timeline import AnimationTimeline
++    from ro_sprite_forge.formats.preview import composite_frame
++
++    check(type(view) is int and type(frame) is int, 'INVALID_FRAME_SELECTION')
++    check(isinstance(canvas_size, tuple) and len(canvas_size) == 2 and
++          all(type(n) is int and 1 <= n <= 4096 for n in canvas_size), 'PREVIEW_DIMENSION_BUDGET')
++    req = resolve_topology(target, actor=actor, profile=profile, inventories=inventories)
++    action = next((a for a in target.to_dict()['actions'] if a['id'] == action_id), None)
++    check(action is not None and 'offline' in action, 'OFFLINE_ACTION_UNAVAILABLE')
++    slot = next((s for s in req['slots'] if s['action'] == action_id and s['view'] == view and s['part'] == part), None)
++    check(slot is not None and slot['resolution'] == 'RESOLVED', 'UNDERSPECIFIED_LAYER_TOPOLOGY')
++    check(0 <= frame < slot['frame_count'], 'INVALID_FRAME_ORDINAL')
++    # Use RSF-12's explicit diagnostic interval, never its native action resolver.
++    clock_input = dict(actions=[[dict(clips=[]) for _ in range(slot['frame_count'])]], delays=[0])
++    clock = AnimationTimeline(clock_input)
++    selection = clock.select(slot=0, frame=frame)
++    timing = action['offline']['timing']
++    if elapsed_ms is not None:
++        selection = clock.seek(selection, elapsed_ms, diagnostic_frame_ms=timing['frame_ms'], diagnostic_loop=timing['loop'])
++        frame = selection['frame']
++    loaded = ledger if isinstance(ledger, AssignmentLedger) else load_ledger(ledger, requirements=req)
++    report = resolve_ledger(loaded, requirements=req, source_bytes=source_bytes)
++    rows = {a['requirement_id']: a for a in report['assignments']}
++    layers = sorted((l for l in req['layers'] if l['action'] == action_id and
++                     l['view'] == view and l['frame'] == frame and l['part'] == part), key=lambda l: l['ordinal'])
++    check(len(layers) <= 256, "PREVIEW_LAYER_BUDGET")
++    decoded_pixels = 0
++    images, clips, provenance = [], [], []
++    for layer in layers:
++        row = rows.get(layer['id'])
++        check(row is not None and row['effective_source'] is not None, 'MISSING_STAGED_SOURCE')
++        source = row['effective_source']
++        raw = source_bytes.get(source['id'])
++        check(isinstance(raw, bytes), 'MISSING_STAGED_SOURCE')
++        validate_png(raw, expected_sha256=source['sha256'])
++        with Image.open(io.BytesIO(raw)) as im:
++            decoded_pixels += im.width * im.height
++            check(decoded_pixels <= 16_777_216, "PREVIEW_PIXEL_BUDGET")
++            image = im.convert('RGBA')
++        for step in row['transform_chain']:
++            op = step['operation'].get('op')
++            check(op == 'mirror_x', 'UNSUPPORTED_IMAGE_OPERATION: ' + str(op))
++            image = image.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
++        original = layer['source_layer']
++        clip = deepcopy(original['raw']) if original and 'raw' in original else dict(
++            x=0, y=0, scale_x=1.0, scale_y=1.0, angle=0, mirror=0, color=0xFFFFFFFF)
++        clip.update(sprite=len(images), pool=1)
++        images.append(image); clips.append(clip)
++        provenance.append(dict(requirement_id=layer['id'], source=source,
++                               composition_sha256=row['composition_sha256']))
++    result = composite_frame(dict(actions=[[dict(clips=clips, anchors=[])]], delays=[0]),
++                             images, 0, 0, canvas_size=canvas_size)
++    result['offline'] = sealed(dict(schema='rsf.offline-preview/v1', action_id=action_id,
++        target=reference(target), part=part, view=view, frame=frame,
++        timing=timing, elapsed_ms=elapsed_ms, runtime_slot=None,
++        runtime_mapping='UNSUPPORTED', native_verification='UNVERIFIED',
++        visual_review='UNVERIFIED', sources=provenance,
++        png_sha256=digest(result['png_bytes']), rgba_sha256=digest(result['image'].tobytes())))
++    return result
++
++
++def offline_registry_entry(registry, *, profile_id, target, actor, profile, action_id):
++    """A hash-bound capability reference; no user-supplied runtime/native assertion."""
++    from ro_sprite_forge.core.registry import to_runtime_profile_contract
++    document = registry.to_dict() if hasattr(registry, 'to_dict') else registry
++    entry = next((p for p in document['profiles'] if p['id'] == profile_id), None)
++    check(entry is not None, 'UNKNOWN_ACTOR_PROFILE')
++    check(reference(to_runtime_profile_contract(entry)) == reference(profile), 'PROFILE_REVISION_MISMATCH')
++    action = next((a for a in target.to_dict()['actions'] if a['id'] == action_id), None)
++    check(action is not None and 'offline' in action, 'OFFLINE_ACTION_UNAVAILABLE')
++    # Validate target/profile/actor and its explicit declaration without loading art.
++    from ro_sprite_forge.core.contracts import load_target
++    load_target(target.to_dict(), actor=actor, profile=profile)
++    return sealed(dict(schema='rsf.offline-action-capability/v1',
++        id=profile_id + ':' + action_id, profile_id=profile_id,
++        profile_sha256=entry['canonical_sha256'], target=reference(target), action_id=action_id,
++        definition_sha256=action_composition_basis(target.to_dict(), action),
++        runtime_mapping='UNSUPPORTED', native_verification='UNVERIFIED'))
+--- before/src/ro_sprite_forge/core/ledger.py
++++ after/src/ro_sprite_forge/core/ledger.py
+@@ -24,6 +24,13 @@
+ @dataclass(frozen=True)
+ class AssignmentLedger(Contract):
+     """Immutable declaration; observations live in a separate sealed report."""
++
++
++def composition_target(requirements, layer):
++    """Opt-in action-local identity excludes unrelated action revisions, never actor/profile changes."""
++    if layer.get('action_basis'):
++        return dict(id=requirements['target']['id'], revision=1, canonical_sha256=layer['action_basis'])
++    return requirements['target']
+ 
+ 
+ def assignment_binding(layer: dict) -> dict:
+@@ -239,7 +246,7 @@
+         obs = observations[source['id']] if source is not None else None
+         slot = slot_map[layers[item['requirement_id']]['frame_id'].rsplit('/frame', 1)[0]]
+         basis = digest(canonical_bytes({'schema': 'rsf.assignment-review-basis/v1',
+-            'target': value['target'], 'runtime_profile': requirements['runtime_profile'],
++            'target': composition_target(requirements, layers[item['requirement_id']]), 'runtime_profile': requirements['runtime_profile'],
+             'requirement': layers[item['requirement_id']], 'assignment': {k:v for k,v in item.items() if k != 'review'},
+             'source': source, 'dependency_basis': dep['composition_sha256'] if dep else None,
+             'attachment': links.get(aid),
+--- before/src/ro_sprite_forge/core/registry.py
++++ after/src/ro_sprite_forge/core/registry.py
+@@ -163,6 +163,22 @@
+             require(pairing['id'] not in ids, '/cosmetic_pairings', 'CONFLICTING_COSTUME_BINDING.')
+             ids.add(pairing['id'])
+             validate_cosmetic_pairing(pairing, value)
++
++    if 'offline_actions' in value:
++        ids = set()
++        by_id = {p['id']: p for p in profiles}
++        for entry in value['offline_actions']:
++            check_seal(entry, 'rsf.offline-action-capability/v1')
++            require(entry['id'] not in ids, '/offline_actions', 'DUPLICATE_ACTION_ID.')
++            ids.add(entry['id'])
++            parent = by_id.get(entry['profile_id'])
++            require(parent is not None, '/offline_actions', 'UNKNOWN_ACTOR_PROFILE.')
++            require(entry['id'] == entry['profile_id'] + ':' + entry['action_id'],
++                    '/offline_actions', 'INVALID_ACTION_IDENTITY.')
++            require(entry['profile_sha256'] == parent['canonical_sha256'],
++                    '/offline_actions', 'PROFILE_REVISION_MISMATCH.')
++            require(entry['action_id'] not in {a['id'] for a in parent['actions']},
++                    '/offline_actions', 'CONFLICTING_NATIVE_ACTION_BINDING.')
+ 
+     payload = {k: v for k, v in value.items() if k != 'canonical_sha256'}
+     expected_digest = digest(canonical_bytes(payload))
+@@ -927,6 +943,7 @@
+     version: str = '1.0.0',
+     attachment_pairings: list[dict] | None = None,
+     cosmetic_pairings: list[dict] | None = None,
++    offline_actions: list[dict] | None = None,
+ ) -> CompatibilityRegistry:
+     """Create a deterministically sealed CompatibilityRegistry from a list of profile records."""
+     # Deterministic sorting by profile ID
+@@ -942,6 +959,9 @@
+     if cosmetic_pairings is not None:
+         payload['cosmetic_pairings'] = sorted(cosmetic_pairings, key=lambda p: p['id'])
+ 
++    if offline_actions is not None:
++        payload['offline_actions'] = sorted(offline_actions, key=lambda p: p['id'])
++
+     sealed_payload = sealed(payload)
+     validate_registry(sealed_payload)
+     return CompatibilityRegistry(canonical_bytes(sealed_payload))
+--- before/src/ro_sprite_forge/core/review.py
++++ after/src/ro_sprite_forge/core/review.py
+@@ -44,6 +44,7 @@
+     rows = {a['requirement_id']: a for a in (ledger_report or {}).get('assignments', [])}
+     frames = {f['id']:f for f in requirements['frames']}
+     slots = {s['id']:s for s in requirements['slots']}
++    from ro_sprite_forge.core.ledger import composition_target
+     from ro_sprite_forge.formats.preview import RENDERER_VERSION, GEOMETRY_VERSION
+     from ro_sprite_forge.core.timeline import TIMING_VERSION
+     groups = {}
+@@ -55,7 +56,7 @@
+         if row is None or row['kind'] == 'UNASSIGNED':
+             continue
+         payload = dict(schema='rsf.operator-composition-basis/v1',
+-                       target=requirements['target'], runtime_profile=requirements['runtime_profile'],
++                       target=composition_target(requirements, layer), runtime_profile=requirements['runtime_profile'],
+                        requirement=layer, frame=frames[layer['frame_id']],
+                        slot=slots[frames[layer['frame_id']]['slot_id']],
+                        rendering_versions=dict(renderer=RENDERER_VERSION,geometry=GEOMETRY_VERSION,timing=TIMING_VERSION),
+@@ -95,7 +96,7 @@
+         if pair:
+             event, member = pair
+             state.update(review_id=event['id'], recorded_basis_sha256=member['basis_sha256'], recorded_evidence_sha256=member['evidence_sha256'], decision=event['decision'])
+-            if member['basis_sha256'] != current.get(rid) or event['target'] != requirements['target']:
++            if member['basis_sha256'] != current.get(rid) or (not layer.get('action_basis') and event['target'] != requirements['target']):
+                 state.update(state='STALE', causes=['COMPOSITION_CHANGED_OR_REQUIREMENT_UNAVAILABLE'])
+             elif evidence is not None and evidence.get(rid) != member['evidence_sha256']:
+                 state.update(state='STALE', causes=['PREVIEW_OR_SOURCE_EVIDENCE_CHANGED'])
+--- before/src/ro_sprite_forge/core/topology.py
++++ after/src/ro_sprite_forge/core/topology.py
+@@ -25,6 +25,7 @@
+     sources = {i['canonical_sha256']: i for i in inventories}
+     mappings = {a['id']: a for a in pv['actions'] if a['id'] is not None}
+     diagnostics = list(assessment['diagnostics'])
++    scoped_actions = any('offline' in a for a in tv['actions'])
+     slots, frames, layers = [], [], []
+     unknown_dimensions = {requirement: sum(
+         int(not a['parts']) + sum(not p['views'] for p in a['parts'])
+@@ -35,12 +36,21 @@
+         if action['requirement'] == 'OUT_OF_SCOPE':
+             continue
+         mapped = mappings.get(action['id'])
++        action_basis = None
++        if scoped_actions:
++            from ro_sprite_forge.core.custom_actions import action_composition_basis
++            action_basis = action_composition_basis(tv, action)
++        if 'offline' in action:
++            mapped = dict(mapping='UNSUPPORTED', reachability='UNSUPPORTED')
+         for pi, part in sorted(enumerate(action['parts']), key=lambda x: x[1]['part']):
+             for vi, view in sorted(enumerate(part['views']), key=lambda x: x[1]['view']):
+                 path = f'/actions/{ai}/parts/{pi}/views/{vi}'
+                 runtime_slot = mapped['group'] * 8 + view['view'] if mapped and mapped['mapping'] == 'SUPPORTED' else None
+                 prefix = (f"{target.id}/r{target.revision}/{part['part']}/action/{action['id']}"
+                           f"/slot{runtime_slot if runtime_slot is not None else 'UNVERIFIED'}/view{view['view']}")
++                if scoped_actions:
++                    prefix = (f"{target.id}/action/{action['id']}/{part['part']}"
++                              f"/slot{runtime_slot if runtime_slot is not None else 'OFFLINE'}/view{view['view']}")
+                 count, topology = view['frame_count'], view['topology']
+                 authority, source, source_action = None, None, None
+                 if topology is not None:
+@@ -70,6 +80,10 @@
+                     'requirement': action['requirement'], 'frame_count': count,
+                     'resolution': 'RESOLVED' if count is not None and authority is not None else 'UNDERSPECIFIED',
+                     'authority': authority})
++                if scoped_actions:
++                    slots[-1]['action_basis'] = action_basis
++                if 'offline' in action:
++                    slots[-1]['offline'] = action['offline']
+                 if count is None:
+                     continue
+                 for fi in range(count):
+@@ -105,6 +119,12 @@
+                                 'source_layer': observations[li][1] if observations else None,
+                                 'registration': 'REFERENCE_OBSERVATIONS' if observations else 'UNSPECIFIED',
+                                 'reuse': 'UNDECLARED', 'assignment': 'UNASSIGNED', 'visual_review': 'UNVERIFIED'})
++                    if scoped_actions:
++                        frame['action_basis'] = action_basis
++                        for item in layers[-len(roles):] if roles else []:
++                            item['action_basis'] = action_basis
++                            if 'offline' in action:
++                                item['offline'] = action['offline']
+                     frames.append(frame)
+     counts = {}
+     for requirement in ('REQUIRED', 'OPTIONAL'):
+--- before/src/ro_sprite_forge/schemas/compatibility-registry-v1.json
++++ after/src/ro_sprite_forge/schemas/compatibility-registry-v1.json
+@@ -1021,6 +1021,93 @@
+         }
+       },
+       "minItems": 0
++    },
++    "offline_actions": {
++      "type": "array",
++      "maxItems": 1024,
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "required": [
++          "schema",
++          "id",
++          "profile_id",
++          "profile_sha256",
++          "target",
++          "action_id",
++          "definition_sha256",
++          "runtime_mapping",
++          "native_verification",
++          "canonical_sha256"
++        ],
++        "properties": {
++          "schema": {
++            "const": "rsf.offline-action-capability/v1"
++          },
++          "id": {
++            "type": "string",
++            "minLength": 1,
++            "maxLength": 200
++          },
++          "profile_id": {
++            "type": "string",
++            "minLength": 1,
++            "maxLength": 80
++          },
++          "profile_sha256": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{64}$",
++            "maxLength": 64
++          },
++          "target": {
++            "type": "object",
++            "additionalProperties": false,
++            "required": [
++              "id",
++              "revision",
++              "canonical_sha256"
++            ],
++            "properties": {
++              "id": {
++                "type": "string",
++                "maxLength": 80
++              },
++              "revision": {
++                "type": "integer",
++                "minimum": 1,
++                "maximum": 2147483647
++              },
++              "canonical_sha256": {
++                "type": "string",
++                "pattern": "^[0-9a-f]{64}$",
++                "maxLength": 64
++              }
++            }
++          },
++          "action_id": {
++            "type": "string",
++            "minLength": 1,
++            "maxLength": 80
++          },
++          "definition_sha256": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{64}$",
++            "maxLength": 64
++          },
++          "runtime_mapping": {
++            "const": "UNSUPPORTED"
++          },
++          "native_verification": {
++            "const": "UNVERIFIED"
++          },
++          "canonical_sha256": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{64}$",
++            "maxLength": 64
++          }
++        }
++      },
++      "minItems": 0
+     }
+   }
+ }
+--- before/src/ro_sprite_forge/schemas/target-v2.json
++++ after/src/ro_sprite_forge/schemas/target-v2.json
+@@ -195,6 +195,54 @@
+               "OPTIONAL",
+               "OUT_OF_SCOPE"
+             ]
++          },
++          "offline": {
++            "type": "object",
++            "additionalProperties": false,
++            "required": [
++              "schema",
++              "label",
++              "timing",
++              "compilation"
++            ],
++            "properties": {
++              "schema": {
++                "const": "rsf.offline-action/v1"
++              },
++              "label": {
++                "type": "string",
++                "minLength": 1,
++                "maxLength": 128
++              },
++              "timing": {
++                "type": "object",
++                "additionalProperties": false,
++                "required": [
++                  "authority",
++                  "frame_ms",
++                  "loop"
++                ],
++                "properties": {
++                  "authority": {
++                    "const": "EXPLICIT_DIAGNOSTIC_INTERVAL"
++                  },
++                  "frame_ms": {
++                    "type": "integer",
++                    "minimum": 1,
++                    "maximum": 60000
++                  },
++                  "loop": {
++                    "type": "boolean"
++                  }
++                }
++              },
++              "compilation": {
++                "enum": [
++                  "UNSUPPORTED",
++                  "BOUND_EXISTING_SLOT_DIAGNOSTIC"
++                ]
++              }
++            }
+           }
+         },
+         "required": [
+--- before/tests/test_custom_actions.py
++++ after/tests/test_custom_actions.py
+@@ -0,0 +1,284 @@
++"""RSF-35: synthetic offline actions; approvals are isolated test decisions."""
++import copy
++import io
++import json
++import os
++from pathlib import Path
++import subprocess
++import sys
++import tempfile
++import unittest
++
++from PIL import Image
++from ro_sprite_forge.core.canonical import canonical_bytes, digest, sealed
++from ro_sprite_forge.core.contracts import frozen_runtime_profile, load_actor, load_target, reference
++from ro_sprite_forge.core.custom_actions import action_support, preview_offline_action, offline_registry_entry
++from ro_sprite_forge.core.topology import resolve_topology
++from ro_sprite_forge.core.ledger import load_ledger, resolve_ledger as _resolve_ledger
++
++def resolve_ledger(value, *, requirements, source_bytes=None):
++    return _resolve_ledger(load_ledger(value,requirements=requirements),requirements=requirements,source_bytes=source_bytes)
++
++from ro_sprite_forge.core.coverage import evaluate_coverage
++from ro_sprite_forge.core.review import bases, make_event, evaluate_reviews
++from ro_sprite_forge.core.registry import get_default_registry, create_registry, load_registry, to_actor_contract, to_runtime_profile_contract
++from ro_sprite_forge.core.project import create_project, load_project, save_project, import_blob, get_blob
++from ro_sprite_forge.core.compiler import compile_resources, plan_compilation
++from ro_sprite_forge.core.errors import ForgeError
++from ro_sprite_forge.formats.act import read_act
++from ro_sprite_forge.formats.spr import read_spr
++from test_contracts import actor_document, target_document
++from test_compiler import _make_png, _build_approved_ledger, _build_synthetic_monster_act_spr, _setup_monster_contracts, RUST_ORACLE_BIN
++
++COLORS = [(255, 0, 0, 255), (0, 255, 0, 255), (0, 0, 255, 255), (255, 255, 0, 255)]
++ROOT = Path(__file__).resolve().parents[1]
++
++
++def declaration(name='Wave', count=4, topology=None):
++    return dict(id=name, requirement='REQUIRED', offline=dict(schema='rsf.offline-action/v1', label=name,
++        timing=dict(authority='EXPLICIT_DIAGNOSTIC_INTERVAL', frame_ms=80, loop=True), compilation='UNSUPPORTED'),
++        parts=[dict(part='body', views=[dict(view=0, frame_count=count,
++            topology=topology if topology is not None else dict(kind='explicit', layers=['body']))])])
++
++
++def fixture(actor=None, profile=None, doc=None):
++    profile = profile or frozen_runtime_profile('player')
++    actor = actor or load_actor(actor_document(profile))
++    if doc is None:
++        walk = dict(id='Walk', requirement='REQUIRED', parts=[dict(part='body', views=[dict(view=0, frame_count=1,
++            topology=dict(kind='explicit', layers=['body']))])])
++        doc = target_document(actor, profile, actions=[declaration(), walk])
++    target = load_target(doc, actor=actor, profile=profile)
++    req = resolve_topology(target, actor=actor, profile=profile)
++    sources = {f'art{i}': _make_png(4, 4, c) for i,c in enumerate(COLORS)}
++    assignments = [dict(requirement_id=l['id'], kind='DIRECT_SOURCE', source=dict(id=f"art{l['frame'] % 4}", revision=1),
++                        review_state=None) for l in req['layers']]
++    ledger = _build_approved_ledger(req, assignments, sources)
++    return actor, profile, target, req, ledger, sources
++
++
++def bound_fixture(name='Guard'):
++    act, spr = _build_synthetic_monster_act_spr()
++    actor, profile, old, inv, _ = _setup_monster_contracts(act, spr)
++    doc = old.to_dict(); doc.pop('canonical_sha256')
++    action = declaration(name, topology=dict(kind='inherited', inventory_sha256=inv['canonical_sha256'], slot=8))
++    action['offline']['compilation'] = 'BOUND_EXISTING_SLOT_DIAGNOSTIC'
++    doc['actions'] = [action]
++    target = load_target(doc, actor=actor, profile=profile)
++    req = resolve_topology(target, actor=actor, profile=profile, inventories=(inv,))
++    sources = {'art': _make_png(4,4,(12,34,56,255))}
++    ledger = _build_approved_ledger(req, [dict(requirement_id=req['layers'][0]['id'], kind='DIRECT_SOURCE',
++        source=dict(id='art', revision=1))], sources)
++    return act, spr, actor, profile, target, inv, dict(requirements=req, ledger=ledger, source_bytes=sources, replacement_policy='explicit_rgba')
++
++
++class OfflineActionTests(unittest.TestCase):
++    def setUp(self):
++        self.actor,self.profile,self.target,self.req,self.ledger,self.sources = fixture()
++
++    def preview(self, **kwargs):
++        return preview_offline_action(self.target, actor=self.actor, profile=self.profile,
++            ledger=self.ledger, source_bytes=self.sources, action_id='Wave', view=0, canvas_size=(16,16), **kwargs)
++
++    def test_exact_declared_topology_and_stable_identity(self):
++        wave = [l for l in self.req['layers'] if l['action']=='Wave']
++        self.assertEqual([(l['view'],l['frame'],l['ordinal']) for l in wave], [(0,n,0) for n in range(4)])
++        self.assertTrue(all('/action/Wave/' in l['id'] and l['runtime_slot'] is None for l in wave))
++        doc=self.target.to_dict();doc.pop('canonical_sha256');doc['actions'].reverse()
++        req=resolve_topology(load_target(doc,actor=self.actor,profile=self.profile),actor=self.actor,profile=self.profile)
++        self.assertEqual(self.req,req)
++
++    def test_known_pixels_each_frame_and_diagnostic_clock(self):
++        for n,color in enumerate(COLORS):
++            result=self.preview(frame=n)
++            visible=[p for p in result['image'].getdata() if p[3]]
++            self.assertTrue(visible);self.assertEqual(set(visible),{color})
++            self.assertEqual(result['offline']['frame'],n)
++            self.assertEqual(result['offline']['visual_review'],'UNVERIFIED')
++            self.assertEqual(result['offline']['runtime_mapping'],'UNSUPPORTED')
++        self.assertEqual(self.preview(elapsed_ms=400)['offline']['frame'],1)
++        self.assertEqual(self.preview(elapsed_ms=320)['offline']['frame'],0)
++
++    def test_coverage_and_no_automatic_approval(self):
++        report=resolve_ledger(self.ledger,requirements=self.req,source_bytes=self.sources)
++        self.assertTrue(all(r['visual_review']=='UNVERIFIED' for r in report['assignments']))
++        coverage=evaluate_coverage(self.req,self.ledger,source_bytes=self.sources,target=self.target)
++        self.assertFalse(coverage['status']['export_ready'])
++        partial=copy.deepcopy(self.ledger);partial['assignments']=partial['assignments'][:-1]
++        missing=resolve_ledger(partial,requirements=self.req,source_bytes=self.sources)
++        self.assertEqual(len(self.req['layers'])-len(missing['assignments']),1)
++
++    def test_support_dimensions_walk_preserved_and_no_fallback(self):
++        report=action_support(self.target,actor=self.actor,profile=self.profile)
++        rows={r['action_id']:r for r in report['actions']}
++        self.assertEqual(rows['Walk']['runtime_slots'],[dict(view=0,part='body',slot=8)])
++        self.assertEqual(rows['Walk']['runtime_mapping'],'SUPPORTED')
++        self.assertEqual(rows['Walk']['native_verification'],'UNVERIFIED')
++        self.assertEqual(rows['Wave']['runtime_slots'],[])
++        self.assertEqual(rows['Wave']['runtime_mapping'],'UNSUPPORTED')
++        self.assertEqual(rows['Wave']['diagnostics'],['RUNTIME_ACTION_MAPPING_UNAVAILABLE'])
++        from ro_sprite_forge.core.timeline import AnimationTimeline
++        from test_compiler import _build_synthetic_monster_act_spr
++        timeline=AnimationTimeline(read_act(_build_synthetic_monster_act_spr()[0]),category='monster')
++        with self.assertRaises(ForgeError):timeline.select(action='Wave',view=0)
++
++    def test_duplicate_and_native_identity_collisions(self):
++        for change in ('duplicate','native'):
++            doc=self.target.to_dict();doc.pop('canonical_sha256')
++            if change=='duplicate':doc['actions'].append(copy.deepcopy(doc['actions'][0]))
++            else:next(a for a in doc['actions'] if a['id']=='Wave')['id']='Idle'
++            with self.assertRaises(ForgeError):load_target(doc,actor=self.actor,profile=self.profile)
++
++    def test_slot_spoof_native_claim_and_bad_kind_rejected(self):
++        for key,val in [('runtime_slot',104),('native_verification','VERIFIED'),('kind','NATIVE')]:
++            doc=self.target.to_dict();doc.pop('canonical_sha256');next(a for a in doc['actions'] if a['id']=='Wave')['offline'][key]=val
++            with self.assertRaises(ForgeError):load_target(doc,actor=self.actor,profile=self.profile)
++
++    def test_undeclared_topology_remains_partial(self):
++        doc=self.target.to_dict();doc.pop('canonical_sha256');next(a for a in doc['actions'] if a['id']=='Wave')['parts'][0]['views'][0]['topology']=None
++        target=load_target(doc,actor=self.actor,profile=self.profile)
++        row=next(r for r in action_support(target,actor=self.actor,profile=self.profile)['actions'] if r['action_id']=='Wave')
++        self.assertEqual(row['authoring'],'PARTIAL');self.assertEqual(row['preview'],'UNSUPPORTED')
++
++    def test_invalid_view_frame_and_action(self):
++        for kwargs in [dict(frame=4),dict(frame=-1),dict(frame=True),dict(elapsed_ms=-1)]:
++            with self.assertRaises(ForgeError):self.preview(**kwargs)
++        for key,val in [('view',8),('frame_count',-1)]:
++            doc=self.target.to_dict();doc.pop('canonical_sha256');next(a for a in doc['actions'] if a['id']=='Wave')['parts'][0]['views'][0][key]=val
++            with self.assertRaises(ForgeError):load_target(doc,actor=self.actor,profile=self.profile)
++        with self.assertRaises(ForgeError):preview_offline_action(self.target,actor=self.actor,profile=self.profile,
++            ledger=self.ledger,source_bytes=self.sources,action_id='Idle',view=0)
++
++    def test_missing_or_changed_source_and_stale_ledger(self):
++        for sources in [{},dict(self.sources,art0=b'corrupt')]:
++            with self.assertRaises(ForgeError):preview_offline_action(self.target,actor=self.actor,profile=self.profile,
++                ledger=self.ledger,source_bytes=sources,action_id='Wave',view=0)
++        bad=copy.deepcopy(self.ledger);bad['target']['revision']+=1
++        with self.assertRaises(ForgeError):resolve_ledger(bad,requirements=self.req,source_bytes=self.sources)
++        bad=copy.deepcopy(self.ledger);bad['assignments'][0]['binding']['frame']=99
++        with self.assertRaises(ForgeError):load_ledger(bad,requirements=self.req)
++
++    def test_source_and_timing_review_invalidation_is_scoped(self):
++        report=resolve_ledger(self.ledger,requirements=self.req,source_bytes=self.sources)
++        members=[dict(requirement_id=k,basis_sha256=v,evidence_sha256='e'*64) for k,v in sorted(bases(self.req,report).items())]
++        event=make_event('demo',1,self.req['target'],'APPROVED',members,1)
++        source_change=copy.deepcopy(self.ledger);source_change['assignments'][0]['revision']+=1
++        changed=resolve_ledger(source_change,requirements=self.req,source_bytes=self.sources)
++        review=evaluate_reviews('demo',[event],self.req,changed)
++        self.assertEqual(review['counts']['STALE'],1)
++        doc=self.target.to_dict();doc.pop('canonical_sha256');doc['revision']=2;doc['previous_sha256']=self.target.canonical_sha256
++        next(a for a in doc['actions'] if a['id']=='Wave')['offline']['timing']['frame_ms']=90
++        target=load_target(doc,actor=self.actor,profile=self.profile)
++        req=resolve_topology(target,actor=self.actor,profile=self.profile)
++        ledger=copy.deepcopy(self.ledger);ledger['target']=req['target'];ledger['requirements_sha256']=req['canonical_sha256']
++        review=evaluate_reviews('demo',[event],req,resolve_ledger(ledger,requirements=req,source_bytes=self.sources))
++        self.assertEqual(review['counts']['STALE'],4);self.assertEqual(review['counts']['APPROVED'],1)
++        self.assertEqual(review['history'],[event])
++
++    def test_topology_change_preserves_unrelated_action_review(self):
++        report=resolve_ledger(self.ledger,requirements=self.req,source_bytes=self.sources)
++        old=bases(self.req,report)
++        doc=self.target.to_dict();doc.pop('canonical_sha256');next(a for a in doc['actions'] if a['id']=='Wave')['parts'][0]['views'][0]['frame_count']=3
++        _,_,target,req,ledger,sources=fixture(self.actor,self.profile,doc)
++        new=bases(req,resolve_ledger(ledger,requirements=req,source_bytes=sources))
++        walk=next(l['id'] for l in self.req['layers'] if l['action']=='Walk')
++        self.assertEqual(old[walk],new[walk])
++        self.assertNotEqual(action_support(self.target,actor=self.actor,profile=self.profile)['canonical_sha256'],
++                            action_support(target,actor=self.actor,profile=self.profile)['canonical_sha256'])
++
++    def test_existing_project_save_reopen(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            project=create_project(tmp,'wave','Offline Wave','custom','player',target=self.target.to_dict(),ledger=self.ledger)
++            # Persist original image blobs through the existing project store.
++            for sid,raw in self.sources.items():import_blob(tmp,'wave',sid+'.png',raw)
++            project=load_project(tmp,'wave')
++            self.assertEqual(project['target'],self.target.to_dict());self.assertEqual(project['ledger'],self.ledger)
++            for raw in self.sources.values():self.assertEqual(get_blob(tmp,'wave',digest(raw)),raw)
++            self.assertFalse(project.get('review_events'))
++
++
++class DiagnosticActionCompilationTests(unittest.TestCase):
++    def test_guard_and_dodge_exact_existing_storage_only(self):
++        for name in ('Guard','Dodge'):
++            act,spr,actor,profile,target,inv,kw=bound_fixture(name)
++            before=read_act(act)
++            result=compile_resources(act,spr,**kw,oracle_executable=RUST_ORACLE_BIN if RUST_ORACLE_BIN.is_file() else None)
++            plan=plan_compilation(act,spr,**kw)
++            self.assertTrue(plan['ready_to_compile'])
++            self.assertEqual(plan['selected_replacements'][0]['runtime_slot'],None)
++            self.assertEqual(plan['selected_replacements'][0]['diagnostic_storage_slot'],8)
++            self.assertEqual(plan['selected_replacements'][0]['runtime_mapping'],'UNSUPPORTED')
++            self.assertTrue(any('RUNTIME_ACTION_MAPPING_UNAVAILABLE' in d for d in result['manifest']['status']['diagnostics']))
++            after=read_act(result['act_bytes'])
++            self.assertEqual(len(after['actions']),40)
++            for slot,frames in enumerate(before['actions']):
++                for frame,motion in enumerate(frames):
++                    if (slot,frame)!=(8,0):self.assertEqual(motion,after['actions'][slot][frame])
++            self.assertEqual(before['delays'],after['delays']);self.assertEqual(before['reserved'],after['reserved'])
++            clip=after['actions'][8][0]['clips'][0]
++            image=read_spr(result['spr_bytes']).rgba_images[clip['sprite']]
++            self.assertEqual(image.rgba,bytes([12,34,56,255])*16)
++            self.assertEqual(result['manifest']['status']['export_label'],'PARTIAL_DIAGNOSTIC')
++            self.assertFalse(result['manifest']['status']['production_authorized'])
++            support=action_support(target,actor=actor,profile=profile,inventories=(inv,))['actions'][0]
++            self.assertEqual(support['runtime_slots'],[]);self.assertEqual(support['diagnostic_storage'][0]['source_slot'],8)
++            other=compile_resources(act,spr,**kw)
++            self.assertEqual(result['act_bytes'],other['act_bytes']);self.assertEqual(result['spr_bytes'],other['spr_bytes'])
++            self.assertEqual(result['manifest']['build'],other['manifest']['build'])
++
++    def test_unsupported_and_arbitrary_slot_not_compiled(self):
++        act,spr,actor,profile,target,inv,kw=bound_fixture()
++        req=copy.deepcopy(kw['requirements']);req.pop('canonical_sha256')
++        for layer in req['layers']:layer['offline']['compilation']='UNSUPPORTED'
++        req=sealed(req)
++        # A stale ledger cannot authorize changed requirements either.
++        with self.assertRaises(ForgeError):compile_resources(act,spr,**dict(kw,requirements=req))
++        doc=target.to_dict();doc.pop('canonical_sha256');doc['actions'][0]['parts'][0]['views'][0]['topology']['slot']=104
++        with self.assertRaises(ForgeError):resolve_topology(load_target(doc,actor=actor,profile=profile),actor=actor,profile=profile,inventories=(inv,))
++        with self.assertRaises(ForgeError):compile_resources(act,spr,**kw,compilation_mode='production_export')
++
++    def test_conflicting_storage_mappings_and_missing_approval(self):
++        act,spr,actor,profile,target,inv,kw=bound_fixture()
++        doc=target.to_dict();doc.pop('canonical_sha256');other=copy.deepcopy(doc['actions'][0]);other['id']='Dodge';doc['actions'].append(other)
++        target=load_target(doc,actor=actor,profile=profile);req=resolve_topology(target,actor=actor,profile=profile,inventories=(inv,))
++        ledger=_build_approved_ledger(req,[dict(requirement_id=l['id'],kind='DIRECT_SOURCE',source=dict(id='art',revision=1))
++            for l in req['layers'] if l['frame']==0],kw['source_bytes'])
++        with self.assertRaises(ForgeError):compile_resources(act,spr,**dict(kw,requirements=req,ledger=ledger))
++        ledger=copy.deepcopy(kw['ledger']);ledger['assignments'][0]['review']=None
++        with self.assertRaises(ForgeError):compile_resources(act,spr,**dict(kw,ledger=ledger))
++
++
++class CustomRegistryTests(unittest.TestCase):
++    def entry(self):
++        registry=get_default_registry();profile_entry=next(p for p in registry.to_dict()['profiles'] if p['id']=='novice-male-body-v1')
++        profile=to_runtime_profile_contract(profile_entry);actor=to_actor_contract(profile_entry)
++        doc=target_document(actor,profile,actions=[declaration()])
++        target=load_target(doc,actor=actor,profile=profile)
++        entry=offline_registry_entry(registry,profile_id=profile_entry['id'],target=target,actor=actor,profile=profile,action_id='Wave')
++        return registry,entry,target,actor,profile
++
++    def test_version_compatible_registry_roundtrip_and_parent_binding(self):
++        registry,entry,*_=self.entry();doc=registry.to_dict()
++        new=create_registry(doc['profiles'],attachment_pairings=doc.get('attachment_pairings'),cosmetic_pairings=doc.get('cosmetic_pairings'),offline_actions=[entry])
++        self.assertEqual(load_registry(new.canonical_bytes()).canonical_bytes(),new.canonical_bytes())
++        self.assertEqual(new.to_dict()['profiles'],doc['profiles'])
++        self.assertEqual(get_default_registry().canonical_bytes(),registry.canonical_bytes())
++        for key,value in [('profile_sha256','0'*64),('native_verification','VERIFIED'),('runtime_mapping','SUPPORTED')]:
++            bad=copy.deepcopy(entry);bad.pop('canonical_sha256');bad[key]=value;bad=sealed(bad)
++            with self.assertRaises(ForgeError):create_registry(doc['profiles'],offline_actions=[bad])
++        with self.assertRaises(ForgeError):create_registry(doc['profiles'],offline_actions=[entry,entry])
++
++    def test_profile_and_native_action_spoof_rejected(self):
++        registry,entry,target,actor,profile=self.entry()
++        with self.assertRaises(ForgeError):offline_registry_entry(registry,profile_id='absent',target=target,actor=actor,profile=profile,action_id='Wave')
++        with self.assertRaises(ForgeError):offline_registry_entry(registry,profile_id=entry['profile_id'],target=target,actor=actor,profile=frozen_runtime_profile('player'),action_id='Wave')
++
++    def test_process_seed_and_enumeration_determinism(self):
++        code="from test_custom_actions import fixture; from ro_sprite_forge.core.custom_actions import action_support; from ro_sprite_forge.core.canonical import canonical_bytes; a,p,t,r,l,s=fixture(); import sys; sys.stdout.buffer.write(canonical_bytes(dict(requirements=r,support=action_support(t,actor=a,profile=p))))"
++        results=[]
++        for seed in ('1','987'):
++            with tempfile.TemporaryDirectory() as tmp:
++                env=dict(os.environ,PYTHONPATH=os.pathsep.join([str(ROOT/'src'),str(Path(__file__).resolve().parent)]),PYTHONHASHSEED=seed)
++                run=subprocess.run([sys.executable,'-c',code],cwd=tmp,env=env,capture_output=True)
++                self.assertEqual(run.returncode,0,run.stderr.decode());results.append(run.stdout)
++        self.assertEqual(*results)
+--- before/scripts/check_custom_action_schema.py
++++ after/scripts/check_custom_action_schema.py
+@@ -0,0 +1,25 @@
++"""RSF-35 offline action and registry extension: Draft 2020-12 and core checks."""
++from pathlib import Path
++import sys
++sys.path[:0]=[str(Path(__file__).resolve().parents[1]/'src'),str(Path(__file__).resolve().parents[1]/'tests')]
++from copy import deepcopy
++from jsonschema import Draft202012Validator
++from ro_sprite_forge.core.contracts import contract_schema, load_target
++from ro_sprite_forge.core.registry import create_registry
++from ro_sprite_forge.core.errors import ForgeError
++from test_custom_actions import fixture, CustomRegistryTests
++
++a,p,t,*_=fixture()
++schema=contract_schema('rsf.target/v2');Draft202012Validator.check_schema(schema)
++v=Draft202012Validator(schema);v.validate(t.to_dict())
++invalid=0
++for key,value in [('runtime_slot',104),('native_verification','VERIFIED'),('compilation','APPEND_SLOT')]:
++    doc=deepcopy(t.to_dict());doc.pop('canonical_sha256');next(x for x in doc['actions'] if 'offline' in x)['offline'][key]=value
++    assert list(v.iter_errors(doc))
++    try:load_target(doc,actor=a,profile=p)
++    except ForgeError:invalid+=1
++    else:raise AssertionError('Core accepted invalid offline action')
++r,e,*_=CustomRegistryTests().entry();doc=r.to_dict()
++r=create_registry(doc['profiles'],offline_actions=[e]);rs=contract_schema('rsf.compatibility-registry/v1')
++Draft202012Validator.check_schema(rs);Draft202012Validator(rs).validate(r.to_dict())
++print(f'CUSTOM_ACTION_SCHEMA_PASS schemas=2 valid=2 invalid={invalid}')

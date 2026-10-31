@@ -1,0 +1,218 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "environment": "authorized local socket access; sandbox-only socket failure superseded",
+    "exit": 0,
+    "log": "public-tests.log",
+    "passed": 452
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/private_fixture_hooks",
+      "-v"
+    ],
+    "exit": 0,
+    "log": "private-tests.log",
+    "passed": 40,
+    "skipped": 1
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "tools/rust-oracle/test_parity.py"
+    ],
+    "exit": 0,
+    "log": "rust-parity.log",
+    "passed": 11
+  },
+  {
+    "argv": [
+      "PYTHONPATH=src",
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tools/korangar-native",
+      "-v"
+    ],
+    "exit": 0,
+    "log": "native-checker-tests.log",
+    "passed": 17
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "tests/check_distribution.py",
+      "--wheelhouse",
+      "/tmp/rsf24-wheelhouse",
+      "--python",
+      "/usr/bin/python3.14"
+    ],
+    "exit": 0,
+    "log": "distribution.log",
+    "passed": 443,
+    "skipped": 9
+  },
+  {
+    "argv": [
+      "/tmp/rsf27-toolchain/cargo/bin/cargo",
+      "build",
+      "--offline",
+      "--locked",
+      "--manifest-path",
+      "/tmp/rsf27-native-sealed/Cargo.toml"
+    ],
+    "env": {
+      "CARGO_HOME": "/tmp/rsf27-toolchain/cargo",
+      "CARGO_TARGET_DIR": "/tmp/rsf27-native-target",
+      "RUSTUP_HOME": "/tmp/rsf27-toolchain/rustup"
+    },
+    "exit": 0,
+    "log": "native-build.log"
+  },
+  {
+    "argv": [
+      "/tmp/rsf27-toolchain/cargo/bin/cargo",
+      "test",
+      "--offline",
+      "--locked",
+      "--manifest-path",
+      "/tmp/rsf27-native-sealed/Cargo.toml"
+    ],
+    "exit": 0,
+    "log": "native-rust-tests.log",
+    "passed": 4
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "tools/korangar-native/compile_shaders.py",
+      "/tmp/rsf27-native-sealed",
+      "--slangc",
+      "/tmp/rsf27-toolchain/slangc/bin/slangc"
+    ],
+    "exit": 0,
+    "log": "native-shaders.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "docs/verification/rsf-27/reproduce.py",
+      "--output",
+      "/tmp/rsf27-reproduced",
+      "--stage",
+      "/tmp/rsf27-native-sealed",
+      "--executable",
+      "/tmp/rsf27-native-target/debug/rsf-korangar-native",
+      "--private"
+    ],
+    "exit": 0,
+    "log": "reproduction.log",
+    "subcommand_evidence": "reproduction-commands.json",
+    "subcommands": 6
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_animation_schema.py"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "ANIMATION_SCHEMA_PASS schemas=2 valid=14 invalid=6\n"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_comparison_schema.py"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "COMPARISON_SCHEMA_PASS schemas=3 valid=11 invalid=13\n"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_compilation_schema.py"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "COMPILATION_SCHEMA_PASS schemas=2 valid=3 invalid=6\n"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_contract_schemas.py"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "JSON_SCHEMA_PASS jsonschema=4.19.2 schemas=3 valid=13 invalid=55\n"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_coverage_schema.py"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "COVERAGE_SCHEMA_PASS schemas=1 valid=2 invalid=8\n"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_extraction_schema.py"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "EXTRACTION_SCHEMA_PASS schemas=1 valid=3 invalid=8\n"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_ingestion_schema.py"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "INGESTION_SCHEMA_PASS schemas=1 valid=3 invalid=6\n"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_ledger_schema.py"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "LEDGER_SCHEMA_PASS schemas=1 valid=4 invalid=8\n"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_review_schema.py"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "REVIEW_SCHEMA_PASS schemas=1 valid=3 invalid=6\n"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_transformation_schema.py"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "TRANSFORMATION_SCHEMA_PASS schemas=1 valid=4 invalid=8\n"
+  }
+]

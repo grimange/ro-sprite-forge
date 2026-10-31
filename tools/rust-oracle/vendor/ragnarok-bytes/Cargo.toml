@@ -1,0 +1,12 @@
+[package]
+name="ragnarok-bytes"
+version="0.1.0"
+edition="2024"
+license="MIT"
+
+[dependencies]
+encoding_rs="=0.8.35"
+cgmath={version="=0.18.0",optional=true}
+ragnarok-macros={path="../ragnarok-macros",optional=true}
+[features]
+derive=["ragnarok-macros"]

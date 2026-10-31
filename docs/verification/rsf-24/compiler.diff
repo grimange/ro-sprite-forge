@@ -1,0 +1,228 @@
+--- a/src/ro_sprite_forge/core/compiler.py
++++ b/src/ro_sprite_forge/core/compiler.py
+@@ -51,7 +51,7 @@
+ )
+ from ro_sprite_forge.report_io import publish, publish_resources
+ 
+-WRITER_VERSION = "1.0.0"
++WRITER_VERSION = "1.1.0"
+ COMPILATION_MANIFEST_SCHEMA = "rsf.compilation-manifest/v1"
+ COMPILATION_PLAN_SCHEMA = "rsf.compilation-plan/v1"
+ 
+@@ -75,11 +75,42 @@
+     """Validate canonical seal and required structural invariants of rsf.compilation-manifest/v1."""
+     check_seal(manifest, COMPILATION_MANIFEST_SCHEMA)
+     check(bool(_ID_RE.match(str(manifest.get("id", "")))), "Invalid compilation manifest id.")
+-    check(manifest.get("writer_version") == WRITER_VERSION, "Invalid writer_version in manifest.")
++    check(manifest.get("writer_version") in ("1.0.0", WRITER_VERSION), "Invalid writer_version in manifest.")
+     check(manifest.get("compilation_mode") in VALID_COMPILATION_MODES, "Invalid compilation_mode in manifest.")
+     check(manifest.get("replacement_policy") in VALID_REPLACEMENT_POLICIES, "Invalid replacement_policy in manifest.")
+     check(manifest.get("isolation_strategy") in VALID_ISOLATION_STRATEGIES, "Invalid isolation_strategy in manifest.")
+     check(manifest.get("part") in VALID_PARTS, "Invalid part in manifest.")
++    if manifest["writer_version"] == WRITER_VERSION:
++        remapping = manifest.get("remapping")
++        check(isinstance(remapping, dict), "INVALID_REMAPPING: writer 1.1.0 requires remapping evidence.")
++        required = {"semantics", "ordering", "reuse", "input_counts", "output_counts", "palette_sha256", "before", "after", "unaffected_count", "conversion_loss"}
++        check(set(remapping) == required, "INVALID_REMAPPING: incomplete remapping evidence.")
++        targets = {(r["slot"], r["frame"], r["clip_ordinal"]): r for r in manifest["replacements"]}
++        before, after = remapping["before"], remapping["after"]
++        check(isinstance(before, list) and isinstance(after, list) and len(before) == len(after), "INVALID_REMAPPING: occurrence count differs.")
++        check(len(before) - len(targets) == remapping["unaffected_count"], "INVALID_REMAPPING: unaffected count differs.")
++        for key, resources in (("input_counts", "input_resources"), ("output_counts", "output_resources")):
++            counts = remapping[key]
++            check(counts == [manifest[resources]["spr"]["indexed_count"], manifest[resources]["spr"]["rgba_count"]], "INVALID_REMAPPING: pool counts differ.")
++        previous = None
++        for old, new in zip(before, after):
++            loc = tuple(old.get(k) for k in ("slot", "frame", "layer"))
++            check(all(type(n) is int and n >= 0 for n in loc) and (previous is None or loc > previous), "INVALID_REMAPPING: occurrence ordering differs.")
++            previous = loc
++            check(loc == tuple(new.get(k) for k in ("slot", "frame", "layer")), "INVALID_REMAPPING: occurrence identities differ.")
++            for row, key in ((old, "input_counts"), (new, "output_counts")):
++                pool, index = row.get("pool"), row.get("index")
++                counts = remapping[key]
++                check(pool in (0, 1) and type(index) is int and 0 <= index < counts[pool], "INVALID_REMAPPING: invalid pool/index.")
++                check(row.get("texture_index") == index + (counts[0] if pool else 0), "INVALID_REMAPPING: texture index differs.")
++                check(row.get("representation") == ("rgba" if pool else "indexed"), "INVALID_REMAPPING: representation differs.")
++                check(all(_SHA256_RE.fullmatch(str(row.get(k, ""))) for k in ("decoded_rgba_sha256", "metadata_sha256")), "INVALID_REMAPPING: invalid occurrence hash.")
++            check(old["metadata_sha256"] == new["metadata_sha256"], "INVALID_REMAPPING: layer metadata differs.")
++            if loc in targets:
++                for row, key in ((old, "original_image"), (new, "output_image")):
++                    check(all(row[k] == targets[loc][key][k] for k in ("pool", "index", "decoded_rgba_sha256")), "INVALID_REMAPPING: replacement identity differs.")
++            else:
++                check(all(old[k] == new[k] for k in ("pool", "index", "decoded_rgba_sha256")), "INVALID_REMAPPING: unaffected identity differs.")
+     ver = manifest.get("verification", {})
+     check(
+         ver.get("decode_after_write") == "PASS"
+@@ -114,6 +145,47 @@
+         img = spr_doc.rgba_images[index]
+         return img.width, img.height, img.rgba
+     raise ForgeError(ErrorCode.INVALID_INPUT, f"UNSUPPORTED_SPR_POOL: invalid pool {pool}; expected 0 or 1.")
++
++
++def image_reference_inventory(act: dict[str, Any], spr: SprDocument) -> list[dict[str, Any]]:
++    """Ordered visible occurrences; ACT indices are pool-local, texture positions are not."""
++    rows = []
++    for slot, motions in enumerate(act["actions"]):
++        for frame, motion in enumerate(motions):
++            for layer, clip in enumerate(motion["clips"]):
++                if clip["sprite"] == -1:
++                    continue
++                pool, index = clip["pool"], clip["sprite"]
++                try:
++                    w, h, rgba = _resolve_spr_image_rgba(spr, pool, index)
++                except ForgeError as exc:
++                    raise ForgeError(ErrorCode.INVALID_INPUT,
++                        f"INVALID_IMAGE_REFERENCE: slot={slot} frame={frame} layer={layer} pool={pool} index={index}: {exc}") from exc
++                metadata = {k: v for k, v in clip.items() if k not in ("pool", "sprite")}
++                rows.append({"slot": slot, "frame": frame, "layer": layer,
++                    "pool": pool, "index": index,
++                    "texture_index": index + (spr.indexed_count if pool == 1 else 0),
++                    "representation": "indexed" if pool == 0 else "rgba",
++                    "decoded_rgba_sha256": _decoded_rgba_digest(w, h, rgba),
++                    "metadata_sha256": digest(canonical_bytes(metadata))})
++    return rows
++
++
++def _remapping_evidence(orig_act, orig_spr, out_act, out_spr, replacements):
++    before = image_reference_inventory(orig_act, orig_spr)
++    after = image_reference_inventory(out_act, out_spr)
++    targets = {(r["slot"], r["frame"], r["clip_ordinal"]) for r in replacements}
++    return {"semantics": "act-pool-local/v1", "ordering": "original-pools-then-canonical-occurrence-appends/v1",
++        "reuse": "exact-encoded-replacement-content-within-pool/v1",
++        "input_counts": [orig_spr.indexed_count, orig_spr.rgba_count],
++        "output_counts": [out_spr.indexed_count, out_spr.rgba_count],
++        "palette_sha256": digest(out_spr.palette),
++        "before": before, "after": after,
++        "unaffected_count": len(before) - len(targets),
++        "conversion_loss": [{"requirement_id": r["requirement_id"],
++            "loss": "replacement-does-not-retain-original-palette-indices",
++            "original_palette_and_entries_retained": True}
++            for r in replacements if r["original_image"]["pool"] == 0 and r["output_image"]["pool"] == 1]}
+ 
+ 
+ def _decode_source_image(
+@@ -239,6 +311,7 @@
+     if target_pool == 1:
+         if orig_pool == 0:
+             notes.append("INDEXED_CLIP_REMAPPED_TO_RGBA_POOL")
++            notes.append("REPLACEMENT_PALETTE_INDEX_INFORMATION_LOST_ORIGINAL_RETAINED")
+         notes.append("ENCODED_TRUECOLOR_RGBA")
+         return RgbaImage(width=width, height=height, rgba=rgba_bytes), notes
+ 
+@@ -258,6 +331,8 @@
+             b = rgba_bytes[base + 2]
+             a = rgba_bytes[base + 3]
+             if a == 0:
++                check((r, g, b) == (0, 0, 0),
++                    f"UNSUPPORTED_INDEXED_CONVERSION: requirement '{requirement_id}' has nonzero RGB beneath transparent alpha; exact indexed conversion would lose pixel information.")
+                 indices[p_idx] = 0
+             elif a < 255:
+                 raise ForgeError(
+@@ -392,7 +467,7 @@
+     replacement_requirement_ids: Sequence[str] | None = None,
+     part: str = "body",
+     compilation_mode: str = "bounded_replacement",
+-    replacement_policy: str = "explicit_rgba",
++    replacement_policy: str = "preserve_pool",
+     isolation_strategy: str = "auto",
+     output_prefix: str = "compiled",
+ ) -> dict[str, Any]:
+@@ -405,6 +480,7 @@
+ 
+     orig_act = read_act(act_bytes)
+     orig_spr = read_spr(spr_bytes)
++    image_reference_inventory(orig_act, orig_spr)
+     _ = inventory(act_bytes, spr_bytes)
+ 
+     input_summary = {
+@@ -564,6 +640,20 @@
+         "export_ready": export_ready,
+         "experimental_bounded_output": compilation_mode == "bounded_replacement",
+     }
++    if not blockers:
++        try:
++            candidate = compile_resources(act_bytes, spr_bytes, requirements=requirements,
++                ledger=ledger, reviewed_ledger=reviewed_ledger, source_bytes=source_bytes,
++                source_metadata=source_metadata, review_events=review_events, project_id=project_id,
++                replacement_requirement_ids=replacement_requirement_ids, part=part,
++                compilation_mode=compilation_mode, replacement_policy=replacement_policy,
++                isolation_strategy=isolation_strategy, output_prefix=output_prefix)
++            plan["remapping"] = candidate["manifest"]["remapping"]
++            plan["selected_replacements"] = candidate["manifest"]["replacements"]
++        except ForgeError as exc:
++            blockers.append(str(exc))
++            plan["ready_to_compile"] = False
++            plan["production_authorized"] = False
+     return sealed(plan)
+ 
+ 
+@@ -667,7 +757,7 @@
+     compilation_id: str = "compile-default",
+     part: str = "body",
+     compilation_mode: str = "bounded_replacement",
+-    replacement_policy: str = "explicit_rgba",
++    replacement_policy: str = "preserve_pool",
+     isolation_strategy: str = "auto",
+     expected_act_sha256: str | None = None,
+     expected_spr_sha256: str | None = None,
+@@ -730,6 +820,7 @@
+     # Decode and validate original pair using audited M0 codecs and inventory
+     orig_act = read_act(act_bytes)
+     orig_spr = read_spr(spr_bytes)
++    image_reference_inventory(orig_act, orig_spr)
+     _ = inventory(act_bytes, spr_bytes)
+ 
+     # Validate optional head resource pair
+@@ -846,6 +937,7 @@
+                 "head_act": out_head_act_info,
+                 "head_spr": out_head_spr_info,
+             },
++            "remapping": _remapping_evidence(orig_act, orig_spr, orig_act, orig_spr, []),
+             "replacements": [],
+             "preservation_summary": {
+                 "total_action_slots": len(orig_act["actions"]),
+@@ -1417,6 +1509,7 @@
+             "head_act": out_head_act_info,
+             "head_spr": out_head_spr_info,
+         },
++        "remapping": _remapping_evidence(orig_act, orig_spr, decoded_act, decoded_spr, replacement_records),
+         "replacements": replacement_records,
+         "preservation_summary": {
+             "total_action_slots": len(orig_act["actions"]),
+@@ -1488,6 +1581,18 @@
+             raise ForgeError(ErrorCode.IO_ERROR, f"Cannot create output directory: {exc}", path=str(output_dir)) from exc
+ 
+     manifest = compilation_result["manifest"]
++    validate_compilation_manifest(manifest)
++    for name in ("act", "spr", "head_act", "head_spr"):
++        raw = compilation_result.get(name + "_bytes")
++        info = manifest["output_resources"].get(name)
++        check((raw is None) == (info is None), f"COMPILATION_PAIR_MISMATCH: {name} presence differs from manifest.")
++        if info is not None:
++            check(isinstance(raw, bytes) and len(raw) == info["bytes"] and digest(raw) == info["sha256"],
++                  f"COMPILATION_PAIR_MISMATCH: {name} bytes differ from manifest.")
++    check((compilation_result.get("head_act_bytes") is None) == (compilation_result.get("head_spr_bytes") is None), "COMPILATION_PAIR_MISMATCH: incomplete head pair.")
++    inventory(compilation_result["act_bytes"], compilation_result["spr_bytes"])
++    if compilation_result.get("head_act_bytes") is not None:
++        inventory(compilation_result["head_act_bytes"], compilation_result["head_spr_bytes"])
+     out_res = manifest["output_resources"]
+     act_path = target_dir / out_res["act"]["filename"]
+     spr_path = target_dir / out_res["spr"]["filename"]
+@@ -1514,12 +1619,16 @@
+             path=str(manifest_path),
+         )
+ 
++    for path, _ in pairs:
++        check(not Path(path).exists(), f"OUTPUT_EXISTS: refusing to overwrite {Path(path).name}.")
++    resources_published = False
+     try:
+         publish_resources(tuple(pairs))
++        resources_published = True
+         publish(str(manifest_path), manifest)
+     except Exception:
+         # Roll back any published resource files if manifest publication fails
+-        for p_str, _ in pairs:
++        for p_str, _ in pairs if resources_published else []:
+             try:
+                 os.unlink(p_str)
+             except OSError:

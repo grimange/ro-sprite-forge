@@ -1,0 +1,62 @@
+[
+  {
+    "path": "src/ro_sprite_forge/core/compiler.py",
+    "before_sha256": "e6d603f0712683e98d9aed0be4ad31131a3febfbb42287af13a06d44484e44e1",
+    "sha256": "f719b9aaf3b73efd6cdb3d4a4bc94da939e03b46fcef6126552a7fb97b4f6ff5"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/contracts.py",
+    "before_sha256": "735e1138948065804f81260b270786d479f41f3b0d3f612193b85edf6973fc33",
+    "sha256": "acda32eeb9ac1870546273c6748f669a9acf04208e916a46ad03fd6c8ff66fe7"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/custom_actions.py",
+    "before_sha256": null,
+    "sha256": "407cfd7e6a948dee9e4b6bfae3f4f5ccdeb3bdef40d820964c7a47717633bc27"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/ledger.py",
+    "before_sha256": "138f327b65e2652de404fe62e1fae5faeb895b58476753db2ab4aebc71a95c8c",
+    "sha256": "cf3a5f31c8f7d2628f18f9a28e7dac8b18169e033a563bf0a54af33ce1f90873"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/registry.py",
+    "before_sha256": "eb9a3bcb22ad59cf289208cb94c519abd57908b8627294a2d5e91bf259939c07",
+    "sha256": "b545e2aadf17dd94c50a1c81aa86ec557249509f384d3084989cba1aa4d3e567"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/review.py",
+    "before_sha256": "d3353ac7a5ad7c86e7ef00e20a223258f368fadc381d1f3dde2eb89ab7e629e7",
+    "sha256": "9bf2b3bd38ce8c0c2335862e08d1851cc3708f0e9ac6b86a622f48fcc4873b49"
+  },
+  {
+    "path": "src/ro_sprite_forge/core/topology.py",
+    "before_sha256": "aefe75307d3d7f6f2f0d8bbdb24cdacf986e49ee6604e1813a110452062b2631",
+    "sha256": "25cb6ef853a8ecbac01a99d9d273455adcb3c6a30737d9bab96e3cd1c6765fc5"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/compatibility-registry-v1.json",
+    "before_sha256": "de650ce4c33b2fb8e5321ab17217fa4fc518822353d072eee33588c7424118f5",
+    "sha256": "18ea06eb4a72a9bb052710a9cd19a6b1ca32ea41467edf0bd41585e7a6bed4be"
+  },
+  {
+    "path": "src/ro_sprite_forge/schemas/target-v2.json",
+    "before_sha256": "263c0f0797a7aaab16a1458fee223ad4f1db14eece4fc0f00039f1acd2a0e4b1",
+    "sha256": "1ca87ca897415ef807d9623f38d79d2021859105e229ad139cdb1316d9d3a49a"
+  },
+  {
+    "path": "src/ro_sprite_forge.egg-info/SOURCES.txt",
+    "before_sha256": "c480e7bb1d3c1ca28a3d4c9d18e46325a3e071144c848ea02524a8ed99a2db5d",
+    "sha256": "202c0a6e91ed399826ff2f3c67981abf5bc261d2b689c2c2a6af65363d8dff14"
+  },
+  {
+    "path": "tests/test_custom_actions.py",
+    "before_sha256": null,
+    "sha256": "788ae1292a7014013efc39e4668efa617e83ab8b8877240655e3a69253453366"
+  },
+  {
+    "path": "scripts/check_custom_action_schema.py",
+    "before_sha256": null,
+    "sha256": "281859ec9534d1c38747bda28ded3cc2f1a536d90c00dbf4caaa59c4b2d3e820"
+  }
+]

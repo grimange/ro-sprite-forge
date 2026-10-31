@@ -1,0 +1,15 @@
+{
+  "docs/evidence/rsf7/QA_REVIEW.md": "0edf39b9151cdc39a6de7e3999abb3eb60e1c5c2f4e927e730ffa5348de61441",
+  "docs/evidence/rsf7/VERIFICATION.md": "2e5ae4b894473bc8ea31511a389fe462ff7d8ee308d46e2ee0de3f45b4651bda",
+  "docs/evidence/rsf7/baseline-diff.json": "d6cb0b07cb825d0c93f7dd54aa2c6f8a1ed9c81d523e8bdeae06549d515e0bea",
+  "docs/evidence/rsf7/baseline-manifest.json": "2c72cf75747c70378d9e1d6e529464341cee490cebaf731d44589b33b093de44",
+  "docs/evidence/rsf7/baseline-source.tar.gz": "887f5b1025079146592f2bbf0bc062d84aa222206ea23c762a3f26907bcf411f",
+  "docs/evidence/rsf7/contract-identities.json": "5b7a63985e4fe65d1bbd5d3a92b6481304d4a814f7f9c65499fecacaf31790d4",
+  "docs/evidence/rsf7/implementation-manifest.json": "9f133c72d3b63268d3c35eeb887642dfcc1f9e8bed4260180b8bb9c154994057",
+  "docs/evidence/rsf7/kaneo-readback.json": "512441eea5398ca86d2f4a6732d126083aed0026e9b0f183da6ceebf0dc5ddf0",
+  "docs/evidence/rsf7/next-task-readback.json": "20afddcd20605abaa962389dbabbfd425cbb83eaf9c4030bd8bf622749cc2062",
+  "docs/evidence/rsf7/next-task-relations.json": "aed3accb7dfa128f857fefc03894badbd60b73443d0ad0dc891e46580cac1efd",
+  "docs/evidence/rsf7/private-parity.json": "493f0e5046df32cbd77aa4e8185c0dabaa3a966d59e852e394abc1764d802be3",
+  "docs/evidence/rsf7/qa-handoff-readback.json": "e82fb3a176b32b2deb4db6f86959e99151711f93f4d6657393e6c23fd9724a39",
+  "docs/evidence/rsf7/test-results.json": "b246a0b71206f9b8fdf31b31912747dae2bc33df12e2fc45c9d3bcf86e00d133"
+}

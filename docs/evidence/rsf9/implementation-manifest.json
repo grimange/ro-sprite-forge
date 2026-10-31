@@ -1,0 +1,9 @@
+{
+  "docs/architecture/RSF9_LEDGER.md": "2530e2d2066a24fe9000e5393566e4471907629b3f52cdcd4062a03b2029c251",
+  "scripts/check_ledger_schema.py": "4317cf1134638fbcbcd9b49bcb1d972f4538b7628dd138f3a86d07d5710fc03b",
+  "src/ro_sprite_forge/cli.py": "728d65194ab7fbcdd994adf4a59a27362c945994f2242e14411c029f938a1d1e",
+  "src/ro_sprite_forge/core/ledger.py": "138f327b65e2652de404fe62e1fae5faeb895b58476753db2ab4aebc71a95c8c",
+  "src/ro_sprite_forge/schemas/assignment-ledger-v1.json": "93c03b30ea61ded9ba5947d4979076a0c05d42f577fd05cd972b0525e6889e7e",
+  "tests/private_fixture_hooks/test_ledger_fixtures.py": "6ae1868acabfde5ded76da81b67672cfaadcc2d1580941748e6e162583883911",
+  "tests/test_ledger.py": "377706d39fa6ca9407e4e0e9c9c52392a32b2780928ade8ab21d9f4d4d2ea158"
+}

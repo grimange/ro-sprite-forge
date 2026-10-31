@@ -1,0 +1,60 @@
+{
+  "installed_distribution": {
+    "command": ".venv/bin/python tests/check_distribution.py --wheelhouse /tmp/rsf4-wheelhouse --python /usr/bin/python3.14",
+    "exit_code": 0,
+    "independent_reviewer": "/root/rsf7_independent_qa",
+    "installed_tests": 94,
+    "repeated_wheel_identity": true,
+    "sdist_sha256": "ae8867394d3d63becb8341a5afad06825aa740d1420033890848d4c61f3237cd",
+    "wheel_sha256": "35c75689e11e18d5cbfb21244274b4f05a9b5a51001062bc43de3f6ab4d48aec"
+  },
+  "native_playback": "NOT_RERUN_EXISTING_ACCEPTED_EVIDENCE_UNCHANGED",
+  "private_oracle_mismatches": 0,
+  "private_oracle_pairs": 3,
+  "python": "3.14.4",
+  "results": [
+    {
+      "command": ".venv/bin/python -m unittest discover -s tests -p test_contracts.py -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "tests": 25
+    },
+    {
+      "command": "PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "tests": 94
+    },
+    {
+      "command": "PYTHONPATH=src .venv/bin/python -m unittest discover -s tests/private_fixture_hooks -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "tests": 12
+    },
+    {
+      "command": "PYTHONPATH=src .venv/bin/python tools/rust-oracle/test_parity.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "tests": 11
+    },
+    {
+      "command": "PYTHONPATH=src .venv/bin/python -m unittest discover -s tools/korangar-native -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "tests": 9
+    }
+  ],
+  "schema": "rsf.engineering-test-evidence/v1",
+  "schema_validation": {
+    "command": ".venv/bin/python scripts/check_contract_schemas.py",
+    "exit_code": 0,
+    "invalid": 48,
+    "jsonschema_version": "4.19.2",
+    "schemas": 3,
+    "valid": 12
+  },
+  "unavailable_interpreters": [
+    "3.12",
+    "3.13"
+  ]
+}

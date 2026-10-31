@@ -1,0 +1,73 @@
+{
+  "schema": "rsf.release-manifest/v1",
+  "package": {
+    "name": "ro-sprite-forge",
+    "version": "0.1.0",
+    "git_commit": "472b1d3f9e29630b505fc2b3b7315f6b4e00beba",
+    "build_backend": "setuptools.build_meta",
+    "requires_python": ">=3.12,<3.15",
+    "core_dependencies": []
+  },
+  "artifacts": {
+    "sdist": {
+      "filename": "ro_sprite_forge-0.1.0.tar.gz",
+      "size_bytes": 393324,
+      "sha256": "10a52be6aa122ecb2a6919847e245de67f0823f0e8f9571ca60dfeb739506618",
+      "audit": {
+        "member_count": 132,
+        "prohibited_files_found": [],
+        "has_license": true,
+        "has_notice": true,
+        "has_schemas": true,
+        "has_static_assets": true,
+        "has_lwr_provenance": true,
+        "status": "PASS"
+      }
+    },
+    "wheel": {
+      "filename": "ro_sprite_forge-0.1.0-py3-none-any.whl",
+      "size_bytes": 258976,
+      "sha256": "6bc8a6e1f6129265517d7548eb480985dc6e8f69d5ada8e9651867876e274d4a",
+      "audit": {
+        "member_count": 74,
+        "prohibited_files_found": [],
+        "has_license": true,
+        "has_notice": true,
+        "has_schemas": true,
+        "has_static_assets": true,
+        "status": "PASS"
+      }
+    }
+  },
+  "python_compatibility_matrix": {
+    "declared_supported": [
+      "3.12",
+      "3.13",
+      "3.14"
+    ],
+    "locally_verified": {
+      "3.14": {
+        "version": "3.14.4",
+        "status": "PASS",
+        "suite": "public_and_isolated_distribution"
+      }
+    },
+    "locally_unverified": {
+      "3.12": "NOT_RUN (interpreter not installed locally; matrix verified via GitHub Actions CI)",
+      "3.13": "NOT_RUN (interpreter not installed locally; matrix verified via GitHub Actions CI)"
+    }
+  },
+  "licensing_and_provenance": {
+    "license": "MIT",
+    "copyright": "Copyright (c) 2026 Ronniel Allan Casta\u00f1ito",
+    "notice_file": "NOTICE.md",
+    "lwr_provenance_sha256": "55aefdc8ba7bb5aaf4619983d72cb26c2865154961116c8ad075c65378142c46",
+    "korangar_oracle_pinned_commit": "3f3d88a583203f09d079712f43343c1041258ffd",
+    "proprietary_assets_excluded": true
+  },
+  "reproducibility": {
+    "source_date_epoch": "1704067200",
+    "wheel_reproducible_bit_exact": true,
+    "sdist_rebuild_wheel_bit_exact": true
+  }
+}

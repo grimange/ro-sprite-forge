@@ -1,0 +1,428 @@
+{
+  "$id": "https://ro-sprite-forge.invalid/schemas/target-v2.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "maxLength": 80,
+            "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+            "type": "string"
+          },
+          "parts": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "part": {
+                  "maxLength": 80,
+                  "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+                  "type": "string"
+                },
+                "views": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "frame_count": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "maximum": 4096,
+                            "minimum": 0,
+                            "type": "integer"
+                          }
+                        ]
+                      },
+                      "topology": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "anyOf": [
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "kind": {
+                                    "const": "explicit"
+                                  },
+                                  "layers": {
+                                    "items": {
+                                      "maxLength": 80,
+                                      "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+                                      "type": "string"
+                                    },
+                                    "maxItems": 1024,
+                                    "minItems": 0,
+                                    "type": "array",
+                                    "uniqueItems": true
+                                  }
+                                },
+                                "required": [
+                                  "kind",
+                                  "layers"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "frames": {
+                                    "items": {
+                                      "items": {
+                                        "maxLength": 80,
+                                        "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+                                        "type": "string"
+                                      },
+                                      "maxItems": 1024,
+                                      "minItems": 0,
+                                      "type": "array",
+                                      "uniqueItems": true
+                                    },
+                                    "maxItems": 4096,
+                                    "minItems": 0,
+                                    "type": "array"
+                                  },
+                                  "kind": {
+                                    "const": "per_frame"
+                                  }
+                                },
+                                "required": [
+                                  "kind",
+                                  "frames"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "inventory_sha256": {
+                                    "maxLength": 64,
+                                    "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                                    "type": "string"
+                                  },
+                                  "kind": {
+                                    "const": "inherited"
+                                  },
+                                  "slot": {
+                                    "maximum": 4095,
+                                    "minimum": 0,
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "kind",
+                                  "inventory_sha256",
+                                  "slot"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "kind",
+                                  "id",
+                                  "version",
+                                  "role",
+                                  "template_sha256",
+                                  "scope_confirmed"
+                                ],
+                                "properties": {
+                                  "kind": {
+                                    "const": "template"
+                                  },
+                                  "id": {
+                                    "const": "single-layer"
+                                  },
+                                  "version": {
+                                    "const": 1
+                                  },
+                                  "role": {
+                                    "maxLength": 80,
+                                    "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+                                    "type": "string"
+                                  },
+                                  "template_sha256": {
+                                    "maxLength": 64,
+                                    "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                                    "type": "string"
+                                  },
+                                  "scope_confirmed": {
+                                    "const": true
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "view": {
+                        "maximum": 7,
+                        "minimum": 0,
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "view",
+                      "frame_count",
+                      "topology"
+                    ],
+                    "type": "object"
+                  },
+                  "maxItems": 8,
+                  "minItems": 0,
+                  "type": "array"
+                }
+              },
+              "required": [
+                "part",
+                "views"
+              ],
+              "type": "object"
+            },
+            "maxItems": 32,
+            "minItems": 0,
+            "type": "array"
+          },
+          "requirement": {
+            "enum": [
+              "REQUIRED",
+              "OPTIONAL",
+              "OUT_OF_SCOPE"
+            ]
+          },
+          "offline": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "schema",
+              "label",
+              "timing",
+              "compilation"
+            ],
+            "properties": {
+              "schema": {
+                "const": "rsf.offline-action/v1"
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "timing": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "authority",
+                  "frame_ms",
+                  "loop"
+                ],
+                "properties": {
+                  "authority": {
+                    "const": "EXPLICIT_DIAGNOSTIC_INTERVAL"
+                  },
+                  "frame_ms": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 60000
+                  },
+                  "loop": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "compilation": {
+                "enum": [
+                  "UNSUPPORTED",
+                  "BOUND_EXISTING_SLOT_DIAGNOSTIC"
+                ]
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "requirement",
+          "parts"
+        ],
+        "type": "object"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "type": "array"
+    },
+    "actor": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_sha256": {
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "type": "string"
+        },
+        "id": {
+          "maxLength": 80,
+          "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "canonical_sha256"
+      ],
+      "type": "object"
+    },
+    "canonical_sha256": {
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+      "type": "string"
+    },
+    "compatibility": {
+      "additionalProperties": false,
+      "properties": {
+        "declarations": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "evidence": {
+                "items": {
+                  "maxLength": 64,
+                  "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                  "type": "string"
+                },
+                "maxItems": 64,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "id": {
+                "maxLength": 80,
+                "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+                "type": "string"
+              },
+              "status": {
+                "enum": [
+                  "SUPPORTED",
+                  "UNSUPPORTED",
+                  "UNVERIFIED"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "status",
+              "evidence"
+            ],
+            "type": "object"
+          },
+          "maxItems": 128,
+          "minItems": 0,
+          "type": "array"
+        },
+        "status": {
+          "enum": [
+            "SUPPORTED",
+            "UNSUPPORTED",
+            "UNVERIFIED"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "declarations"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "maxLength": 80,
+      "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+      "type": "string"
+    },
+    "parts": {
+      "items": {
+        "maxLength": 80,
+        "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+        "type": "string"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "previous_sha256": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "type": "string"
+        }
+      ]
+    },
+    "revision": {
+      "maximum": 2147483647,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "runtime_profile": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_sha256": {
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "type": "string"
+        },
+        "id": {
+          "maxLength": 80,
+          "pattern": "^[A-Za-z0-9_.-]{1,80}(?![\\s\\S])",
+          "type": "string"
+        },
+        "profile_version": {
+          "maxLength": 20,
+          "pattern": "^[1-9][0-9]{0,5}\\.[0-9]{1,6}\\.[0-9]{1,6}(?![\\s\\S])",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "profile_version",
+        "canonical_sha256"
+      ],
+      "type": "object"
+    },
+    "schema": {
+      "const": "rsf.target/v2"
+    },
+    "scope": {
+      "enum": [
+        "scoped",
+        "full"
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "revision",
+    "previous_sha256",
+    "actor",
+    "runtime_profile",
+    "scope",
+    "parts",
+    "compatibility",
+    "actions"
+  ],
+  "type": "object"
+}

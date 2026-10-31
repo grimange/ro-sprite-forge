@@ -1,0 +1,28 @@
+{
+  "task": "RSF-14",
+  "title": "[M2] Independent preview parity and fidelity evidence",
+  "milestone": "M2",
+  "status": "ACCEPTED",
+  "files": {
+    "src/ro_sprite_forge/schemas/preview-parity-report-v1.json": {
+      "bytes": 4593,
+      "sha256": "411d5f7012d2972557276bbfe6be114d326f366bcac961e37d34e40eb52722d1"
+    },
+    "scripts/verify_preview_parity.py": {
+      "bytes": 8727,
+      "sha256": "9f04f8a9d5376d676c51102d39ffbfa9b7032c95bb65d57d81400456acd87eca"
+    },
+    "tests/private_fixture_hooks/test_parity_evidence.py": {
+      "bytes": 9155,
+      "sha256": "f92d6defc7d84a3a18dfa897e5f228246d2080c96519cedc811840bbd9a97b6b"
+    },
+    "docs/architecture/RSF14_FIDELITY.md": {
+      "bytes": 6996,
+      "sha256": "3d42cd374eca73a63f8d0f61ea6dee223fcb6c6aceb303ac3f45435884bdadae"
+    },
+    "docs/evidence/rsf14/preview-parity-report.json": {
+      "bytes": 2546,
+      "sha256": "053a0a64c4f39ca0a463218d2783e2c9abaebf166c5e33e5838dc5b775180173"
+    }
+  }
+}

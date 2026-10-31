@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ro-sprite-forge.local/schemas/sequence-manifest-v1.json",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "rsf.sequence-manifest/v1"
+    },
+    "semantics": {
+      "type": "object",
+      "properties": {
+        "renderer": { "const": "1.1.0" },
+        "geometry": { "const": "1.0.0" },
+        "timing": { "const": "1.0.0" },
+        "export": { "const": "1.0.0" }
+      },
+      "required": ["renderer", "geometry", "timing", "export"],
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "object",
+      "properties": {
+        "body_act": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "body_spr": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "head_act": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "head_spr": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "required": ["body_act", "body_spr"],
+      "additionalProperties": false
+    },
+    "selection": {
+      "type": "object",
+      "properties": {
+        "category": { "type": "string" },
+        "action": { "type": ["string", "null"] },
+        "slot": { "type": "integer", "minimum": 0 },
+        "view": { "type": "integer", "minimum": 0, "maximum": 7 },
+        "direction": { "type": ["integer", "null"], "minimum": 0, "maximum": 7 },
+        "camera_direction": { "type": "integer", "minimum": 0, "maximum": 7 }
+      },
+      "required": ["category", "slot", "view", "camera_direction"],
+      "additionalProperties": false
+    },
+    "frame_count": { "type": "integer", "minimum": 1 },
+    "timing": {
+      "type": "object",
+      "properties": {
+        "mode": { "type": "string" },
+        "source_delay": { "type": ["number", "null"] },
+        "runtime_rule": { "type": ["string", "null"] },
+        "looping": { "type": ["boolean", "null"] }
+      },
+      "required": ["mode", "source_delay", "runtime_rule", "looping"],
+      "additionalProperties": false
+    },
+    "frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "frame": { "type": "integer", "minimum": 0 },
+          "filename": { "type": "string", "pattern": "^[a-zA-Z0-9_.-]+$" },
+          "png_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "bounds": {
+            "anyOf": [
+              { "type": "null" },
+              {
+                "type": "array",
+                "items": { "type": "integer" },
+                "minItems": 4,
+                "maxItems": 4
+              }
+            ]
+          },
+          "duration_ms": { "type": ["number", "null"] }
+        },
+        "required": ["frame", "filename", "png_sha256", "bounds", "duration_ms"],
+        "additionalProperties": false
+      }
+    },
+    "overlays": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "fidelity": {
+      "type": "object",
+      "properties": {
+        "overall": { "type": "string", "enum": ["PARTIAL", "VERIFIED", "UNVERIFIED", "INVALID"] },
+        "geometry": { "const": "VERIFIED" },
+        "native_pixel_parity": { "const": "UNVERIFIED" },
+        "limitations": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["overall", "geometry", "native_pixel_parity", "limitations"],
+      "additionalProperties": false
+    },
+    "sequence_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "canonical_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  },
+  "required": [
+    "schema",
+    "semantics",
+    "sources",
+    "selection",
+    "frame_count",
+    "timing",
+    "frames",
+    "overlays",
+    "fidelity",
+    "sequence_sha256",
+    "canonical_sha256"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,40 @@
+{
+  "task": "RSF-33",
+  "changes": [
+    {
+      "path": "src/ro_sprite_forge/core/attachments.py",
+      "before_sha256": null,
+      "sha256": "5858747e2a599399d8c95529007e92dd6e8acb850ef16cbc93d81880f67e1a9b"
+    },
+    {
+      "path": "src/ro_sprite_forge/core/registry.py",
+      "before_sha256": null,
+      "sha256": "b6509b1547f2a377f03b0387546743ec170feb47c3778c118f4d310d58a632d0"
+    },
+    {
+      "path": "src/ro_sprite_forge/schemas/compatibility-registry-v1.json",
+      "before_sha256": null,
+      "sha256": "19b0b23e2b749a23cb4ad18dca1ad1fe117767452faa6af7b52126236ddb6ef8"
+    },
+    {
+      "path": "scripts/check_registry_schema.py",
+      "before_sha256": null,
+      "sha256": "a5849bca48eb429f30c5723878cc1b5c8eac512f9d4575a4e002f85f442d2c6b"
+    },
+    {
+      "path": "tests/test_attachment_compatibility.py",
+      "before_sha256": null,
+      "sha256": "a2ef1f6253029cf81151efbd1c575f9da437e29561ccfd579bb11e8b0bcc68ff"
+    },
+    {
+      "path": "tests/private_fixture_hooks/test_attachment_fixtures.py",
+      "before_sha256": null,
+      "sha256": "f8f7fee20a1736cdcbefef3b02ee6675dce616b3ef1e2c6a3066dd4538e4276a"
+    },
+    {
+      "path": "tests/test_video.py",
+      "before_sha256": null,
+      "sha256": "6a70eb79ba0cd2d0ce4a3f01b1c87ec3b823805c51f317cbd499a4d98507f20b"
+    }
+  ]
+}

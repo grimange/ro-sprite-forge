@@ -1,0 +1,257 @@
+{
+  "tasks": [
+    {
+      "id": "ly1cfaohrp6e00qxg4g1tfcj",
+      "title": "[M7] Offline custom actions and explicit runtime-support reporting",
+      "number": 35,
+      "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M7\n**Stable plan reference:** RSF-v1.1/M7-04\n**Implementation status:** Implemented; independent QA_PASS. Accepted transition is recorded by the live Kaneo column. Live Kaneo column is authoritative.\n**Responsible implementer:** Codex `aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn`; independent configured reviewer is separate.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§3.1–3.2, 4.7, 6/M7, 10.2\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Allow declared actions without pretending the runtime can select them.\n\n**Scope:** Custom Guard/Dodge IDs, finite target topology, format-permitted compile and compatibility diagnostics.\n\n## Acceptance criteria\n\n- [x] Declare new Guard/Dodge offline actions with frame/view/layer topology and stable IDs without changing original inventories.\n- [x] Compile where the format permits using existing approval/export policies, while reporting runtime UNSUPPORTED until a separately verified mapping exists.\n- [x] Any native-support claim requires pinned requested/resolved exact action/view/slot evidence; fallback remains diagnostic.\n- [x] Custom action support never authorizes Korangar/rAthena source changes or infers gameplay behavior.\n\n## Verification\n\nSynthetic declaration/compile/oracle and unsupported/fallback status checks; actual native proof required only if runtime support is claimed.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-32 (M7-01; task ID wbh6jvha6imo9jeub9zmhovj); RSF-25 (M5-03; task ID udjjt7jp22k3owbo05s8mnf8)\n\n**Non-goals / gate qualifications:** Only the stated deliverable; no adjacent milestone implementation or automatic artistic/native acceptance.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code: optional target offline-action contract; action-local topology/review identity; existing compositor/timeline preview; diagnostic existing-slot binding; compatible registry extension. Exact paths/baseline hashes and bounded diff: docs/verification/rsf-35/implementation-paths.json and implementation.diff.\n- Self-checks exit 0: focused18, public636, private52run/51PASS/1legacy skip, Rust11, schema13, installed distribution636run/624PASS/12optional skips (4jsonschema,8Rust executable). Repeat Guard/Dodge ACT/SPR/build-manifest bytes identical. Logs and synthetic hashes: docs/verification/rsf-35/. Python3.14.4 tested;3.12/3.13 unavailable. No browser/client change, browser/native GPU NOT_RUN.\n- Runtime Guard/Dodge/Wave UNSUPPORTED/native UNVERIFIED; diagnostic storage slot8 never runtime mapping. Production rejected; existing mappings/resources preserved. Final live RSF-32/33/34/35 read-back: all Accepted, all four criteria checked each. M7 FULLY_ACCEPTED within plan scope; new custom action runtime UNSUPPORTED/native UNVERIFIED.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\n**QA_PASS** — configured independent forge_qa_reviewer `/root/rsf35_qa`. Independently executed focused18, public636, private52run/51PASS/1legacy skip, Rust11, schema13, distribution636run/624PASS/12optional skips, two reproductions and a fresh binary/pixel/production-rejection probe. For each Guard/Dodge:49 occurrences compared,exactly1target changed,48unaffected;direct Rust AGREEMENT0mismatches. All15repeatartifacts byte-identical across paths/hashseed97. All12implementationhashes and137unchangedbaselinefiles verified. No product findings/corrections needed. No reviewer source edits/tracker writes/ownership changes/artistic approval. Full report:docs/verification/rsf-35/QA_REPORT.md; original logs/probe:independent-qa/. Runtime UNSUPPORTED/native UNVERIFIED for new actions; existing bounded M5 evidence remains separate.\n\n## Final implementation and M7 record\n\nImplementation manifest: docs/verification/rsf-35/implementation-manifest.json SHA-256 fe42fff9ea138e40849eaaff36baa6ec9d1505eed0ef5ea6cf77dc05756403c2. Independent QA comment h9a1r6hnxbvbanzybxr34m73; durable QA_REPORT.md and copied independent-qa/ evidence. M7_GATE_PACKET.md evaluates all four authoritative plan §6/M7 criteria using existing FULLY_ACCEPTED vocabulary. All M7 tasks32–35 Accepted/read back; no separate milestone object invented. RSF-36 zhk7olqfex25j8tewzoragi0 remains Backlog/unassigned; blockers26/31/35 Accepted, no implementation started. No pending synchronization is claimed until final read-back below is verified.",
+      "status": "done",
+      "columnId": "vnkxm3fyt0tmewq1rdokfops",
+      "priority": "no-priority",
+      "startDate": null,
+      "dueDate": null,
+      "position": 34,
+      "createdAt": "2026-10-29T10:08:08.265Z",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "assigneeName": "Codex",
+      "assigneeId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+      "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+    },
+    {
+      "id": "wbh6jvha6imo9jeub9zmhovj",
+      "title": "[M7] Additional job/body profiles and compatibility registry",
+      "number": 32,
+      "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M7\n**Stable plan reference:** RSF-v1.1/M7-01\n**Implementation status:** Accepted (QA Review PASS by independent forge_qa_reviewer).\n**Responsible implementer:** AGY — ICJQmirJliEFAZN3jBl3ZitHCandT0FG. Independent reviewer: separate read-only forge_qa_reviewer context.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§3.2, 6/M7, 7\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Demonstrate data-driven generality beyond Novice and monster.\n\n**Scope:** Versioned profile registry and matrix for selected additional lawful local body/job references.\n\n## Acceptance criteria\n\n- [x] Inspect/plan at least two non-Novice job reference profiles with different asset/action/equipment properties without schema redesign.\n- [x] Separate gameplay job, body/sex/style/variant identity, action family and compatibility; do not force Novice counts/mapping onto other jobs.\n- [x] Reference pairs remain external and hash-pinned; unknown semantics and locally unavailable lawful fixtures are explicit.\n- [x] Profile revisions preserve inventory and target/ledger provenance and extend existing structural/oracle regressions.\n\n## Verification\n\nLocal selected reference inventory/requirements runs plus synthetic profile-registry tests; evidence includes exact fixture hashes and unknown mappings.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-26 (M5-04; task ID tju1c32n1jrxitklr5hnj6la); RSF-10 (M1-04; task ID uzuir12040jroddz4idk8ahi) — Both Accepted\n\n**Non-goals / gate qualifications:** No fixed universal class roster or distribution of private art; independent of video support.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence\n\n- Code changes / diff:\n  - `src/ro_sprite_forge/schemas/compatibility-registry-v1.json` (SHA-256: 4c0e062bc19d39f7f74bb513aacdd0d119d03232accba0a4737d836154b364f7)\n  - `src/ro_sprite_forge/core/registry.py` (SHA-256: e8ac89d40c3fc63369686a54452759be874a5bab6a8a096a4d9ffa960a3f7a19)\n  - `src/ro_sprite_forge/core/contracts.py` (SHA-256: 735e1138948065804f81260b270786d479f41f3b0d3f612193b85edf6973fc33)\n  - `scripts/check_registry_schema.py` (SHA-256: 5fb90f956185733f8e3fd49d7f0f1489920dc742751cb2251102c50d9bd62718)\n  - `tests/test_profile_registry.py` (SHA-256: 96514211b0d9f865427e705eb4301558917e98d1cd3dff279ff88d7722b68fab)\n  - `tests/private_fixture_hooks/test_registry_fixtures.py` (SHA-256: c420b6ab63e10c3a70e1f5c90d82920bedde213432061a285539d017b60c39ce)\n- Test commands / exit statuses:\n  - Focused 25-point matrix: 25 PASS, 0 FAIL (`docs/verification/rsf-32/focused.log`)\n  - Public regressions: 564 PASS, 0 FAIL (`docs/verification/rsf-32/public.log`)\n  - Private fixture suite: 43 PASS, 1 SKIP, 0 FAIL (`docs/verification/rsf-32/private.log`)\n  - Schema checkers: 12 PASS, 0 FAIL (`docs/verification/rsf-32/schemas.log`)\n  - Isolated distribution: 564 PASS, 12 SKIP, 0 FAIL (`docs/verification/rsf-32/distribution.log`)\n  - Independent Rust oracle: returncode 0 on all audited pairs\n- Audited reference pairs:\n  - Genetic female costume 1 body (`genetic-female-body-v1`): ACT 27744afbed3b1fbca5a6cc3d012ced93b11559c45936465312c1cad67c931d34, SPR 8130fe1646f0284f40b32c9118959334d480d75f70ace581d17f0e3b1300982c (104 slots, 456 motions, 122 indexed images)\n  - Dragon Knight male shield (`dragon-knight-male-shield-v1`): ACT c2175126b1357374b148f7da24eecb12de0a4ba5fb21e2330cb90e877fe176c9, SPR 0b78157535438592c0572c55b5f870bd7b4a762ac344d7cf01703cb0a89558f4 (104 slots, 448 motions, 2 indexed images, 0 anchors)\n  - Falcon companion (`falcon-companion-v1`): ACT ac258085c313b566aa004a5a536a73578bd6a32033b7fb99331b2057dd83ad87, SPR dce42bfa285251f17b7bd05ad824cb5f9f329ebf62ac1f0eb7f082f2e788dfae (16 slots, 72 motions, 45 indexed images, 0 anchors)\n  - Synthetic Swordsman (`synthetic-swordsman-v1`): 13 groups, 104 slots, multilayer topology\n- Evidence directory: `docs/verification/rsf-32/`\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\n- Reviewer: Independent forge_qa_reviewer subagent (`b7153617-9086-45a4-9f66-9ac5d1b6339e`)\n- Review Report: `docs/verification/rsf-32/independent/QA_REPORT.md`\n- QA Verdict: QA_PASS\n- Acceptance: Task Accepted (`done`, column `vnkxm3fyt0tmewq1rdokfops`). All 4 criteria verified. Milestone M7 in progress. Next eligible task: RSF-33.",
+      "status": "done",
+      "columnId": "vnkxm3fyt0tmewq1rdokfops",
+      "priority": "no-priority",
+      "startDate": null,
+      "dueDate": null,
+      "position": 31,
+      "createdAt": "2026-10-29T10:08:08.195Z",
+      "userId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+      "assigneeName": "AGY",
+      "assigneeId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+      "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+      "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+    },
+    {
+      "id": "ohmigbqn0escc46dkopt2h0c",
+      "title": "[M7] Equipment and attachment compatibility validation",
+      "number": 33,
+      "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M7\n**Stable plan reference:** RSF-v1.1/M7-02\n**Implementation status:** Accepted (QA_PASS verified by forge-qa-reviewer).\n**Responsible implementer:** AGY (ICJQmirJliEFAZN3jBl3ZitHCandT0FG). Independent reviewer: forge-qa-reviewer.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§3.2, 4.3, 6/M7\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Expose actual supported body/head/weapon/shield/garment relationships.\n\n**Scope:** Frozen-client attachment rules, parent/child anchors, weapon action families and compatibility reports.\n\n## Acceptance criteria\n\n- [x] Model conventional body/head/equipment attachment pairs only where pinned runtime supports them, retaining parent/child resource and anchor identities.\n- [x] Missing weapon action, incompatible action family or gameplay-job/visual-outfit mismatch reports a compatibility issue rather than filename substitution.\n- [x] Preview/requirements/compiler preserve declared attachment ordering/anchors; unknown support remains UNVERIFIED.\n- [x] Representative local lawful attachment pairs are checked against frozen profile rules and native evidence is separate from structural compatibility.\n\n## Verification\n\nSynthetic compatible/incompatible/missing-anchor/action cases and selected local reference comparisons; exact-action native checks only where claimed.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-32 (M7-01; task ID wbh6jvha6imo9jeub9zmhovj); RSF-12 (M2-02; task ID ib2tllmtwl17psayj009pem7)\n\n**Non-goals / gate qualifications:** No invention of client attachment capability or upstream runtime edits.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code changes / diff: `src/ro_sprite_forge/core/attachments.py`, `src/ro_sprite_forge/core/registry.py`, `src/ro_sprite_forge/schemas/compatibility-registry-v1.json`, `scripts/check_registry_schema.py`, `tests/test_attachment_compatibility.py`, `tests/private_fixture_hooks/test_attachment_fixtures.py`, `tests/test_video.py`.\n- Test commands / exit statuses / artifact hashes: 19 focused tests PASS; 583 public tests PASS; 47 private fixture tests (46 PASS, 1 SKIP); 12 schema checkers PASS; isolated wheel distribution check PASS (583 PASS, 12 SKIP). Evidence stored in `docs/verification/rsf-33/`.\n- Milestone gates / limitations: Structural compatibility verified; native Korangar evidence remains orthogonal/unverified for non-Novice profiles.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\n**Verdict:** `QA_PASS` (audited by independent `forge-qa-reviewer` subagent).\nIndependent QA Report: `docs/verification/rsf-33/independent/QA_REPORT.md`.\nAll acceptance criteria verified; distribution check clean; no source changes made by reviewer.",
+      "status": "done",
+      "columnId": "vnkxm3fyt0tmewq1rdokfops",
+      "priority": "no-priority",
+      "startDate": null,
+      "dueDate": null,
+      "position": 32,
+      "createdAt": "2026-10-29T10:08:08.220Z",
+      "userId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+      "assigneeName": "AGY",
+      "assigneeId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+      "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+      "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+    },
+    {
+      "id": "o5jlgmryf188c7lr43saqz7c",
+      "title": "[M7] Costume and visual-outfit compatibility boundaries",
+      "number": 34,
+      "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M7\n**Stable plan reference:** RSF-v1.1/M7-03\n**Implementation status:** Implemented; independent QA_PASS. Accepted transition is recorded by the live Kaneo column.\n**Responsible implementer:** Codex `aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn`; independent configured reviewer `/root/rsf34_qa`.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.1–2.2, 3.2, 6/M7\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Keep optional clothing composition separate from the base asset compiler.\n\n**Scope:** Variant compatibility and separate optional clothing-composition adapter contract over approved supplied art.\n\n## Acceptance criteria\n\n- [x] Represent alternate body styles/costume/animation variants with explicit target/action compatibility rather than gameplay job substitution.\n- [x] Any optional clothing adapter stays separate from generic compiler and consumes operator-approved artwork with exact assignment provenance.\n- [x] No automatic garment segmentation/redraw, invisible fallback or unchanged original outfit counts as newly authored clothing coverage.\n- [x] Report unsupported variant/equipment combinations and retain scoped/full, review and native status distinctions.\n\n## Verification\n\nSynthetic variant/mismatch/retained-classic-art cases; inspect optional adapter boundary and operator approval requirements.\n\nActual commands, exit statuses, source identities, environment and NOT_RUN limits are recorded in docs/verification/rsf-34/commands.json, environment.json, REPORT.md and QA_REPORT.md. The independent reviewer reproduced applicable checks. No artistic approval or new native run is claimed.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-33 (M7-02; task ID ohmigbqn0escc46dkopt2h0c)\n\n**Non-goals / gate qualifications:** No mandatory clothing subsystem, AI art generation or automatic art acceptance.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code: optional core/appearance.py; compatible registry v1 cosmetic_pairings extension; registry load identity fix; synthetic/private tests and schema checker. Exact six changed implementation paths and hashes: docs/verification/rsf-34/implementation-manifest.json (SHA-256 9510cfb09211fbe6ab5711d85fe8654d3bdcbbd45a34e0099c6e696d1efbc7c2).\n- Checks (all exit 0): focused 79 (35 new), public 618, private 52 run / 51 PASS / one legacy skip, Rust parity 11 plus three actual source comparisons, 12 schema checkers; isolated distribution 618 run / 606 PASS / 12 optional Rust-tool skips. Four repeated synthetic modes byte-identical: determinism SHA-256 68ae25c64b6a6894245d7bb3916777bbb856497a46481d12fc7d01327e856be9.\n- Scoped structural compatibility passes. Genetic/Jack 104 slots supported; Genetic/shield 96/104, exact Pickup mismatch retained. Existing shield parent is novice-male-body-v1; no Dragon Knight body is enrolled. Separate head rehosting requires explicit binding. New cosmetic compilation/native remain UNVERIFIED; export_ready=false. Python 3.14 tested; 3.12/3.13 unavailable. No UI/native changes; browser/GPU NOT_RUN. M7 remains open for RSF-35.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\n**QA_PASS**, separate configured forge_qa_reviewer `/root/rsf34_qa`. Independently executed focused, full public, private, Rust, schema, reproduction, fresh alpha/frame/hash/pool probes and installed-distribution checks; all passed. No findings, source edits, Kaneo writes or ownership changes by reviewer. Original logs/probe and exact commands: docs/verification/rsf-34/QA_REPORT.md and independent-qa/. Verified QA comment ww1u7xe6w8204olfqbavgh0i. Human artwork approval remains separate. Coordinator may perform authorized objective acceptance after this verdict.",
+      "status": "done",
+      "columnId": "vnkxm3fyt0tmewq1rdokfops",
+      "priority": "no-priority",
+      "startDate": null,
+      "dueDate": null,
+      "position": 33,
+      "createdAt": "2026-10-29T10:08:08.241Z",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "assigneeName": "Codex",
+      "assigneeId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+      "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+    },
+    {
+      "id": "zhk7olqfex25j8tewzoragi0",
+      "title": "[M8] Portable packaging, CI and reproducible release artifacts",
+      "number": 36,
+      "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M8\n**Stable plan reference:** RSF-v1.1/M8-01\n**Implementation status:** Backlog (to-do); planned only, no implementation or verification claimed. Kaneo column is authoritative if later changed.\n**Responsible implementer:** Unassigned. Required skill: Authorized engineer for this bounded deliverable; independent reviewer is separate.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§6/M8, 8, 11\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Make the standalone tool installable and verifiable without private dependencies.\n\n**Scope:** CLI/UI distribution, dependency pins, Python-version CI matrix, release reproducibility and license/fixture separation.\n\n## Acceptance criteria\n\n- [ ] Clean supported Python 3.12+ installations run CLI/UI workflows; CI verifies supported versions and optional adapter isolation.\n- [ ] Release rebuilds record stable tool/dependency/policy provenance and reproducible artifact hashes; no private paths, credentials, art or GRFs enter public packages.\n- [ ] Source modules/dependencies have explicit license/provenance review and notices; unresolved source ownership prevents publication.\n- [ ] Public CI and demos use synthetic redistributable assets; private fixture hooks remain optional and clearly NOT_RUN when absent.\n\n## Verification\n\nClean-install CI matrix, package-content/license audit and repeated release/build hash checks.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-26 (M5-04; task ID tju1c32n1jrxitklr5hnj6la); RSF-31 (M6-04; task ID r9wtccay03qkpx6i4jco8971); RSF-35 (M7-04; task ID ly1cfaohrp6e00qxg4g1tfcj)\n\n**Non-goals / gate qualifications:** No publish/deploy action authorized by planning; native-verified release still needs M8-04.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code changes / diff: Not implemented by this planning sync.\n- Test commands / exit statuses / artifact hashes: NOT_RUN (planning only).\n- Milestone gates / limitations: Not evaluated; structural, coverage, visual, preview and native states remain separate.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nNot performed for implementation. Implementer supplies evidence and moves to QA Review; a distinct read-only reviewer records QA_PASS / QA_FAIL / QA_BLOCKED. Operator-only visual/native decisions remain separate. No acceptance is granted by backlog creation.",
+      "status": "to-do",
+      "columnId": "eog035o4rzn6u301ylyctbvg",
+      "priority": "no-priority",
+      "startDate": null,
+      "dueDate": null,
+      "position": 35,
+      "createdAt": "2026-10-29T10:08:08.299Z",
+      "userId": null,
+      "assigneeName": null,
+      "assigneeId": null,
+      "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+      "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+    }
+  ],
+  "next_task_relations": [
+    {
+      "id": "mga1b3ox2lryz28ajh7gzxu5",
+      "sourceTaskId": "tju1c32n1jrxitklr5hnj6la",
+      "targetTaskId": "zhk7olqfex25j8tewzoragi0",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.735Z",
+      "sourceTask": {
+        "id": "tju1c32n1jrxitklr5hnj6la",
+        "title": "[M5] Walk compilation and independent multilayer regression verification",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 26,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+        "assigneeName": "Codex"
+      },
+      "targetTask": {
+        "id": "zhk7olqfex25j8tewzoragi0",
+        "title": "[M8] Portable packaging, CI and reproducible release artifacts",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 36,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "poz73xxftb4b8wlecnahv0rr",
+      "sourceTaskId": "r9wtccay03qkpx6i4jco8971",
+      "targetTaskId": "zhk7olqfex25j8tewzoragi0",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.755Z",
+      "sourceTask": {
+        "id": "r9wtccay03qkpx6i4jco8971",
+        "title": "[M6] VFR, candidate-frame diagnostics and repeatability verification",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 31,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+        "assigneeName": "AGY"
+      },
+      "targetTask": {
+        "id": "zhk7olqfex25j8tewzoragi0",
+        "title": "[M8] Portable packaging, CI and reproducible release artifacts",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 36,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "yjfifetn49ff1ya5huo9pvet",
+      "sourceTaskId": "ly1cfaohrp6e00qxg4g1tfcj",
+      "targetTaskId": "zhk7olqfex25j8tewzoragi0",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.776Z",
+      "sourceTask": {
+        "id": "ly1cfaohrp6e00qxg4g1tfcj",
+        "title": "[M7] Offline custom actions and explicit runtime-support reporting",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 35,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+        "assigneeName": "Codex"
+      },
+      "targetTask": {
+        "id": "zhk7olqfex25j8tewzoragi0",
+        "title": "[M8] Portable packaging, CI and reproducible release artifacts",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 36,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "dqsbdeloq3f51g8aa531gb0x",
+      "sourceTaskId": "zhk7olqfex25j8tewzoragi0",
+      "targetTaskId": "bcez9nz3cvf77pewx0q7zgz9",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:20.064Z",
+      "sourceTask": {
+        "id": "zhk7olqfex25j8tewzoragi0",
+        "title": "[M8] Portable packaging, CI and reproducible release artifacts",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 36,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "bcez9nz3cvf77pewx0q7zgz9",
+        "title": "[M8] Synthetic end-to-end tutorial and separate native release acceptance",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 39,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    }
+  ],
+  "qa_comment_id": "h9a1r6hnxbvbanzybxr34m73",
+  "milestone": "M7",
+  "milestone_verdict": "FULLY_ACCEPTED",
+  "native_custom_actions": "UNVERIFIED",
+  "runtime_custom_actions": "UNSUPPORTED",
+  "comments": [
+    {
+      "id": "srvqinee67163fits75fnrb6",
+      "taskId": "ly1cfaohrp6e00qxg4g1tfcj",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Implementation handoff for independent QA. Codex ownership retained. Self-tests all exit0: 18 focused, 636 public, 52 private run (51PASS/1existing skip), 11 independent Rust parity, 13 schema scripts, isolated wheel636run/624PASS/12optional Rust-tool skips and private-artifact exclusion. Wave known four-color preview and Guard/Dodge source-bound diagnostic compilations reproduce identical binaries/manifests. Both outputACT b37cd2da8f93246f4c3244aa19305688163e49d51c68559fc54ff4b10905056b, SPR cf90f1d8b4eb51ce47fde9375ef8aab18e5d8361c929dbd5557c9674153c68cd. Original40slots/all unaffected occurrences and metadata preserved. Runtime UNSUPPORTED, native UNVERIFIED; no gameplay/source changes or automatic approval. Source paths, baseline diff, USAGE, REPORT and durable commands/logs: docs/verification/rsf-35/. Initial package probe import defect corrected; final package check PASS. Independent configured reviewer follows; no acceptance claimed yet.",
+      "createdAt": "2026-10-31T05:42:01.960Z",
+      "updatedAt": "2026-10-31T05:42:01.960Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    },
+    {
+      "id": "h9a1r6hnxbvbanzybxr34m73",
+      "taskId": "ly1cfaohrp6e00qxg4g1tfcj",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Independent QA_PASS received from configured forge_qa_reviewer /root/rsf35_qa. Reviewer independently ran focused18/public636/private51PASS+1legacy skip/Rust11/schema13/installed624PASS+12optional skips, exact effective-image/pixel/metadata/palette/RLE probes and two canonical reproductions. Guard and Dodge each:49occurrences,1authorized change,48unchanged; direct Rust AGREEMENT0mismatches;15repeatartifacts identical. All4live criteria supported; no product findings or correction required. Codex ownership retained. Durable report docs/verification/rsf-35/QA_REPORT.md plus independent-qa/ original logs/probe. New action runtime UNSUPPORTED/native UNVERIFIED; no artistic approval or native execution fabricated. Coordinator performing authorized objective Accepted/read-back workflow after this independent verdict.",
+      "createdAt": "2026-10-31T05:49:15.632Z",
+      "updatedAt": "2026-10-31T05:49:15.632Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    },
+    {
+      "id": "krl21kzsupyxeeekh5xt3vhc",
+      "taskId": "ly1cfaohrp6e00qxg4g1tfcj",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Final objective acceptance verified: RSF-35 done/Accepted, Codex aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn retained,4/4criteria checked, independent QA_PASS (h9a1r6hnxbvbanzybxr34m73). Live32/33/34/35 allAccepted,4/4criteria each. Authoritative plan §6/M7 fourcriteria assessed in docs/verification/rsf-35/M7_GATE_PACKET.md; existing overall verdict FULLY_ACCEPTED. No DKbody inferred: distinct Geneticbody/DKshield jobreferences retain actualparent/template limits. New custom actions runtime UNSUPPORTED/native UNVERIFIED; existing bounded M5 evidence preserved, no artistic/gameplay authority granted. Implementation manifest SHA256 fe42fff9ea138e40849eaaff36baa6ec9d1505eed0ef5ea6cf77dc05756403c2;75evidencefiles plus12exactimplementationpaths. Commands/logs/knownpixels/Rust/hashseed repeat/QA probe preserved. Final package624PASS+12optional skips(4jsonschema,8Rust),sourcepublic636PASS/private51PASS+1legacySkip/Rust11/schema13. RSF36 zhk7olqfex25j8tewzoragi0 dependencyeligible26/31/35Accepted; remainsBacklog/unassigned,notstarted. Final task/comments/nextrelations snapshot retained as kaneo-final-readback.json.",
+      "createdAt": "2026-10-31T05:50:09.222Z",
+      "updatedAt": "2026-10-31T05:50:09.222Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    }
+  ],
+  "final_comment_id": "krl21kzsupyxeeekh5xt3vhc",
+  "implementation_manifest_sha256": "fe42fff9ea138e40849eaaff36baa6ec9d1505eed0ef5ea6cf77dc05756403c2"
+}

@@ -1,0 +1,12 @@
+{
+  "baseline_archive_sha256": "887f5b1025079146592f2bbf0bc062d84aa222206ea23c762a3f26907bcf411f",
+  "baseline_files": 122,
+  "changed": {
+    "pyproject.toml": {
+      "baseline_sha256": "8ddb9b0f39d0d8f28198f1b0605cb1ee9cbfc37a5a9823268a32fe27a3505122",
+      "current_sha256": "0c4c7381d658973ea687c5dc5de3b6102ac2d112e6a336253582441d634706b3"
+    }
+  },
+  "git_head": "f1bb19bb130beea8b89cf6c029209e93fb241d5a",
+  "unchanged": 121
+}

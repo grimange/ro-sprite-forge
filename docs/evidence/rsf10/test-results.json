@@ -1,0 +1,62 @@
+{
+  "schema": "rsf.verification-evidence/v1",
+  "task": "RSF-10",
+  "python": "3.14.4",
+  "implementation_manifest_sha256": "e4098f1ad55a5f810d9489b9093b232f01e47236873f7053c7aad2cb01b4ceb7",
+  "examples_sha256": "04e3795e1f5af14aa768bf678e5269f2551a46add89dd2244a465d54b3195d92",
+  "counts": {
+    "coverage_tests": 19,
+    "public_tests": 172,
+    "private_tests": 18,
+    "installed_tests": 172
+  },
+  "commands": [
+    {
+      "log": "coverage-tests.log",
+      "exit_status": 0,
+      "sha256": "b14d12a0b5eeaa9df8824bc75133411f7dad7a8c2319d2434cea815b38829853"
+    },
+    {
+      "log": "public-tests.log",
+      "exit_status": 0,
+      "sha256": "b88250bc4e0a5f2e5295c5b01164fe53426ff63d8f25abbddfa82a458d5d0a00"
+    },
+    {
+      "log": "private-tests.log",
+      "exit_status": 0,
+      "sha256": "9dbc2759d7e4df0efc0f699761c8b4969870082ebc4d9914ccb6dba4c724766d"
+    },
+    {
+      "log": "contract-schemas.log",
+      "exit_status": 0,
+      "sha256": "76b65768e74b1740e6caa2462c24b42e901eda2906b19f6ff1d43291e969b225"
+    },
+    {
+      "log": "ledger-schema.log",
+      "exit_status": 0,
+      "sha256": "ff4629e2327b970f5408a1ceca75f43cb5c0d4bbd89af3f79c8fa3be0712114d"
+    },
+    {
+      "log": "coverage-schema.log",
+      "exit_status": 0,
+      "sha256": "796179eec80b3827eecc26ec6b92573bcdeab5b5e8f81aa4780e55bbdcb724b8"
+    },
+    {
+      "log": "distribution.log",
+      "exit_status": 0,
+      "sha256": "e21b60e5187fbd3d538f4274188ceae7f33ff8dec96dc4b58e37b49c153371fc"
+    }
+  ],
+  "gates": {
+    "M0": "M0_VERIFIED",
+    "M0-S": "PASS",
+    "M0-I": "PASS",
+    "M0-N": "PASS"
+  },
+  "not_run": [
+    "Python3.12 unavailable",
+    "Python3.13 unavailable",
+    "Rust parity unchanged inputs",
+    "Native playback unchanged inputs"
+  ]
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_video.py",
+      "-v"
+    ],
+    "exit": 0,
+    "log": "focused-tests.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "exit": 1,
+    "log": "public-tests.log"
+  }
+]

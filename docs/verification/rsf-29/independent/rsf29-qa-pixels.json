@@ -1,0 +1,26 @@
+{
+  "frames": [
+    {
+      "ordinal": 4,
+      "pts": 300,
+      "rgba_sha256": "f8630b2a2e8ecb0f293bbd525fad3d6961c8b33c50a098e85568997bb5409c6f",
+      "png_sha256": "1c5c3e4c120ee8a2861bf12636a1b96344f578171f7543869ea4a8b437883382"
+    },
+    {
+      "ordinal": 2,
+      "pts": 120,
+      "rgba_sha256": "4de13be716c171641092c025d6821c7ffe597e95c207e95a055c11838a0bc94f",
+      "png_sha256": "3e00777e379eecd20d3385f45bcd00b3d85d525d45c50318cbc0634f3f6f8989"
+    },
+    {
+      "ordinal": 0,
+      "pts": 0,
+      "rgba_sha256": "adf63562c07856fcfc2564a135d54d4de89c0ef0136f6c6fc197611515874631",
+      "png_sha256": "dde9003e6bd1bca8db19eaeb40b24733bbbf4dac8a934f0314cbc4b96f780ef9"
+    }
+  ],
+  "derived_rgba_sha256": "e5b632373931fc9ab25d4dfa6a33cda58631dc9896e3fc8399adf27683685831",
+  "derived_png_sha256": "c47c90c05eb58b54757725ae8cdab92acdf57c33cd2f0548807c227cf9b7fdfe",
+  "video_review": "UNVERIFIED",
+  "result": "PASS"
+}

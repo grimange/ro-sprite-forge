@@ -1,0 +1,1470 @@
+--- a/src/ro_sprite_forge/core/compiler.py
++++ b/src/ro_sprite_forge/core/compiler.py
+@@ -51,7 +51,7 @@
+ )
+ from ro_sprite_forge.report_io import publish, publish_resources
+ 
+-WRITER_VERSION = "1.0.0"
++WRITER_VERSION = "1.1.0"
+ COMPILATION_MANIFEST_SCHEMA = "rsf.compilation-manifest/v1"
+ COMPILATION_PLAN_SCHEMA = "rsf.compilation-plan/v1"
+ 
+@@ -75,11 +75,42 @@
+     """Validate canonical seal and required structural invariants of rsf.compilation-manifest/v1."""
+     check_seal(manifest, COMPILATION_MANIFEST_SCHEMA)
+     check(bool(_ID_RE.match(str(manifest.get("id", "")))), "Invalid compilation manifest id.")
+-    check(manifest.get("writer_version") == WRITER_VERSION, "Invalid writer_version in manifest.")
++    check(manifest.get("writer_version") in ("1.0.0", WRITER_VERSION), "Invalid writer_version in manifest.")
+     check(manifest.get("compilation_mode") in VALID_COMPILATION_MODES, "Invalid compilation_mode in manifest.")
+     check(manifest.get("replacement_policy") in VALID_REPLACEMENT_POLICIES, "Invalid replacement_policy in manifest.")
+     check(manifest.get("isolation_strategy") in VALID_ISOLATION_STRATEGIES, "Invalid isolation_strategy in manifest.")
+     check(manifest.get("part") in VALID_PARTS, "Invalid part in manifest.")
++    if manifest["writer_version"] == WRITER_VERSION:
++        remapping = manifest.get("remapping")
++        check(isinstance(remapping, dict), "INVALID_REMAPPING: writer 1.1.0 requires remapping evidence.")
++        required = {"semantics", "ordering", "reuse", "input_counts", "output_counts", "palette_sha256", "before", "after", "unaffected_count", "conversion_loss"}
++        check(set(remapping) == required, "INVALID_REMAPPING: incomplete remapping evidence.")
++        targets = {(r["slot"], r["frame"], r["clip_ordinal"]): r for r in manifest["replacements"]}
++        before, after = remapping["before"], remapping["after"]
++        check(isinstance(before, list) and isinstance(after, list) and len(before) == len(after), "INVALID_REMAPPING: occurrence count differs.")
++        check(len(before) - len(targets) == remapping["unaffected_count"], "INVALID_REMAPPING: unaffected count differs.")
++        for key, resources in (("input_counts", "input_resources"), ("output_counts", "output_resources")):
++            counts = remapping[key]
++            check(counts == [manifest[resources]["spr"]["indexed_count"], manifest[resources]["spr"]["rgba_count"]], "INVALID_REMAPPING: pool counts differ.")
++        previous = None
++        for old, new in zip(before, after):
++            loc = tuple(old.get(k) for k in ("slot", "frame", "layer"))
++            check(all(type(n) is int and n >= 0 for n in loc) and (previous is None or loc > previous), "INVALID_REMAPPING: occurrence ordering differs.")
++            previous = loc
++            check(loc == tuple(new.get(k) for k in ("slot", "frame", "layer")), "INVALID_REMAPPING: occurrence identities differ.")
++            for row, key in ((old, "input_counts"), (new, "output_counts")):
++                pool, index = row.get("pool"), row.get("index")
++                counts = remapping[key]
++                check(pool in (0, 1) and type(index) is int and 0 <= index < counts[pool], "INVALID_REMAPPING: invalid pool/index.")
++                check(row.get("texture_index") == index + (counts[0] if pool else 0), "INVALID_REMAPPING: texture index differs.")
++                check(row.get("representation") == ("rgba" if pool else "indexed"), "INVALID_REMAPPING: representation differs.")
++                check(all(_SHA256_RE.fullmatch(str(row.get(k, ""))) for k in ("decoded_rgba_sha256", "metadata_sha256")), "INVALID_REMAPPING: invalid occurrence hash.")
++            check(old["metadata_sha256"] == new["metadata_sha256"], "INVALID_REMAPPING: layer metadata differs.")
++            if loc in targets:
++                for row, key in ((old, "original_image"), (new, "output_image")):
++                    check(all(row[k] == targets[loc][key][k] for k in ("pool", "index", "decoded_rgba_sha256")), "INVALID_REMAPPING: replacement identity differs.")
++            else:
++                check(all(old[k] == new[k] for k in ("pool", "index", "decoded_rgba_sha256")), "INVALID_REMAPPING: unaffected identity differs.")
+     ver = manifest.get("verification", {})
+     check(
+         ver.get("decode_after_write") == "PASS"
+@@ -114,6 +145,47 @@
+         img = spr_doc.rgba_images[index]
+         return img.width, img.height, img.rgba
+     raise ForgeError(ErrorCode.INVALID_INPUT, f"UNSUPPORTED_SPR_POOL: invalid pool {pool}; expected 0 or 1.")
++
++
++def image_reference_inventory(act: dict[str, Any], spr: SprDocument) -> list[dict[str, Any]]:
++    """Ordered visible occurrences; ACT indices are pool-local, texture positions are not."""
++    rows = []
++    for slot, motions in enumerate(act["actions"]):
++        for frame, motion in enumerate(motions):
++            for layer, clip in enumerate(motion["clips"]):
++                if clip["sprite"] == -1:
++                    continue
++                pool, index = clip["pool"], clip["sprite"]
++                try:
++                    w, h, rgba = _resolve_spr_image_rgba(spr, pool, index)
++                except ForgeError as exc:
++                    raise ForgeError(ErrorCode.INVALID_INPUT,
++                        f"INVALID_IMAGE_REFERENCE: slot={slot} frame={frame} layer={layer} pool={pool} index={index}: {exc}") from exc
++                metadata = {k: v for k, v in clip.items() if k not in ("pool", "sprite")}
++                rows.append({"slot": slot, "frame": frame, "layer": layer,
++                    "pool": pool, "index": index,
++                    "texture_index": index + (spr.indexed_count if pool == 1 else 0),
++                    "representation": "indexed" if pool == 0 else "rgba",
++                    "decoded_rgba_sha256": _decoded_rgba_digest(w, h, rgba),
++                    "metadata_sha256": digest(canonical_bytes(metadata))})
++    return rows
++
++
++def _remapping_evidence(orig_act, orig_spr, out_act, out_spr, replacements):
++    before = image_reference_inventory(orig_act, orig_spr)
++    after = image_reference_inventory(out_act, out_spr)
++    targets = {(r["slot"], r["frame"], r["clip_ordinal"]) for r in replacements}
++    return {"semantics": "act-pool-local/v1", "ordering": "original-pools-then-canonical-occurrence-appends/v1",
++        "reuse": "exact-encoded-replacement-content-within-pool/v1",
++        "input_counts": [orig_spr.indexed_count, orig_spr.rgba_count],
++        "output_counts": [out_spr.indexed_count, out_spr.rgba_count],
++        "palette_sha256": digest(out_spr.palette),
++        "before": before, "after": after,
++        "unaffected_count": len(before) - len(targets),
++        "conversion_loss": [{"requirement_id": r["requirement_id"],
++            "loss": "replacement-does-not-retain-original-palette-indices",
++            "original_palette_and_entries_retained": True}
++            for r in replacements if r["original_image"]["pool"] == 0 and r["output_image"]["pool"] == 1]}
+ 
+ 
+ def _decode_source_image(
+@@ -239,6 +311,7 @@
+     if target_pool == 1:
+         if orig_pool == 0:
+             notes.append("INDEXED_CLIP_REMAPPED_TO_RGBA_POOL")
++            notes.append("REPLACEMENT_PALETTE_INDEX_INFORMATION_LOST_ORIGINAL_RETAINED")
+         notes.append("ENCODED_TRUECOLOR_RGBA")
+         return RgbaImage(width=width, height=height, rgba=rgba_bytes), notes
+ 
+@@ -258,6 +331,8 @@
+             b = rgba_bytes[base + 2]
+             a = rgba_bytes[base + 3]
+             if a == 0:
++                check((r, g, b) == (0, 0, 0),
++                    f"UNSUPPORTED_INDEXED_CONVERSION: requirement '{requirement_id}' has nonzero RGB beneath transparent alpha; exact indexed conversion would lose pixel information.")
+                 indices[p_idx] = 0
+             elif a < 255:
+                 raise ForgeError(
+@@ -392,7 +467,7 @@
+     replacement_requirement_ids: Sequence[str] | None = None,
+     part: str = "body",
+     compilation_mode: str = "bounded_replacement",
+-    replacement_policy: str = "explicit_rgba",
++    replacement_policy: str = "preserve_pool",
+     isolation_strategy: str = "auto",
+     output_prefix: str = "compiled",
+ ) -> dict[str, Any]:
+@@ -405,6 +480,7 @@
+ 
+     orig_act = read_act(act_bytes)
+     orig_spr = read_spr(spr_bytes)
++    image_reference_inventory(orig_act, orig_spr)
+     _ = inventory(act_bytes, spr_bytes)
+ 
+     input_summary = {
+@@ -564,6 +640,20 @@
+         "export_ready": export_ready,
+         "experimental_bounded_output": compilation_mode == "bounded_replacement",
+     }
++    if not blockers:
++        try:
++            candidate = compile_resources(act_bytes, spr_bytes, requirements=requirements,
++                ledger=ledger, reviewed_ledger=reviewed_ledger, source_bytes=source_bytes,
++                source_metadata=source_metadata, review_events=review_events, project_id=project_id,
++                replacement_requirement_ids=replacement_requirement_ids, part=part,
++                compilation_mode=compilation_mode, replacement_policy=replacement_policy,
++                isolation_strategy=isolation_strategy, output_prefix=output_prefix)
++            plan["remapping"] = candidate["manifest"]["remapping"]
++            plan["selected_replacements"] = candidate["manifest"]["replacements"]
++        except ForgeError as exc:
++            blockers.append(str(exc))
++            plan["ready_to_compile"] = False
++            plan["production_authorized"] = False
+     return sealed(plan)
+ 
+ 
+@@ -667,7 +757,7 @@
+     compilation_id: str = "compile-default",
+     part: str = "body",
+     compilation_mode: str = "bounded_replacement",
+-    replacement_policy: str = "explicit_rgba",
++    replacement_policy: str = "preserve_pool",
+     isolation_strategy: str = "auto",
+     expected_act_sha256: str | None = None,
+     expected_spr_sha256: str | None = None,
+@@ -730,6 +820,7 @@
+     # Decode and validate original pair using audited M0 codecs and inventory
+     orig_act = read_act(act_bytes)
+     orig_spr = read_spr(spr_bytes)
++    image_reference_inventory(orig_act, orig_spr)
+     _ = inventory(act_bytes, spr_bytes)
+ 
+     # Validate optional head resource pair
+@@ -846,6 +937,7 @@
+                 "head_act": out_head_act_info,
+                 "head_spr": out_head_spr_info,
+             },
++            "remapping": _remapping_evidence(orig_act, orig_spr, orig_act, orig_spr, []),
+             "replacements": [],
+             "preservation_summary": {
+                 "total_action_slots": len(orig_act["actions"]),
+@@ -1417,6 +1509,7 @@
+             "head_act": out_head_act_info,
+             "head_spr": out_head_spr_info,
+         },
++        "remapping": _remapping_evidence(orig_act, orig_spr, decoded_act, decoded_spr, replacement_records),
+         "replacements": replacement_records,
+         "preservation_summary": {
+             "total_action_slots": len(orig_act["actions"]),
+@@ -1488,6 +1581,18 @@
+             raise ForgeError(ErrorCode.IO_ERROR, f"Cannot create output directory: {exc}", path=str(output_dir)) from exc
+ 
+     manifest = compilation_result["manifest"]
++    validate_compilation_manifest(manifest)
++    for name in ("act", "spr", "head_act", "head_spr"):
++        raw = compilation_result.get(name + "_bytes")
++        info = manifest["output_resources"].get(name)
++        check((raw is None) == (info is None), f"COMPILATION_PAIR_MISMATCH: {name} presence differs from manifest.")
++        if info is not None:
++            check(isinstance(raw, bytes) and len(raw) == info["bytes"] and digest(raw) == info["sha256"],
++                  f"COMPILATION_PAIR_MISMATCH: {name} bytes differ from manifest.")
++    check((compilation_result.get("head_act_bytes") is None) == (compilation_result.get("head_spr_bytes") is None), "COMPILATION_PAIR_MISMATCH: incomplete head pair.")
++    inventory(compilation_result["act_bytes"], compilation_result["spr_bytes"])
++    if compilation_result.get("head_act_bytes") is not None:
++        inventory(compilation_result["head_act_bytes"], compilation_result["head_spr_bytes"])
+     out_res = manifest["output_resources"]
+     act_path = target_dir / out_res["act"]["filename"]
+     spr_path = target_dir / out_res["spr"]["filename"]
+@@ -1514,12 +1619,16 @@
+             path=str(manifest_path),
+         )
+ 
++    for path, _ in pairs:
++        check(not Path(path).exists(), f"OUTPUT_EXISTS: refusing to overwrite {Path(path).name}.")
++    resources_published = False
+     try:
+         publish_resources(tuple(pairs))
++        resources_published = True
+         publish(str(manifest_path), manifest)
+     except Exception:
+         # Roll back any published resource files if manifest publication fails
+-        for p_str, _ in pairs:
++        for p_str, _ in pairs if resources_published else []:
+             try:
+                 os.unlink(p_str)
+             except OSError:
+--- a/src/ro_sprite_forge/cli.py
++++ b/src/ro_sprite_forge/cli.py
+@@ -236,7 +236,7 @@
+     comp_cmd.add_argument('--compilation-id', default='cli-compile', help='Compilation record ID (default: cli-compile).')
+     comp_cmd.add_argument('--part', choices=('body', 'head'), default='body', help='Target actor part (default: body).')
+     comp_cmd.add_argument('--mode', choices=('preserve', 'bounded_replacement', 'production_export'), default='bounded_replacement', help='Compilation mode.')
+-    comp_cmd.add_argument('--policy', choices=('preserve_pool', 'explicit_rgba', 'indexed_exact'), default='explicit_rgba', help='Pool/encoding replacement policy.')
++    comp_cmd.add_argument('--policy', choices=('preserve_pool', 'explicit_rgba', 'indexed_exact'), default='preserve_pool', help='Pool/encoding replacement policy.')
+     comp_cmd.add_argument('--isolation', choices=('auto', 'always_append', 'in_place_only'), default='auto', help='Shared SPR reference isolation strategy.')
+     comp_cmd.add_argument('--head-act', help='Optional companion head ACT input file.')
+     comp_cmd.add_argument('--head-spr', help='Optional companion head SPR input file.')
+--- a/src/ro_sprite_forge/service/workbench.py
++++ b/src/ro_sprite_forge/service/workbench.py
+@@ -680,7 +680,7 @@
+         'evidence': evidence,
+         'replacement_requirement_ids': data.get('replacement_requirement_ids'),
+         'compilation_mode': data.get('compilation_mode', 'bounded_replacement'),
+-        'replacement_policy': data.get('replacement_policy', 'explicit_rgba'),
++        'replacement_policy': data.get('replacement_policy', 'preserve_pool'),
+         'isolation_strategy': data.get('isolation_strategy', 'auto'),
+         'output_prefix': data.get('output_prefix') or res['id'],
+     }
+--- a/src/ro_sprite_forge/static/index.html
++++ b/src/ro_sprite_forge/static/index.html
+@@ -282,8 +282,8 @@
+                 <div>
+                   <label for="compile-policy">SPR pool policy</label>
+                   <select id="compile-policy">
+-                    <option value="explicit_rgba" selected>Explicit RGBA (Pool 1)</option>
+-                    <option value="preserve_pool">Preserve original pool</option>
++                    <option value="explicit_rgba">Explicit RGBA (Pool 1)</option>
++                    <option value="preserve_pool" selected>Preserve original pool</option>
+                     <option value="indexed_exact">Lossless indexed RLE (Pool 0)</option>
+                   </select>
+                 </div>
+--- a/src/ro_sprite_forge/static/workbench.js
++++ b/src/ro_sprite_forge/static/workbench.js
+@@ -1674,7 +1674,7 @@
+         resource_id: resId,
+         part: resObj?.part || 'body',
+         compilation_mode: byId('compile-mode')?.value || 'bounded_replacement',
+-        replacement_policy: byId('compile-policy')?.value || 'explicit_rgba',
++        replacement_policy: byId('compile-policy')?.value || 'preserve_pool',
+         isolation_strategy: byId('compile-isolation')?.value || 'auto',
+       };
+       const headId = byId('compile-head-resource')?.value;
+--- a/src/ro_sprite_forge/schemas/compilation-manifest-v1.json
++++ b/src/ro_sprite_forge/schemas/compilation-manifest-v1.json
+@@ -33,7 +33,10 @@
+       "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+     },
+     "writer_version": {
+-      "const": "1.0.0"
++      "enum": [
++        "1.0.0",
++        "1.1.0"
++      ]
+     },
+     "compilation_mode": {
+       "enum": [
+@@ -64,43 +67,78 @@
+     },
+     "target": {
+       "anyOf": [
+-        { "type": "null" },
+-        { "$ref": "#/$defs/contract_ref" }
++        {
++          "type": "null"
++        },
++        {
++          "$ref": "#/$defs/contract_ref"
++        }
+       ]
+     },
+     "runtime_profile": {
+       "anyOf": [
+-        { "type": "null" },
+-        { "$ref": "#/$defs/contract_ref" }
++        {
++          "type": "null"
++        },
++        {
++          "$ref": "#/$defs/contract_ref"
++        },
++        {
++          "$ref": "#/$defs/profile_ref"
++        }
+       ]
+     },
+     "requirements_sha256": {
+-      "type": ["string", "null"],
++      "type": [
++        "string",
++        "null"
++      ],
+       "pattern": "^[0-9a-f]{64}$"
+     },
+     "ledger": {
+       "anyOf": [
+-        { "type": "null" },
+-        { "$ref": "#/$defs/contract_ref" }
++        {
++          "type": "null"
++        },
++        {
++          "$ref": "#/$defs/contract_ref"
++        }
+       ]
+     },
+     "input_resources": {
+       "type": "object",
+       "additionalProperties": false,
+-      "required": ["act", "spr", "head_act", "head_spr"],
+-      "properties": {
+-        "act": { "$ref": "#/$defs/act_info" },
+-        "spr": { "$ref": "#/$defs/spr_info" },
++      "required": [
++        "act",
++        "spr",
++        "head_act",
++        "head_spr"
++      ],
++      "properties": {
++        "act": {
++          "$ref": "#/$defs/act_info"
++        },
++        "spr": {
++          "$ref": "#/$defs/spr_info"
++        },
+         "head_act": {
+           "anyOf": [
+-            { "type": "null" },
+-            { "$ref": "#/$defs/act_info" }
++            {
++              "type": "null"
++            },
++            {
++              "$ref": "#/$defs/act_info"
++            }
+           ]
+         },
+         "head_spr": {
+           "anyOf": [
+-            { "type": "null" },
+-            { "$ref": "#/$defs/spr_info" }
++            {
++              "type": "null"
++            },
++            {
++              "$ref": "#/$defs/spr_info"
++            }
+           ]
+         }
+       }
+@@ -108,20 +146,37 @@
+     "output_resources": {
+       "type": "object",
+       "additionalProperties": false,
+-      "required": ["act", "spr", "head_act", "head_spr"],
+-      "properties": {
+-        "act": { "$ref": "#/$defs/output_act_info" },
+-        "spr": { "$ref": "#/$defs/output_spr_info" },
++      "required": [
++        "act",
++        "spr",
++        "head_act",
++        "head_spr"
++      ],
++      "properties": {
++        "act": {
++          "$ref": "#/$defs/output_act_info"
++        },
++        "spr": {
++          "$ref": "#/$defs/output_spr_info"
++        },
+         "head_act": {
+           "anyOf": [
+-            { "type": "null" },
+-            { "$ref": "#/$defs/output_act_info" }
++            {
++              "type": "null"
++            },
++            {
++              "$ref": "#/$defs/output_act_info"
++            }
+           ]
+         },
+         "head_spr": {
+           "anyOf": [
+-            { "type": "null" },
+-            { "$ref": "#/$defs/output_spr_info" }
++            {
++              "type": "null"
++            },
++            {
++              "$ref": "#/$defs/output_spr_info"
++            }
+           ]
+         }
+       }
+@@ -157,18 +212,58 @@
+           "representational_notes"
+         ],
+         "properties": {
+-          "requirement_id": { "type": "string", "minLength": 1 },
+-          "assignment_id": { "type": "string", "minLength": 1 },
+-          "assignment_revision": { "type": "integer", "minimum": 1 },
+-          "slot": { "type": "integer", "minimum": 0 },
+-          "action": { "type": ["string", "null"] },
+-          "view": { "type": "integer", "minimum": 0 },
+-          "frame": { "type": "integer", "minimum": 0 },
+-          "layer_ordinal": { "type": "integer", "minimum": 0 },
+-          "clip_ordinal": { "type": "integer", "minimum": 0 },
+-          "source_id": { "type": "string", "minLength": 1 },
+-          "source_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+-          "source_origin": { "enum": ["AUTHORED", "CLASSIC_REFERENCE"] },
++          "requirement_id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "assignment_id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "assignment_revision": {
++            "type": "integer",
++            "minimum": 1
++          },
++          "slot": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "action": {
++            "type": [
++              "string",
++              "null"
++            ]
++          },
++          "view": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "frame": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "layer_ordinal": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "clip_ordinal": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "source_id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "source_sha256": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{64}$"
++          },
++          "source_origin": {
++            "enum": [
++              "AUTHORED",
++              "CLASSIC_REFERENCE"
++            ]
++          },
+           "derived_processing": {
+             "type": "object",
+             "additionalProperties": false,
+@@ -179,20 +274,53 @@
+               "reapplied_in_compiler"
+             ],
+             "properties": {
+-              "recipe_id": { "type": ["string", "null"] },
+-              "recipe_sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+-              "source_sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+-              "reapplied_in_compiler": { "const": false }
++              "recipe_id": {
++                "type": [
++                  "string",
++                  "null"
++                ]
++              },
++              "recipe_sha256": {
++                "type": [
++                  "string",
++                  "null"
++                ],
++                "pattern": "^[0-9a-f]{64}$"
++              },
++              "source_sha256": {
++                "type": [
++                  "string",
++                  "null"
++                ],
++                "pattern": "^[0-9a-f]{64}$"
++              },
++              "reapplied_in_compiler": {
++                "const": false
++              }
+             }
+           },
+           "executed_ledger_ops": {
+             "type": "array",
+-            "items": { "type": "string" }
+-          },
+-          "review_state": { "enum": ["APPROVED", "NOT_REQUIRED"] },
+-          "composition_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+-          "original_image": { "$ref": "#/$defs/image_ref" },
+-          "output_image": { "$ref": "#/$defs/image_ref" },
++            "items": {
++              "type": "string"
++            }
++          },
++          "review_state": {
++            "enum": [
++              "APPROVED",
++              "NOT_REQUIRED"
++            ]
++          },
++          "composition_sha256": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{64}$"
++          },
++          "original_image": {
++            "$ref": "#/$defs/image_ref"
++          },
++          "output_image": {
++            "$ref": "#/$defs/image_ref"
++          },
+           "resolution_mode": {
+             "enum": [
+               "IN_PLACE_UNSHARED",
+@@ -200,11 +328,19 @@
+               "REUSED_COMPILATION_ENTRY"
+             ]
+           },
+-          "shared_consumers_count": { "type": "integer", "minimum": 1 },
+-          "unaffected_consumers_count": { "type": "integer", "minimum": 0 },
++          "shared_consumers_count": {
++            "type": "integer",
++            "minimum": 1
++          },
++          "unaffected_consumers_count": {
++            "type": "integer",
++            "minimum": 0
++          },
+           "representational_notes": {
+             "type": "array",
+-            "items": { "type": "string" }
++            "items": {
++              "type": "string"
++            }
+           }
+         }
+       }
+@@ -230,24 +366,67 @@
+         "classic_retained_outside_completeness"
+       ],
+       "properties": {
+-        "total_action_slots": { "type": "integer", "minimum": 1 },
++        "total_action_slots": {
++          "type": "integer",
++          "minimum": 1
++        },
+         "modified_action_slots": {
+           "type": "array",
+-          "items": { "type": "integer", "minimum": 0 }
+-        },
+-        "untouched_action_slots": { "type": "integer", "minimum": 0 },
+-        "total_frames": { "type": "integer", "minimum": 0 },
+-        "modified_frames": { "type": "integer", "minimum": 0 },
+-        "untouched_frames": { "type": "integer", "minimum": 0 },
+-        "total_visible_clips": { "type": "integer", "minimum": 0 },
+-        "modified_clips": { "type": "integer", "minimum": 0 },
+-        "unaffected_visible_clips": { "type": "integer", "minimum": 0 },
+-        "hidden_clips_preserved": { "type": "integer", "minimum": 0 },
+-        "anchors_preserved": { "type": "integer", "minimum": 0 },
+-        "events_preserved": { "type": "integer", "minimum": 0 },
+-        "delays_preserved": { "type": "integer", "minimum": 1 },
+-        "head_resources_preserved_unchanged": { "type": "boolean" },
+-        "classic_retained_outside_completeness": { "type": "boolean" }
++          "items": {
++            "type": "integer",
++            "minimum": 0
++          }
++        },
++        "untouched_action_slots": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "total_frames": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "modified_frames": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "untouched_frames": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "total_visible_clips": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "modified_clips": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "unaffected_visible_clips": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "hidden_clips_preserved": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "anchors_preserved": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "events_preserved": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "delays_preserved": {
++          "type": "integer",
++          "minimum": 1
++        },
++        "head_resources_preserved_unchanged": {
++          "type": "boolean"
++        },
++        "classic_retained_outside_completeness": {
++          "type": "boolean"
++        }
+       }
+     },
+     "verification": {
+@@ -265,18 +444,40 @@
+         "native_korangar"
+       ],
+       "properties": {
+-        "decode_after_write": { "const": "PASS" },
+-        "metadata_preservation": { "const": "PASS" },
+-        "targeted_pixel_verification": { "const": "PASS" },
+-        "unaffected_reference_preservation": { "const": "PASS" },
+-        "shared_reference_isolation": { "const": "PASS" },
+-        "noop_byte_equal": { "type": "boolean" },
+-        "rust_oracle": { "enum": ["PASS", "NOT_RUN"] },
++        "decode_after_write": {
++          "const": "PASS"
++        },
++        "metadata_preservation": {
++          "const": "PASS"
++        },
++        "targeted_pixel_verification": {
++          "const": "PASS"
++        },
++        "unaffected_reference_preservation": {
++          "const": "PASS"
++        },
++        "shared_reference_isolation": {
++          "const": "PASS"
++        },
++        "noop_byte_equal": {
++          "type": "boolean"
++        },
++        "rust_oracle": {
++          "enum": [
++            "PASS",
++            "NOT_RUN"
++          ]
++        },
+         "rust_oracle_report_sha256": {
+-          "type": ["string", "null"],
+-          "pattern": "^[0-9a-f]{64}$"
+-        },
+-        "native_korangar": { "const": "UNVERIFIED" }
++          "type": [
++            "string",
++            "null"
++          ],
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "native_korangar": {
++          "const": "UNVERIFIED"
++        }
+       }
+     },
+     "status": {
+@@ -291,90 +492,395 @@
+         "diagnostics"
+       ],
+       "properties": {
+-        "result": { "const": "COMPILED" },
+-        "production_authorized": { "type": "boolean" },
+-        "export_ready": { "type": "boolean" },
+-        "experimental_bounded_output": { "type": "boolean" },
+-        "visual_approval_authority": { "const": "OPERATOR_ONLY" },
++        "result": {
++          "const": "COMPILED"
++        },
++        "production_authorized": {
++          "type": "boolean"
++        },
++        "export_ready": {
++          "type": "boolean"
++        },
++        "experimental_bounded_output": {
++          "type": "boolean"
++        },
++        "visual_approval_authority": {
++          "const": "OPERATOR_ONLY"
++        },
+         "diagnostics": {
+           "type": "array",
+-          "items": { "type": "string" }
++          "items": {
++            "type": "string"
++          }
+         }
+       }
+     },
+     "canonical_sha256": {
+       "type": "string",
+       "pattern": "^[0-9a-f]{64}$"
++    },
++    "remapping": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": [
++        "semantics",
++        "ordering",
++        "reuse",
++        "input_counts",
++        "output_counts",
++        "palette_sha256",
++        "before",
++        "after",
++        "unaffected_count",
++        "conversion_loss"
++      ],
++      "properties": {
++        "semantics": {
++          "type": "string"
++        },
++        "ordering": {
++          "type": "string"
++        },
++        "reuse": {
++          "type": "string"
++        },
++        "input_counts": {
++          "type": "array",
++          "items": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "minItems": 2,
++          "maxItems": 2
++        },
++        "output_counts": {
++          "type": "array",
++          "items": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "minItems": 2,
++          "maxItems": 2
++        },
++        "palette_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "unaffected_count": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "before": {
++          "type": "array",
++          "items": {
++            "$ref": "#/$defs/occurrence"
++          }
++        },
++        "after": {
++          "type": "array",
++          "items": {
++            "$ref": "#/$defs/occurrence"
++          }
++        },
++        "conversion_loss": {
++          "type": "array",
++          "items": {
++            "type": "object",
++            "additionalProperties": false,
++            "required": [
++              "requirement_id",
++              "loss",
++              "original_palette_and_entries_retained"
++            ],
++            "properties": {
++              "requirement_id": {
++                "type": "string",
++                "minLength": 1
++              },
++              "loss": {
++                "const": "replacement-does-not-retain-original-palette-indices"
++              },
++              "original_palette_and_entries_retained": {
++                "const": true
++              }
++            }
++          }
++        }
++      }
+     }
+   },
+   "$defs": {
+     "contract_ref": {
+       "type": "object",
+       "additionalProperties": false,
+-      "required": ["id", "revision", "canonical_sha256"],
+-      "properties": {
+-        "id": { "type": "string", "minLength": 1 },
+-        "revision": { "type": "integer", "minimum": 1 },
+-        "canonical_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
++      "required": [
++        "id",
++        "revision",
++        "canonical_sha256"
++      ],
++      "properties": {
++        "id": {
++          "type": "string",
++          "minLength": 1
++        },
++        "revision": {
++          "type": "integer",
++          "minimum": 1
++        },
++        "canonical_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        }
+       }
+     },
+     "act_info": {
+       "type": "object",
+       "additionalProperties": false,
+-      "required": ["format", "bytes", "sha256"],
+-      "properties": {
+-        "format": { "const": "ACT 2.4" },
+-        "bytes": { "type": "integer", "minimum": 16 },
+-        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
++      "required": [
++        "format",
++        "bytes",
++        "sha256"
++      ],
++      "properties": {
++        "format": {
++          "const": "ACT 2.4"
++        },
++        "bytes": {
++          "type": "integer",
++          "minimum": 16
++        },
++        "sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        }
+       }
+     },
+     "output_act_info": {
+       "type": "object",
+       "additionalProperties": false,
+-      "required": ["format", "bytes", "sha256", "filename"],
+-      "properties": {
+-        "format": { "const": "ACT 2.4" },
+-        "bytes": { "type": "integer", "minimum": 16 },
+-        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+-        "filename": { "type": "string", "pattern": "^[a-zA-Z0-9_.-]+$" }
++      "required": [
++        "format",
++        "bytes",
++        "sha256",
++        "filename"
++      ],
++      "properties": {
++        "format": {
++          "const": "ACT 2.4"
++        },
++        "bytes": {
++          "type": "integer",
++          "minimum": 16
++        },
++        "sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "filename": {
++          "type": "string",
++          "pattern": "^[a-zA-Z0-9_.-]+$"
++        }
+       }
+     },
+     "spr_info": {
+       "type": "object",
+       "additionalProperties": false,
+-      "required": ["format", "bytes", "sha256", "indexed_count", "rgba_count"],
+-      "properties": {
+-        "format": { "const": "SPR 2.1" },
+-        "bytes": { "type": "integer", "minimum": 8 },
+-        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+-        "indexed_count": { "type": "integer", "minimum": 0 },
+-        "rgba_count": { "type": "integer", "minimum": 0 }
++      "required": [
++        "format",
++        "bytes",
++        "sha256",
++        "indexed_count",
++        "rgba_count"
++      ],
++      "properties": {
++        "format": {
++          "const": "SPR 2.1"
++        },
++        "bytes": {
++          "type": "integer",
++          "minimum": 8
++        },
++        "sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "indexed_count": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "rgba_count": {
++          "type": "integer",
++          "minimum": 0
++        }
+       }
+     },
+     "output_spr_info": {
+       "type": "object",
+       "additionalProperties": false,
+-      "required": ["format", "bytes", "sha256", "indexed_count", "rgba_count", "filename"],
+-      "properties": {
+-        "format": { "const": "SPR 2.1" },
+-        "bytes": { "type": "integer", "minimum": 8 },
+-        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+-        "indexed_count": { "type": "integer", "minimum": 0 },
+-        "rgba_count": { "type": "integer", "minimum": 0 },
+-        "filename": { "type": "string", "pattern": "^[a-zA-Z0-9_.-]+$" }
++      "required": [
++        "format",
++        "bytes",
++        "sha256",
++        "indexed_count",
++        "rgba_count",
++        "filename"
++      ],
++      "properties": {
++        "format": {
++          "const": "SPR 2.1"
++        },
++        "bytes": {
++          "type": "integer",
++          "minimum": 8
++        },
++        "sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "indexed_count": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "rgba_count": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "filename": {
++          "type": "string",
++          "pattern": "^[a-zA-Z0-9_.-]+$"
++        }
+       }
+     },
+     "image_ref": {
+       "type": "object",
+       "additionalProperties": false,
+-      "required": ["pool", "index", "width", "height", "decoded_rgba_sha256"],
+-      "properties": {
+-        "pool": { "enum": [0, 1] },
+-        "index": { "type": "integer", "minimum": 0 },
+-        "width": { "type": "integer", "minimum": 1 },
+-        "height": { "type": "integer", "minimum": 1 },
+-        "decoded_rgba_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
++      "required": [
++        "pool",
++        "index",
++        "width",
++        "height",
++        "decoded_rgba_sha256"
++      ],
++      "properties": {
++        "pool": {
++          "enum": [
++            0,
++            1
++          ]
++        },
++        "index": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "width": {
++          "type": "integer",
++          "minimum": 1
++        },
++        "height": {
++          "type": "integer",
++          "minimum": 1
++        },
++        "decoded_rgba_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        }
++      }
++    },
++    "profile_ref": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": [
++        "id",
++        "profile_version",
++        "canonical_sha256"
++      ],
++      "properties": {
++        "id": {
++          "type": "string",
++          "minLength": 1
++        },
++        "profile_version": {
++          "type": "string",
++          "minLength": 1
++        },
++        "canonical_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        }
++      }
++    },
++    "occurrence": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": [
++        "slot",
++        "frame",
++        "layer",
++        "index",
++        "texture_index",
++        "pool",
++        "representation",
++        "decoded_rgba_sha256",
++        "metadata_sha256"
++      ],
++      "properties": {
++        "slot": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "frame": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "layer": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "index": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "texture_index": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "pool": {
++          "enum": [
++            0,
++            1
++          ]
++        },
++        "representation": {
++          "enum": [
++            "indexed",
++            "rgba"
++          ]
++        },
++        "decoded_rgba_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "metadata_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        }
+       }
+     }
+-  }
++  },
++  "allOf": [
++    {
++      "if": {
++        "properties": {
++          "writer_version": {
++            "const": "1.1.0"
++          }
++        }
++      },
++      "then": {
++        "required": [
++          "remapping"
++        ]
++      }
++    }
++  ]
+ }
+--- a/src/ro_sprite_forge/schemas/project-v1.json
++++ b/src/ro_sprite_forge/schemas/project-v1.json
+@@ -695,7 +695,7 @@
+             "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+           },
+           "writer_version": {
+-            "const": "1.0.0"
++            "enum": ["1.0.0", "1.1.0"]
+           },
+           "compilation_mode": {
+             "enum": ["preserve", "bounded_replacement", "production_export"]
+--- a/tests/test_compiler.py
++++ b/tests/test_compiler.py
+@@ -964,6 +964,7 @@
+             source_bytes=sources,
+             replacement_requirement_ids=[rid],
+             compilation_id="det-test",
++            replacement_policy="explicit_rgba",
+         )
+         res2 = compile_resources(
+             self.act_bytes,
+@@ -973,6 +974,7 @@
+             source_bytes=sources,
+             replacement_requirement_ids=[rid],
+             compilation_id="det-test",
++            replacement_policy="explicit_rgba",
+         )
+         self.assertEqual(res1["act_bytes"], res2["act_bytes"])
+         self.assertEqual(res1["spr_bytes"], res2["spr_bytes"])
+@@ -1184,6 +1186,7 @@
+             "--ledger", str(led_path),
+             "--source", f"src-cli={src_path}",
+             "--requirement-id", rid,
++            "--policy", "explicit_rgba",
+             "--plan-only",
+             "--manifest", str(plan_out),
+         ])
+@@ -1202,6 +1205,7 @@
+             "--source", f"src-cli={src_path}",
+             "--requirement-id", rid,
+             "--compilation-id", "cli-walk0",
++            "--policy", "explicit_rgba",
+             "--output-dir", str(out_dir),
+         ]
+         if RUST_ORACLE_BIN.is_file():
+@@ -1368,7 +1372,7 @@
+             st, plan_ready = req_http(
+                 "POST",
+                 f"/api/projects/{pid}/compile-plan",
+-                {"expected_revision": 6, "resource_id": "monster-base"},
++                {"expected_revision": 6, "resource_id": "monster-base", "replacement_policy": "explicit_rgba"},
+             )
+             self.assertEqual(st, 200)
+             self.assertTrue(plan_ready["ready_to_compile"])
+@@ -1380,6 +1384,7 @@
+                 {
+                     "expected_revision": 6,
+                     "compilation_id": "walk0-compile",
++                    "replacement_policy": "explicit_rgba",
+                     "resource_id": "monster-base",
+                     "register_resource_id": "monster-compiled",
+                     "oracle_executable": str(RUST_ORACLE_BIN) if RUST_ORACLE_BIN.is_file() else None,
+--- a/tests/browser/rsf23-mcp.js
++++ b/tests/browser/rsf23-mcp.js
+@@ -158,8 +158,10 @@
+   await page.reload();
+   await wait(async () => await page.locator('#project-select').inputValue() === pid);
+ 
++  assert.equal(await page.locator('#compile-policy').inputValue(), 'preserve_pool');
+   console.log('Journey 5: Inspect compilation plan before approval (verifying BLOCKED status)');
+   await page.locator('#compile-details > summary').click();
++  await page.selectOption('#compile-policy', 'explicit_rgba');
+   await page.selectOption('#compile-resource', 'monster-ref');
+   await page.click('#plan-compile-btn');
+   await wait(async () => (await text('compile-status')).includes('BLOCKED'));
+@@ -183,6 +185,7 @@
+ 
+   console.log('Journey 7: Inspect compilation plan after approval (verifying READY status)');
+   await page.locator('#compile-details > summary').click();
++  await page.selectOption('#compile-policy', 'explicit_rgba');
+   await page.selectOption('#compile-resource', 'monster-ref');
+   await page.click('#plan-compile-btn');
+   await wait(async () => (await text('compile-status')).includes('Plan READY'));
+--- a/tests/test_image_pool_remapping.py
++++ b/tests/test_image_pool_remapping.py
+@@ -0,0 +1,221 @@
++"""RSF-24 public golden mappings; expected selection uses independent Rust bytes."""
++import io
++import json
++import subprocess
++import tempfile
++import unittest
++from pathlib import Path
++from PIL import Image
++from ro_sprite_forge.core.compiler import compile_resources, plan_compilation, image_reference_inventory, publish_compilation
++from ro_sprite_forge.core.canonical import canonical_bytes
++from ro_sprite_forge.core.errors import ForgeError
++from ro_sprite_forge.formats.act import read_act, write_act
++from ro_sprite_forge.formats.spr import read_spr, write_spr
++from test_compiler import (_build_synthetic_monster_act_spr, _setup_monster_contracts,
++    _find_layer_id, _make_png, _build_approved_ledger, RUST_ORACLE_BIN)
++
++
++class ImagePoolRemappingTests(unittest.TestCase):
++    def fixture(self, mode='mixed'):
++        act, spr = _build_synthetic_monster_act_spr()
++        a, s = read_act(act), read_spr(spr)
++        if mode != 'mixed':
++            for motions in a['actions']:
++                for motion in motions:
++                    for clip in motion['clips']:
++                        if clip['sprite'] >= 0:
++                            clip['pool'] = 0 if mode == 'indexed' else 1
++                            clip['sprite'] = clip['sprite'] if mode == 'indexed' and clip['sprite'] < 5 else 0
++            if mode == 'indexed': s.rgba_images = ()
++            else: s.indexed_images = ()
++        a['actions'][0][0]['clips'][0].update(pool=1 if mode != 'indexed' else 0, sprite=0)
++        # Keep unused and duplicate images, including non-minimal original zero RLE.
++        return write_act(a), write_spr(s)
++
++    def inputs(self, mode='mixed', colors=((255,0,255,255),(0,255,255,255))):
++        act, spr = self.fixture(mode)
++        req = _setup_monster_contracts(act, spr, include_die=True)[-1]
++        ids = [_find_layer_id(req, 'Walk', 0, i) for i in (0, 3)]
++        sources = {f'src{i}': _make_png(4,4,c) for i,c in enumerate(colors)}
++        ledger = _build_approved_ledger(req,[{'requirement_id':rid,'kind':'DIRECT_SOURCE',
++            'source':{'id':f'src{i}','revision':1}} for i,rid in enumerate(ids)], sources)
++        return act, spr, dict(requirements=req,ledger=ledger,source_bytes=sources,replacement_requirement_ids=ids)
++
++    @unittest.skipUnless(RUST_ORACLE_BIN.is_file(), "optional repository Rust executable unavailable in installed distribution")
++    def test_pool_matrix_complete_effective_mapping_and_rust(self):
++        self.assertTrue(RUST_ORACLE_BIN.is_file(), 'independent oracle required')
++        for mode in ('indexed','rgba','mixed'):
++            for policy in ('preserve_pool','explicit_rgba','indexed_exact'):
++                with self.subTest(mode=mode,policy=policy):
++                    act,spr,kw=self.inputs(mode)
++                    result=compile_resources(act,spr,**kw,replacement_policy=policy,isolation_strategy='always_append',oracle_executable=RUST_ORACLE_BIN)
++                    m=result['manifest']; evidence=m['remapping']
++                    out_spr=read_spr(result['spr_bytes'])
++                    self.assertEqual(out_spr.palette,read_spr(spr).palette)
++                    for old,new in zip(read_spr(spr).indexed_images,out_spr.indexed_images):
++                        self.assertEqual(old.raw_rle,new.raw_rle)
++                    targeted={(r['slot'],r['frame'],r['clip_ordinal']):r for r in m['replacements']}
++                    with tempfile.TemporaryDirectory() as tmp:
++                        ap,sp=Path(tmp)/'a.act',Path(tmp)/'s.spr'
++                        ap.write_bytes(result['act_bytes']);sp.write_bytes(result['spr_bytes'])
++                        proc=subprocess.run([str(RUST_ORACLE_BIN),str(ap),str(sp)],capture_output=True,check=True)
++                        report=json.loads(proc.stdout)
++                    # Independently select using runtime concatenated texture order from Rust decoded data.
++                    textures=report['spr']['images']
++                    for before,after in zip(evidence['before'],evidence['after']):
++                        loc=tuple(after[k] for k in ('slot','frame','layer'))
++                        clip=report['act']['actions'][loc[0]][loc[1]]['clips'][loc[2]]
++                        tex=clip['sprite']+(report['spr']['indexed_count'] if clip['pool']==1 else 0)
++                        selected=textures[tex]
++                        self.assertEqual((selected['pool'],selected['index']),(after['pool'],after['index']))
++                        if loc in targeted:
++                            source=kw['source_bytes'][targeted[loc]['source_id']]
++                            self.assertEqual(bytes.fromhex(selected['rgba']),Image.open(io.BytesIO(source)).convert('RGBA').tobytes())
++                        else:
++                            self.assertEqual(before['decoded_rgba_sha256'],after['decoded_rgba_sha256'])
++                        self.assertEqual(before['metadata_sha256'],after['metadata_sha256'])
++                    again=compile_resources(act,spr,**{**kw,'replacement_requirement_ids':list(reversed(kw['replacement_requirement_ids']))},replacement_policy=policy,isolation_strategy='always_append',oracle_executable=RUST_ORACLE_BIN)
++                    self.assertEqual(result['act_bytes'],again['act_bytes'])
++                    self.assertEqual(result['spr_bytes'],again['spr_bytes'])
++                    self.assertEqual(canonical_bytes(m),canonical_bytes(again['manifest']))
++                    self.assertFalse(m['status']['production_authorized'])
++                    self.assertEqual(m['verification']['native_korangar'],'UNVERIFIED')
++
++    def test_indexed_append_moves_truecolor_texture_position(self):
++        act,spr,kw=self.inputs()
++        m=compile_resources(act,spr,**kw,replacement_policy='preserve_pool',isolation_strategy='always_append')['manifest']
++        unchanged=[(a,b) for a,b in zip(m['remapping']['before'],m['remapping']['after']) if a['pool']==1 and a['slot']!=8]
++        self.assertTrue(unchanged)
++        for a,b in unchanged:
++            self.assertEqual(a['index'],b['index'])
++            self.assertGreater(b['texture_index'],a['texture_index'])
++            self.assertEqual(a['decoded_rgba_sha256'],b['decoded_rgba_sha256'])
++
++    def test_identical_replacements_share_only_exact_pool_entry(self):
++        act,spr,kw=self.inputs(colors=((255,0,255,255),)*2)
++        m=compile_resources(act,spr,**kw,replacement_policy='explicit_rgba')['manifest']
++        self.assertEqual(m['replacements'][0]['output_image'],m['replacements'][1]['output_image'])
++        self.assertEqual(m['remapping']['output_counts'],[5,2])
++        self.assertEqual(len(m['remapping']['conversion_loss']),1)
++
++    def test_plan_rejects_unrepresentable_conversion(self):
++        for color in ((23,42,63,255),(255,0,0,128),(1,2,3,0)):
++            act,spr,kw=self.inputs(colors=(color,color))
++            plan=plan_compilation(act,spr,**kw,replacement_policy='indexed_exact')
++            self.assertFalse(plan['ready_to_compile'])
++            self.assertIn('UNSUPPORTED_INDEXED_CONVERSION',str(plan['blockers']))
++            with self.assertRaisesRegex(ForgeError,'UNSUPPORTED_INDEXED_CONVERSION'):
++                compile_resources(act,spr,**kw,replacement_policy='indexed_exact')
++
++    def test_plan_matches_actual_remapping(self):
++        act,spr,kw=self.inputs()
++        plan=plan_compilation(act,spr,**kw)
++        result=compile_resources(act,spr,**kw)
++        self.assertEqual(plan['remapping'],result['manifest']['remapping'])
++        self.assertEqual(plan['selected_replacements'],result['manifest']['replacements'])
++
++    def test_invalid_reference_reports_exact_occurrence(self):
++        act,spr=self.fixture()
++        for pool,index in ((2,0),(0,5),(1,1),(0,-2)):
++            a=read_act(act);a['actions'][8][0]['clips'][0].update(pool=pool,sprite=index)
++            with self.assertRaisesRegex(ForgeError,'slot=8 frame=0 layer=0'):
++                image_reference_inventory(a,read_spr(spr))
++
++    def test_publication_rejects_tampered_pair_and_preserves_existing_files(self):
++        act,spr=self.fixture()
++        result=compile_resources(act,spr,compilation_mode='preserve')
++        with tempfile.TemporaryDirectory() as tmp:
++            p=Path(tmp)/'compiled.act';p.write_bytes(b'existing')
++            with self.assertRaises(ForgeError): publish_compilation(tmp,result)
++            self.assertEqual(p.read_bytes(),b'existing')
++        result['spr_bytes']=result['spr_bytes'][:-1]
++        with tempfile.TemporaryDirectory() as tmp:
++            with self.assertRaisesRegex(ForgeError,'COMPILATION_PAIR_MISMATCH'): publish_compilation(tmp,result)
++            self.assertEqual(list(Path(tmp).iterdir()),[])
++
++    def test_duplicate_unused_originals_keep_distinct_identities(self):
++        from ro_sprite_forge.formats.spr import SprDocument
++        act,spr,kw=self.inputs()
++        original=read_spr(spr)
++        extra=SprDocument(list(original.indexed_images)+[original.indexed_images[0]],
++                          list(original.rgba_images)+[original.rgba_images[0]],original.palette)
++        # Rebuild contracts because the original resource identity has changed.
++        spr=write_spr(extra)
++        req=_setup_monster_contracts(act,spr,include_die=True)[-1]
++        rid=_find_layer_id(req,'Walk',0,0)
++        sources={'src':_make_png(4,4,(255,0,255,255))}
++        ledger=_build_approved_ledger(req,[{'requirement_id':rid,'kind':'DIRECT_SOURCE','source':{'id':'src','revision':1}}],sources)
++        result=compile_resources(act,spr,requirements=req,ledger=ledger,source_bytes=sources,replacement_policy="explicit_rgba")
++        out=read_spr(result['spr_bytes'])
++        self.assertEqual(out.indexed_count,6)
++        self.assertEqual(out.rgba_count,3)
++        self.assertEqual(out.indexed_images[5].raw_rle,extra.indexed_images[5].raw_rle)
++        self.assertEqual(out.rgba_images[1],extra.rgba_images[1])
++        self.assertEqual(result['manifest']['replacements'][0]['output_image']['index'],2)
++
++    def test_noop_identity_for_each_pool_layout(self):
++        for mode in ('mixed','indexed','rgba'):
++            act,spr=self.fixture(mode)
++            result=compile_resources(act,spr,compilation_mode='preserve')
++            self.assertEqual((act,spr),(result['act_bytes'],result['spr_bytes']))
++
++    def test_omitted_policy_preserves_representation_and_rejects_implicit_loss(self):
++        act,spr,kw=self.inputs()
++        result=compile_resources(act,spr,**kw)
++        self.assertEqual(result['manifest']['replacement_policy'],'preserve_pool')
++        self.assertTrue(all(r['output_image']['pool']==r['original_image']['pool'] for r in result['manifest']['replacements']))
++        act,spr,kw=self.inputs(colors=((23,42,63,255),)*2)
++        self.assertFalse(plan_compilation(act,spr,**kw)['ready_to_compile'])
++        with self.assertRaisesRegex(ForgeError,'UNSUPPORTED_INDEXED_CONVERSION'):
++            compile_resources(act,spr,**kw)
++        explicit=compile_resources(act,spr,**kw,replacement_policy='explicit_rgba')
++        self.assertTrue(all(r['output_image']['pool']==1 for r in explicit['manifest']['replacements']))
++
++    def test_generated_bounded_manifest_schema_and_required_remapping(self):
++        from ro_sprite_forge.core.compiler import compilation_manifest_schema, validate_compilation_manifest
++        from ro_sprite_forge.core.canonical import sealed
++        act,spr,kw=self.inputs()
++        manifest=compile_resources(act,spr,**kw)['manifest']
++        try:
++            import jsonschema
++        except ImportError:
++            jsonschema=None
++        if jsonschema is not None:
++            jsonschema.validate(manifest,compilation_manifest_schema())
++        del manifest['remapping']
++        del manifest['canonical_sha256']
++        with self.assertRaisesRegex(ForgeError,'INVALID_REMAPPING'):
++            validate_compilation_manifest(sealed(manifest))
++
++    def test_publication_rejects_corrupted_or_missing_head_pair(self):
++        act,spr=self.fixture()
++        for key, bad in (('head_act_bytes',None),('head_spr_bytes',None),('head_spr_bytes',b'broken')):
++            result=compile_resources(act,spr,compilation_mode='preserve',head_act_bytes=act,head_spr_bytes=spr)
++            result[key]=bad
++            with tempfile.TemporaryDirectory() as tmp:
++                with self.assertRaisesRegex(ForgeError,'COMPILATION_PAIR_MISMATCH'):
++                    publish_compilation(tmp,result)
++                self.assertEqual(list(Path(tmp).iterdir()),[])
++
++    def test_highest_supported_index_and_append_count_overflow(self):
++        from ro_sprite_forge.formats.spr import SprDocument, MAX_SPR_IMAGES
++        act,spr,_=self.inputs()
++        original=read_spr(spr)
++        full=SprDocument([original.indexed_images[0]]*MAX_SPR_IMAGES,[],original.palette)
++        a=read_act(act)
++        for motions in a['actions']:
++            for motion in motions:
++                for clip in motion['clips']:
++                    if clip['sprite']>=0:clip.update(pool=0,sprite=MAX_SPR_IMAGES-1)
++        act,spr=write_act(a),write_spr(full)
++        rows=image_reference_inventory(read_act(act),read_spr(spr))
++        self.assertTrue(all(row['index']==MAX_SPR_IMAGES-1 for row in rows))
++        req=_setup_monster_contracts(act,spr,include_die=True)[-1]
++        rid=_find_layer_id(req,'Walk',0,0)
++        sources={'src':_make_png(4,4,(255,0,255,255))}
++        ledger=_build_approved_ledger(req,[{'requirement_id':rid,'kind':'DIRECT_SOURCE','source':{'id':'src','revision':1}}],sources)
++        with self.assertRaises(ForgeError):
++            compile_resources(act,spr,requirements=req,ledger=ledger,source_bytes=sources,isolation_strategy='always_append')
++        a['actions'][0][0]['clips'][0]['sprite']=MAX_SPR_IMAGES
++        with self.assertRaisesRegex(ForgeError,'INVALID_IMAGE_REFERENCE'):
++            image_reference_inventory(a,read_spr(spr))

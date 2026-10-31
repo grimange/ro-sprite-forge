@@ -1,0 +1,11 @@
+[package]
+name="rsf-rust-oracle"
+version="0.1.0"
+edition="2024"
+license="MIT"
+[workspace]
+[dependencies]
+ragnarok-formats={path="vendor/ragnarok-formats"}
+ragnarok-bytes={path="vendor/ragnarok-bytes",features=["derive","cgmath"]}
+serde_json="1"
+sha2="0.10"

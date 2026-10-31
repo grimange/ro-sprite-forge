@@ -1,0 +1,17 @@
+{
+  "task": "RSF-21",
+  "title": "Explicit reversible image transformation recipes",
+  "milestone": "M4",
+  "hashes": {
+    "src/ro_sprite_forge/core/transformations.py": "cba06b238ae94d338e2aae22b98fa39b866d4e767f2de37697e3ec46d02932be",
+    "src/ro_sprite_forge/schemas/project-v1.json": "a091f59824f728f91119827ef49eb5a4dcc896a468bc4f606ebcab711e0ded34",
+    "src/ro_sprite_forge/service/workbench.py": "60603cc9cda7bbe1eb467819b8c7ec2070339a54ba4b89a2fd58043429f725d7",
+    "src/ro_sprite_forge/service/server.py": "6707f64a3bc483996734bf9e3cdd23d0ff99ae46577b15256da3ad46cdc91ac0",
+    "src/ro_sprite_forge/static/index.html": "fd265878bb32218192ccb352e07172b21ee45f190d8614ee959b7d715b9dbd2d",
+    "src/ro_sprite_forge/static/workbench.js": "9bbdb1bf7d6d9e39824cde3935239c2eb920626077a97e5a92f15d8337fdf85d",
+    "scripts/check_transformation_schema.py": "bf0b0f0b4a2ac51d0ceb72db178a0862eea6a000ab02999d6fccbbee6c8f5e14",
+    "tests/test_transformations.py": "b5a5e6d0fb2b8372bab768727e1a0d183c717c8838906bb9a4b8205a17472ba5",
+    "tests/browser/rsf21-mcp.js": "8611e5eabd91c8fd82aacf15b3a5f82e9f82d028d93ceb8546c3d9ed23e88694",
+    "docs/architecture/RSF21_TRANSFORMATIONS.md": "0b56154656545cdde8096615e70a0f2a2ce9e0e56aad5eefc1c9041b4cbc000d"
+  }
+}

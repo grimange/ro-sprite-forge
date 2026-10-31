@@ -1,0 +1,43 @@
+{
+  "mismatches": [],
+  "python_report_sha256": "83d2d81eb3d666bcb3920fceefa14ca2c3a117f98a6ddfad32df8b82c16f5342",
+  "python_summary": {
+    "distinct_referenced_contents": 3,
+    "groups": 1,
+    "layers": 4,
+    "motions": 3,
+    "referenced": 3,
+    "slots": 2,
+    "stored": 4,
+    "unused": [
+      [
+        0,
+        2
+      ]
+    ],
+    "visible_layers": 3
+  },
+  "result": "AGREEMENT",
+  "rust_report_sha256": "83d2d81eb3d666bcb3920fceefa14ca2c3a117f98a6ddfad32df8b82c16f5342",
+  "rust_summary": {
+    "distinct_referenced_contents": 3,
+    "groups": 1,
+    "layers": 4,
+    "motions": 3,
+    "referenced": 3,
+    "slots": 2,
+    "stored": 4,
+    "unused": [
+      [
+        0,
+        2
+      ]
+    ],
+    "visible_layers": 3
+  },
+  "schema": "rsf.oracle-parity/v1",
+  "sources": {
+    "act": "75c87b11243b3855b122d17eda926b59f2214a89147397a8e6ecc7672423ca8c",
+    "spr": "9bb523b13f2318d56639bea53a14c9f7116c199960c3c9cc637c816777a24a1d"
+  }
+}

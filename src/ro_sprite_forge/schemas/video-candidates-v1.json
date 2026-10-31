@@ -1,0 +1,603 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ro-sprite-forge.invalid/schemas/video-candidates-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "policy",
+    "inspection",
+    "ffmpeg",
+    "request",
+    "items",
+    "visual_review",
+    "automatic_assignment",
+    "canonical_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "const": "rsf.video-candidates/v1"
+    },
+    "policy": {
+      "const": "rsf.video-rgba-presentation/v1"
+    },
+    "inspection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "source",
+        "policy",
+        "ffprobe",
+        "container",
+        "streams",
+        "selected_stream",
+        "stream_selection",
+        "time_base",
+        "timing",
+        "decoded_frame_count",
+        "frames",
+        "canonical_sha256"
+      ],
+      "properties": {
+        "schema": {
+          "const": "rsf.video-inspection/v1"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sha256",
+            "size"
+          ],
+          "properties": {
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "size": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 33554432
+            }
+          }
+        },
+        "policy": {
+          "const": "rsf.video-rgba-presentation/v1"
+        },
+        "ffprobe": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "version",
+            "version_report_sha256",
+            "executable_sha256"
+          ],
+          "properties": {
+            "version": {
+              "type": "string",
+              "maxLength": 2048
+            },
+            "version_report_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "executable_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "container": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "format",
+            "start",
+            "duration"
+          ],
+          "properties": {
+            "format": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2048
+            },
+            "start": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": false,
+              "required": [
+                "numerator",
+                "denominator"
+              ],
+              "properties": {
+                "numerator": {
+                  "type": "integer"
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "duration": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": false,
+              "required": [
+                "numerator",
+                "denominator"
+              ],
+              "properties": {
+                "numerator": {
+                  "type": "integer"
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        },
+        "streams": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "codec_name",
+              "pix_fmt",
+              "color_transfer",
+              "color_space",
+              "color_range",
+              "coded_width",
+              "coded_height",
+              "start_pts",
+              "duration_ts",
+              "nb_frames",
+              "time_base",
+              "r_frame_rate",
+              "avg_frame_rate",
+              "index",
+              "width",
+              "height"
+            ],
+            "properties": {
+              "codec_name": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 2048
+              },
+              "pix_fmt": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 2048
+              },
+              "color_transfer": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 2048
+              },
+              "color_space": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 2048
+              },
+              "color_range": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 2048
+              },
+              "coded_width": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "coded_height": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "start_pts": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "duration_ts": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "nb_frames": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "time_base": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "additionalProperties": false,
+                "required": [
+                  "numerator",
+                  "denominator"
+                ],
+                "properties": {
+                  "numerator": {
+                    "type": "integer"
+                  },
+                  "denominator": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              },
+              "r_frame_rate": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "additionalProperties": false,
+                "required": [
+                  "numerator",
+                  "denominator"
+                ],
+                "properties": {
+                  "numerator": {
+                    "type": "integer"
+                  },
+                  "denominator": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              },
+              "avg_frame_rate": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "additionalProperties": false,
+                "required": [
+                  "numerator",
+                  "denominator"
+                ],
+                "properties": {
+                  "numerator": {
+                    "type": "integer"
+                  },
+                  "denominator": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              },
+              "index": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4096
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4096
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 16
+        },
+        "selected_stream": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stream_selection": {
+          "enum": [
+            "ONLY_VIDEO_STREAM",
+            "EXPLICIT"
+          ]
+        },
+        "time_base": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "numerator",
+            "denominator"
+          ],
+          "properties": {
+            "numerator": {
+              "type": "integer"
+            },
+            "denominator": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "timing": {
+          "enum": [
+            "UNKNOWN",
+            "IRREGULAR_PTS",
+            "REGULAR_PTS_OBSERVED"
+          ]
+        },
+        "decoded_frame_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "frames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ordinal",
+              "pts",
+              "best_effort_timestamp",
+              "packet_dts",
+              "picture_type"
+            ],
+            "properties": {
+              "ordinal": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4095
+              },
+              "pts": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "best_effort_timestamp": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "packet_dts": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "picture_type": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 2048
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 4096
+        },
+        "canonical_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "ffmpeg": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "version_report_sha256",
+        "executable_sha256"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "maxLength": 2048
+        },
+        "version_report_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "executable_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stream",
+        "mode",
+        "values",
+        "ordering",
+        "timestamp_policy",
+        "decoder_threads",
+        "synchronization",
+        "autorotate",
+        "output"
+      ],
+      "properties": {
+        "stream": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mode": {
+          "enum": [
+            "ordinal",
+            "pts"
+          ]
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "ordering": {
+          "const": "REQUEST_ORDER"
+        },
+        "timestamp_policy": {
+          "const": "EXACT_SOURCE_PTS_ONLY"
+        },
+        "decoder_threads": {
+          "const": 1
+        },
+        "synchronization": {
+          "const": "PASSTHROUGH"
+        },
+        "autorotate": {
+          "const": false
+        },
+        "output": {
+          "const": "RGBA8_PNG_BITEXACT"
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "order",
+          "requested",
+          "ordinal",
+          "pts",
+          "best_effort_timestamp",
+          "time_base",
+          "png_sha256",
+          "rgba_sha256",
+          "width",
+          "height",
+          "size",
+          "mode",
+          "transparency_kind",
+          "has_transparency"
+        ],
+        "properties": {
+          "order": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 63
+          },
+          "requested": {
+            "type": "integer"
+          },
+          "ordinal": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4095
+          },
+          "pts": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "best_effort_timestamp": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "time_base": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "numerator",
+              "denominator"
+            ],
+            "properties": {
+              "numerator": {
+                "type": "integer"
+              },
+              "denominator": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          },
+          "png_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "rgba_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4096
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4096
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 33554432
+          },
+          "mode": {
+            "const": "RGBA"
+          },
+          "transparency_kind": {
+            "enum": [
+              "OPAQUE",
+              "PARTIALLY_TRANSPARENT",
+              "FULLY_TRANSPARENT"
+            ]
+          },
+          "has_transparency": {
+            "type": "boolean"
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 64
+    },
+    "visual_review": {
+      "const": "UNVERIFIED"
+    },
+    "automatic_assignment": {
+      "const": false
+    },
+    "canonical_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "task": "RSF-24",
+  "task_id": "nw62kniena0oeqe44yba8uil",
+  "implementer_id": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+  "writer_version": "1.1.0",
+  "git_state": "Baseline source untracked; no commit or push. Pre-edit snapshots used for bounded diff.",
+  "changed_implementation_files": [
+    {
+      "path": "src/ro_sprite_forge/core/compiler.py",
+      "sha256": "7cada20a4a578aee50ce4cda749354b97373e9c24ff96aed2df8b797d617c99f",
+      "before_sha256": "ce026a4d5ab2460147166fe05e289ad0b5f4aacc753fa85b7fe386d723a31691"
+    },
+    {
+      "path": "src/ro_sprite_forge/cli.py",
+      "sha256": "6fef27000b3be3fad6cc97831e8182bf33c59d2ffcd94d79084cacdbf0885284",
+      "before_sha256": "c0ccdcfbc0c33f79f8c55bc742b5c3cb27d9a29dc1b56a824aeeddb00e34077d"
+    },
+    {
+      "path": "src/ro_sprite_forge/service/workbench.py",
+      "sha256": "75a803a36738ee06b5b5376993a03392709944889a1fc6810ca513ff6bfa134a",
+      "before_sha256": "44e9734f11a58faad349fcec5593fee1c49f54c845d38c575ea83fa336988b33"
+    },
+    {
+      "path": "src/ro_sprite_forge/static/index.html",
+      "sha256": "3f147b1fd54a2eafa06471f33bd872f6d9c3e5fd42cffa316ad0e4ac7c0940b4",
+      "before_sha256": "1b45849bfb1b8abb5c8b87bf439c111740094f9ccf81094f850a2d5476b26cb6"
+    },
+    {
+      "path": "src/ro_sprite_forge/static/workbench.js",
+      "sha256": "02cfba716656495523362a3e003b69fe60103b0495597ca58a241b0d998ea778",
+      "before_sha256": "93d18a63e61b2c5ab296b84104510dea4fb7d18105a16953d5cdf1c20298f7ab"
+    },
+    {
+      "path": "src/ro_sprite_forge/schemas/compilation-manifest-v1.json",
+      "sha256": "c8b285d0bc6fa1e9cc824749037b2ae67453d2cbd9a78eeeba12d219a735a1c3",
+      "before_sha256": "d8eebcf31db89e2c9fd728eadd4d37bd507cf054b88c290eec9a98a4fefd08fa"
+    },
+    {
+      "path": "src/ro_sprite_forge/schemas/project-v1.json",
+      "sha256": "01af7b773a449d16844c9c99d2533ea012f3574583d9096144331c72de623b30",
+      "before_sha256": "3474bd2e7a6e99d4ae88a1ac2da5d51fc171a8e78681c6c4823ed422ea209343"
+    },
+    {
+      "path": "tests/test_compiler.py",
+      "sha256": "763b31305ee7537a45dc42d80cfb7acc386f8f06d53ce26245a16f7d3b85697b",
+      "before_sha256": "0cbdd948aaddfe3c5cc23cc1d4f3fbf4ceaf87315d34fa8fcc4d8e00be292e3b"
+    },
+    {
+      "path": "tests/browser/rsf23-mcp.js",
+      "sha256": "6a350925041b281e82a8f38c31d5356ba3a384e3d1093242416daab125b9f704",
+      "before_sha256": "b0fa298c724726cd01d59615e98dd16d68a241bb047eee19ba0914656f7227e5"
+    },
+    {
+      "path": "tests/test_image_pool_remapping.py",
+      "sha256": "201547cd2a6126712a155341ba8add3452c256485efe5eb3c5b488ebe0d7e823",
+      "before_sha256": null
+    }
+  ],
+  "unchanged_codec_oracle_sources": [
+    {
+      "path": "src/ro_sprite_forge/formats/act.py",
+      "sha256": "fd618d580cfc43f4c3ebcc6af41b6a721535aafe3be4edcf83e562aeb8946447"
+    },
+    {
+      "path": "src/ro_sprite_forge/formats/spr.py",
+      "sha256": "9ed664e175c92c8a417c8fc7985be142dc81c98e34977d8de4aef05f87f198d1"
+    },
+    {
+      "path": "tools/rust-oracle/src/main.rs",
+      "sha256": "b68081e95a11af04bf5b459c934252de4c90b8ba7849d9fc468ce002889d146d"
+    }
+  ],
+  "verification_evidence": [
+    {
+      "path": "docs/verification/rsf-24/SEMANTICS.md",
+      "sha256": "bbc052d02dfd6036c58871d2f551e2ea5418b9e772bb5dc2cba3c597f8425520"
+    },
+    {
+      "path": "docs/verification/rsf-24/PRIVATE_FIXTURE_RECOVERY.md",
+      "sha256": "4a6996cc6acb3fda0bd740f22db29346fd337ee2bf4c279afdbca5e20bd08471"
+    },
+    {
+      "path": "docs/verification/rsf-24/VERIFICATION.md",
+      "sha256": "52f9d652abd6b92070d759b4538e3cc40661d2d0eaf5ef61a57ebcdd7c701f7b"
+    },
+    {
+      "path": "docs/verification/rsf-24/reproduce.py",
+      "sha256": "3b1380e706b4ba6631435db7db760f2986430fa6c3f5d6ea90e1179504f56c68"
+    },
+    {
+      "path": "docs/verification/rsf-24/browser-run.cjs",
+      "sha256": "662bebf5706d5f1367e6c9448a2f05e58a11ab7c69da679296d8f5e7729868fe"
+    },
+    {
+      "path": "docs/verification/rsf-24/focused.log",
+      "sha256": "7dc6ca7042721da6cd10903dae9a58cf8db842ca3bbbf0ead0d16ff9466a034e"
+    },
+    {
+      "path": "docs/verification/rsf-24/compiler-regression.log",
+      "sha256": "d79b31da9c26fb643a3ba04b230daeb8860d2ee684f2c7b62992d0826f917b5d"
+    },
+    {
+      "path": "docs/verification/rsf-24/public.log",
+      "sha256": "ef7c0635eec820ebbd5068fbaa0248ae7c7ddb6c36a936c048e54d8ae9a79d3c"
+    },
+    {
+      "path": "docs/verification/rsf-24/private.log",
+      "sha256": "e63941abd3455ed68a88db53dbde01e9b2ce6e3c070d310907f9c73465564995"
+    },
+    {
+      "path": "docs/verification/rsf-24/rust-parity.log",
+      "sha256": "a44295bcbc210f4faa95c9a5a0fbe5047d55c2254d6b7aaf49024b9a2b40c799"
+    },
+    {
+      "path": "docs/verification/rsf-24/schemas.json",
+      "sha256": "9787b0573741712a3f3cfa4cff4438f6b7e63beb0bdfa9e54e3f8f915670fbd3"
+    },
+    {
+      "path": "docs/verification/rsf-24/distribution.log",
+      "sha256": "c2e02e5dbeb81556f5ddd59c40e44bae4b2b5958f96ef6a74f8f3386a9331d39"
+    },
+    {
+      "path": "docs/verification/rsf-24/browser.log",
+      "sha256": "da95fd9b0469cbafb84228486c02f4910f33a30eabdc8fbf710dc97086f635b4"
+    },
+    {
+      "path": "docs/verification/rsf-24/environment.json",
+      "sha256": "50fc106ff6cff49cc5a71403ef32360b0e08516a2d151ff1e7310fa6ded4aa6f"
+    },
+    {
+      "path": "docs/verification/rsf-24/golden-manifest.json",
+      "sha256": "a0ade4bde83afee5309c550554fc44b3b29fa35190612961f80c9b760f2b17b4"
+    },
+    {
+      "path": "docs/verification/rsf-24/implementation.diff",
+      "sha256": "dcf8ecb25e5d717ec917e3123380b3cacb2ae30127b8d2f6c0fcbcd1a79566b0"
+    },
+    {
+      "path": "docs/verification/rsf-24/compiler.diff",
+      "sha256": "fe7c171949ad5cfbab0a5f6b7ec7f4f4ed8aa2ef99cd970052e84186ac3b56c0"
+    }
+  ],
+  "gates": {
+    "M5-S": "PASS (bounded RSF-24 structural/preservation scope)",
+    "M5-I": "PASS",
+    "M5-N": "UNVERIFIED"
+  },
+  "private_assets_in_repository": false,
+  "committed": false
+}

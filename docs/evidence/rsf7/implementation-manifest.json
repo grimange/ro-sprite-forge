@@ -1,0 +1,11 @@
+{
+  "docs/architecture/RSF7_CONTRACTS.md": "1b08ef5b5170234779f923dee013bc42a24a3c768a5d720f1bc0fa3a928aefee",
+  "pyproject.toml": "0c4c7381d658973ea687c5dc5de3b6102ac2d112e6a336253582441d634706b3",
+  "scripts/check_contract_schemas.py": "7d0beaa9096c30f05c8bffbc3370fee30fb42961da2c387dd31e90a52e934269",
+  "src/ro_sprite_forge/core/contracts.py": "7e2153a8192fe50b9eb52da1c9aeff742a5019e6d30774d11b9923df8552a064",
+  "src/ro_sprite_forge/schemas/actor-v1.json": "3b5ef0e8fc97c66143d58c78bf22ddb2bddfe30b18159b7118e3ec436880662e",
+  "src/ro_sprite_forge/schemas/runtime-profile-v2.json": "8f86deb0f51dfccc609d5db2e4fd56642070861cd37fb5ce41247f62a7bdf38a",
+  "src/ro_sprite_forge/schemas/target-v2.json": "f1712fe2f52a163fc990b1ce5dc57c832a3c8f473a21614aae708119867be93a",
+  "tests/private_fixture_hooks/test_contract_fixtures.py": "6add88eb85f070a90bd288608e5f6c22ecf215b18988944fd6f1f9940b5d113a",
+  "tests/test_contracts.py": "b8c174fb753ca19e81a579312667515ceade7bb8b68633304da900c7bda68697"
+}

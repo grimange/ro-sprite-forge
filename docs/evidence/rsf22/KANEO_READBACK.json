@@ -1,0 +1,18 @@
+{
+  "id": "dt05y7kixpe8ax7vrvjscox7",
+  "title": "[M4] Bounded Walk image assignment and operator review workflow",
+  "number": 22,
+  "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M4\n**Stable plan reference:** RSF-v1.1/M4-04\n**Implementation status:** Accepted (done); verified by independent QA.\n**Responsible implementer:** AGY (Codex Senior Animation Pipeline / Production Workflow Architect)\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§6/M4, 7, 14\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Complete the first external-art assignment exercise against a work order declared in advance.\n\n**Scope:** Walk declaration → supplied PNG/sheet batch mapping → after-preview → scoped composition approval and gap report.\n\n## Acceptance criteria\n\n- [x] Declare Walk actions/views/per-view frames and ordered layers before image import; illustrative eight-by-six counts are never imposed as quota.\n- [x] Map supplied external images to exact action/view/frame/layer IDs, inspect after-preview and record operator approval on the canonical composition revision.\n- [x] Missing/invalid/unapproved views or layers remain exact visible gaps; one supplied view can complete only its explicitly narrow scope, never the full profile.\n- [x] Checklist, mappings, source/recipe hashes, preview fidelity and review survive reopen and are ready for M5 consumption.\n- [x] No claim of playable compiled or native-verified output occurs at M4.\n\n## Verification\n\nWalk operator walkthrough with synthetic legally distributable supplied art, missing-view and stale-review checks; record scope and gap report.\n\nEvidence packet: docs/evidence/rsf22/VERIFICATION.md\nQA Review: docs/evidence/rsf22/QA_REVIEW.md (QA_PASS)\nAll 405 public tests, 36 private reference tests, and 10 walk integration tests passed. Isolated wheel distribution passed (DISTRIBUTION_CHECK_PASS).\nMilestone M4 Gate: M4_ARTWORK_INGESTION_AND_PROCESSING_VERIFIED.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-21 (M4-03; task ID tnco42miae37x8m268gi6s4g)\n\n**Non-goals / gate qualifications:** No art generation or video ingestion; M5 compiles and proves native playback.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code changes / diff: Documented in docs/evidence/rsf22/implementation-manifest.json\n- Test commands / exit statuses / artifact hashes: 10/10 walk integration tests, 405/405 public regression tests, 36/36 private tests, isolated wheel build and test pass.\n- Milestone gates / limitations: Structural, coverage, visual, preview and native states remain separate.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nQA_PASS by forge-qa-reviewer on 2026-10-30. M4 gate M4_ARTWORK_INGESTION_AND_PROCESSING_VERIFIED achieved. Moved to Accepted (done).",
+  "status": "done",
+  "columnId": "vnkxm3fyt0tmewq1rdokfops",
+  "priority": "no-priority",
+  "startDate": null,
+  "dueDate": null,
+  "position": 21,
+  "createdAt": "2026-10-29T10:08:03.965Z",
+  "userId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+  "assigneeName": "AGY",
+  "assigneeId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+  "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+  "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+}

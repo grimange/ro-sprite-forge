@@ -1,0 +1,92 @@
+{
+  "novice-male-body-v1": {
+    "source_hashes": {
+      "act_sha256": "a82086ba005506a16ee0740ebd1d33c43de8cc4ee1a622ea933ff9e0502c1c77",
+      "spr_sha256": "7f4efe357b0f80e71ba2dcdb93d1c110988b1b8f382e1dbfc722e3a2cf85a533"
+    },
+    "profile_sha256": "6515f4d751195b3adcf6b1c2cd5433bc9ff46a484fcead2602718f26752d8a81",
+    "topology": {
+      "action_count": 13,
+      "anchor_counts": [
+        1
+      ],
+      "layer_counts": [
+        1
+      ],
+      "motion_count": 456,
+      "slot_count": 104
+    }
+  },
+  "novice-male-head-v1": {
+    "source_hashes": {
+      "act_sha256": "96cb4c7daada65ead29ade650c34da1cba93937d3b360c5468506c3d056219de",
+      "spr_sha256": "dfc548c5cfd9aeb66616c5912df78773c2798834f9412a309a5a2b4f5868ac95"
+    },
+    "profile_sha256": "d5d15d2877e740cfd0148c7bfc6925b3570718978205f84fc43496df4875c716",
+    "topology": {
+      "action_count": 13,
+      "anchor_counts": [
+        1
+      ],
+      "layer_counts": [
+        1
+      ],
+      "motion_count": 456,
+      "slot_count": 104
+    }
+  },
+  "genetic-female-body-v1": {
+    "source_hashes": {
+      "act_sha256": "27744afbed3b1fbca5a6cc3d012ced93b11559c45936465312c1cad67c931d34",
+      "spr_sha256": "8130fe1646f0284f40b32c9118959334d480d75f70ace581d17f0e3b1300982c"
+    },
+    "profile_sha256": "353cc2378b288de3c86c4a97143827fbcc43d3199485d66454d677ef2e98058b",
+    "topology": {
+      "action_count": 13,
+      "anchor_counts": [
+        1
+      ],
+      "layer_counts": [
+        1
+      ],
+      "motion_count": 456,
+      "slot_count": 104
+    }
+  },
+  "jack-head-male-v1": {
+    "source_hashes": {
+      "act_sha256": "5dd8c7b8ebd5762b29863e86a77c4e555834cd401c0f559a8f92061a25a3ac93",
+      "spr_sha256": "e636bdc5772bb1fa9206b84369d46a13b3e6ac79b6c600e55c5dbb6a952fd655"
+    },
+    "profile_sha256": "15e54ae5933a9f36f3efa0f4b93c0bfb1589124942c49d06d5ab0c5fbf7dff2e",
+    "topology": {
+      "action_count": 13,
+      "anchor_counts": [
+        1
+      ],
+      "layer_counts": [
+        1
+      ],
+      "motion_count": 456,
+      "slot_count": 104
+    }
+  },
+  "dragon-knight-male-shield-v1": {
+    "source_hashes": {
+      "act_sha256": "c2175126b1357374b148f7da24eecb12de0a4ba5fb21e2330cb90e877fe176c9",
+      "spr_sha256": "0b78157535438592c0572c55b5f870bd7b4a762ac344d7cf01703cb0a89558f4"
+    },
+    "profile_sha256": "11e247831ce233e44ac5116d295ddba75eab5e8d5d056758b61a8324acd18720",
+    "topology": {
+      "action_count": 13,
+      "anchor_counts": [
+        0
+      ],
+      "layer_counts": [
+        1
+      ],
+      "motion_count": 448,
+      "slot_count": 104
+    }
+  }
+}

@@ -1,0 +1,2 @@
+# Optional public codec-preview regression dependency; never a runtime requirement.
+Pillow==12.1.1

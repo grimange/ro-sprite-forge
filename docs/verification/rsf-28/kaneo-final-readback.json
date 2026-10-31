@@ -1,0 +1,53 @@
+{
+  "task": {
+    "id": "mdehayoorrfc43z930ij72wx",
+    "title": "[M6] Optional bounded FFprobe/FFmpeg candidate-frame import",
+    "number": 28,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M6\n**Stable plan reference:** RSF-v1.1/M6-01\n**Implementation status:** Implemented; independent QA_PASS; acceptance synchronized after review.\n**Responsible implementer:** Codex, verified account aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn; independent forge_qa_reviewer context /root/rsf24_qa.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§4.1–4.2, 6/M6, 8\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Stage local video safely as candidate imagery rather than authoritative animation.\n\n**Scope:** Optional subprocess adapter, source metadata/hash, pinned decode settings, display-order frames and staging.\n\n## Acceptance criteria\n\n- [x] Capture source SHA-256, FFprobe stream metadata/fps/VFR information, decoder version/settings and display-order decoded frame identities/PTS.\n- [x] FFmpeg/FFprobe remain optional adapters; core and image workflow function without them.\n- [x] Invoke explicit argument arrays without shell interpolation or project commands; enforce time/resource/decode budgets and isolated path-safe staging.\n- [x] Same video and pinned settings yield identical staged frames/hashes; malformed/untrusted videos fail without modifying sources.\n\n## Verification\n\nSynthetic supplied CFR/VFR and malformed media tests, repeated import equality and timeout/path/argument-safety checks; record actual decoder environment.\n\nActual commands, environment, exit statuses, hashes and NOT_RUN boundaries are recorded in docs/verification/rsf-28/VERIFICATION.md, commands.json and QA_REPORT.md. No artistic approval or new native run is claimed.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-26 (M5-04; task ID tju1c32n1jrxitklr5hnj6la)\n\n**Non-goals / gate qualifications:** No automatic selection, pose completion or video generation. Reuse validated M4–M5 pipeline; native gate remains separate.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code changes / diff: Optional adapters/video.py and _media_exec.py; service/media.py; CLI; closed video/project schemas; focused tests/schema checker; narrow accepted synthetic artifact-guard correction. Exact paths/hashes: docs/verification/rsf-28/implementation-manifest.json.\n- Tests: focused 26 PASS; public 478 PASS; private 40 PASS plus one existing skip; all 11 schemas PASS; installed distribution 468 PASS plus ten optional skips; all exit 0. Independent reviewer reran all plus clean extraction and separate RGBA/audio-first cases. Python 3.14.4; 3.12/3.13 NOT_RUN unavailable. FFmpeg/FFprobe 8.0.1-3ubuntu2.\n- Gates: accepted M5-S/I/bounded-N scope preserved; no new native execution required. M6 remains open. CLI/API only; no browser control changes. Candidates UNVERIFIED, no automatic assignments/review decisions.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nQA_PASS from separate repository-configured forge_qa_reviewer /root/rsf24_qa. Reviewer independently verified all four criteria, real CFR/VFR/B-frame/multistream extraction, subprocess limits/cleanup, failure publication, immutable staging, all regressions and hashes. Reviewed implementation seal 0f48666f07fa98ea39f5f58810d54cc5631cdf2b57e8b2be7742573aef4e91a5; no mandatory defect remains. Detailed verdict: docs/verification/rsf-28/QA_REPORT.md. Operator artistic authority remains exclusive.",
+    "status": "done",
+    "columnId": "vnkxm3fyt0tmewq1rdokfops",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 27,
+    "createdAt": "2026-10-29T10:08:08.097Z",
+    "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "assigneeName": "Codex",
+    "assigneeId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "comments": [
+    {
+      "id": "t0ek3f6xa27xdmv67ryyuuil",
+      "taskId": "mdehayoorrfc43z930ij72wx",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "RSF-28 implementation/self-verification complete; independent QA requested. Implementer remains verified Codex aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn. Added optional Linux FFprobe/FFmpeg adapter, exact presentation-ordinal/source-PTS selection, bounded argv execution/process-group cleanup, preview bundles, immutable source/PNG staging and closed provenance schema. CLI/API only; existing source tray reused, no browser controls or automatic assignment/approval. Changed existing cli.py/project-v1.json and narrow test_codecs.py exact-hash exception for four unchanged accepted RSF-27 synthetic fixtures; no compiler/native edits. Evidence: docs/verification/rsf-28/{VERIFICATION.md,commands.json,implementation.diff,baseline-hashes.json,synthetic/results.json,QA_HANDOFF.md}. Focused 26 PASS; public 478 PASS; private 40 PASS + 1 legacy skip; all 11 schemas PASS; installed wheel 468 PASS + 10 optional skips, reproducible wheels, exit 0 each. Two clean CLI extractions identical manifests/PNGs, zero known-pixel mismatches. VFR source sha256 51f0173b6b4dfd615acf3cb9d55e8131dd87c28b8e528098668b9fefd4c53a9d; canonical extraction 8f92a9dfd224fdf3275a835caa14a8e04f5b03bf367d026520c28e2aa55a44e3. Python 3.14.4; FFmpeg/FFprobe 8.0.1-3ubuntu2; 3.12/3.13 NOT_RUN unavailable. M5 accepted scope preserved, no new native claim. M6 remains open. No commits/pushes. Independent verdict pending; acceptance criteria remain unchecked until QA.",
+      "createdAt": "2026-10-30T23:51:57.218Z",
+      "updatedAt": "2026-10-30T23:51:57.218Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    },
+    {
+      "id": "a9hq03kbtuwiegqklvhfj7c2",
+      "taskId": "mdehayoorrfc43z930ij72wx",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Independent QA_PASS received from repository-configured forge_qa_reviewer, separate context /root/rsf24_qa. Reviewer independently ran focused 26 PASS, public 478 PASS, private 40 PASS + one existing skip, all 11 schemas PASS, installed distribution 468 PASS + ten optional skips, fresh repeated CLI extraction/staging and additional partial-alpha RGBA/audio-first fixtures. Every command exited 0. All four live criteria PASS; no mandatory findings open. The evidence-only stale documentation seal was refreshed and independently validated. Reviewed source/evidence manifest SHA-256 0f48666f07fa98ea39f5f58810d54cc5631cdf2b57e8b2be7742573aef4e91a5. Full independent verdict: docs/verification/rsf-28/QA_REPORT.md; coordinator logs and exact commands: VERIFICATION.md and commands.json. VFR actual PTS [0,40,120,160,300] at 1/1000; request [300,0,120] resolves [4,0,2], zero known pixel mismatches. Canonical extraction identity 8f92a9dfd224fdf3275a835caa14a8e04f5b03bf367d026520c28e2aa55a44e3. Optional CLI/API adapter; no automatic assignment/art approval; existing source tray reused. Python 3.14.4, FFmpeg/FFprobe 8.0.1-3ubuntu2; Python 3.12/3.13 unavailable NOT_RUN. No browser/native controls changed; existing M5 accepted scopes preserved. M6 remains open. Preserving Codex ownership aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn; proceeding to Accepted based on separate QA_PASS, then MCP readback.",
+      "createdAt": "2026-10-30T23:55:48.160Z",
+      "updatedAt": "2026-10-30T23:55:48.160Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    }
+  ],
+  "verified": {
+    "accepted": true,
+    "owner_preserved": true,
+    "checked_criteria": 4,
+    "qa_comment": "a9hq03kbtuwiegqklvhfj7c2",
+    "pending_writes": false
+  }
+}

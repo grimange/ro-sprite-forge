@@ -1,0 +1,21 @@
+{
+  "task": "RSF-12",
+  "id": "ib2tllmtwl17psayj009pem7",
+  "title": "[M2] Profile timing, registration and body/head synchronization",
+  "status": "done",
+  "status_name": "Accepted",
+  "assignee": {
+    "id": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "name": "Codex"
+  },
+  "acceptance": [
+    "- [x] Use pinned profile timing/reachability and ACT raw delays; diagnostic timing is explicitly labeled instead of silently substituted.",
+    "- [x] Respect offsets, registration and declared origin/head anchors, with player body/head synchronization where supported.",
+    "- [x] Provide deterministic stepping, play/loop/speed and action/view selection; unsupported attachment/timing behavior remains visible.",
+    "- [x] Version rendering/timing semantics so relevant changes can invalidate affected pre-build reviews."
+  ],
+  "qa": "QA_PASS",
+  "reviewer": "/root/rsf12_independent_qa",
+  "qa_comment_id": "ihrqys0kmzuofh3i2bb5km6b",
+  "pending_writes": false
+}

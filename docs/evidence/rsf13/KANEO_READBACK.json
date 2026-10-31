@@ -1,0 +1,20 @@
+{
+  "id": "sr7zifcthz9m09btrmjlaosv",
+  "title": "[M2] Reference comparison and exported preview diagnostics",
+  "number": 13,
+  "status": "done",
+  "columnId": "vnkxm3fyt0tmewq1rdokfops",
+  "columnName": "Accepted",
+  "priority": "no-priority",
+  "position": 12,
+  "createdAt": "2026-10-29T10:08:03.652Z",
+  "userId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+  "assigneeName": "AGY",
+  "assigneeId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+  "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+  "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il",
+  "acceptanceCriteriaAllChecked": true,
+  "qaVerdict": "QA_PASS",
+  "reviewerAgent": "forge-qa-reviewer",
+  "reviewerConversationId": "b0b13aa1-4b9d-4124-a083-25fd62e9b4c0"
+}

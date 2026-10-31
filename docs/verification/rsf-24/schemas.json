@@ -1,0 +1,62 @@
+[
+  {
+    "command": ".venv/bin/python scripts/check_animation_schema.py",
+    "exit_code": 0,
+    "stdout": "ANIMATION_SCHEMA_PASS schemas=2 valid=14 invalid=6\n",
+    "stderr": ""
+  },
+  {
+    "command": ".venv/bin/python scripts/check_comparison_schema.py",
+    "exit_code": 0,
+    "stdout": "COMPARISON_SCHEMA_PASS schemas=3 valid=11 invalid=13\n",
+    "stderr": ""
+  },
+  {
+    "command": ".venv/bin/python scripts/check_compilation_schema.py",
+    "exit_code": 0,
+    "stdout": "COMPILATION_SCHEMA_PASS schemas=2 valid=3 invalid=6\n",
+    "stderr": ""
+  },
+  {
+    "command": ".venv/bin/python scripts/check_contract_schemas.py",
+    "exit_code": 0,
+    "stdout": "JSON_SCHEMA_PASS jsonschema=4.19.2 schemas=3 valid=13 invalid=55\n",
+    "stderr": ""
+  },
+  {
+    "command": ".venv/bin/python scripts/check_coverage_schema.py",
+    "exit_code": 0,
+    "stdout": "COVERAGE_SCHEMA_PASS schemas=1 valid=2 invalid=8\n",
+    "stderr": ""
+  },
+  {
+    "command": ".venv/bin/python scripts/check_extraction_schema.py",
+    "exit_code": 0,
+    "stdout": "EXTRACTION_SCHEMA_PASS schemas=1 valid=3 invalid=8\n",
+    "stderr": ""
+  },
+  {
+    "command": ".venv/bin/python scripts/check_ingestion_schema.py",
+    "exit_code": 0,
+    "stdout": "INGESTION_SCHEMA_PASS schemas=1 valid=3 invalid=6\n",
+    "stderr": ""
+  },
+  {
+    "command": ".venv/bin/python scripts/check_ledger_schema.py",
+    "exit_code": 0,
+    "stdout": "LEDGER_SCHEMA_PASS schemas=1 valid=4 invalid=8\n",
+    "stderr": ""
+  },
+  {
+    "command": ".venv/bin/python scripts/check_review_schema.py",
+    "exit_code": 0,
+    "stdout": "REVIEW_SCHEMA_PASS schemas=1 valid=3 invalid=6\n",
+    "stderr": ""
+  },
+  {
+    "command": ".venv/bin/python scripts/check_transformation_schema.py",
+    "exit_code": 0,
+    "stdout": "TRANSFORMATION_SCHEMA_PASS schemas=1 valid=4 invalid=8\n",
+    "stderr": ""
+  }
+]

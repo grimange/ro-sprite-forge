@@ -1,0 +1,273 @@
+name: RO Sprite Forge CI & Release Verification
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python-support-matrix:
+    name: Python Matrix (${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13", "3.14"]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install build tools and build wheel
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-build.txt
+          python -m build --wheel --no-isolation --outdir dist/ .
+
+      - name: Clean installation into isolated virtual environment
+        run: |
+          python -m venv /tmp/isolated-venv
+          /tmp/isolated-venv/bin/python -m pip install --upgrade pip
+          /tmp/isolated-venv/bin/python -m pip install dist/*.whl
+
+      - name: Verify stdlib-only core outside repository
+        working-directory: /tmp
+        run: |
+          /tmp/isolated-venv/bin/ro-sprite-forge --help
+          /tmp/isolated-venv/bin/python -c '
+          import ro_sprite_forge, sys, pathlib
+          p = pathlib.Path(ro_sprite_forge.__file__).resolve()
+          assert p.is_relative_to(pathlib.Path(sys.prefix).resolve()), f"Import leaked to source tree: {p}"
+          print(f"Verified isolated import from site-packages: {p}")
+          '
+
+      - name: Install test dependencies and run public test suite
+        run: |
+          /tmp/isolated-venv/bin/python -m pip install -r requirements-test.txt
+          /tmp/isolated-venv/bin/python -m unittest discover -s tests -p 'test_*.py' -v
+
+      - name: Validate all schemas
+        run: |
+          for script in scripts/check_*schema*.py; do
+            echo "Running $script..."
+            /tmp/isolated-venv/bin/python "$script"
+          done
+
+  distribution-and-rebuild:
+    name: Distribution & Rebuild Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-build.txt -r requirements-test.txt
+
+      - name: Build sdist and wheel
+        env:
+          SOURCE_DATE_EPOCH: "1704067200"
+        run: |
+          python -m build --outdir dist/ .
+
+      - name: Verify sdist contents
+        run: |
+          SDIST=$(ls dist/*.tar.gz)
+          echo "Inspecting sdist: $SDIST"
+          tar -ztvf "$SDIST" > /tmp/sdist-files.txt
+          grep "tests/test_foundation.py" /tmp/sdist-files.txt
+          grep "LICENSE" /tmp/sdist-files.txt
+          grep "NOTICE.md" /tmp/sdist-files.txt
+          grep "schemas/project-v1.json" /tmp/sdist-files.txt
+          grep "static/index.html" /tmp/sdist-files.txt
+          # Verify NO private fixture hooks or proprietary assets
+          if grep -E "(private_fixture_hooks|\.act|\.spr|\.grf)" /tmp/sdist-files.txt; then
+            echo "ERROR: Prohibited private files found in sdist!"
+            exit 1
+          fi
+
+      - name: Rebuild wheel from extracted sdist
+        env:
+          SOURCE_DATE_EPOCH: "1704067200"
+        run: |
+          mkdir /tmp/sdist-extract
+          tar -zxvf dist/*.tar.gz -C /tmp/sdist-extract
+          SDIST_DIR=$(find /tmp/sdist-extract -maxdepth 1 -mindepth 1 -type d)
+          python -m build --wheel --no-isolation --outdir /tmp/sdist-wheel-out "$SDIST_DIR"
+          WHEEL=$(ls /tmp/sdist-wheel-out/*.whl)
+          echo "Rebuilt wheel: $WHEEL"
+
+      - name: Run distribution verification script
+        run: |
+          python -m unittest tests/test_packaging_and_distribution.py -v
+
+  reproducible-artifacts:
+    name: Reproducible Build Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-build.txt
+
+      - name: Build run 1
+        env:
+          SOURCE_DATE_EPOCH: "1704067200"
+          PYTHONHASHSEED: "42"
+        run: |
+          python -m build --no-isolation --outdir /tmp/build-1/ .
+
+      - name: Build run 2
+        env:
+          SOURCE_DATE_EPOCH: "1704067200"
+          PYTHONHASHSEED: "99"
+        run: |
+          python -m build --no-isolation --outdir /tmp/build-2/ .
+
+      - name: Compare repeated build artifact hashes
+        run: |
+          WHEEL_SHA_1=$(sha256sum /tmp/build-1/*.whl | awk '{print $1}')
+          WHEEL_SHA_2=$(sha256sum /tmp/build-2/*.whl | awk '{print $1}')
+          echo "Wheel 1 SHA-256: $WHEEL_SHA_1"
+          echo "Wheel 2 SHA-256: $WHEEL_SHA_2"
+          [ "$WHEEL_SHA_1" = "$WHEEL_SHA_2" ] || (echo "ERROR: Wheel hashes differ!" && exit 1)
+
+          SDIST_SHA_1=$(sha256sum /tmp/build-1/*.tar.gz | awk '{print $1}')
+          SDIST_SHA_2=$(sha256sum /tmp/build-2/*.tar.gz | awk '{print $1}')
+          echo "Sdist 1 SHA-256: $SDIST_SHA_1"
+          echo "Sdist 2 SHA-256: $SDIST_SHA_2"
+          [ "$SDIST_SHA_1" = "$SDIST_SHA_2" ] || (echo "ERROR: Sdist hashes differ!" && exit 1)
+          echo "REPRODUCIBLE_BUILD_PASS"
+
+  artifact-exclusion-and-licenses:
+    name: Artifact Exclusion & License Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-build.txt
+
+      - name: Build distribution artifacts
+        run: |
+          python -m build --no-isolation --outdir dist/ .
+
+      - name: Audit wheel archive members
+        run: |
+          WHEEL=$(ls dist/*.whl)
+          unzip -l "$WHEEL" > /tmp/wheel-files.txt
+          echo "=== Auditing Wheel Members ==="
+          cat /tmp/wheel-files.txt
+          # Prohibited patterns
+          if grep -iE "(\.act|\.spr|\.grf|private_fixture_hooks|/\.env|\.pem|\.key)" /tmp/wheel-files.txt; then
+            echo "ERROR: Prohibited private files detected in wheel!"
+            exit 1
+          fi
+          # Required resources
+          grep "ro_sprite_forge/schemas/project-v1.json" /tmp/wheel-files.txt
+          grep "ro_sprite_forge/static/index.html" /tmp/wheel-files.txt
+          grep "ro_sprite_forge-0.1.0.dist-info/licenses/LICENSE" /tmp/wheel-files.txt
+          grep "ro_sprite_forge-0.1.0.dist-info/licenses/NOTICE.md" /tmp/wheel-files.txt
+          echo "WHEEL_MEMBERS_AUDIT_PASS"
+
+      - name: Audit source distribution members
+        run: |
+          SDIST=$(ls dist/*.tar.gz)
+          tar -ztvf "$SDIST" > /tmp/sdist-members.txt
+          echo "=== Auditing Sdist Members ==="
+          # Prohibited patterns
+          if grep -iE "(\.act|\.spr|\.grf|private_fixture_hooks|/\.env|\.pem|\.key)" /tmp/sdist-members.txt; then
+            echo "ERROR: Prohibited private files detected in sdist!"
+            exit 1
+          fi
+          # Required notices and licenses
+          grep "LICENSE" /tmp/sdist-members.txt
+          grep "NOTICE.md" /tmp/sdist-members.txt
+          grep "docs/provenance/LWR_CODEC_PROVENANCE.md" /tmp/sdist-members.txt
+          echo "SDIST_MEMBERS_AUDIT_PASS"
+
+  optional-adapters-isolation:
+    name: Optional Adapters & Degradation Isolation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install build tools and build wheel
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-build.txt
+          python -m build --wheel --no-isolation --outdir dist/ .
+
+      - name: Verify core functionality with stdlib only (no Pillow, no jsonschema)
+        run: |
+          python -m venv /tmp/stdlib-only-venv
+          /tmp/stdlib-only-venv/bin/python -m pip install --upgrade pip
+          /tmp/stdlib-only-venv/bin/python -m pip install dist/*.whl
+          /tmp/stdlib-only-venv/bin/python -c '
+          import importlib.util
+          assert importlib.util.find_spec("PIL") is None, "Pillow unexpectedly installed"
+          assert importlib.util.find_spec("jsonschema") is None, "jsonschema unexpectedly installed"
+          
+          # Core inventory, requirements, and preservation work with stdlib only
+          from ro_sprite_forge.formats.act import write_act
+          from ro_sprite_forge.formats.spr import write_rgba_spr, RgbaImage
+          from ro_sprite_forge.core.preservation import roundtrip_pair
+          from ro_sprite_forge.core.profiles import get_profile
+          from ro_sprite_forge.core.inventory import inventory
+          from ro_sprite_forge.core.requirements import requirements
+          
+          act_bytes = write_act({"reserved": "00"*10, "actions": [[{"bounds": (0,)*8, "clips": [], "event": -1, "anchors": []}]], "events": [], "delays": [4.0]})
+          spr_bytes = write_rgba_spr([RgbaImage(1, 1, bytes(4))])
+          assert roundtrip_pair(act_bytes, spr_bytes)[:2] == (act_bytes, spr_bytes)
+          
+          prof = get_profile("player")
+          inv = inventory(act_bytes, spr_bytes, profile=prof)
+          target = {
+              "schema": "rsf.target/v1",
+              "actor": "synthetic",
+              "part": "body",
+              "scope": "scoped",
+              "actions": [{"action": "Walk", "requirement": "required", "views": [{"view": 0, "frame_count": 1, "topology": {"kind": "explicit", "layers": ["body"]}}]}]
+          }
+          reqs = requirements(inv, prof, target)
+          assert reqs["totals"]["required_layers_known"] == 1
+          print("STDLIB_ONLY_CORE_PASS")
+          '

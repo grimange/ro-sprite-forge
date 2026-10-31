@@ -1,0 +1,12 @@
+{
+  "tools/korangar-native/Cargo.lock": "2e99ed42a9c4c435feae537d0095a2d63d87e2c643002e2a09d88dc147bc9f59",
+  "tools/korangar-native/Cargo.toml": "1071a48f86c9a8a91e4663faf8bd270abc7107e4696f0892949a5f4655b62a42",
+  "tools/korangar-native/README.md": "02ebe104fedbdbde96259660e4778171c749fd7dea3e9eb3668f41efece439ff",
+  "tools/korangar-native/compile_shaders.py": "2b3959c77d0dc839eeca963ecdefe87d10eb88f018b5e1a3a1529f20de42972a",
+  "tools/korangar-native/fixtures.py": "3ccfe2921f42dd267db3f8707639a113b7ec59cae92270c3dafe056689d88457",
+  "tools/korangar-native/graphics.rs": "c6610d5a9b96b614170048b67bcd256cade42805033914cc42140833419a64fa",
+  "tools/korangar-native/main.rs": "c939e4d3d374da5e2f9333c160f4684b6ba46f90c11b44be5f6e094782ba4d83",
+  "tools/korangar-native/prepare.py": "c59a92d0720140f8fbbdde3d3bbaee85e4c7e8183906e79e5e22744605c8856c",
+  "tools/korangar-native/test_verifier.py": "c0f579114209108decff2d35b40e47c843a05c76883271fb07d06e8c9f4c5dc5",
+  "tools/korangar-native/verify.py": "79c56bd4f2fdc2fdd546063b4a3281f782e08b327983be2f43d8adaf77cb6745"
+}

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="data:,">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RO Sprite Forge — Operator Workbench</title>
+  <link rel="stylesheet" href="/static/workbench.css">
+</head>
+<body>
+  <!-- Application Header -->
+  <header class="app-header" role="banner">
+    <div class="brand">
+      <div class="brand-icon" aria-hidden="true">RSF</div>
+      <div>
+        <span class="brand-title">RO Sprite Forge</span>
+        <span class="brand-sub">Requirements Workbench</span>
+      </div>
+    </div>
+
+    <div class="project-controls">
+      <div class="project-selector-wrapper">
+        <label for="project-select" style="font-size: 11px; color: var(--text-muted);">PROJECT:</label>
+        <select id="project-select" aria-label="Select Project">
+          <option value="">-- Select Project --</option>
+        </select>
+      </div>
+      <button id="new-project-btn" class="btn btn-primary" type="button" aria-haspopup="dialog">+ New Project</button>
+      <button id="save-project-btn" class="btn" type="button" title="Save Project (Ctrl+S)">💾 Save</button>
+    </div>
+  </header>
+
+  <!-- Workbench Main Body -->
+  <main class="workbench-body" role="main">
+    <!-- Left Panel: Requirements Tree & Filters -->
+    <section class="left-panel" aria-label="Requirements Tree Navigation">
+      <div class="panel-header">
+        <div class="panel-title-row">
+          <span class="panel-title">Requirements Tree</span>
+        </div>
+        <div class="search-box">
+          <input type="text" id="tree-search" placeholder="Filter actions, views, layers..." aria-label="Filter tree by text">
+        </div>
+        <div class="filter-bar" id="filter-bar" role="toolbar" aria-label="Status Filters">
+          <button type="button" class="filter-btn active" data-filter="ALL" aria-pressed="true">ALL</button>
+          <button type="button" class="filter-btn" data-filter="UNDERSPECIFIED" aria-pressed="false" title="Underspecified topology or frames">[!] UNDER</button>
+          <button type="button" class="filter-btn" data-filter="UNASSIGNED" aria-pressed="false" title="Unassigned required layers">[-] UNASSIGNED</button>
+          <button type="button" class="filter-btn" data-filter="INVALID" aria-pressed="false" title="Invalid source or hash">[x] INVALID</button>
+          <button type="button" class="filter-btn" data-filter="UNREVIEWED" aria-pressed="false" title="Pending visual review">[?] REVIEW</button>
+          <button type="button" class="filter-btn" data-filter="UNSUPPORTED" aria-pressed="false" title="Unsupported runtime mapping">[ø] UNSUPP</button>
+          <button type="button" class="filter-btn" data-filter="REUSED" aria-pressed="false" title="Explicit reuse dependency">[~] REUSED</button>
+          <button type="button" class="filter-btn" data-filter="READY" aria-pressed="false" title="Fully validated & reviewed">[✓] READY</button>
+        </div>
+      </div>
+      <div class="tree-container" id="tree-container" role="tree" aria-label="Occurrences Hierarchy">
+        <div style="padding:16px;color:var(--text-dim);">Loading projects...</div>
+      </div>
+    </section>
+
+    <!-- Center Panel: Target, Topology & Details -->
+    <section class="center-panel" aria-label="Workspace Center">
+      <!-- Target & Topology Bar -->
+      <div class="target-topology-bar">
+        <div class="target-row">
+          <div class="target-meta-group">
+            <div class="meta-item">
+              <span class="meta-label">Active Project</span>
+              <span class="meta-value" id="proj-name">None</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Actor / Profile</span>
+              <span class="meta-value"><span id="proj-actor">-</span> / <span id="proj-profile">-</span></span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Revision</span>
+              <span class="meta-value" id="proj-revision">Rev -</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Scope</span>
+              <span class="meta-value" id="target-scope">-</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Topology</span>
+              <span class="meta-value" id="target-topology">-</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span id="proj-status-badge" class="badge badge-unsupported">[ ] NO PROJECT</span>
+            <button id="define-target-btn" class="btn" type="button">⚙️ Define Target & Topology</button>
+          </div>
+        </div>
+
+        <!-- Blocker / Warning Alert Banner -->
+        <div id="topology-alert" class="alert-banner alert-warning" style="display:none;" role="alert">
+          <span class="alert-icon" aria-hidden="true">⚠️</span>
+          <div class="alert-content">
+            <div class="alert-title">UNDERSPECIFIED_LAYER_TOPOLOGY</div>
+            <div class="alert-msg">Ordered layer topology is not declared. A target cannot claim artwork work orders or production coverage without declared topology.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Workspace Scroll Area -->
+      <div class="workspace-scroll">
+        <section class="card interactive" id="assignment-workspace" aria-label="Artwork assignment and playback">
+          <h2>Artwork assignment &amp; animation inspection</h2>
+          <p id="operation-status" role="status" aria-live="polite">Choose a project. Assignments do not grant visual approval.</p>
+          <details><summary>Import an existing ACT/SPR reference pair</summary>
+            <label for="resource-id">Immutable resource ID</label><input id="resource-id" placeholder="reference-body" maxlength="64">
+            <label for="resource-part">Resource part</label><select id="resource-part"><option>body</option><option>head</option></select>
+            <label for="resource-act">ACT file</label><input id="resource-act" type="file" accept=".act">
+            <label for="resource-spr">SPR file</label><input id="resource-spr" type="file" accept=".spr">
+            <button id="import-pair" type="button" class="btn">Import selected pair</button>
+            <p>Original bytes stay unchanged. Imported classic images require an explicit assignment and do not become approved replacement art.</p>
+          </details>
+          <details id="import-png-sequence-details"><summary>Import ordered PNG sequence</summary>
+            <div style="display:flex;flex-direction:column;gap:6px;margin:8px 0;">
+              <label for="seq-id">Sequence ID</label>
+              <input id="seq-id" placeholder="walk-south" maxlength="64">
+              <label for="seq-name">Sequence name</label>
+              <input id="seq-name" placeholder="Walk South" maxlength="128">
+              <label for="seq-files">Select PNG frames</label>
+              <input id="seq-files" type="file" accept=".png,image/png" multiple>
+              <div id="seq-ordering-section" style="display:none;margin-top:8px;">
+                <h4 style="margin:4px 0;">Sequence Frame Order</h4>
+                <p style="font-size:12px;color:var(--text-muted);margin:2px 0 6px 0;">Confirm or adjust the explicit frame order. Ordinals must be contiguous from 0 to N-1. Ingestion retains raw hashes without inferred choreography or auto-approval.</p>
+                <div class="controls" style="margin-bottom:6px;">
+                  <button id="seq-natural-sort" type="button" class="btn">Natural sort by filename</button>
+                </div>
+                <div id="seq-frames-table" style="max-height:220px;overflow-y:auto;border:1px solid var(--border-color);border-radius:4px;padding:6px;background:var(--bg-card);"></div>
+              </div>
+              <button id="import-sequence-btn" type="button" class="btn btn-primary" style="display:none;margin-top:6px;">Import verified sequence</button>
+              <p id="seq-status" role="status" aria-live="polite" style="font-size:12px;color:var(--text-muted);margin:4px 0;"></p>
+            </div>
+          </details>
+          <details id="video-import-details"><summary>Import video candidate frames</summary>
+            <p>Source media timing (PTS) describes the video. Candidate order is your choice.
+              ACT/runtime animation timing stays in the animation inspector below. Extraction creates no assignments or visual approvals.</p>
+            <p id="video-capability" role="status" aria-live="polite">Open this section to check optional FFprobe/FFmpeg availability.</p>
+            <div id="video-controls">
+              <label for="video-file">Local video (up to 32 MiB)</label><input id="video-file" type="file" accept="video/*,.mkv,.avi,.mov,.mp4,.webm">
+              <label for="video-staged">Or select an immutable project video</label><select id="video-staged"><option value="">Select staged video</option></select>
+              <button id="video-inspect" class="btn" type="button">Inspect video metadata</button>
+              <pre id="video-metadata" aria-label="Source video metadata"></pre>
+              <label for="video-stream">Absolute video stream index</label><select id="video-stream"><option value="">Inspect a video first</option></select>
+              <button id="video-scan" class="btn" type="button" disabled>Inspect presentation frames (bounded decode)</button>
+              <p>Frame inspection scans only on request, within 120 seconds / 4096 frames / 256 Mi decoded pixels. Metadata does not establish exact frame times.</p>
+              <pre id="video-frame-info" aria-label="Source media timing"></pre>
+              <label for="video-mode">Exact selection mode</label><select id="video-mode"><option value="ordinal">Presentation ordinal</option><option value="pts">Integer source PTS</option></select>
+              <p>Exact selections support integers from −9007199254740991 to 9007199254740991. Larger metadata is displayed exactly; unsupported selections are rejected.</p>
+              <div id="video-frames" class="video-frame-list" aria-label="Available presentation frames"></div>
+              <button id="video-prev" class="btn" type="button" disabled>Previous frame page</button>
+              <button id="video-next" class="btn" type="button" disabled>Next frame page</button>
+              <label for="video-values">Requested values in candidate order (comma separated, up to 64 unique frames)</label>
+              <input id="video-values" type="text" inputmode="text" placeholder="300, 0, 120">
+              <button id="video-preview" class="btn" type="button" disabled>Preview exact candidates</button>
+              <p id="video-status" role="status" aria-live="polite"></p>
+              <ol id="video-candidates" class="video-candidates" aria-label="Ordered video candidates"></ol>
+              <button id="video-stage" class="btn btn-primary" type="button" disabled>Confirm order and stage candidates</button>
+            </div>
+            <details><summary>Committed video candidate provenance</summary><pre id="video-history"></pre></details>
+            <p>After staging, choose an image in the existing source tray and explicitly assign an exact requirement.
+              Use “Non-destructive image transformations (RSF-21)” for versioned crop, placement and alpha choices with before/after preview.
+              Review decisions remain under operator control.</p>
+          </details>
+          <details id="import-single-png-details"><summary>Import single PNG frame</summary>
+            <div style="display:flex;flex-direction:column;gap:6px;margin:8px 0;">
+              <label for="single-png-file">Select PNG file</label>
+              <input id="single-png-file" type="file" accept=".png,image/png">
+              <button id="import-single-png-btn" type="button" class="btn" style="display:none;margin-top:6px;">Import PNG frame</button>
+              <p id="single-png-status" role="status" aria-live="polite" style="font-size:12px;color:var(--text-muted);margin:4px 0;"></p>
+            </div>
+          </details>
+          <details id="import-spritesheet-details"><summary>Import PNG spritesheet &amp; extract</summary>
+            <div style="display:flex;flex-direction:column;gap:6px;margin:8px 0;">
+              <label for="sheet-file">Select spritesheet PNG</label>
+              <input id="sheet-file" type="file" accept=".png,image/png">
+              <label for="extraction-id">Extraction ID (optional)</label>
+              <input id="extraction-id" placeholder="orc-walk-sheet" maxlength="64">
+              <div id="sheet-preview-container" style="display:none;margin-top:6px;">
+                <p id="sheet-info" style="font-size:12px;color:var(--text-muted);margin:2px 0 6px 0;"></p>
+                <div style="margin:6px 0;">
+                  <label><input type="radio" name="extraction-mode" id="mode-manual" value="manual" checked> Manual Rectangles</label>
+                  <label style="margin-left:12px;"><input type="radio" name="extraction-mode" id="mode-grid" value="grid"> Regular Grid</label>
+                </div>
+                <!-- Manual Rectangles Mode -->
+                <div id="manual-rect-section">
+                  <p style="font-size:12px;color:var(--text-muted);margin:2px 0 6px 0;">Specify rectangle coordinates [x, y, width, height] and unique rectangle IDs. Coordinates are 0-indexed semi-open [x, y, x+w, y+h).</p>
+                  <div class="controls" style="margin-bottom:6px;">
+                    <button id="add-rect-row-btn" type="button" class="btn">Add rectangle</button>
+                    <button id="clear-rect-rows-btn" type="button" class="btn">Clear rectangles</button>
+                  </div>
+                  <div id="rectangles-table" style="max-height:220px;overflow-y:auto;border:1px solid var(--border-color);border-radius:4px;padding:6px;background:var(--bg-card);"></div>
+                </div>
+                <!-- Grid Mode -->
+                <div id="grid-rect-section" style="display:none;">
+                  <p style="font-size:12px;color:var(--text-muted);margin:2px 0 6px 0;">Extract a regular grid of cells with uniform dimensions, optional offset and spacing.</p>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                    <div><label for="grid-cell-w">Cell width (px)</label><input id="grid-cell-w" type="number" min="1" value="32"></div>
+                    <div><label for="grid-cell-h">Cell height (px)</label><input id="grid-cell-h" type="number" min="1" value="32"></div>
+                    <div><label for="grid-cols">Columns</label><input id="grid-cols" type="number" min="1" value="4"></div>
+                    <div><label for="grid-rows">Rows</label><input id="grid-rows" type="number" min="1" value="2"></div>
+                    <div><label for="grid-offset-x">Offset X (px)</label><input id="grid-offset-x" type="number" min="0" value="0"></div>
+                    <div><label for="grid-offset-y">Offset Y (px)</label><input id="grid-offset-y" type="number" min="0" value="0"></div>
+                    <div><label for="grid-spacing-x">Spacing X (px)</label><input id="grid-spacing-x" type="number" min="0" value="0"></div>
+                    <div><label for="grid-spacing-y">Spacing Y (px)</label><input id="grid-spacing-y" type="number" min="0" value="0"></div>
+                  </div>
+                  <label for="grid-prefix" style="margin-top:6px;">Cell ID prefix</label>
+                  <input id="grid-prefix" placeholder="cell" maxlength="32">
+                </div>
+                <button id="extract-spritesheet-btn" type="button" class="btn btn-primary" style="margin-top:8px;">Extract and stage candidate frames</button>
+              </div>
+              <p id="extraction-status" role="status" aria-live="polite" style="font-size:12px;color:var(--text-muted);margin:4px 0;"></p>
+            </div>
+          </details>
+          <pre id="resource-counts" aria-label="Imported inventory counts"></pre>
+          <h3>Existing source tray</h3>
+          <label for="art-source">Select exact source</label><select id="art-source"><option value="">No source selected</option></select>
+          <pre id="source-facts"></pre>
+          <img id="source-thumbnail" alt="Selected source preview" hidden>
+          <div class="controls"><button id="assign-selected" class="btn" type="button">Review direct mapping</button><button id="add-batch" class="btn" type="button">Add selected requirement to batch</button></div>
+          <label for="batch-mappings">Explicit batch mappings (ordered JSON array, exact requirement/source IDs)</label>
+          <textarea id="batch-mappings" rows="5">[]</textarea>
+          <button id="assign-batch" class="btn" type="button">Review batch mappings</button>
+          <details id="transform-recipes-details"><summary>Non-destructive image transformations (RSF-21)</summary>
+            <div style="display:flex;flex-direction:column;gap:6px;margin:8px 0;">
+              <p style="font-size:12px;color:var(--text-muted);margin:2px 0 6px 0;">Declare versioned, reversible image processing recipes. Originals remain immutable; derived candidates are staged with complete provenance and loss disclosure.</p>
+              <label for="transform-source">Input source</label>
+              <select id="transform-source"><option value="">Select source</option></select>
+              <label for="transform-recipe-id">Recipe ID</label>
+              <input id="transform-recipe-id" placeholder="walk-crop-flip" maxlength="64">
+              <label for="transform-recipe-name">Recipe name</label>
+              <input id="transform-recipe-name" placeholder="Walk Frame Crop &amp; Flip" maxlength="128">
+
+              <h4 style="margin:8px 0 4px 0;">Ordered Transformation Operations</h4>
+              <div class="controls" style="margin-bottom:6px;">
+                <button id="add-transform-step-btn" type="button" class="btn">Add operation step</button>
+                <button id="clear-transform-steps-btn" type="button" class="btn">Clear steps</button>
+              </div>
+              <div id="transform-steps-list" style="max-height:260px;overflow-y:auto;border:1px solid var(--border-color);border-radius:4px;padding:6px;background:var(--bg-card);"></div>
+
+              <div class="controls" style="margin-top:6px;">
+                <button id="preview-transform-btn" type="button" class="btn">Inspect before / after</button>
+                <button id="apply-transform-btn" type="button" class="btn btn-primary">Stage derived candidate</button>
+              </div>
+
+              <div id="transform-preview-container" style="display:none;margin-top:8px;">
+                <h4 style="margin:4px 0;">Before / After Comparison</h4>
+                <div class="source-comparison">
+                  <figure><figcaption>Original source</figcaption><img id="transform-before-img" alt="Source before transformation"></figure>
+                  <figure><figcaption>Transformed result</figcaption><img id="transform-after-img" alt="Result after transformation"></figure>
+                </div>
+                <pre id="transform-facts" style="font-size:11px;margin-top:6px;"></pre>
+              </div>
+              <p id="transform-status" role="status" aria-live="polite" style="font-size:12px;color:var(--text-muted);margin:4px 0;"></p>
+            </div>
+          </details>
+          <h3>Explicit reuse</h3>
+          <label for="reuse-assignment">Source assignment and revision</label><select id="reuse-assignment"><option value="">No assignment selected</option></select>
+          <label for="reuse-mirror"><input type="checkbox" id="reuse-mirror"> Explicit horizontal mirror (executed preview)</label>
+          <button id="assign-reuse" class="btn" type="button">Review reuse mapping</button>
+          <h3>Selected assignment inspector</h3><pre id="assignment-facts">Select an exact required layer.</pre>
+          <div class="source-comparison"><figure><figcaption>Source before recipe</figcaption><img id="reuse-before" alt="Source before recipe" hidden></figure><figure><figcaption>Result after executable recipe</figcaption><img id="reuse-after" alt="Source after executable recipe" hidden></figure></div>
+          <h3>Operator visual decision</h3>
+          <p>Review is provisional under the stated preview limitations. Assigning or previewing art never approves it.</p>
+          <label for="review-scope">Exact review scope</label>
+          <select id="review-scope"><option value="layer">Selected layer</option><option value="frame">Selected frame (all ordered layers)</option><option value="view">Selected view</option><option value="action">Selected action</option><option value="batch">Explicit batch below</option></select>
+          <label for="review-batch">Explicit requirement ID batch (JSON array)</label><textarea id="review-batch" rows="3">[]</textarea>
+          <button id="prepare-review" class="btn" type="button">Inspect review scope</button>
+          <pre id="review-state" aria-live="polite"></pre>
+          <dialog id="review-dialog" aria-labelledby="review-title">
+            <h2 id="review-title">Review exact composition scope</h2>
+            <p>Explicit single-operator action. No cryptographic identity assurance. PARTIAL preview is a provisional art review, never faithful-runtime approval.</p>
+            <pre id="review-proposal"></pre><div id="review-images"></div>
+            <label for="review-exemption"><input id="review-exemption" type="checkbox"> Structural-only unchanged classic reference; no replacement-art claim</label>
+            <div class="controls">
+              <button id="approve-review" class="btn btn-primary" type="button" title="Approve displayed scope (Key: A)">[A] Approve displayed scope</button>
+              <button id="reject-review" class="btn btn-danger" type="button" title="Reject displayed scope (Key: R)">[R] Reject displayed scope</button>
+              <button id="exempt-review" class="btn" type="button">Record NOT_REQUIRED policy</button>
+              <button id="cancel-review" class="btn" type="button" title="Cancel (Key: Esc)">[Esc] Cancel</button>
+            </div>
+          </dialog>
+          <h3>Native-profile animation inspection</h3>
+          <label for="preview-resource">Resource</label><select id="preview-resource"><option value="">Select resource</option></select>
+          <label for="preview-head">Optional explicit head resource</label><select id="preview-head"><option value="">No head</option></select>
+          <div class="controls"><label for="play-action">Action group</label><select id="play-action"></select><label for="play-view">View</label><select id="play-view"></select></div>
+          <label for="play-frame">Frame scrubber</label><input type="range" id="play-frame" min="0" max="0" value="0" step="1">
+          <output id="current-frame">Frame not selected</output>
+          <div class="controls">
+            <button id="previous-frame" class="btn" type="button" title="Previous frame (Key: Left Arrow)">◀ Previous frame</button>
+            <button id="next-frame" class="btn" type="button" title="Next frame (Key: Right Arrow)">Next frame ▶</button>
+            <button id="play" class="btn btn-primary" type="button" title="Play (Key: Space)">▶ Play</button>
+            <button id="pause" class="btn" type="button" title="Pause (Key: Space)">⏸ Pause</button>
+            <button id="stop" class="btn" type="button">⏹ Stop / reset</button>
+          </div>
+          <label for="play-speed">Playback speed</label><select id="play-speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
+          <label for="movement-speed">Movement speed context (Walk)</label><input id="movement-speed" type="number" min="1" placeholder="Required for runtime Walk timing">
+          <label for="duration-ms">Animation duration context in ms (Attack/Hurt)</label><input id="duration-ms" type="number" min="1" placeholder="Required when timing uses external duration">
+          <pre id="timing-facts"></pre>
+          <div class="preview-stage-toolbar controls">
+            <label for="preview-zoom" style="font-size:12px;font-weight:600;">Zoom:</label>
+            <select id="preview-zoom" aria-label="Preview integer zoom level">
+              <option value="1" selected>1× (100%)</option>
+              <option value="2">2× (200%)</option>
+              <option value="3">3× (300%)</option>
+              <option value="4">4× (400%)</option>
+              <option value="8">8× (800%)</option>
+            </select>
+            <label for="preview-bg" style="font-size:12px;font-weight:600;">Background:</label>
+            <select id="preview-bg" aria-label="Preview background style">
+              <option value="checker-dark" selected>Checkerboard (Dark)</option>
+              <option value="checker-light">Checkerboard (Light)</option>
+              <option value="solid-dark">Solid Dark</option>
+              <option value="solid-white">Solid White</option>
+              <option value="transparent">Transparent</option>
+            </select>
+            <span class="preview-stage-hint" style="font-size:11px;color:var(--text-muted);">Shortcuts: [←/→] Step, [Space] Play/Pause, [+/-] Zoom, [B] Background</span>
+          </div>
+          <div id="preview-viewport" class="preview-viewport bg-checker-dark" tabindex="0" role="region" aria-label="Animation Frame Viewport">
+            <img id="animation-preview" alt="Selected animation frame from the Python compositor" hidden>
+          </div>
+          <pre id="frame-facts"></pre>
+          <h3>Explicit reference / candidate comparison</h3>
+          <label for="candidate-resource">Candidate resource (same exact slot/view/frame)</label><select id="candidate-resource"><option value="">No candidate selected</option></select>
+          <label for="compare-mode">Comparison presentation</label><select id="compare-mode"><option>SIDE_BY_SIDE</option><option>ONION_SKIN</option><option>DIFFERENCE</option></select>
+          <button id="compare-selected" type="button" class="btn">Compare selected resources</button>
+          <img id="comparison-preview" alt="Explicit reference and candidate comparison" hidden><pre id="comparison-facts"></pre>
+          <details id="compile-details"><summary>Deterministic ACT/SPR compiler &amp; replacement writer (RSF-23)</summary>
+            <div style="display:flex;flex-direction:column;gap:6px;margin:8px 0;">
+              <p style="font-size:12px;color:var(--text-muted);margin:2px 0 6px 0;">Compile operator-approved replacements into new ACT 2.4 / SPR 2.1 resources with copy-on-write shared-reference isolation. Original imported resources remain immutable. Native Korangar runtime verification remains separate (UNVERIFIED).</p>
+              <label for="compile-resource">Base ACT/SPR resource</label>
+              <select id="compile-resource"><option value="">Select resource</option></select>
+              <label for="compile-head-resource">Optional companion head resource</label>
+              <select id="compile-head-resource"><option value="">No head resource</option></select>
+              <label for="compile-id">Compilation ID</label>
+              <input id="compile-id" placeholder="compile-walk-v1" maxlength="64" value="compile-walk-v1">
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+                <div>
+                  <label for="compile-mode">Compilation mode</label>
+                  <select id="compile-mode">
+                    <option value="bounded_replacement" selected>Bounded replacement (experimental)</option>
+                    <option value="preserve">Byte-preserving no-op</option>
+                    <option value="production_export">Full-profile production export</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="compile-policy">SPR pool policy</label>
+                  <select id="compile-policy">
+                    <option value="explicit_rgba">Explicit RGBA (Pool 1)</option>
+                    <option value="preserve_pool" selected>Preserve original pool</option>
+                    <option value="indexed_exact">Lossless indexed RLE (Pool 0)</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="compile-isolation">Shared SPR isolation</label>
+                  <select id="compile-isolation">
+                    <option value="auto" selected>Auto (CoW append when shared)</option>
+                    <option value="always_append">Always append</option>
+                    <option value="in_place_only">In-place only (reject shared)</option>
+                  </select>
+                </div>
+              </div>
+              <label for="compile-register-resource">Register compiled output as candidate resource ID (optional)</label>
+              <input id="compile-register-resource" placeholder="novice-walk-compiled" maxlength="64">
+              <div class="controls" style="margin-top:4px;">
+                <button id="plan-compile-btn" type="button" class="btn">Inspect compilation plan</button>
+                <button id="run-compile-btn" type="button" class="btn btn-primary">Compile modified ACT/SPR</button>
+              </div>
+              <p id="compile-status" role="status" aria-live="polite" style="font-size:12px;color:var(--text-muted);margin:4px 0;"></p>
+              <pre id="compile-facts" aria-label="Compilation plan and verification summary" style="font-size:11px;"></pre>
+            </div>
+          </details>
+        </section>
+
+        <!-- Issues / Diagnostics Card -->
+        <div class="card" id="issues-card" style="display:none;">
+          <div class="card-title" style="color:var(--status-underspecified-border);">
+            <span>⚠️ Identified Issues & Blockers</span>
+          </div>
+          <ul id="diagnostics-list" style="padding-left:18px;font-size:12px;color:var(--status-underspecified-text);">
+          </ul>
+        </div>
+
+        <!-- Occurrence Inspector Card -->
+        <div class="card" id="inspector-card">
+          <div class="card-title">
+            <span>Selected Requirement Occurrence</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div>
+              <div class="detail-label">Exact Occurrence ID</div>
+              <div class="detail-box" id="detail-req-id">None selected. Click a leaf layer in the tree navigation.</div>
+            </div>
+            <div>
+              <div class="detail-label">Coordinates</div>
+              <div class="detail-box" id="detail-coordinates">-</div>
+            </div>
+            <div>
+              <div class="detail-label">Topology Provenance</div>
+              <div class="detail-box" id="detail-topology">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Panel: Orthogonal Status Breakdown -->
+    <section class="right-panel" aria-label="Status & Orthogonal Axes">
+      <div class="panel-title-row" style="border-bottom:1px solid var(--border-color);padding-bottom:8px;">
+        <span class="panel-title">Orthogonal Status Dimensions</span>
+      </div>
+
+      <div class="detail-section">
+        <span class="detail-label">1. Artwork Availability</span>
+        <div class="detail-box" id="detail-avail">-</div>
+      </div>
+
+      <div class="detail-section">
+        <span class="detail-label">2. Technical Validation</span>
+        <div class="detail-box" id="detail-valid">-</div>
+      </div>
+
+      <div class="detail-section">
+        <span class="detail-label">3. Visual Operator Review</span>
+        <div class="detail-box" id="detail-review">-</div>
+      </div>
+
+      <div class="detail-section">
+        <span class="detail-label">4. Pinned Runtime Support</span>
+        <div class="detail-box" id="detail-runtime">-</div>
+      </div>
+
+      <div style="margin-top:auto;padding-top:12px;border-top:1px solid var(--border-color);font-size:11px;color:var(--text-dim);">
+        <p><strong>Note:</strong> Human operator retains sole visual authority. Programmatic passes verify structural validity, not artistic suitability.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom Panel: Counters & Export -->
+  <footer class="bottom-panel" role="contentinfo">
+    <div class="counters-bar">
+      <div class="counter-pill">
+        <span class="counter-name">Slots:</span>
+        <span class="counter-value" id="cnt-slots">0 req / 0 under</span>
+      </div>
+      <div class="counter-pill">
+        <span class="counter-name">Frames:</span>
+        <span class="counter-value" id="cnt-frames">0 req</span>
+      </div>
+      <div class="counter-pill">
+        <span class="counter-name">Layers:</span>
+        <span class="counter-value" id="cnt-layers">0 req</span>
+      </div>
+      <div class="counter-pill">
+        <span class="counter-name">Unassigned:</span>
+        <span class="counter-value" id="cnt-unassigned">0</span>
+      </div>
+      <div class="counter-pill">
+        <span class="counter-name">Sources:</span>
+        <span class="counter-value" id="cnt-sources">0 (0 distinct)</span>
+      </div>
+      <div class="counter-pill">
+        <span class="counter-name">Completeness:</span>
+        <span class="counter-value" id="status-completeness">NOT_EVALUATED</span>
+      </div>
+      <div class="counter-pill">
+        <span class="counter-name">Specification:</span>
+        <span class="counter-value" id="status-specification">UNDERSPECIFIED</span>
+      </div>
+      <div class="counter-pill">
+        <span class="counter-name">Coverage:</span>
+        <span class="counter-value" id="status-coverage">UNASSIGNED</span>
+      </div>
+      <div class="counter-pill">
+        <span class="counter-name">Validation:</span>
+        <span class="counter-value" id="status-validation">NOT_RUN</span>
+      </div>
+      <div class="counter-pill">
+        <span class="counter-name">Review:</span>
+        <span class="counter-value" id="status-review">INCOMPLETE</span>
+      </div>
+    </div>
+
+    <div class="export-group">
+      <button id="export-text-btn" class="btn" type="button" title="Download missing-art checklist as plain text">📥 Work Order (TXT)</button>
+      <button id="export-json-btn" class="btn" type="button" title="Download missing-art checklist as JSON">📥 Work Order (JSON)</button>
+    </div>
+  </footer>
+
+  <!-- New Project Modal -->
+  <div id="new-project-modal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="modal-new-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-new-title">Create New RO Sprite Forge Project</h3>
+        <button type="button" class="close-btn" onclick="document.getElementById('new-project-modal').style.display='none'">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="new-proj-id">Project Identifier (Slug)</label>
+          <input type="text" id="new-proj-id" placeholder="e.g. novice-walk-slice" pattern="^[a-zA-Z0-9_-]{1,64}$" required>
+          <span class="form-hint">1-64 alphanumeric characters, underscores or hyphens.</span>
+        </div>
+        <div class="form-group">
+          <label for="new-proj-name">Display Name</label>
+          <input type="text" id="new-proj-name" placeholder="e.g. Male Novice Walk Slice" required>
+        </div>
+        <div class="form-group">
+          <label for="new-proj-actor">Actor Template</label>
+          <select id="new-proj-actor">
+            <option value="player">Player Character (Novice / Job)</option>
+            <option value="monster">Monster (Creature / Boss)</option>
+            <option value="npc">NPC (Townfolk / Static)</option>
+            <option value="unverified">Unverified Category</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="new-proj-profile">Pinned Runtime Profile</label>
+          <select id="new-proj-profile">
+            <option value="player">Korangar Player Profile (8 directions)</option>
+            <option value="monster">Korangar Monster Profile (8 directions)</option>
+            <option value="npc">Korangar NPC Profile (8 directions)</option>
+            <option value="unverified">Unverified Profile</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="cancel-new-proj-btn" class="btn">Cancel</button>
+        <button type="button" id="submit-new-proj-btn" class="btn btn-primary">Create Project</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Define Target & Topology Modal -->
+  <div id="target-modal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="modal-target-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-target-title">Define Target & Explicit Layer Topology</h3>
+        <button type="button" class="close-btn" onclick="document.getElementById('target-modal').style.display='none'">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="modal-scope">Target Scope</label>
+          <select id="modal-scope">
+            <option value="scoped">Scoped Production Slice (e.g. Walk Vertical Slice)</option>
+            <option value="full">Full Profile (All runtime actions)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Required Actions</label>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px;background:var(--bg-tertiary);border-radius:4px;">
+            <input type="checkbox" id="modal-walk-enabled" checked>
+            <label for="modal-walk-enabled" style="color:var(--text-main);margin:0;cursor:pointer;">Walk (8 views; runtime group resolved by profile)</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="modal-frame-count">Frame Count per View</label>
+          <input type="number" id="modal-frame-count" min="1" max="64" value="4" required>
+        </div>
+        <div class="form-group">
+          <label for="modal-topology-type">Layer Topology Declaration</label>
+          <select id="modal-topology-type">
+            <option value="explicit">Explicit Ordered Layers</option>
+          </select>
+          <span class="form-hint">Rule invariant: Layer topology must be explicitly declared or inherited before artwork production.</span>
+        </div>
+        <div class="form-group">
+          <label for="modal-layers-input">Ordered Layer Names (Comma-separated)</label>
+          <input type="text" id="modal-layers-input" value="torso, cloak" placeholder="e.g. body, clothes, head OR torso, cloak" required>
+          <span class="form-hint">Define ordered layers from bottom to top (e.g. "torso, cloak" or "body"). Never defaults to 1 layer silently.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="cancel-target-btn" class="btn">Cancel</button>
+        <button type="button" id="submit-target-btn" class="btn btn-primary">Save Target</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/video.js"></script>
+  <script src="/static/workbench.js"></script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+--- RSF11/src/ro_sprite_forge/cli.py
++++ RSF12/src/ro_sprite_forge/cli.py
+@@ -111,6 +111,32 @@
+     prev.add_argument('--output', help='Output PNG file path.')
+     prev.add_argument('--json', help='Output canonical preview report JSON path.')
+     prev.add_argument('--stdout-json', action='store_true', help='Print canonical report JSON to stdout.')
++    animation = commands.add_parser('animation', help='Inspect raw ACT frames, pinned timing and compositor bounds; no approval.')
++    for name in ('act', 'spr'):
++        animation.add_argument('--' + name, required=True)
++    animation.add_argument('--category', choices=('player', 'npc', 'monster', 'unverified'), default='unverified')
++    select = animation.add_mutually_exclusive_group()
++    select.add_argument('--action', help='Verified semantic action from the frozen category profile.')
++    select.add_argument('--slot', type=int, help='Exact numeric ACT action/view slot; no modulo fallback.')
++    animation.add_argument('--view', type=int, default=0)
++    animation.add_argument('--direction', type=int)
++    animation.add_argument('--camera-direction', type=int, default=0)
++    animation.add_argument('--frame', type=int, default=0)
++    movement = animation.add_mutually_exclusive_group()
++    movement.add_argument('--step', type=int)
++    movement.add_argument('--time-ms', type=int)
++    animation.add_argument('--loop', action='store_true', help='Explicit manual-step wrap; runtime playback uses profile loop rules.')
++    animation.add_argument('--speed', type=float, default=1.0, help='Explicit timed-preview speed multiplier.')
++    animation.add_argument('--movement-speed', type=int, help='Required native Walk context.')
++    animation.add_argument('--duration-ms', type=int, help='Required native Attack/Hurt context.')
++    animation.add_argument('--diagnostic-frame-ms', type=float, help='Explicit diagnostic timing override; never native timing proof.')
++    animation.add_argument('--head-act')
++    animation.add_argument('--head-spr')
++    animation.add_argument('--origin', default='128,192')
++    animation.add_argument('--canvas-size', default='256,256')
++    animation.add_argument('--auto-fit', action='store_true')
++    animation.add_argument('--json', help='New canonical inspection report path; defaults to stdout.')
++    animation.add_argument('--output', help='Optional new preview PNG path, published with the report.')
+     return parser
+ 
+ 
+@@ -235,6 +261,50 @@
+     """Render expected errors on stderr; help/version use argparse's zero exit."""
+     try:
+         args = build_parser().parse_args(argv)
++        if args.command == 'animation':
++            from ro_sprite_forge.core.animation import AnimationInspector
++            from ro_sprite_forge.core.canonical import check
++            for value in (args.act, args.spr, args.head_act, args.head_spr):
++                if value:
++                    _input(value)
++            for value in (args.json, args.output):
++                if value:
++                    _output(value)
++            if args.time_ms is None:
++                check(args.speed == 1.0 and args.movement_speed is None and args.duration_ms is None
++                      and args.diagnostic_frame_ms is None, 'Timing options require --time-ms.')
++                check(not args.loop or args.step is not None, '--loop requires --step.')
++            else:
++                check(not args.loop, '--loop controls manual stepping only; timed playback uses profile rules.')
++            def pair(value):
++                try:
++                    values = tuple(int(v) for v in value.split(','))
++                except ValueError as exc:
++                    raise ForgeError(ErrorCode.INVALID_ARGUMENT, 'Expected two comma-separated integers.') from exc
++                check(len(values) == 2, 'Expected two comma-separated integers.')
++                return values
++            inspector = AnimationInspector(read_bytes(args.act), read_bytes(args.spr), category=args.category,
++                head_act_bytes=read_bytes(args.head_act) if args.head_act else None,
++                head_spr_bytes=read_bytes(args.head_spr) if args.head_spr else None)
++            selection = inspector.timeline.select(action=args.action, slot=args.slot if args.action else (args.slot if args.slot is not None else 0),
++                view=args.view, direction=args.direction, camera_direction=args.camera_direction, frame=args.frame)
++            if args.step is not None:
++                selection = inspector.timeline.step(selection, args.step, loop=args.loop)
++            if args.time_ms is not None:
++                selection = inspector.timeline.seek(selection, args.time_ms, speed=args.speed,
++                    movement_speed=args.movement_speed, duration_ms=args.duration_ms,
++                    diagnostic_frame_ms=args.diagnostic_frame_ms)
++            result = inspector.inspect(selection, canvas_size=pair(args.canvas_size), origin=pair(args.origin), auto_fit=args.auto_fit)
++            artifacts = []
++            if args.json:
++                artifacts.append((args.json, canonical_bytes(result['report'])))
++            if args.output:
++                artifacts.append((args.output, result['png_bytes']))
++            if artifacts:
++                publish_resources(tuple(artifacts))
++            if not args.json:
++                sys.stdout.write(canonical_bytes(result['report']).decode('utf-8'))
++            return 0
+         if args.command == 'preview':
+             from ro_sprite_forge.formats.act import read_act
+             from ro_sprite_forge.formats.spr import read_spr
+--- RSF11/src/ro_sprite_forge/formats/preview.py
++++ RSF12/src/ro_sprite_forge/formats/preview.py
+@@ -33,7 +33,32 @@
+ from ro_sprite_forge.formats.errors import CodecError, require
+ 
+ PREVIEW_SCHEMA = "rsf.preview-result/v1"
+-RENDERER_VERSION = "1.0.0"
++RENDERER_VERSION = "1.1.0"
++GEOMETRY_VERSION = "1.0.0"
++MAX_PREVIEW_PIXELS = 16 * 1024 * 1024
++MAX_PREVIEW_DIMENSION = 8192
++
++
++def _check_size(width, height):
++    require(type(width) is int and type(height) is int and
++            0 < width <= MAX_PREVIEW_DIMENSION and 0 < height <= MAX_PREVIEW_DIMENSION
++            and width * height <= MAX_PREVIEW_PIXELS, "Preview dimensions exceed bounded image budget")
++
++
++def _local_bounds(image):
++    return {"extent": [0, 0, image.width, image.height],
++            "alpha": list(image.getchannel("A").getbbox()) if image.getchannel("A").getbbox() else None}
++
++
++def _clipped_regions(extent, width, height):
++    """Disjoint half-open rectangles outside the canvas, from actual placement."""
++    x0, y0, x1, y1 = extent
++    ix0, iy0, ix1, iy1 = max(0, x0), max(0, y0), min(width, x1), min(height, y1)
++    if ix1 <= ix0 or iy1 <= iy0:
++        return [extent]
++    return [r for r in ([x0, y0, x1, iy0], [x0, iy1, x1, y1],
++                        [x0, iy0, ix0, iy1], [ix1, iy0, x1, iy1])
++            if r[0] < r[2] and r[1] < r[3]]
+ 
+ 
+ def preview_result_schema() -> dict[str, Any]:
+@@ -98,12 +123,15 @@
+     Image = _image_mod()
+     if resample is None:
+         resample = Image.Resampling.BILINEAR
++    _check_size(image.width, image.height)
+     img = image.copy()
++    stages = {"source": _local_bounds(img)}
+     mirror = bool(clip.get("mirror", 0))
+     scale_x = float(clip.get("scale_x", 1.0))
+     scale_y = float(clip.get("scale_y", 1.0))
+     angle = float(clip.get("angle", 0))
+     color = int(clip.get("color", 0xFFFFFFFF))
++    require(all(math.isfinite(v) for v in (scale_x, scale_y, angle)), "Nonfinite layer transform")
+ 
+     # 1. Mirroring
+     if mirror:
+@@ -115,11 +143,14 @@
+         img = img.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
+         scale_y = abs(scale_y)
+ 
++    stages["mirrored"] = _local_bounds(img)
+     # 2. Scaling
+     if scale_x != 1.0 or scale_y != 1.0:
+         new_w = max(1, math.ceil(img.width * scale_x))
+         new_h = max(1, math.ceil(img.height * scale_y))
++        _check_size(new_w, new_h)
+         img = img.resize((new_w, new_h), resample=resample)
++    stages["scaled"] = _local_bounds(img)
+ 
+     # 3. Tint / Alpha Modulation
+     if color != 0xFFFFFFFF:
+@@ -135,7 +166,12 @@
+         elif norm_angle == 270:
+             img = img.transpose(Image.Transpose.ROTATE_90)
+         else:
++            # Pillow may allocate an expanded rectangle; bound its enclosing square first.
++            _check_size(img.width + img.height, img.width + img.height)
+             img = img.rotate(-norm_angle, expand=True, resample=resample)
++
++    _check_size(img.width, img.height)
++    stages["rotated"] = _local_bounds(img)
+ 
+     metadata = {
+         "mirror": mirror,
+@@ -150,6 +186,7 @@
+         },
+         "source_size": {"width": image.width, "height": image.height},
+         "rendered_size": {"width": img.width, "height": img.height},
++        "stages": stages,
+     }
+     return img, metadata
+ 
+@@ -395,18 +432,18 @@
+             unsupported_semantics.append(f"{p_id} has fewer actions than base ({len(p_act['actions'])} <= {action_idx})")
+             continue
+         p_motions = p_act["actions"][action_idx]
+-        if p_f_idx >= len(p_motions):
++        if not 0 <= p_f_idx < len(p_motions):
+             unsupported_semantics.append(f"{p_id} motion frame {p_f_idx} out of range [0, {len(p_motions)})")
+             continue
+         p_motion = p_motions[p_f_idx]
+ 
+         # Anchor offset computation
+         shift = (0, 0)
+-        if base_motion.get("anchors") and p_motion.get("anchors"):
++        if base_motion.get("anchors") and len(p_motion.get("anchors", [])) == 1:
+             ba = base_motion["anchors"][0]
+             ha = p_motion["anchors"][0]
+             shift = (ba["x"] - ha["x"], ba["y"] - ha["y"])
+-        elif base_motion.get("anchors") or p_motion.get("anchors"):
++        elif len(p_motion.get("anchors", [])) == 1:
+             unsupported_semantics.append(f"Mismatched anchor count between base and {p_id}")
+ 
+         for clip in p_motion["clips"]:
+@@ -426,6 +463,8 @@
+ 
+         transformed, meta = transform_layer_image(img, clip, resample=resample)
+         pre_transformed.append((transformed, clip, part_id, shift, meta))
++        require(sum(item[0].width * item[0].height for item in pre_transformed) <= MAX_PREVIEW_PIXELS,
++                "Aggregate transformed layer budget exceeded")
+ 
+     Image = _image_mod()
+     if resample is None:
+@@ -437,7 +476,7 @@
+             chosen_w, chosen_h = (256, 256)
+             chosen_ox, chosen_oy = (128, 192)
+         else:
+-            min_l, min_t, max_r, max_b = 1000000, 1000000, -1000000, -1000000
++            min_l, min_t, max_r, max_b = math.inf, math.inf, -math.inf, -math.inf
+             for trans_img, clip, _, shift, _ in pre_transformed:
+                 px = int(clip.get("x", 0)) + shift[0]
+                 py = int(clip.get("y", 0)) + shift[1]
+@@ -467,8 +506,10 @@
+         else:
+             chosen_ox, chosen_oy = (chosen_w // 2, int(chosen_h * 0.75))
+ 
++    _check_size(chosen_w, chosen_h)
+     canvas = Image.new("RGBA", (chosen_w, chosen_h), background_color)
+     rendered_layers: list[dict[str, Any]] = []
++    geometry: list[dict[str, Any]] = []
+ 
+     # Composite layers in exact sequential order
+     for layer_idx, (trans_img, clip, part_id, shift, meta) in enumerate(pre_transformed):
+@@ -515,6 +556,25 @@
+             "clipped": clipped,
+         }
+         rendered_layers.append(layer_record)
++        extent = [left, top, left + trans_img.width, top + trans_img.height]
++        alpha = meta["stages"]["rotated"]["alpha"]
++        alpha_extent = ([left + alpha[0], top + alpha[1], left + alpha[2], top + alpha[3]]
++                        if alpha else None)
++        visible_alpha = trans_img.getchannel("A").crop((crop_x0, crop_y0, crop_x1, crop_y1)).getbbox() if crop_x1 > crop_x0 and crop_y1 > crop_y0 else None
++        geometry.append({
++            "stages": meta["stages"], "transformed_bounds": extent,
++            "unclipped_visible_bounds": alpha_extent,
++            "visible_bounds": ([dst_x + visible_alpha[0], dst_y + visible_alpha[1],
++                                dst_x + visible_alpha[2], dst_y + visible_alpha[3]] if visible_alpha else None),
++            "source_offset": [int(clip.get("x", 0)), int(clip.get("y", 0))],
++            "anchor_shift": list(shift), "registration": [cx, cy],
++            "integer_center": [(trans_img.width - 1) // 2, (trans_img.height - 1) // 2],
++            "clipping": ("OUTSIDE" if crop_x1 <= crop_x0 or crop_y1 <= crop_y0 else "PARTIAL" if clipped else "INSIDE"),
++            "transparent": alpha is None,
++            "clipped_regions": _clipped_regions(extent, chosen_w, chosen_h),
++            "canvas_intersection": ([max(0, left), max(0, top), min(chosen_w, extent[2]), min(chosen_h, extent[3])]
++                                    if crop_x1 > crop_x0 and crop_y1 > crop_y0 else None),
++        })
+ 
+     # Compute bounding box
+     raw_bbox = canvas.getbbox()
+@@ -575,6 +635,7 @@
+         "report": report,
+         "image": canvas,
+         "png_bytes": png_data,
++        "geometry": geometry,
+     }
+ 
+ 

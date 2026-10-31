@@ -1,0 +1,151 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_video.py",
+      "-v"
+    ],
+    "exit": 0,
+    "log": "focused-tests.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "exit": 0,
+    "log": "public-tests.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/private_fixture_hooks",
+      "-v"
+    ],
+    "exit": 0,
+    "log": "private-tests.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_animation_schema.py"
+    ],
+    "exit": 0,
+    "log": "check_animation_schema.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_comparison_schema.py"
+    ],
+    "exit": 0,
+    "log": "check_comparison_schema.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_compilation_schema.py"
+    ],
+    "exit": 0,
+    "log": "check_compilation_schema.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_contract_schemas.py"
+    ],
+    "exit": 0,
+    "log": "check_contract_schemas.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_coverage_schema.py"
+    ],
+    "exit": 0,
+    "log": "check_coverage_schema.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_extraction_schema.py"
+    ],
+    "exit": 0,
+    "log": "check_extraction_schema.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_ingestion_schema.py"
+    ],
+    "exit": 0,
+    "log": "check_ingestion_schema.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_ledger_schema.py"
+    ],
+    "exit": 0,
+    "log": "check_ledger_schema.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_review_schema.py"
+    ],
+    "exit": 0,
+    "log": "check_review_schema.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_transformation_schema.py"
+    ],
+    "exit": 0,
+    "log": "check_transformation_schema.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_video_schema.py"
+    ],
+    "exit": 1,
+    "log": "check_video_schema-initial.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/check_video_schema.py"
+    ],
+    "exit": 0,
+    "log": "check_video_schema.log"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "tests/check_distribution.py",
+      "--wheelhouse",
+      "/tmp/rsf24-wheelhouse",
+      "--python",
+      "/usr/bin/python3.14"
+    ],
+    "exit": 0,
+    "log": "distribution.log"
+  }
+]

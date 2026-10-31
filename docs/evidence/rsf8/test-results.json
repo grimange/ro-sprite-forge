@@ -1,0 +1,58 @@
+[
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "exit_status": 0
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/private_fixture_hooks",
+      "-v"
+    ],
+    "exit_status": 0
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/check_contract_schemas.py"
+    ],
+    "exit_status": 0
+  },
+  {
+    "command": "PYTHONPATH=src .venv/bin/python tools/rust-oracle/test_parity.py",
+    "exit_status": 0,
+    "result": "11 tests PASS"
+  },
+  {
+    "command": "PYTHONPATH=src .venv/bin/python tools/rust-oracle/private_parity.py",
+    "exit_status": 0,
+    "result": "3 audited pairs AGREEMENT"
+  },
+  {
+    "command": "PYTHONPATH=src .venv/bin/python tools/korangar-native/test_verifier.py",
+    "exit_status": 0,
+    "result": "9 tests PASS"
+  },
+  {
+    "command": ".venv/bin/python tests/check_distribution.py --wheelhouse /tmp/rsf4-wheelhouse --python /usr/bin/python3.14",
+    "exit_status": 0,
+    "result": "119 installed tests PASS; repeated wheel bytes identical"
+  },
+  {
+    "command": ".venv/bin/python docs/evidence/rsf8/generate_examples.py",
+    "exit_status": 0,
+    "result": "Canonical bytes repeat exactly"
+  }
+]

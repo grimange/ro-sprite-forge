@@ -1,0 +1,80 @@
+{
+  "schema": "rsf.browser-verification/v1",
+  "transport": "Playwright MCP",
+  "browser": "Chromium 156.0.8078.73",
+  "synthetic": {
+    "result": "BROWSER_E2E_PASS",
+    "project": "mcp-1793350266830",
+    "assignments": 4,
+    "direct": 3,
+    "reused": 1,
+    "unassigned": 44,
+    "visual_approvals": 0,
+    "console_errors": [],
+    "network_failures": [],
+    "expected_http_errors": [
+      422,
+      409
+    ]
+  },
+  "limitations": [
+    "Comprehensive journey accepts confirmation using a browser test shim; native confirmation independently tested through browser_click and browser_handle_dialog.",
+    "Reviewer has no Playwright MCP tools in its context; reviewer-selected additional assertions executed by coordinator through MCP.",
+    "Private UI fixture inspection produced no screenshot artifact."
+  ],
+  "privateMCP": {
+    "result": "PRIVATE_UI_IMPORT_AND_QA_PHASE_PASS",
+    "project": "private-mcp-1793350371091",
+    "summary": {
+      "action_slots": 104,
+      "distinct_referenced_contents": 108,
+      "distinct_stored_contents": 108,
+      "frame_occurrences": 456,
+      "indexed_images": 110,
+      "layer_occurrences": 456,
+      "numeric_action_groups": 13,
+      "referenced_images": 110,
+      "stored_images": 110,
+      "truecolor_images": 0,
+      "unused_images": 0,
+      "visible_layer_references": 456
+    },
+    "hashes": {
+      "act": "a82086ba005506a16ee0740ebd1d33c43de8cc4ee1a622ea933ff9e0502c1c77",
+      "spr": "7f4efe357b0f80e71ba2dcdb93d1c110988b1b8f382e1dbfc722e3a2cf85a533"
+    },
+    "assignments": 2,
+    "approvals": 0,
+    "first_play_frame": 3,
+    "speed_resume_frame": 3,
+    "terminal_frame": 4,
+    "console_errors": [],
+    "network_failures": []
+  },
+  "missingMCP": {
+    "result": "QA_MISSING_SOURCE_REOPEN_PASS",
+    "project": "mcp-1793350266830",
+    "layer_count": 48,
+    "assignment_count": 4,
+    "sources": [
+      {
+        "availability": "MISSING",
+        "validation": "UNVERIFIED",
+        "diagnostic": "Blob 'de30db5187e2d172614fdc405308b09665dff94e2586f1b87a4c85f8a7e5fc92' not found in project 'mcp-1793350266830'."
+      },
+      {
+        "availability": "MISSING",
+        "validation": "UNVERIFIED",
+        "diagnostic": "Blob 'de30db5187e2d172614fdc405308b09665dff94e2586f1b87a4c85f8a7e5fc92' not found in project 'mcp-1793350266830'."
+      }
+    ],
+    "tree_rows": 105,
+    "tray_options": 3
+  },
+  "nativeMCP": {
+    "result": "NATIVE_CONFIRMATION_MCP_PASS",
+    "assignments": 5,
+    "visual_approvals": 0,
+    "status": "Mappings saved at project revision 9. Visual approval unchanged."
+  }
+}

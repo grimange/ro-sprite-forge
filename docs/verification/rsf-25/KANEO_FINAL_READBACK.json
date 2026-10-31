@@ -1,0 +1,200 @@
+{
+  "task": {
+    "id": "udjjt7jp22k3owbo05s8mnf8",
+    "title": "[M5] Canonical deterministic builds, export gates and provenance",
+    "number": 25,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M5\n**Stable plan reference:** RSF-v1.1/M5-03\n**Implementation status:** Implemented and independently QA_PASS; acceptance synchronized after reviewer retest. Kaneo column is authoritative.\n**Responsible implementer:** Codex (`aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn`), verified account. Independent reviewer is separate and retains read-only scope.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.3, 4.3–4.6, 6/M5, 8, 12\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Publish repeatable builds from approved canonical inputs without false production labels.\n\n**Scope:** Canonical ordering/numerics/encoders, build identity/manifest, cache, atomic publication and production/diagnostic gates.\n\n## Acceptance criteria\n\n- [x] Same source/contract/profile/composition/toolchain/output policy in two clean builds at different paths/times yields identical SPR/ACT SHA-256 hashes.\n- [x] Specify schema/action/view/frame/layer/image ordering and numeric rounding/field encodings; pin decoder/resampler/palette/color-space/encoder versions. Never reorder semantically ordered layers.\n- [x] Build identity excludes timestamps, hostname, absolute paths, random UUIDs, filesystem traversal order and native-test data; linked verification evidence remains outside deterministic artifact inputs.\n- [x] Production export rejects underspecified/missing/invalid/stale or unapproved required assignments; partial diagnostic exports are conspicuously PARTIAL_DIAGNOSTIC with scoped/full states separate.\n- [x] Manifest includes source/target/profile/policy/tool hashes, approved pre-build composition digest, output hashes and preservation/conversion policy; atomic cache/publication cannot mutate originals or publish partial production output.\n\n## Verification\n\nTwo-clean-build hash equality, ordering/rounding regressions, interrupted publication, fail-closed export and changed-one-source affected-approval checks.\n\nActual commands, environment, exits, artifact hashes and NOT_RUN limits are recorded in docs/verification/rsf-25/VERIFICATION.md. No artwork approval or native run is claimed.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-24 (M5-02; task ID nw62kniena0oeqe44yba8uil)\n\n**Non-goals / gate qualifications:** Build/native evidence never creates aesthetic approval.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence\n\n- Changed: core/build.py (new), core/compiler.py, cli.py, compilation-manifest-v1.json, project-v1.json, README.md; tests/test_canonical_builds.py (new). Bounded diff and file hashes: docs/verification/rsf-25/implementation.diff and implementation-manifest.json.\n- Evidence manifest SHA-256: 0bb46f2dbffed272c1ba7ed62469bca8dd2ef8c231d17798c6a6ad59ef00e77f.\n- Focused 14 PASS; public 445 PASS; private 37 PASS/1 existing native-report skip; independent Rust 11 PASS; 10 schema checkers PASS; installed distribution 441 PASS/4 optional skips, reproducible wheels/private exclusions PASS. Commands/exits in VERIFICATION.md.\n- Two clean builds at different paths: ACT/SPR/canonical manifest bytes equal. ACT 120ab61c15f4de8658baa6aaabe5f860262e05f6b4f188e5b4378c9eacba3bea; SPR 2706d9c70e260db35c87d11097d6a718c197989e26db918726c3f0b6a886bad9. build-manifest SHA256 226129845c393d8899ea031c9e08f9e6b31efb534fb8fbf7a05f7fb7d2b0ebce.\n- M5-S PASS; M5-I PASS within task scope; M5-N UNVERIFIED. Python 3.12/3.13 NOT_RUN unavailable; Chromium NOT_RUN no UI changes. No commits/pushes; accepted codec/Rust source and private originals preserved. M5 remains open.\n\n## Independent QA result\n\nQA_PASS from separate repository-configured forge_qa_reviewer context /root/rsf24_qa. All five live criteria passed; no mandatory finding remains. Reviewer did not edit files, write Kaneo or take ownership.\n\nInitial QA_FAIL (QA_INITIAL.md): explicit/per_frame topology could reuse source-layer approval while preserved ACT placement/timing changed. Corrected by UNBOUND_PRODUCTION_COMPOSITION rejection for role-only topology; resource-bound inherited production remains supported; explicit bounded diagnostics remain supported. Reviewer independently reran original reproduction, confirmed original/changed ACT production rejection with no output, false production plans, labeled diagnostic publication, and valid inherited production publication.\n\nIndependent commands: corrected focused14 PASS exit0; pre-correction full public444 PASS exit0; private37 PASS/1 existing native-report skip exit0; Rust11 PASS exit0; all10 schema checkers PASS exit0; final source/evidence hash verification PASS. Final coordinator full public445, private37+1skip, installed441+4optional skips inspected by reviewer (not misrepresented as independent reruns).\n\nDurable final verdict: docs/verification/rsf-25/QA_REVIEW.md SHA256 0e2868bddcb9b197380d191155b9122de6a4c32cee0f01274dc68cfebc69dee4. Reviewed implementation manifest SHA256 0bb46f2dbffed272c1ba7ed62469bca8dd2ef8c231d17798c6a6ad59ef00e77f. M5-S PASS for this task; M5-I PASS within oracle scope; M5-N UNVERIFIED. M5 remains open, no native/artwork approval implied.\n",
+    "status": "done",
+    "columnId": "vnkxm3fyt0tmewq1rdokfops",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 24,
+    "createdAt": "2026-10-29T10:08:07.962Z",
+    "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "assigneeName": "Codex",
+    "assigneeId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "comments": [
+    {
+      "id": "zft6sf5qb1u2p4f5b1j6rdrg",
+      "taskId": "udjjt7jp22k3owbo05s8mnf8",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Implementation started by verified Codex account aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn after RSF-24 Accepted. Read back ownership and Ready → In Progress transitions. Bounded plan: extend existing compiler with canonical build/toolchain provenance, fail-closed full-profile production versus PARTIAL_DIAGNOSTIC labels, immutable cache and atomic bundle publication; clean-build/order/numeric/review/publication tests, regressions, then independent read-only QA. M5-N remains UNVERIFIED. Plan: docs/verification/rsf-25/PLAN.md.",
+      "createdAt": "2026-10-30T22:08:24.995Z",
+      "updatedAt": "2026-10-30T22:08:24.995Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    },
+    {
+      "id": "hykrred2a6mw90khbcoy8whz",
+      "taskId": "udjjt7jp22k3owbo05s8mnf8",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Implementation complete; handing off to independent read-only forge_qa_reviewer. Codex ownership retained (aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn). Evidence: docs/verification/rsf-25/{CONTRACT.md,VERIFICATION.md,implementation.diff,implementation-manifest.json}; manifest SHA256 cea97b7a73645dda166f001a3a84742355cf3e525577d8c117fe9c3d8926db7d. Focused 13 PASS; public 444 PASS; private 37 PASS/1 existing native-report skip; Rust 11 PASS; 10 schema checkers PASS; installed distribution 440 PASS/4 optional skips, reproducible wheels/private exclusion PASS. Two separate CLI builds at different paths produce identical ACT/SPR and canonical build manifest. Golden ACT 120ab61c15f4de8658baa6aaabe5f860262e05f6b4f188e5b4378c9eacba3bea; SPR 2706d9c70e260db35c87d11097d6a718c197989e26db918726c3f0b6a886bad9. M5-S PASS, M5-I PASS within bounded scope; M5-N UNVERIFIED. Python 3.12/3.13 NOT_RUN unavailable; Chromium NOT_RUN no UI changes. Checklist pending independent QA. No commits/pushes/native/artwork approval.",
+      "createdAt": "2026-10-30T22:16:12.215Z",
+      "updatedAt": "2026-10-30T22:16:12.215Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    },
+    {
+      "id": "z3ugmf4j5cu508b9ldmvxyu7",
+      "taskId": "udjjt7jp22k3owbo05s8mnf8",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Independent QA_FAIL: reviewer reproduced production authorization with explicit/per_frame topology after original ACT layer x and delay changed, with unchanged approved composition digest. Resource binding checked inherited topology only. Root cause: explicit topology approval basis lacks original registration/timing metadata. Correction: fail closed for production lacking resource-bound inherited topology; retain bounded diagnostics, no automatic approval or expanded review authority. Add explicit/per_frame regressions, rerun applicable checks and independent retest.",
+      "createdAt": "2026-10-30T22:20:48.790Z",
+      "updatedAt": "2026-10-30T22:20:48.790Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    },
+    {
+      "id": "qj4sxrcvj0f7inzw5ma4qhol",
+      "taskId": "udjjt7jp22k3owbo05s8mnf8",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "Correction complete and independent retest requested. Production rejects UNBOUND_PRODUCTION_COMPOSITION for role-only explicit/per_frame/template topology; existing inherited resource hashes remain mandatory. Diagnostic explicit compilation preserved. Regression covers unchanged/changed original ACT and plan/compile behavior. Focused14 PASS, public445 PASS, private37 PASS/1 existing skip, installed441 PASS/4 optional skips; exits0. Clean-build binaries identical, canonical build SHA226129845c393d8899ea031c9e08f9e6b31efb534fb8fbf7a05f7fb7d2b0ebce. Refreshed implementation-manifest SHA0bb46f2dbffed272c1ba7ed62469bca8dd2ef8c231d17798c6a6ad59ef00e77f. Returning to QA Review; Codex ownership retained; checklist pending independent retest.",
+      "createdAt": "2026-10-30T22:22:37.853Z",
+      "updatedAt": "2026-10-30T22:22:37.853Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    },
+    {
+      "id": "ehy84rqssv30cv4be1knrg47",
+      "taskId": "udjjt7jp22k3owbo05s8mnf8",
+      "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+      "content": "QA_PASS — independent forge_qa_reviewer /root/rsf24_qa independently retested correction and original per_frame approval-bypass reproduction. All five criteria PASS; no open mandatory findings. Final focused14 PASS; independent prior public444/private37+1skip/Rust11/schema10 PASS; final coordinator public445/private37+1skip/installed441+4skip evidence inspected and distinguished. Original and changed ACT role-only production now reject with no publication; inherited full-profile production still publishes; bounded explicit remains PARTIAL_DIAGNOSTIC. QA_REVIEW.md SHA0e2868bddcb9b197380d191155b9122de6a4c32cee0f01274dc68cfebc69dee4; reviewed implementation-manifest SHA0bb46f2dbffed272c1ba7ed62469bca8dd2ef8c231d17798c6a6ad59ef00e77f. Accepting objective task after distinct reviewer QA_PASS, Codex ownership retained. M5-S PASS/M5-I PASS in scope; M5-N UNVERIFIED. M5 not closed; next task not started.",
+      "createdAt": "2026-10-30T22:23:42.880Z",
+      "updatedAt": "2026-10-30T22:23:42.880Z",
+      "user": {
+        "name": "Codex",
+        "image": "/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "c0oh3knq3ka8ybcrjbfdetia",
+      "sourceTaskId": "nw62kniena0oeqe44yba8uil",
+      "targetTaskId": "udjjt7jp22k3owbo05s8mnf8",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.340Z",
+      "sourceTask": {
+        "id": "nw62kniena0oeqe44yba8uil",
+        "title": "[M5] Deterministic image-pool remapping and representation policies",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 24,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+        "assigneeName": "Codex"
+      },
+      "targetTask": {
+        "id": "udjjt7jp22k3owbo05s8mnf8",
+        "title": "[M5] Canonical deterministic builds, export gates and provenance",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 25,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+        "assigneeName": "Codex"
+      }
+    },
+    {
+      "id": "nic0w9yfi2j9kmappk64tmu0",
+      "sourceTaskId": "udjjt7jp22k3owbo05s8mnf8",
+      "targetTaskId": "tju1c32n1jrxitklr5hnj6la",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.366Z",
+      "sourceTask": {
+        "id": "udjjt7jp22k3owbo05s8mnf8",
+        "title": "[M5] Canonical deterministic builds, export gates and provenance",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 25,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+        "assigneeName": "Codex"
+      },
+      "targetTask": {
+        "id": "tju1c32n1jrxitklr5hnj6la",
+        "title": "[M5] Walk compilation and independent multilayer regression verification",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 26,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "ksn5tu32n4nziieigf55eoqf",
+      "sourceTaskId": "udjjt7jp22k3owbo05s8mnf8",
+      "targetTaskId": "ly1cfaohrp6e00qxg4g1tfcj",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.713Z",
+      "sourceTask": {
+        "id": "udjjt7jp22k3owbo05s8mnf8",
+        "title": "[M5] Canonical deterministic builds, export gates and provenance",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 25,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+        "assigneeName": "Codex"
+      },
+      "targetTask": {
+        "id": "ly1cfaohrp6e00qxg4g1tfcj",
+        "title": "[M7] Offline custom actions and explicit runtime-support reporting",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 35,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "xb9kqp4h5ipy7luaerjt80bl",
+      "sourceTaskId": "udjjt7jp22k3owbo05s8mnf8",
+      "targetTaskId": "pfbw69nufbfh2yh8wzjmrdc9",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.825Z",
+      "sourceTask": {
+        "id": "udjjt7jp22k3owbo05s8mnf8",
+        "title": "[M5] Canonical deterministic builds, export gates and provenance",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 25,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+        "assigneeName": "Codex"
+      },
+      "targetTask": {
+        "id": "pfbw69nufbfh2yh8wzjmrdc9",
+        "title": "[M8] Project migration, recovery and hostile-input hardening",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 37,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    }
+  ]
+}

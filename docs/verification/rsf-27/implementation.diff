@@ -1,0 +1,778 @@
+--- before/tools/korangar-native/main.rs
++++ after/tools/korangar-native/main.rs
+@@ -45,6 +45,7 @@
+ mod entity_type;
+ pub use entity_type::EntityType;
+ mod graphics;
++mod walk;
+ pub use graphics::Color;
+ pub fn sha(bytes: &[u8]) -> String {
+     format!("{:x}", Sha256::digest(bytes))
+@@ -179,14 +180,19 @@
+     // Avoid entering the native recursive missing-resource fallback with an
+     // invalid positive fixture set. Actual delivered bytes are checked again
+     // at the FileLoader boundary; this is only a fail-fast staging check.
+-    for name in ["novice_body", "novice_head", "orc_skeleton"] {
++    let required_parts: Vec<String> = if let Some(actors) = inputs["walk"]["actors"].as_array() {
++        actors.iter().flat_map(|a| a["parts"].as_array().unwrap().iter().map(|p|p.as_str().unwrap().to_string())).collect()
++    } else {
++        ["novice_body", "novice_head", "orc_skeleton"].iter().map(|s|s.to_string()).collect()
++    };
++    for name in required_parts {
+         for extension in ["act", "spr"] {
+             let identifier = format!("data\\sprite\\{name}.{extension}");
+             let spec = &inputs["files"][&identifier];
+             let path = spec["path"]
+                 .as_str()
+-                .expect("required private fixture path");
+-            let bytes = std::fs::read(path).expect("required private fixture readable");
++                .expect("RESOURCE_MOUNT_FAILED: required fixture path");
++            let bytes = std::fs::read(path).expect("MISSING_MODIFIED_RESOURCE: required fixture readable");
+             assert_eq!(
+                 spec["sha256"].as_str(),
+                 Some(sha(&bytes).as_str()),
+@@ -229,6 +235,10 @@
+         projection * view,
+         view,
+     );
++    if inputs.get("walk").is_some() {
++        walk::run(&inputs, output, texture, &mut renderer, &info);
++        return;
++    }
+     let mut cases = Vec::new();
+     let mut prepared = Vec::new();
+     let mut resources = Vec::new();
+--- before/tools/korangar-native/prepare.py
++++ after/tools/korangar-native/prepare.py
+@@ -91,6 +91,9 @@
+     write("src/graphics/abi.rs", abi.replace("fn global_bind_group_layout", "pub(crate) fn global_bind_group_layout").replace("fn forward_bind_group_layout", "pub(crate) fn forward_bind_group_layout"))
+     loader = read(prefix + "loaders/texture/mod.rs")
+     write("src/loaders/texture.rs", "use std::sync::Arc;\nuse image::RgbaImage;\nuse wgpu::*;\nuse crate::graphics::Texture;\npub struct TextureLoader {pub device: Arc<Device>,pub queue: Arc<Queue>}\nimpl TextureLoader {\n" + "#[allow(clippy::too_many_arguments)]\n" + block(loader, "    pub fn create_raw_with_data(") + block(loader, "    pub fn create_color(") + "}\n")
++    # Read-only diagnostic at the upload boundary; texture construction is unchanged.
++    tp = out / "src/loaders/texture.rs"
++    tp.write_text(tp.read_text().replace("        Arc::new(texture)", "        crate::walk::record_texture(&texture, width, height, data);\n        Arc::new(texture)"))
+     passes = read(prefix + "graphics/passes/mod.rs")
+     traits = "use std::marker::ConstParamTy;\nuse wgpu::*;\nuse crate::graphics::{Capabilities,GlobalContext,shader_compiler::ShaderCompiler};\nuse crate::loaders::TextureLoader;\n"
+     for name in ("BindGroupCount", "ColorAttachmentCount", "DepthAttachmentCount"):
+--- /dev/null
++++ after/tools/korangar-native/walk.rs
+@@ -0,0 +1,125 @@
++//! RSF-27 diagnostics around the existing pinned selection and draw corridor.
++//! No image resolver or renderer is implemented here.
++use super::*;
++use std::sync::OnceLock;
++static UPLOADS: OnceLock<Mutex<BTreeMap<u64, Value>>> = OnceLock::new();
++pub fn record_texture(texture: &graphics::Texture, width: u32, height: u32, bytes: &[u8]) {
++    UPLOADS.get_or_init(Default::default).lock().unwrap().insert(
++        texture.get_id(), json!({"width":width,"height":height,"upload_rgba_sha256":sha(bytes)}));
++}
++fn upload(texture: &graphics::Texture) -> Value {
++    UPLOADS.get().unwrap().lock().unwrap()[&texture.get_id()].clone()
++}
++pub fn run(inputs: &Value, output: &Path, texture: Arc<loaders::TextureLoader>, renderer: &mut graphics::Renderer, info: &str) {
++    use world::Camera;
++    let mut actors = Vec::new();
++    let mut cases = Vec::new();
++    let mut negatives = Vec::new();
++    for spec in inputs["walk"]["actors"].as_array().unwrap() {
++        let name = spec["id"].as_str().unwrap();
++        let kind = if spec["kind"] == "player" { EntityType::Player } else { EntityType::Monster };
++        let names: Vec<String> = serde_json::from_value(spec["parts"].clone()).unwrap();
++        let loader = Arc::new(GameFileLoader { files: serde_json::from_value(inputs["files"].clone()).unwrap(), trace: Mutex::new(Vec::new()) });
++        let sprites = loaders::SpriteLoader::new(loader.clone(), texture.clone());
++        let actions = loaders::ActionLoader::new(loader.clone(), Arc::new(AudioEngine(std::marker::PhantomData)));
++        let data = loaders::AnimationLoader::new().load(&sprites, &actions, kind, &names).unwrap();
++        // A declared frame probe is a test request, never clamped into success.
++        if inputs["walk"]["probe"]["actor"] == name {
++            let probe = &inputs["walk"]["probe"];
++            let slot = probe["slot"].as_u64().unwrap() as usize;
++            let frame = probe["frame"].as_u64().unwrap() as usize;
++            assert!(slot < data.animations.len(), "ACTION_UNSUPPORTED");
++            assert!(frame < data.animations[slot].frames.len(), "INVALID_REQUESTED_FRAME");
++        }
++        let loaded = loader.trace.lock().unwrap().clone();
++        assert_eq!(loaded.len(), names.len()*2, "RESOURCE_LOAD_COUNT");
++        assert!(loaded.iter().all(|r| r["status"] == "LOADED_CORRECT_RESOURCE"), "RESOURCE_MISMATCH");
++        let image_pools: Vec<Value> = data.animation_pair.iter().map(|p| json!({
++            "indexed_count":p.sprites.palette_size,
++            "truecolor_count":p.sprites.textures.len()-p.sprites.palette_size,
++            "textures":p.sprites.textures.iter().map(|t|upload(t)).collect::<Vec<_>>()
++        })).collect();
++        let prepared: Vec<Value> = data.animations.iter().map(|a| json!(a.frames.iter().map(|f| json!({
++            "offset":[f.offset.x,f.offset.y],"size":[f.size.x,f.size.y],"parts":parts(f),"event":format!("{:?}",f.event)
++        })).collect::<Vec<_>>())).collect();
++        // All reachable directions, both camera orientations. Native get_frame
++        // supplies the selected frame; locate observes its pointer identity.
++        for semantic in spec["actions"].as_array().unwrap() {
++            let semantic = semantic.as_str().unwrap();
++            let group = match (semantic,kind) {
++                ("Walk",_)=>1, ("Idle",_)=>0,
++                ("Attack",EntityType::Player)=>5, ("Attack",_)=>2,
++                ("Die",EntityType::Player)=>8, ("Die",_)=>4,
++                _=>panic!("ACTION_UNSUPPORTED")
++            };
++            for opposite in [false,true] {
++                let camera = PresentationCamera { opposite };
++                for direction in 0..8u16 {
++                    let view = (camera.camera_direction()+usize::from(direction))&7;
++                    let expected_slot = group*8+view;
++                    assert!(expected_slot<data.animations.len(), "ACTION_UNSUPPORTED");
++                    let count = data.animations[expected_slot].frames.len();
++                    assert!(count>0, "INVALID_REQUESTED_FRAME");
++                    let delay = data.delays[expected_slot];
++                    let factor = if semantic=="Walk" {20.} else {50.};
++                    let mut state = world::AnimationState::new(kind,ClientTick(0));
++                    set_action(&mut state,kind,semantic);
++                    let mut sequence=Vec::new();
++                    for step in 0..count+2 {
++                        let tick = if semantic=="Attack" {((step as f64+0.1)*1000./count as f64) as u32}
++                                   else {((step as f64+0.1)*f64::from(delay*factor)) as u32};
++                        state.update(ClientTick(tick));
++                        let frame=data.get_frame(&state,&camera,Direction::from(direction));
++                        let (slot,index)=locate(&data,frame);
++                        let expected_frame=if semantic=="Idle" && kind==EntityType::Player {0}
++                            else if ["Walk","Idle"].contains(&semantic) {step%count} else {step.min(count-1)};
++                        assert_eq!((slot,index),(expected_slot,expected_frame),"REQUESTED_ACTION_MISMATCH");
++                        let mut instructions=Vec::new();
++                        data.render(&mut instructions,&camera,false,EntityId(1),Point3::new(0.,0.,0.),&state,Direction::from(direction),1.,1.);
++                        assert_eq!(instructions.len(),frame.frame_parts.len());
++                        let selected: Vec<Value>=instructions.iter().zip(&frame.frame_parts).enumerate().map(|(ordinal,(instruction,part))| {
++                            let expected=&data.animation_pair[part.animation_index].sprites.textures[part.sprite_number];
++                            assert!(Arc::ptr_eq(&instruction.texture,expected),"TEXTURE_SELECTION_MISMATCH");
++                            assert_eq!(instruction.frame_part_transform,part.affine_matrix);
++                            assert_eq!(instruction.mirror,part.mirror);
++                            assert_eq!(instruction.extra_depth_offset,0.005*ordinal as f32);
++                            json!({"part":part.animation_index,"image":part.sprite_number,"upload":upload(&instruction.texture)})
++                        }).collect();
++                        let capture=if !opposite && direction==0 && step<count {
++                            let filename=format!("{name}-{semantic}-{direction}-{index}.png");
++                            let mut value=renderer.capture(&instructions,&output.join(&filename));
++                            value["file"]=json!(filename);
++                            Some(value)
++                        } else {None};
++                        sequence.push(json!({"tick":tick,"resolved_slot":slot,"resolved_view":slot%8,"frame":index,"layers":instructions.len(),"selected":selected,"capture":capture}));
++                    }
++                    cases.push(json!({"actor":name,"requested_action":semantic,"requested_direction":direction,"camera_view":camera.camera_direction(),"resolved_view":view,"requested_slot":expected_slot,"resolved_slot":sequence[0]["resolved_slot"],"source_delay":delay,"native_delay_factor":factor,"duration":if semantic=="Attack" {Some(1000)} else {None},"frames_in_slot":count,"sequence":sequence,"fallback":"NONE","status":"REQUESTED_SLOT_VERIFIED"}));
++                }
++            }
++        }
++        // Exercise the actual native fallback/masking behavior, never count it as exact proof.
++        if kind==EntityType::Monster {
++            let camera=PresentationCamera {opposite:false};
++            let mut short=(*data).clone();short.animations.truncate(8);short.delays.truncate(8);
++            let mut state=world::AnimationState::new(kind,ClientTick(0));set_action(&mut state,kind,"Walk");
++            let (slot,index)=locate(&short,short.get_frame(&state,&camera,Direction::North));
++            assert_eq!(slot,0);
++            negatives.push(json!({"actor":name,"case":"truncated_walk_modulo","requested_slot":8,"resolved_slot":slot,"frame":index,"status":"FALLBACK_OBSERVED","accepted_as_exact":false}));
++            set_action(&mut state,kind,"CriticalAttack");
++            let (slot,_)=locate(&data,data.get_frame(&state,&camera,Direction::North));assert_eq!(slot,0);
++            negatives.push(json!({"actor":name,"case":"unsupported_critical_attack","resolved_slot":slot,"status":"FALLBACK_OBSERVED","accepted_as_exact":false}));
++        }
++        let before=loader.trace.lock().unwrap().len();
++        sprites.get_or_load(&format!("{}.spr",names[0])).unwrap();
++        actions.get_or_load(&format!("{}.act",names[0])).unwrap();
++        assert_eq!(before,loader.trace.lock().unwrap().len(),"CACHE_RELOADED");
++        actors.push(json!({"actor":name,"kind":spec["kind"],"parts":names,"loaded":loaded,"pools":image_pools,"prepared":prepared,"delays":data.delays,"cache_reused":true}));
++    }
++    assert_eq!(u16::from(Direction::from(8)),0);
++    negatives.push(json!({"case":"unsupported_direction_8","native_masked_direction":0,"status":"ACTION_UNSUPPORTED","accepted_as_exact":false}));
++    let report=json!({"schema":"rsf.native-walk/v1","mode":"isolated_native_presentation","revision":"3f3d88a583203f09d079712f43343c1041258ffd","actors":actors,"cases":cases,"negative_cases":negatives,"gameplay_reachability":"NOT_TESTED","sound_playback":"NOT_TESTED","pixel_parity":"UNVERIFIED"});
++    let bytes=serde_json::to_vec_pretty(&report).unwrap();
++    std::fs::write(output.join("native-report.json"),&bytes).unwrap();
++    std::fs::write(output.join("environment.json"),serde_json::to_vec_pretty(&json!({"adapter":info})).unwrap()).unwrap();
++    println!("{}",json!({"status":"NATIVE_EXECUTED","report_sha256":sha(&bytes),"cases":cases.len()}));
++}
+--- /dev/null
++++ after/tools/korangar-native/walk_fixture.py
+@@ -0,0 +1,71 @@
++"""Reproduce accepted RSF-26 authoring inputs; retain binaries for native execution.
++
++Synthetic test review records are isolated declarations, never real-art approvals.
++Private fixture paths/captures remain outside the public repository.
++"""
++import argparse
++import json
++from pathlib import Path
++import sys
++import unittest
++
++ROOT = Path(__file__).resolve().parents[2]
++sys.path.insert(0, str(ROOT/'tests'))
++from test_walk_compilation import staged_walk, clean_cli_builds, rust_report, png_pixels
++from ro_sprite_forge.core.canonical import canonical_bytes, digest
++
++
++def prepare(output, private=False):
++    output = Path(output).resolve()
++    output.mkdir(parents=True, exist_ok=False)
++    act, spr, manifest, state, expected = staged_walk(output)
++    builds = clean_cli_builds(unittest.TestCase(), output, act, spr, manifest, state, expected)
++    files = {}
++    def mount(name, paths):
++        for extension, path in zip(('act','spr'),paths):
++            files[f'data\\sprite\\{name}.{extension}'] = dict(path=str(path), sha256=digest(path.read_bytes()))
++    mount('original', (output/'clean-1/input.act',output/'clean-1/input.spr'))
++    mount('modified', (output/'clean-1/bundle/walk-1.act',output/'clean-1/bundle/walk-1.spr'))
++    actors = [dict(id=n,kind='monster',parts=[n],actions=['Walk','Attack','Die','Idle']) for n in ('original','modified')]
++    if private:
++        sys.path.insert(0,str(ROOT/'tests/private_fixture_hooks'))
++        from test_audited_fixtures import find_fixture, AUDITED_HASHES
++        for name in ('novice_body','novice_head','orc_skeleton'):
++            paths=[find_fixture(name+'_'+ext) for ext in ('act','spr')]
++            for ext,p in zip(('act','spr'),paths):
++                if p is None or digest(p.read_bytes())!=AUDITED_HASHES[name+'_'+ext]:
++                    raise ValueError('PRIVATE_FIXTURE_UNAVAILABLE: '+name+'_'+ext)
++            mount(name,paths)
++        actors += [dict(id='orc',kind='monster',parts=['orc_skeleton'],actions=['Die','Walk']),
++                   dict(id='novice',kind='player',parts=['novice_body','novice_head'],actions=['Walk'])]
++    inputs=dict(files=files,walk=dict(actors=actors))
++    (output/'inputs.json').write_bytes(canonical_bytes(inputs))
++    for name, pair in [('original',(act,spr)),('modified',(builds[0]['act'],builds[0]['spr']))]:
++        (output/(name+'-rust.json')).write_bytes(canonical_bytes(rust_report(*pair)))
++    expected_rows=[]
++    for (slot,frame,layer),raw in sorted(expected.items()):
++        w,h,pixels=png_pixels(raw)
++        expected_rows.append(dict(slot=slot,frame=frame,raw_layer=layer,width=w,height=h,
++            source_png_sha256=digest(raw),decoded_rgba_sha256=digest(pixels)))
++    provenance=dict(schema='rsf.native-walk-provenance/v1',
++        original=dict(act_sha256=digest(act),spr_sha256=digest(spr)),
++        modified=dict(act_sha256=digest(builds[0]['act']),spr_sha256=digest(builds[0]['spr'])),
++        build_manifest_path=str(output/'clean-1/bundle/build-manifest.json'),
++        source_blobs=[dict(path=str(output/'rsf26-monster/blobs'/h),sha256=h)
++                      for h in sorted({r['source_png_sha256'] for r in expected_rows})],
++        build_manifest_sha256=digest(builds[0]['build']),build=builds[0]['manifest']['build'],
++        target=state['requirements']['target'],replacement_policy='explicit_rgba',
++        requirements=state['requirements'],assignments=manifest['ledger'],
++        review_events=manifest['review_events'],synthetic_review_only=True,
++        expected=expected_rows,export_label='PARTIAL_DIAGNOSTIC',production_authorized=False,
++        clean_builds=[dict(act_sha256=digest(b['act']),spr_sha256=digest(b['spr']),
++            build_manifest_sha256=digest(b['build']),argv=b['argv'],exit=b['exit']) for b in builds],
++        effective_comparison=builds[0]['comparison'])
++    (output/'provenance.json').write_bytes(canonical_bytes(provenance))
++    print(json.dumps(dict(inputs=str(output/'inputs.json'),provenance_sha256=digest(canonical_bytes(provenance)),
++        modified=provenance['modified'],expected=expected_rows),sort_keys=True))
++    return inputs,provenance
++
++if __name__=='__main__':
++    parser=argparse.ArgumentParser();parser.add_argument('output',type=Path);parser.add_argument('--private',action='store_true')
++    args=parser.parse_args();prepare(args.output,args.private)
+--- /dev/null
++++ after/tools/korangar-native/verify_walk.py
+@@ -0,0 +1,224 @@
++"""Check RSF-27 native observations against resources, staged pixels and captures.
++
++This is an evidence checker, not a renderer or resource resolver. Pool resolution
++uses the audited codec/preview helper; selection rules reuse the RSF-6 checker.
++Only binary-alpha upload bytes are compared here. General GPU parity is unverified.
++"""
++import argparse
++import hashlib
++import json
++import math
++from pathlib import Path
++
++from PIL import Image
++from ro_sprite_forge.formats.act import read_act
++from ro_sprite_forge.formats.spr import read_spr
++from ro_sprite_forge.formats.preview import _resolve_image_from_spr
++from verify import NativeMismatch, equal, close, close_vector, check_selection
++
++
++def sha(raw):
++    return hashlib.sha256(raw).hexdigest()
++
++
++def upload_identity(image):
++    """Independently known opaque/transparent native upload expectation."""
++    pixels = bytearray(image.convert('RGBA').tobytes())
++    for offset in range(0, len(pixels), 4):
++        alpha = pixels[offset + 3]
++        if alpha not in (0, 255):
++            raise NativeMismatch('UNSUPPORTED_UPLOAD_COMPARISON: partial alpha')
++        if alpha == 0:
++            pixels[offset:offset + 3] = b'\0\0\0'
++    return dict(width=image.width, height=image.height, upload_rgba_sha256=sha(pixels))
++
++
++def check_capture(capture, directory, layers):
++    name = capture['file']
++    equal(Path(name).name, name, 'capture/local_filename')
++    path = directory / name
++    equal(sha(path.read_bytes()), capture['png_sha256'], 'capture/hash')
++    with Image.open(path) as image:
++        equal(image.size, (512, 512), 'capture/dimensions')
++        raw = image.convert('RGBA').tobytes()
++        count = sum(any(raw[i:i + 3]) for i in range(0, len(raw), 4))
++    equal(count, capture['non_background_pixels'], 'capture/visible_pixels')
++    if count <= 0:
++        raise NativeMismatch('EMPTY_NATIVE_RENDER')
++    equal(capture['drawn_layers'], layers, 'capture/layers')
++    equal(capture['passes'], ['opaque', 'transparent', 'wboit_resolve'], 'capture/passes')
++
++
++def verify(inputs, provenance, report, directory):
++    equal(report['schema'], 'rsf.native-walk/v1', 'schema')
++    equal(report['revision'], '3f3d88a583203f09d079712f43343c1041258ffd', 'pin')
++    equal(report['mode'], 'isolated_native_presentation', 'mode')
++    equal(report['pixel_parity'], 'UNVERIFIED', 'pixel_parity')
++    equal(provenance['export_label'], 'PARTIAL_DIAGNOSTIC', 'classification')
++    equal(provenance['production_authorized'], False, 'production_authority')
++    build_raw = Path(provenance['build_manifest_path']).read_bytes()
++    equal(sha(build_raw), provenance['build_manifest_sha256'], 'build/manifest_hash')
++    equal(json.loads(build_raw), provenance['build'], 'build/canonical_identity')
++    equal(provenance['build']['output_sha256']['act'], provenance['modified']['act_sha256'], 'build/act')
++    equal(provenance['build']['output_sha256']['spr'], provenance['modified']['spr_sha256'], 'build/spr')
++    sources = {}
++    for blob in provenance['source_blobs']:
++        path = Path(blob['path'])
++        equal(sha(path.read_bytes()), blob['sha256'], 'STAGED_SOURCE_HASH')
++        with Image.open(path) as image:
++            sources[blob['sha256']] = dict(width=image.width, height=image.height,
++                                          upload_rgba_sha256=sha(image.convert('RGBA').tobytes()))
++    specs = {a['id']: a for a in inputs['walk']['actors']}
++    actors = {a['actor']: a for a in report['actors']}
++    equal(len(actors), len(report['actors']), 'duplicate_actor')
++    equal(set(actors), set(specs), 'actor_coverage')
++    documents, hashes = {}, {}
++    for identifier, spec in inputs['files'].items():
++        raw = Path(spec['path']).read_bytes()
++        hashes[identifier] = sha(raw)
++        equal(hashes[identifier], spec['sha256'], 'SOURCE_HASH/' + identifier)
++        name, extension = identifier.rsplit('\\', 1)[1].rsplit('.', 1)
++        documents.setdefault(name, {})[extension] = read_act(raw) if extension == 'act' else read_spr(raw)
++        if name in ('original', 'modified'):
++            equal(hashes[identifier], provenance[name][extension + '_sha256'], 'PAIR_IDENTITY/' + name + '/' + extension)
++    total_layers, total_frames = 0, 0
++    for actor, observed in actors.items():
++        spec = specs[actor]
++        equal(observed['kind'], spec['kind'], actor + '/kind')
++        equal(observed['parts'], spec['parts'], actor + '/parts')
++        equal(observed['cache_reused'], True, actor + '/cache')
++        loaded = observed['loaded']
++        required = {f'data\\sprite\\{n}.{e}' for n in spec['parts'] for e in ('act', 'spr')}
++        equal(len(loaded), len(required), actor + '/load_count')
++        equal({r['path'] for r in loaded}, required, actor + '/loaded_paths')
++        for item in loaded:
++            equal(item['status'], 'LOADED_CORRECT_RESOURCE', 'native/load_status')
++            equal(item['sha256'], hashes[item['path']], 'native/consumed_hash')
++            equal(item['length'], Path(inputs['files'][item['path']]['path']).stat().st_size, 'native/consumed_length')
++        acts = [documents[n]['act'] for n in spec['parts']]
++        sprites = [documents[n]['spr'] for n in spec['parts']]
++        equal(len(observed['pools']), len(sprites), actor + '/pool_parts')
++        for pool, sprite in zip(observed['pools'], sprites):
++            equal(pool['indexed_count'], sprite.indexed_count, actor + '/indexed_count')
++            equal(pool['truecolor_count'], len(sprite.rgba_images), actor + '/truecolor_count')
++            expected_uploads = [upload_identity(image.to_pil(sprite.palette)) for image in sprite.indexed_images]
++            expected_uploads += [upload_identity(image.to_pil()) for image in sprite.rgba_images]
++            equal(pool['textures'], expected_uploads, actor + '/native_upload_pixels')
++        equal(observed['delays'], acts[0]['delays'], actor + '/delays')
++        equal(len(observed['prepared']), len(acts[0]['actions']), actor + '/slots')
++        for slot, frames in enumerate(observed['prepared']):
++            motions = [[m for m in a['actions'][slot] if m['clips']] for a in acts]
++            equal(len(frames), len(motions[0]), actor + '/motion_count')
++            for index, frame in enumerate(frames):
++                expected = []
++                for part, part_motions in enumerate(motions):
++                    if index >= len(part_motions):
++                        continue
++                    motion = part_motions[index]
++                    for layer in motion['clips']:
++                        if layer['sprite'] == -1:
++                            continue
++                        image, error = _resolve_image_from_spr(sprites[part], layer['sprite'], layer['pool'])
++                        equal(error, None, 'image_resolution')
++                        global_index = layer['sprite'] + (sprites[part].indexed_count if layer['pool'] == 1 else 0)
++                        x, y = layer['x'], layer['y']
++                        if spec['kind'] == 'player' and part == 1 and len(motion['anchors']) == 1:
++                            equal(len(motions[0]), len(acts[0]['actions'][slot]), 'parent_motion_mapping')
++                            parent = acts[0]['actions'][slot][index]['anchors'][0]
++                            anchor = motion['anchors'][0]
++                            x += parent['x'] - anchor['x']
++                            y += parent['y'] - anchor['y']
++                        expected.append(dict(part=part, image=global_index, offset=[x, y],
++                            size=[math.ceil(image.width * layer['scale_x']), math.ceil(image.height * layer['scale_y'])],
++                            mirror=bool(layer['mirror']), angle=layer['angle'] / 180 * math.pi,
++                            color=[((layer['color'] >> shift) & 255) / 255 for shift in (0, 8, 16, 24)]))
++                equal(len(frame['parts']), len(expected), actor + '/layer_count')
++                for layer, required in zip(frame['parts'], expected):
++                    for field in ('part', 'image', 'offset', 'size', 'mirror'):
++                        equal(layer[field], required[field], actor + '/layer/' + field)
++                    close(layer['angle'], required['angle'], actor + '/layer/angle')
++                    close_vector(layer['color'], required['color'], actor + '/layer/color')
++                total_layers += len(expected)
++                total_frames += 1
++    expected_cases = {(name, action, camera, direction) for name, spec in specs.items()
++                      for action in spec['actions'] for camera in (0, 4) for direction in range(8)}
++    equal(len(report['cases']), len(expected_cases), 'case_count')
++    equal({(c['actor'], c['requested_action'], c['camera_view'], c['requested_direction']) for c in report['cases']}, expected_cases, 'case_coverage')
++    captures, selected_frames, selected_layers = 0, 0, 0
++    for case in report['cases']:
++        actor = actors[case['actor']]
++        check_selection(case, 'novice' if actor['kind'] == 'player' else 'orc', actor['delays'], [len(a) for a in actor['prepared']])
++        for sample in case['sequence']:
++            layers = actor['prepared'][sample['resolved_slot']][sample['frame']]['parts']
++            equal(sample['layers'], len(layers), 'native/draw_count')
++            expected = [dict(part=p['part'], image=p['image'], upload=actor['pools'][p['part']]['textures'][p['image']]) for p in layers]
++            equal(sample['selected'], expected, 'native/selected_texture')
++            if sample['capture'] is not None:
++                check_capture(sample['capture'], directory, len(layers))
++                captures += 1
++            selected_frames += 1
++            selected_layers += len(layers)
++        equal(sum(s['capture'] is not None for s in case['sequence']),
++              case['frames_in_slot'] if case['camera_view'] == 0 and case['requested_direction'] == 0 else 0, 'capture_coverage')
++    # Compare known staged PNG pixels, independent of the writer's PASS fields.
++    modified = actors['modified']
++    original_act = documents['original']['act']
++    for expected in provenance['expected']:
++        slot, frame, raw_layer = (expected[k] for k in ('slot', 'frame', 'raw_layer'))
++        clips = original_act['actions'][slot][frame]['clips']
++        visible = sum(c['sprite'] >= 0 for c in clips[:raw_layer])
++        layer = modified['prepared'][slot][frame]['parts'][visible]
++        upload = modified['pools'][layer['part']]['textures'][layer['image']]
++        required = dict(width=expected['width'], height=expected['height'], upload_rgba_sha256=expected['decoded_rgba_sha256'])
++        equal(required, sources[expected['source_png_sha256']], 'replacement/source_pixels')
++        equal(upload, required, 'replacement/staged_pixels')
++    # Every unaffected draw selection and every preserved capture must match.
++    baseline_cases = {(c['requested_action'], c['camera_view'], c['requested_direction']): c for c in report['cases'] if c['actor'] == 'original'}
++    changed = {(r['slot'], r['frame']) for r in provenance['expected']}
++    preserved_samples = 0
++    for case in (c for c in report['cases'] if c['actor'] == 'modified'):
++        baseline = baseline_cases[(case['requested_action'], case['camera_view'], case['requested_direction'])]
++        for before, after in zip(baseline['sequence'], case['sequence']):
++            if (after['resolved_slot'], after['frame']) not in changed:
++                equal(after['selected'], before['selected'], 'unaffected/selected')
++                if after['capture']:
++                    equal(after['capture']['png_sha256'], before['capture']['png_sha256'], 'unaffected/render')
++                preserved_samples += 1
++            elif after['capture']:
++                if after['capture']['png_sha256'] == before['capture']['png_sha256']:
++                    raise NativeMismatch('REPLACEMENT_NOT_RENDERED: baseline capture unchanged')
++    expected_negatives = {(name, case) for name, spec in specs.items() if spec['kind'] == 'monster'
++                          for case in ('truncated_walk_modulo', 'unsupported_critical_attack')}
++    expected_negatives.add((None, 'unsupported_direction_8'))
++    equal(len(report['negative_cases']), len(expected_negatives), 'negative_count')
++    equal({(n.get('actor'), n['case']) for n in report['negative_cases']}, expected_negatives, 'negative_coverage')
++    for negative in report['negative_cases']:
++        equal(negative['accepted_as_exact'], False, 'fallback/accepted')
++        if negative['case'] != 'unsupported_direction_8':
++            equal(negative['resolved_slot'], 0, 'fallback/resolved')
++            equal(negative['status'], 'FALLBACK_OBSERVED', 'fallback/status')
++        else:
++            equal(negative['native_masked_direction'], 0, 'direction/masking')
++            equal(negative['status'], 'ACTION_UNSUPPORTED', 'direction/status')
++    return dict(result='NATIVE_CHECKS_PASSED',
++                cases=len(expected_cases), prepared_frames=total_frames, prepared_layers=total_layers,
++                selected_frames=selected_frames, selected_layers=selected_layers, captures=captures,
++                preserved_samples=preserved_samples, targeted_occurrences=len(provenance['expected']),
++                resource_hashes=hashes, levels=dict(A='PASS', B='PASS', C='PASS', D='UNVERIFIED'),
++                scope='isolated native presentation; binary-alpha upload identity; no artistic approval')
++
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument('inputs', type=Path)
++    parser.add_argument('provenance', type=Path)
++    parser.add_argument('report', type=Path)
++    args = parser.parse_args()
++    result = verify(json.loads(args.inputs.read_text()), json.loads(args.provenance.read_text()),
++                    json.loads(args.report.read_text()), args.report.parent)
++    result['native_report_sha256'] = sha(args.report.read_bytes())
++    print(json.dumps(result, indent=2, sort_keys=True))
++
++
++if __name__ == '__main__':
++    main()
+--- /dev/null
++++ after/tools/korangar-native/walk_controls.py
+@@ -0,0 +1,126 @@
++"""Execute native wrong-resource/selection controls and evidence tampering checks.
++
++All mutations are copies beneath a new test directory. No original or candidate
++is changed. A native run returning successfully is still rejected when it loaded
++the wrong declared pair; a screenshot cannot override the provenance check.
++"""
++import argparse
++import copy
++import json
++import os
++from pathlib import Path
++import subprocess
++
++from ro_sprite_forge.formats.act import read_act, write_act
++from verify_walk import NativeMismatch, sha, verify
++
++
++def controls(inputs_path, provenance_path, report_path, executable, stage, output):
++    output.mkdir(parents=True, exist_ok=False)
++    inputs = json.loads(inputs_path.read_text())
++    provenance = json.loads(provenance_path.read_text())
++    report = json.loads(report_path.read_text())
++    directory = report_path.parent
++    baseline = {v['path']: sha(Path(v['path']).read_bytes()) for v in inputs['files'].values()}
++    results = []
++    for name in ('original_instead_of_modified', 'wrong_act_pair', 'missing_file', 'missing_mount',
++                 'hash_mismatch', 'invalid_frame', 'unsupported_action', 'invalid_pool_index'):
++        candidate = copy.deepcopy(inputs)
++        candidate['walk']['actors'] = [candidate['walk']['actors'][1]]
++        modified = 'data\\sprite\\modified.'
++        original = 'data\\sprite\\original.'
++        if name == 'original_instead_of_modified':
++            for extension in ('act', 'spr'):
++                candidate['files'][modified + extension] = candidate['files'][original + extension]
++        elif name == 'wrong_act_pair':
++            candidate['files'][modified + 'act'] = candidate['files'][original + 'act']
++        elif name == 'missing_file':
++            candidate['files'][modified + 'spr']['path'] = str(output / 'absent.spr')
++        elif name == 'missing_mount':
++            del candidate['files'][modified + 'spr']
++        elif name == 'hash_mismatch':
++            candidate['files'][modified + 'spr']['sha256'] = '0' * 64
++        elif name == 'invalid_frame':
++            candidate['walk']['probe'] = dict(actor='modified', slot=8, frame=999)
++        elif name == 'unsupported_action':
++            candidate['walk']['actors'][0]['actions'] = ['Unsupported']
++        else:
++            act = read_act(Path(candidate['files'][modified + 'act']['path']).read_bytes())
++            act['actions'][8][0]['clips'][0]['sprite'] = 99999
++            raw = write_act(act)
++            path = output / 'invalid-index.act'
++            path.write_bytes(raw)
++            candidate['files'][modified + 'act'] = dict(path=str(path), sha256=sha(raw))
++        path = output / (name + '.json')
++        path.write_text(json.dumps(candidate, sort_keys=True))
++        destination = output / name
++        env = dict(os.environ, VK_ICD_FILENAMES='/usr/share/vulkan/icd.d/lvp_icd.json')
++        env.pop('DISPLAY', None)
++        env.pop('WAYLAND_DISPLAY', None)
++        argv = [str(executable), str(path), str(destination)]
++        run = subprocess.run(argv, cwd=stage, env=env, text=True, capture_output=True, timeout=90)
++        (output / (name + '.log')).write_text(run.stdout + run.stderr)
++        expected = dict(missing_file='MISSING_MODIFIED_RESOURCE', missing_mount='RESOURCE_MOUNT_FAILED',
++                        hash_mismatch='RESOURCE_MISMATCH', invalid_frame='INVALID_REQUESTED_FRAME',
++                        unsupported_action='ACTION_UNSUPPORTED', invalid_pool_index='index out of bounds')
++        if name in ('original_instead_of_modified', 'wrong_act_pair'):
++            if run.returncode != 0:
++                raise AssertionError(f'{name}: negative baseline must actually load and render: {run.stderr}')
++            wrong = json.loads((destination / 'native-report.json').read_text())
++            # Validate pair identity before any actor-coverage requirement.
++            full = copy.deepcopy(inputs)
++            full['files'] = candidate['files']
++            try:
++                verify(full, provenance, report, directory)
++            except NativeMismatch as error:
++                if 'PAIR_IDENTITY/modified/act' not in str(error):
++                    raise
++                diagnostic = 'PAIR_IDENTITY_MISMATCH'
++            else:
++                raise AssertionError('wrong pair incorrectly accepted')
++            loaded = wrong['actors'][0]['loaded']
++            observed = {r['path']: r['sha256'] for r in loaded}
++        else:
++            if run.returncode == 0 or (destination / 'native-report.json').exists():
++                raise AssertionError(f'{name}: invalid native success/report')
++            if expected[name] not in run.stderr:
++                raise AssertionError(f'{name}: missing diagnostic {expected[name]}: {run.stderr}')
++            diagnostic, observed = expected[name], None
++        results.append(dict(case=name, argv=argv, native_exit=run.returncode,
++                            diagnostic=diagnostic, accepted_as_exact=False, loaded=observed))
++    mutations = {
++        'wrong_loaded_hash': lambda r: r['actors'][1]['loaded'][0].update(sha256='0' * 64),
++        'wrong_native_texture': lambda r: r['cases'][64]['sequence'][0]['selected'][0].update(image=0),
++        'wrong_frame': lambda r: r['cases'][64]['sequence'][0].update(frame=999),
++        'wrong_slot': lambda r: r['cases'][64].update(resolved_slot=0),
++        'fallback_claimed_exact': lambda r: r['cases'][64].update(fallback='MODULO'),
++        'unsupported_view': lambda r: r['cases'][64].update(requested_direction=8),
++        'capture_hash': lambda r: r['cases'][64]['sequence'][0]['capture'].update(png_sha256='0' * 64),
++        'missing_capture': lambda r: r['cases'][64]['sequence'][0].update(capture=None),
++        'missing_negative_evidence': lambda r: r['negative_cases'].clear(),
++    }
++    for name, mutate in mutations.items():
++        changed = copy.deepcopy(report)
++        mutate(changed)
++        try:
++            verify(inputs, provenance, changed, directory)
++        except NativeMismatch as error:
++            results.append(dict(case=name, diagnostic=str(error), accepted_as_exact=False,
++                                execution='checker_tampering_control'))
++        else:
++            raise AssertionError(f'{name}: altered evidence accepted')
++    for path, digest in baseline.items():
++        if sha(Path(path).read_bytes()) != digest:
++            raise AssertionError('original input changed: ' + path)
++    result = dict(result='NEGATIVE_CONTROLS_PASSED', cases=results, source_immutability='PASS')
++    (output / 'results.json').write_text(json.dumps(result, indent=2, sort_keys=True) + '\n')
++    print(json.dumps(dict(result=result['result'], controls=len(results))))
++
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser()
++    for name in ('inputs', 'provenance', 'report', 'executable', 'stage', 'output'):
++        parser.add_argument(name, type=Path)
++    args = parser.parse_args()
++    controls(args.inputs.resolve(), args.provenance.resolve(), args.report.resolve(),
++             args.executable.resolve(), args.stage.resolve(), args.output.resolve())
+--- /dev/null
++++ after/tools/korangar-native/test_walk_verifier.py
+@@ -0,0 +1,64 @@
++"""Redistributable capture/upload controls, without GPU or private resources."""
++from pathlib import Path
++import tempfile
++import unittest
++
++from PIL import Image
++from verify_walk import NativeMismatch, check_capture, sha, upload_identity
++
++
++class CaptureChecks(unittest.TestCase):
++    def test_binary_alpha_upload_identity(self):
++        image = Image.new('RGBA', (2, 1))
++        image.putdata([(12, 34, 56, 255), (99, 88, 77, 0)])
++        self.assertEqual(upload_identity(image)['upload_rgba_sha256'], sha(bytes([12, 34, 56, 255, 0, 0, 0, 0])))
++
++    def test_partial_alpha_cannot_claim_exact_upload_parity(self):
++        with self.assertRaisesRegex(NativeMismatch, 'UNSUPPORTED_UPLOAD_COMPARISON'):
++            upload_identity(Image.new('RGBA', (1, 1), (10, 20, 30, 128)))
++
++    def capture(self, root, *, empty=False, size=(512, 512)):
++        image = Image.new('RGBA', size, (0, 0, 0, 255))
++        if not empty:
++            image.putpixel((1, 1), (21, 43, 65, 255))
++        path = root / 'frame.png'
++        image.save(path)
++        return dict(file=path.name, png_sha256=sha(path.read_bytes()), drawn_layers=1,
++                    non_background_pixels=0 if empty else 1, passes=['opaque', 'transparent', 'wboit_resolve'])
++
++    def test_actual_capture_content_and_hash(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            check_capture(self.capture(root), root, 1)
++
++    def test_empty_render_rejected(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            with self.assertRaisesRegex(NativeMismatch, 'EMPTY_NATIVE_RENDER'):
++                check_capture(self.capture(root, empty=True), root, 1)
++
++    def test_corrupted_capture_rejected(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            capture = self.capture(root)
++            (root / 'frame.png').write_bytes(b'corrupt')
++            with self.assertRaisesRegex(NativeMismatch, 'capture/hash'):
++                check_capture(capture, root, 1)
++
++    def test_wrong_dimensions_rejected(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            with self.assertRaisesRegex(NativeMismatch, 'capture/dimensions'):
++                check_capture(self.capture(root, size=(32, 32)), root, 1)
++
++    def test_wrong_visibility_count_rejected(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            capture = self.capture(root)
++            capture['non_background_pixels'] = 999
++            with self.assertRaisesRegex(NativeMismatch, 'capture/visible_pixels'):
++                check_capture(capture, root, 1)
++
++    def test_capture_cannot_escape_evidence_directory(self):
++        with self.assertRaisesRegex(NativeMismatch, 'capture/local_filename'):
++            check_capture(dict(file='../frame.png'), Path('/tmp'), 1)
+--- /dev/null
++++ after/docs/verification/rsf-27/reproduce.py
+@@ -0,0 +1,57 @@
++"""Reproduce authoring/build, two native executions, independent checks and controls.
++
++Requires the existing isolated pinned native executable/stage. No external
++checkout is changed. Private fixture captures stay in the requested output.
++"""
++import argparse
++import json
++import os
++from pathlib import Path
++import subprocess
++import sys
++
++ROOT = Path(__file__).resolve().parents[3]
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--output', required=True, type=Path)
++    parser.add_argument('--stage', required=True, type=Path)
++    parser.add_argument('--executable', required=True, type=Path)
++    parser.add_argument('--private', action='store_true')
++    args = parser.parse_args()
++    output = args.output.resolve()
++    output.mkdir(parents=True, exist_ok=False)
++    tools = ROOT / 'tools/korangar-native'
++    env = dict(os.environ, PYTHONPATH=str(ROOT / 'src'),
++               VK_ICD_FILENAMES='/usr/share/vulkan/icd.d/lvp_icd.json')
++    env.pop('DISPLAY', None)
++    env.pop('WAYLAND_DISPLAY', None)
++    commands = []
++
++    def run(argv, name, cwd=ROOT):
++        result = subprocess.run([str(v) for v in argv], cwd=cwd, env=env,
++                                capture_output=True, text=True, timeout=180)
++        (output / (name + '.log')).write_text(result.stdout + result.stderr)
++        commands.append(dict(argv=result.args, cwd=str(cwd), exit=result.returncode))
++        (output / 'commands.json').write_text(json.dumps(commands, indent=2) + '\n')
++        result.check_returncode()
++
++    run([sys.executable, tools / 'walk_fixture.py', output / 'input'] + (['--private'] if args.private else []), 'authoring')
++    inputs = output / 'input/inputs.json'
++    provenance = output / 'input/provenance.json'
++    for number in (1, 2):
++        run([args.executable.resolve(), inputs, output / f'native-{number}'], f'native-{number}', args.stage.resolve())
++        run([sys.executable, tools / 'verify_walk.py', inputs, provenance,
++             output / f'native-{number}/native-report.json'], f'checked-{number}')
++    report = output / 'native-1/native-report.json'
++    assert report.read_bytes() == (output / 'native-2/native-report.json').read_bytes(), 'native reports differ'
++    for capture in (output / 'native-1').glob('*.png'):
++        assert capture.read_bytes() == (output / 'native-2' / capture.name).read_bytes(), capture.name
++    run([sys.executable, tools / 'walk_controls.py', inputs, provenance, report,
++         args.executable.resolve(), args.stage.resolve(), output / 'controls'], 'controls')
++    print(json.dumps(dict(result='REPRODUCED', commands=len(commands), native_reports_identical=True)))
++
++
++if __name__ == '__main__':
++    main()
+--- before/tools/korangar-native/README.md
++++ after/tools/korangar-native/README.md
+@@ -1,4 +1,34 @@
+ # Pinned native presentation verification
++
++RSF-27 adds an optional compiled-Walk mode to this same corridor. See
++`docs/verification/rsf-27/VERIFICATION.md` for the tested boundaries and evidence.
++`walk_fixture.py` reproduces the RSF-26 synthetic authoring/build inputs;
++`walk.rs` observes the native loaded bytes, prepared layers and texture uploads;
++`verify_walk.py` independently compares resources, staged PNG pixels, selections
++and actual captures; `walk_controls.py` executes negative native controls.
++
++```bash
++PYTHONPATH=src .venv/bin/python tools/korangar-native/walk_fixture.py /tmp/walk-input
++# Add --private only when the audited optional private fixtures are available.
++# Build this harness with prepare.py / compile_shaders.py / locked Cargo below.
++cd /tmp/rsf-native-build
++env -u DISPLAY -u WAYLAND_DISPLAY VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/lvp_icd.json \
++  target/debug/rsf-korangar-native /tmp/walk-input/inputs.json /tmp/walk-native
++cd /path/to/ro-sprite-forge
++PYTHONPATH=src .venv/bin/python tools/korangar-native/verify_walk.py \
++  /tmp/walk-input/inputs.json /tmp/walk-input/provenance.json /tmp/walk-native/native-report.json
++```
++
++The full bounded rerun is `docs/verification/rsf-27/reproduce.py`. Native
++`upload_rgba_sha256` identifies the premultiplied upload byte vector observed at
++texture creation, while capture hashes identify GPU readback PNGs. They are
++different evidence boundaries. The checker deliberately supports exact upload
++comparison only for binary alpha; it rejects partial alpha rather than claiming
++untested conversion parity. The renderer itself retains the pinned native alpha
++processing. The compiled resource remains `PARTIAL_DIAGNOSTIC`; synthetic test
++review declarations grant no approval to real artwork. All eight reachable Walk
++views are checked; fallback observations never count as exact success. Universal
++GPU pixel parity, gameplay reachability and audible sound are untested.
+ 
+ RSF-6 uses Korangar revision `3f3d88a583203f09d079712f43343c1041258ffd`
+ from <https://github.com/vE5li/korangar>. This external verification tool is

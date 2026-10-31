@@ -1,0 +1,64 @@
+{
+  "task": "RSF-13",
+  "title": "[M2] Reference comparison and exported preview diagnostics",
+  "milestone": "M2",
+  "status": "IMPLEMENTED_AWAITING_QA",
+  "files": {
+    "src/ro_sprite_forge/schemas/preview-comparison-v1.json": {
+      "bytes": 8987,
+      "sha256": "add6025de5e1285f3e18c41778bc4ad6db7f6b006c8a59e548dad1aeec819bdb"
+    },
+    "src/ro_sprite_forge/schemas/contact-sheet-v1.json": {
+      "bytes": 4648,
+      "sha256": "ffc33c9b1f6967db1aa0c4290011f56d7ac40898105a94061dba0a94bf78345e"
+    },
+    "src/ro_sprite_forge/schemas/sequence-manifest-v1.json": {
+      "bytes": 3803,
+      "sha256": "da0637f0712b827dbe4e8437808fdfcabb08f0b1eff7a57dbbdf3989a49e0b05"
+    },
+    "src/ro_sprite_forge/core/comparison.py": {
+      "bytes": 20482,
+      "sha256": "c82dd0290122812b4c32b4e76c85ab1ad153191e5290b07d3380763bd4c1a007"
+    },
+    "src/ro_sprite_forge/core/contact_sheet.py": {
+      "bytes": 10871,
+      "sha256": "93e2dd7d9df08fa35a3a0c3b4217f65460b35cd3794be73d263d88ad593dd99d"
+    },
+    "src/ro_sprite_forge/cli.py": {
+      "bytes": 45092,
+      "sha256": "ec2c961bf9ccdde65d0681bbbea0fc5381d7ebc735abf8c7c38f290035873605"
+    },
+    "scripts/check_comparison_schema.py": {
+      "bytes": 4910,
+      "sha256": "fbc8d851c075da136209475f18a0fbe0fd95c31b948e18482cb3a2576e1f89e3"
+    },
+    "tests/test_comparison.py": {
+      "bytes": 18339,
+      "sha256": "40e34a0cd715756dc5050d93a8a959c4dcee9db2e861a6216939d12c419bcf12"
+    },
+    "tests/private_fixture_hooks/test_comparison_fixtures.py": {
+      "bytes": 7227,
+      "sha256": "01e12b029d24232689111af8f5db6eaee7e6f4b794fcddb3d18cd12fe2b14759"
+    },
+    "docs/architecture/RSF13_DIAGNOSTICS.md": {
+      "bytes": 4747,
+      "sha256": "70dd0155163756bb1bef12e64df3a6bde00112eeb445eda430031e04d2c22114"
+    },
+    "docs/evidence/rsf13/reproduce_examples.py": {
+      "bytes": 4558,
+      "sha256": "d3ea914944d2d8404c93fbae6bc9c55f2b7c5a1951bada6e243ffe49ace2c818"
+    },
+    "docs/evidence/rsf13/examples.json": {
+      "bytes": 22409,
+      "sha256": "75e1d30834ac8a60c7994966923b66165a5dde350b490a8d191590ef65f9531c"
+    }
+  },
+  "tests": {
+    "public_test_count": 245,
+    "public_test_status": "PASS",
+    "private_test_count": 32,
+    "private_test_status": "PASS",
+    "distribution_check": "PASS",
+    "schema_check": "PASS"
+  }
+}

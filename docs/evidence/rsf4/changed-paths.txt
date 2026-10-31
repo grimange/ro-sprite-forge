@@ -1,0 +1,10 @@
+README.md
+docs/architecture/RSF4_PRESERVATION.md
+src/ro_sprite_forge/cli.py
+src/ro_sprite_forge/core/preservation.py
+src/ro_sprite_forge/formats/act.py
+src/ro_sprite_forge/report_io.py
+tests/check_distribution.py
+tests/private_fixture_hooks/test_preservation_fixtures.py
+tests/test_foundation.py
+tests/test_preservation.py

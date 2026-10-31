@@ -1,0 +1,26 @@
+{
+  "task_id": "u6ktol9i5uld3lnmxrub22si",
+  "task_key": "RSF-38",
+  "title": "[M8] Operator documentation, error catalog and workflow ergonomics",
+  "milestone": "M8 — Release Readiness",
+  "timestamp": "2026-10-31T15:46:00+08:00",
+  "author": "Antigravity (AGY)",
+  "role": "Senior Technical Documentation & Developer Experience Engineer / Operator Workflow UX Specialist",
+  "files": {
+    "src/ro_sprite_forge/core/project.py": "8caca11b514b59c3a0eb365a46e7cca3633a0597e03470c91b3da8a1059dae64",
+    "src/ro_sprite_forge/static/index.html": "f83792a913bc144150b63db716b4255605a5d6ce4e8e3cbae2b22451efaaffa6",
+    "src/ro_sprite_forge/static/workbench.css": "65978f235243b5a29373f64808e965a0b1509793e05b1aefc14ec397e6ab50dd",
+    "src/ro_sprite_forge/static/workbench.js": "c37d25cf50ee0409114a4836fc1f058aba4661264c13ba1ada749788202e2df8",
+    "MANIFEST.in": "e339cbd7cdf08614d6573fa2553cc32f349ea60ba44dac38cdb964115f4e5d43",
+    "tests/check_distribution.py": "35783eb2c193ba875c3ed44f723d49738a446fb11409ccff9439c4bdf82fb52a",
+    "tests/test_operator_documentation_and_ux.py": "6c5f5827ba058ca356d98964619b661b44d386e1d3d6d50635cef7ff97cca3d8",
+    "scripts/verify_workbench_browser.py": "b6a06654e99f1fa0ca2c8038fe3153d6ebef4ee1c9b609930fcae13f41ee5d92",
+    "docs/operator/README.md": "75ce2e4e5da183c6d06dc2fa02625d13b0c9f760605ca9e2c023adf90056d9c7",
+    "docs/operator/QUICKSTART.md": "67a043af993ce4cf8ce92ed5cd772a760d8803d4ccb5b69757111ede77426da2",
+    "docs/operator/PRODUCTION_GUIDE.md": "05b5e9d8ed8d146187c4a8472daa7ad4d0b62b301f00f24a29cb152c7736e0e5",
+    "docs/operator/COMPATIBILITY_AND_ACTIONS.md": "a96daa1f10f0310c9b02c0b0ccd83c780440cf3ed0aa767591341d15e494b3aa",
+    "docs/operator/PERSISTENCE_AND_RECOVERY.md": "46184d16372ae209b09d0e0a4545c1d887c5d3fd2387e2c6b8e83a7f7039a1e3",
+    "docs/operator/ERROR_CATALOG.md": "77dcf5a61321e7b0d8570a2c9bd91bfedade18946ede7f10e15c866a34a655d2",
+    "docs/operator/TUTORIAL.md": "ee55b02e7ee48e257904a37bb2918565b17698b6e6f9b5b849b0e57797b9e957"
+  }
+}

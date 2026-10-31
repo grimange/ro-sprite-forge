@@ -1,0 +1,114 @@
+[
+  {
+    "command": ".venv/bin/python -m unittest discover -s tests -p test_video_workbench.py -v",
+    "exit_code": 0,
+    "tests_run": 26,
+    "skipped": 0,
+    "log": "focused.log"
+  },
+  {
+    "command": ".venv/bin/python -m unittest discover -s tests -p test_video.py -v",
+    "exit_code": 0,
+    "tests_run": 26,
+    "skipped": 0,
+    "log": "existing-video.log"
+  },
+  {
+    "command": ".venv/bin/python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "tests_run": 504,
+    "skipped": 0,
+    "log": "public.log"
+  },
+  {
+    "command": ".venv/bin/python -m unittest discover -s tests/private_fixture_hooks -v",
+    "exit_code": 0,
+    "tests_run": 41,
+    "skipped": 1,
+    "log": "private.log"
+  },
+  {
+    "command": ".venv/bin/python scripts/check_animation_schema.py",
+    "exit_code": 0,
+    "log": "schemas.log"
+  },
+  {
+    "command": ".venv/bin/python scripts/check_comparison_schema.py",
+    "exit_code": 0,
+    "log": "schemas.log"
+  },
+  {
+    "command": ".venv/bin/python scripts/check_compilation_schema.py",
+    "exit_code": 0,
+    "log": "schemas.log"
+  },
+  {
+    "command": ".venv/bin/python scripts/check_contract_schemas.py",
+    "exit_code": 0,
+    "log": "schemas.log"
+  },
+  {
+    "command": ".venv/bin/python scripts/check_coverage_schema.py",
+    "exit_code": 0,
+    "log": "schemas.log"
+  },
+  {
+    "command": ".venv/bin/python scripts/check_extraction_schema.py",
+    "exit_code": 0,
+    "log": "schemas.log"
+  },
+  {
+    "command": ".venv/bin/python scripts/check_ingestion_schema.py",
+    "exit_code": 0,
+    "log": "schemas.log"
+  },
+  {
+    "command": ".venv/bin/python scripts/check_ledger_schema.py",
+    "exit_code": 0,
+    "log": "schemas.log"
+  },
+  {
+    "command": ".venv/bin/python scripts/check_review_schema.py",
+    "exit_code": 0,
+    "log": "schemas.log"
+  },
+  {
+    "command": ".venv/bin/python scripts/check_transformation_schema.py",
+    "exit_code": 0,
+    "log": "schemas.log"
+  },
+  {
+    "command": ".venv/bin/python scripts/check_video_schema.py",
+    "exit_code": 0,
+    "log": "schemas.log"
+  },
+  {
+    "tool": "Playwright MCP browser_run_code_unsafe",
+    "filename": "tests/browser/rsf29-mcp.js",
+    "result": "PASS",
+    "evidence": "browser-primary.json"
+  },
+  {
+    "tool": "Playwright MCP browser_run_code_unsafe",
+    "filename": "tests/browser/rsf29-workflow-mcp.js",
+    "result": "PASS",
+    "evidence": "browser-workflow.json"
+  },
+  {
+    "command": "python3.12 / python3.13",
+    "result": "NOT_RUN",
+    "reason": "interpreter unavailable"
+  },
+  {
+    "scope": "Rust/native GPU",
+    "result": "NOT_RUN",
+    "reason": "no compiler/codec/native code changed; accepted M5 gates retained within original scope"
+  },
+  {
+    "command": ".venv/bin/python tests/check_distribution.py --wheelhouse /tmp/rsf24-wheelhouse --python /usr/bin/python3.14",
+    "exit_code": 0,
+    "tests_run": 504,
+    "skipped": 10,
+    "log": "distribution.log"
+  }
+]

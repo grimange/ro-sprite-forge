@@ -1,0 +1,104 @@
+{
+  "rsf29-start-0": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"id\": \"vky1aihwa7vdpeqvv40r33ig\",\n  \"title\": \"[M6] Operator frame selection, PTS provenance and timing separation\",\n  \"number\": 29,\n  \"description\": \"**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\\n**Milestone:** M6\\n**Stable plan reference:** RSF-v1.1/M6-02\\n**Implementation status:** Backlog (to-do); planned only, no implementation or verification claimed. Kaneo column is authoritative if later changed.\\n**Responsible implementer:** Unassigned. Required skill: Authorized engineer for this bounded deliverable; independent reviewer is separate.\\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.1–2.3, 5.3, 6/M6\\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\\n\\n## Problem and expected outcome\\n\\n**Objective:** Let the operator choose actual video frames for existing finite requirements.\\n\\n**Scope:** Video timeline/keyframe candidate selection, explicit mapping, crop/alpha placement and source provenance UI.\\n\\n## Acceptance criteria\\n\\n- [ ] Operator selects display-order frames and maps to declared action/view/frame/layer IDs; retain source hash, source PTS, selected frame hash and selection revision.\\n- [ ] Show source PTS independently from ACT/runtime playback timing, including VFR and candidate gaps.\\n- [ ] Manual placement/crop/alpha choices use versioned M4 recipes and before/after previews with affected approval invalidation.\\n- [ ] No missing poses/views are inferred, auto-filled or aesthetically accepted; selection and review remain operator actions.\\n\\n## Verification\\n\\nSelection/reopen provenance tests, VFR timeline and runtime-timing separation checks; operator review flow.\\n\\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\\n\\n## Non-goals and dependencies\\n\\n**Dependencies:** RSF-28 (M6-01; task ID mdehayoorrfc43z930ij72wx); RSF-18 (M3-04; task ID reuc1z3obcspcrn7xb55dzvk)\\n\\n**Non-goals / gate qualifications:** Only the stated deliverable; no adjacent milestone implementation or automatic artistic/native acceptance.\\n\\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\\n\\n## Implementation evidence (add at QA handoff)\\n\\n- Code changes / diff: Not implemented by this planning sync.\\n- Test commands / exit statuses / artifact hashes: NOT_RUN (planning only).\\n- Milestone gates / limitations: Not evaluated; structural, coverage, visual, preview and native states remain separate.\\n\\n## Independent QA result (reviewer reports, coordinator syncs)\\n\\nNot performed for implementation. Implementer supplies evidence and moves to QA Review; a distinct read-only reviewer records QA_PASS / QA_FAIL / QA_BLOCKED. Operator-only visual/native decisions remain separate. No acceptance is granted by backlog creation.\",\n  \"status\": \"to-do\",\n  \"columnId\": \"eog035o4rzn6u301ylyctbvg\",\n  \"priority\": \"no-priority\",\n  \"startDate\": null,\n  \"dueDate\": null,\n  \"position\": 28,\n  \"createdAt\": \"2026-10-29T10:08:08.126Z\",\n  \"userId\": null,\n  \"assigneeName\": null,\n  \"assigneeId\": null,\n  \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n  \"workspaceId\": \"30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il\"\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "rsf29-start-1": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "[\n  {\n    \"id\": \"cudps31wnei4pllus27gc4r7\",\n    \"sourceTaskId\": \"mdehayoorrfc43z930ij72wx\",\n    \"targetTaskId\": \"vky1aihwa7vdpeqvv40r33ig\",\n    \"relationType\": \"blocks\",\n    \"createdAt\": \"2026-10-29T10:08:19.500Z\",\n    \"sourceTask\": {\n      \"id\": \"mdehayoorrfc43z930ij72wx\",\n      \"title\": \"[M6] Optional bounded FFprobe/FFmpeg candidate-frame import\",\n      \"status\": \"done\",\n      \"isCompleted\": true,\n      \"priority\": \"no-priority\",\n      \"number\": 28,\n      \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n      \"userId\": \"aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn\",\n      \"assigneeName\": \"Codex\"\n    },\n    \"targetTask\": {\n      \"id\": \"vky1aihwa7vdpeqvv40r33ig\",\n      \"title\": \"[M6] Operator frame selection, PTS provenance and timing separation\",\n      \"status\": \"to-do\",\n      \"isCompleted\": false,\n      \"priority\": \"no-priority\",\n      \"number\": 29,\n      \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n      \"userId\": null,\n      \"assigneeName\": null\n    }\n  },\n  {\n    \"id\": \"km460xipb6rlxzz8jjqutva9\",\n    \"sourceTaskId\": \"reuc1z3obcspcrn7xb55dzvk\",\n    \"targetTaskId\": \"vky1aihwa7vdpeqvv40r33ig\",\n    \"relationType\": \"blocks\",\n    \"createdAt\": \"2026-10-29T10:08:19.520Z\",\n    \"sourceTask\": {\n      \"id\": \"reuc1z3obcspcrn7xb55dzvk\",\n      \"title\": \"[M3] Canonical pre-build approval and scoped invalidation\",\n      \"status\": \"done\",\n      \"isCompleted\": true,\n      \"priority\": \"no-priority\",\n      \"number\": 18,\n      \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n      \"userId\": \"aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn\",\n      \"assigneeName\": \"Codex\"\n    },\n    \"targetTask\": {\n      \"id\": \"vky1aihwa7vdpeqvv40r33ig\",\n      \"title\": \"[M6] Operator frame selection, PTS provenance and timing separation\",\n      \"status\": \"to-do\",\n      \"isCompleted\": false,\n      \"priority\": \"no-priority\",\n      \"number\": 29,\n      \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n      \"userId\": null,\n      \"assigneeName\": null\n    }\n  },\n  {\n    \"id\": \"vvqr735s07p1zfcp7qem8bwj\",\n    \"sourceTaskId\": \"vky1aihwa7vdpeqvv40r33ig\",\n    \"targetTaskId\": \"kd4gq1ex5zq2k32rn38yso35\",\n    \"relationType\": \"blocks\",\n    \"createdAt\": \"2026-10-29T10:08:19.541Z\",\n    \"sourceTask\": {\n      \"id\": \"vky1aihwa7vdpeqvv40r33ig\",\n      \"title\": \"[M6] Operator frame selection, PTS provenance and timing separation\",\n      \"status\": \"to-do\",\n      \"isCompleted\": false,\n      \"priority\": \"no-priority\",\n      \"number\": 29,\n      \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n      \"userId\": null,\n      \"assigneeName\": null\n    },\n    \"targetTask\": {\n      \"id\": \"kd4gq1ex5zq2k32rn38yso35\",\n      \"title\": \"[M6] Video-derived Walk assignment through the existing compiler\",\n      \"status\": \"to-do\",\n      \"isCompleted\": false,\n      \"priority\": \"no-priority\",\n      \"number\": 30,\n      \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n      \"userId\": null,\n      \"assigneeName\": null\n    }\n  }\n]"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "rsf29-start-2": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"id\": \"aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn\",\n  \"name\": \"Codex\",\n  \"email\": \"codex@pmp.kaneo.local\",\n  \"role\": \"user\"\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "rsf29-start-3": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "[\n  {\n    \"name\": \"Personal Projects\",\n    \"slug\": \"personal-projects\",\n    \"logo\": null,\n    \"createdAt\": \"2026-10-22T04:35:48.807Z\",\n    \"metadata\": null,\n    \"description\": null,\n    \"id\": \"30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il\"\n  }\n]"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "rsf29-start-4": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"id\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n  \"workspaceId\": \"30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il\",\n  \"slug\": \"RSF\",\n  \"icon\": \"Layout\",\n  \"name\": \"RO Sprite Forge\",\n  \"description\": null,\n  \"createdAt\": \"2026-10-29T09:14:07.556Z\",\n  \"isPublic\": false,\n  \"archivedAt\": null,\n  \"lastTaskNumber\": 39,\n  \"position\": 3,\n  \"backgroundVersion\": null\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "rsf29-start-5": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "[\n  {\n    \"id\": \"eog035o4rzn6u301ylyctbvg\",\n    \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n    \"name\": \"Backlog\",\n    \"slug\": \"to-do\",\n    \"position\": 0,\n    \"icon\": null,\n    \"color\": null,\n    \"isFinal\": false,\n    \"createdAt\": \"2026-10-29T09:14:07.556Z\",\n    \"updatedAt\": \"2026-10-29T09:15:18.865Z\"\n  },\n  {\n    \"id\": \"xajvqbpsjjbldih8rwh969zx\",\n    \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n    \"name\": \"Ready\",\n    \"slug\": \"ready\",\n    \"position\": 1,\n    \"icon\": \"Circle\",\n    \"color\": null,\n    \"isFinal\": false,\n    \"createdAt\": \"2026-10-29T09:14:40.351Z\",\n    \"updatedAt\": \"2026-10-29T09:15:18.866Z\"\n  },\n  {\n    \"id\": \"xspey6aw5ujn840zun4xrd4i\",\n    \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n    \"name\": \"In Progress\",\n    \"slug\": \"in-progress\",\n    \"position\": 2,\n    \"icon\": null,\n    \"color\": null,\n    \"isFinal\": false,\n    \"createdAt\": \"2026-10-29T09:14:07.556Z\",\n    \"updatedAt\": \"2026-10-29T09:15:18.866Z\"\n  },\n  {\n    \"id\": \"bnbwdupscc2quo8im9o6w3ol\",\n    \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n    \"name\": \"QA Review\",\n    \"slug\": \"in-review\",\n    \"position\": 3,\n    \"icon\": null,\n    \"color\": null,\n    \"isFinal\": false,\n    \"createdAt\": \"2026-10-29T09:14:07.556Z\",\n    \"updatedAt\": \"2026-10-29T09:16:01.665Z\"\n  },\n  {\n    \"id\": \"vnkxm3fyt0tmewq1rdokfops\",\n    \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n    \"name\": \"Accepted\",\n    \"slug\": \"done\",\n    \"position\": 4,\n    \"icon\": null,\n    \"color\": null,\n    \"isFinal\": true,\n    \"createdAt\": \"2026-10-29T09:14:07.556Z\",\n    \"updatedAt\": \"2026-10-29T09:15:24.687Z\"\n  },\n  {\n    \"id\": \"f1qg6gheh73l570jh39wgoig\",\n    \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n    \"name\": \"Failed\",\n    \"slug\": \"failed\",\n    \"position\": 5,\n    \"icon\": \"Circle\",\n    \"color\": null,\n    \"isFinal\": false,\n    \"createdAt\": \"2026-10-29T09:15:28.692Z\",\n    \"updatedAt\": \"2026-10-29T09:15:28.692Z\"\n  },\n  {\n    \"id\": \"bibiu8guvyelbu1lgamsv5ha\",\n    \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n    \"name\": \"Cancelled\",\n    \"slug\": \"cancelled\",\n    \"position\": 6,\n    \"icon\": \"Circle\",\n    \"color\": null,\n    \"isFinal\": false,\n    \"createdAt\": \"2026-10-29T09:15:34.481Z\",\n    \"updatedAt\": \"2026-10-29T09:15:34.481Z\"\n  }\n]"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "rsf29-start-6": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "[\n  {\n    \"id\": \"BkQGkcqJKVRWlq16MB1mk7whd6Wu2jmx\",\n    \"name\": \"RA\",\n    \"email\": \"ramjfive24@gmail.com\",\n    \"image\": null,\n    \"role\": \"owner\"\n  },\n  {\n    \"id\": \"kHegEjrJJvNfDB2zukFKK6V0UO8SChK1\",\n    \"name\": \"Claude - AI Worker\",\n    \"email\": \"claude@pmp.kaneo.local\",\n    \"image\": \"/api/user/avatar/ie6847b7j8g2kwjcneghk91s\",\n    \"role\": \"member\"\n  },\n  {\n    \"id\": \"aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn\",\n    \"name\": \"Codex\",\n    \"email\": \"codex@pmp.kaneo.local\",\n    \"image\": \"/api/user/avatar/rzqbhdvv2vky3gsknb8gcdq2\",\n    \"role\": \"member\"\n  },\n  {\n    \"id\": \"ICJQmirJliEFAZN3jBl3ZitHCandT0FG\",\n    \"name\": \"AGY\",\n    \"email\": \"antigravity@pmp.kaneo.local\",\n    \"image\": \"/api/user/avatar/fjgfafrho3tlqd6oogqys40t\",\n    \"role\": \"member\"\n  }\n]"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "rsf29-ready": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"id\": \"vky1aihwa7vdpeqvv40r33ig\",\n  \"title\": \"[M6] Operator frame selection, PTS provenance and timing separation\",\n  \"number\": 29,\n  \"description\": \"**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\\n**Milestone:** M6\\n**Stable plan reference:** RSF-v1.1/M6-02\\n**Implementation status:** Backlog (to-do); planned only, no implementation or verification claimed. Kaneo column is authoritative if later changed.\\n**Responsible implementer:** Unassigned. Required skill: Authorized engineer for this bounded deliverable; independent reviewer is separate.\\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.1–2.3, 5.3, 6/M6\\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\\n\\n## Problem and expected outcome\\n\\n**Objective:** Let the operator choose actual video frames for existing finite requirements.\\n\\n**Scope:** Video timeline/keyframe candidate selection, explicit mapping, crop/alpha placement and source provenance UI.\\n\\n## Acceptance criteria\\n\\n- [ ] Operator selects display-order frames and maps to declared action/view/frame/layer IDs; retain source hash, source PTS, selected frame hash and selection revision.\\n- [ ] Show source PTS independently from ACT/runtime playback timing, including VFR and candidate gaps.\\n- [ ] Manual placement/crop/alpha choices use versioned M4 recipes and before/after previews with affected approval invalidation.\\n- [ ] No missing poses/views are inferred, auto-filled or aesthetically accepted; selection and review remain operator actions.\\n\\n## Verification\\n\\nSelection/reopen provenance tests, VFR timeline and runtime-timing separation checks; operator review flow.\\n\\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\\n\\n## Non-goals and dependencies\\n\\n**Dependencies:** RSF-28 (M6-01; task ID mdehayoorrfc43z930ij72wx); RSF-18 (M3-04; task ID reuc1z3obcspcrn7xb55dzvk)\\n\\n**Non-goals / gate qualifications:** Only the stated deliverable; no adjacent milestone implementation or automatic artistic/native acceptance.\\n\\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\\n\\n## Implementation evidence (add at QA handoff)\\n\\n- Code changes / diff: Not implemented by this planning sync.\\n- Test commands / exit statuses / artifact hashes: NOT_RUN (planning only).\\n- Milestone gates / limitations: Not evaluated; structural, coverage, visual, preview and native states remain separate.\\n\\n## Independent QA result (reviewer reports, coordinator syncs)\\n\\nNot performed for implementation. Implementer supplies evidence and moves to QA Review; a distinct read-only reviewer records QA_PASS / QA_FAIL / QA_BLOCKED. Operator-only visual/native decisions remain separate. No acceptance is granted by backlog creation.\",\n  \"status\": \"ready\",\n  \"columnId\": \"xajvqbpsjjbldih8rwh969zx\",\n  \"priority\": \"no-priority\",\n  \"startDate\": null,\n  \"dueDate\": null,\n  \"position\": 28,\n  \"createdAt\": \"2026-10-29T10:08:08.126Z\",\n  \"userId\": \"aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn\",\n  \"assigneeName\": \"Codex\",\n  \"assigneeId\": \"aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn\",\n  \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n  \"workspaceId\": \"30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il\"\n}"
+      }
+    ],
+    "isError": false
+  },
+  "rsf29-progress": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"id\": \"vky1aihwa7vdpeqvv40r33ig\",\n  \"title\": \"[M6] Operator frame selection, PTS provenance and timing separation\",\n  \"number\": 29,\n  \"description\": \"**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\\n**Milestone:** M6\\n**Stable plan reference:** RSF-v1.1/M6-02\\n**Implementation status:** Backlog (to-do); planned only, no implementation or verification claimed. Kaneo column is authoritative if later changed.\\n**Responsible implementer:** Unassigned. Required skill: Authorized engineer for this bounded deliverable; independent reviewer is separate.\\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.1–2.3, 5.3, 6/M6\\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\\n\\n## Problem and expected outcome\\n\\n**Objective:** Let the operator choose actual video frames for existing finite requirements.\\n\\n**Scope:** Video timeline/keyframe candidate selection, explicit mapping, crop/alpha placement and source provenance UI.\\n\\n## Acceptance criteria\\n\\n- [ ] Operator selects display-order frames and maps to declared action/view/frame/layer IDs; retain source hash, source PTS, selected frame hash and selection revision.\\n- [ ] Show source PTS independently from ACT/runtime playback timing, including VFR and candidate gaps.\\n- [ ] Manual placement/crop/alpha choices use versioned M4 recipes and before/after previews with affected approval invalidation.\\n- [ ] No missing poses/views are inferred, auto-filled or aesthetically accepted; selection and review remain operator actions.\\n\\n## Verification\\n\\nSelection/reopen provenance tests, VFR timeline and runtime-timing separation checks; operator review flow.\\n\\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\\n\\n## Non-goals and dependencies\\n\\n**Dependencies:** RSF-28 (M6-01; task ID mdehayoorrfc43z930ij72wx); RSF-18 (M3-04; task ID reuc1z3obcspcrn7xb55dzvk)\\n\\n**Non-goals / gate qualifications:** Only the stated deliverable; no adjacent milestone implementation or automatic artistic/native acceptance.\\n\\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\\n\\n## Implementation evidence (add at QA handoff)\\n\\n- Code changes / diff: Not implemented by this planning sync.\\n- Test commands / exit statuses / artifact hashes: NOT_RUN (planning only).\\n- Milestone gates / limitations: Not evaluated; structural, coverage, visual, preview and native states remain separate.\\n\\n## Independent QA result (reviewer reports, coordinator syncs)\\n\\nNot performed for implementation. Implementer supplies evidence and moves to QA Review; a distinct read-only reviewer records QA_PASS / QA_FAIL / QA_BLOCKED. Operator-only visual/native decisions remain separate. No acceptance is granted by backlog creation.\",\n  \"status\": \"in-progress\",\n  \"columnId\": \"xspey6aw5ujn840zun4xrd4i\",\n  \"priority\": \"no-priority\",\n  \"startDate\": null,\n  \"dueDate\": null,\n  \"position\": 28,\n  \"createdAt\": \"2026-10-29T10:08:08.126Z\",\n  \"userId\": \"aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn\",\n  \"assigneeName\": \"Codex\",\n  \"assigneeId\": \"aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn\",\n  \"projectId\": \"oq6fp33cmdnwl5h0v48zcr3u\",\n  \"workspaceId\": \"30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il\"\n}"
+      }
+    ],
+    "isError": false
+  }
+}

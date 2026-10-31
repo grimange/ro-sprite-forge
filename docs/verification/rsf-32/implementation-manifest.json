@@ -1,0 +1,35 @@
+{
+  "task": "RSF-32",
+  "changes": [
+    {
+      "path": "src/ro_sprite_forge/schemas/compatibility-registry-v1.json",
+      "before_sha256": null,
+      "sha256": "4c0e062bc19d39f7f74bb513aacdd0d119d03232accba0a4737d836154b364f7"
+    },
+    {
+      "path": "src/ro_sprite_forge/core/registry.py",
+      "before_sha256": null,
+      "sha256": "e8ac89d40c3fc63369686a54452759be874a5bab6a8a096a4d9ffa960a3f7a19"
+    },
+    {
+      "path": "src/ro_sprite_forge/core/contracts.py",
+      "before_sha256": "fd4f7c24467dbe1f6048d21ea2f57a66b978e873832c3fdb14631383794aa14c",
+      "sha256": "735e1138948065804f81260b270786d479f41f3b0d3f612193b85edf6973fc33"
+    },
+    {
+      "path": "scripts/check_registry_schema.py",
+      "before_sha256": null,
+      "sha256": "5fb90f956185733f8e3fd49d7f0f1489920dc742751cb2251102c50d9bd62718"
+    },
+    {
+      "path": "tests/test_profile_registry.py",
+      "before_sha256": null,
+      "sha256": "96514211b0d9f865427e705eb4301558917e98d1cd3dff279ff88d7722b68fab"
+    },
+    {
+      "path": "tests/private_fixture_hooks/test_registry_fixtures.py",
+      "before_sha256": null,
+      "sha256": "c420b6ab63e10c3a70e1f5c90d82920bedde213432061a285539d017b60c39ce"
+    }
+  ]
+}

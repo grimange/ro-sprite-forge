@@ -1,0 +1,721 @@
+{
+  "$id": "https://ro-sprite-forge.invalid/schemas/project-v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RSF Project Manifest Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "project_id",
+    "name",
+    "revision",
+    "created_at",
+    "updated_at",
+    "actor",
+    "profile",
+    "sources",
+    "reviews",
+    "canonical_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "rsf.project/v1"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "actor": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "profile": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "target": {
+      "type": "object"
+    },
+    "inventory": {
+      "type": "object"
+    },
+    "ledger": {
+      "type": "object"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sha256",
+          "filename",
+          "size",
+          "blob_path"
+        ],
+        "properties": {
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "filename": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "blob_path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "origin": {
+            "enum": [
+              "AUTHORED",
+              "CLASSIC_REFERENCE",
+              "UNVERIFIED"
+            ]
+          },
+          "kind": {
+            "type": "string"
+          },
+          "width": {
+            "type": ["integer", "null"],
+            "minimum": 1
+          },
+          "height": {
+            "type": ["integer", "null"],
+            "minimum": 1
+          },
+          "mode": {
+            "type": ["string", "null"]
+          },
+          "transparency_kind": {
+            "type": ["string", "null"]
+          },
+          "has_transparency": {
+            "type": ["boolean", "null"]
+          },
+          "sequence_id": {
+            "type": ["string", "null"]
+          },
+          "ordinal": {
+            "type": ["integer", "null"],
+            "minimum": 0
+          },
+          "extraction_id": {
+            "type": ["string", "null"]
+          },
+          "recipe_sha256": {
+            "type": ["string", "null"]
+          },
+          "source_sheet_sha256": {
+            "type": ["string", "null"]
+          },
+          "rect_id": {
+            "type": ["string", "null"]
+          },
+          "crop_rect": {
+            "type": ["array", "null"],
+            "items": { "type": "integer" }
+          },
+          "recipe_id": {
+            "type": ["string", "null"]
+          },
+          "source_sha256": {
+            "type": ["string", "null"]
+          },
+          "loss_report": {
+            "type": ["array", "null"],
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "reviews": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "scope",
+          "revision",
+          "approved",
+          "timestamp"
+        ],
+        "properties": {
+          "scope": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "approved": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "canonical_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "resources": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "part",
+          "act",
+          "spr",
+          "inventory"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+          },
+          "part": {
+            "enum": [
+              "body",
+              "head"
+            ]
+          },
+          "act": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "spr": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "inventory": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "review_events": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "id",
+          "canonical_sha256",
+          "project_id",
+          "project_revision",
+          "revision",
+          "target",
+          "decision",
+          "policy",
+          "provenance",
+          "identity_assurance",
+          "preview_semantics",
+          "limitations",
+          "members"
+        ],
+        "properties": {
+          "schema": {
+            "const": "rsf.review-event/v1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^review-[0-9a-f]{64}$",
+            "maxLength": 2048
+          },
+          "canonical_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "maxLength": 2048
+          },
+          "project_id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+            "maxLength": 2048
+          },
+          "project_revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+          },
+          "target": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "revision",
+              "canonical_sha256"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:-]{0,127})(?![\\s\\S])"
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "canonical_sha256": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "pattern": "^(?:[a-f0-9]{64})(?![\\s\\S])"
+              }
+            }
+          },
+          "decision": {
+            "enum": [
+              "APPROVED",
+              "REJECTED",
+              "NOT_REQUIRED"
+            ]
+          },
+          "policy": {
+            "enum": [
+              null,
+              "UNCHANGED_REFERENCE_STRUCTURAL_ONLY"
+            ]
+          },
+          "provenance": {
+            "const": "EXPLICIT_SINGLE_OPERATOR_WORKBENCH_ACTION"
+          },
+          "identity_assurance": {
+            "const": "LOCAL_REQUEST_ONLY"
+          },
+          "preview_semantics": {
+            "const": "rsf.operator-layer-review/v1"
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 2048
+            },
+            "minItems": 1,
+            "maxItems": 256
+          },
+          "members": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 256,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "requirement_id",
+                "basis_sha256",
+                "evidence_sha256"
+              ],
+              "properties": {
+                "requirement_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                },
+                "basis_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$",
+                  "maxLength": 2048
+                },
+                "evidence_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$",
+                  "maxLength": 2048
+                }
+              }
+            }
+          }
+        },
+        "$defs": {}
+      }
+    },
+    "sequences": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "id",
+          "name",
+          "frame_count",
+          "sequence_sha256",
+          "canonical_sha256",
+          "frames"
+        ],
+        "properties": {
+          "schema": {
+            "const": "rsf.sequence/v1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "frame_count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1024
+          },
+          "sequence_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "canonical_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "frames": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "sha256",
+                "filename"
+              ],
+              "properties": {
+                "ordinal": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "filename": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "width": {
+                  "type": ["integer", "null"],
+                  "minimum": 1
+                },
+                "height": {
+                  "type": ["integer", "null"],
+                  "minimum": 1
+                },
+                "mode": {
+                  "type": ["string", "null"]
+                },
+                "transparency_kind": {
+                  "type": ["string", "null"]
+                },
+                "has_transparency": {
+                  "type": ["boolean", "null"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "extractions": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "id",
+          "name",
+          "source_sha256",
+          "item_count",
+          "collection_sha256",
+          "canonical_sha256",
+          "items"
+        ],
+        "properties": {
+          "schema": {
+            "const": "rsf.spritesheet-extraction/v1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "source_filename": {
+            "type": ["string", "null"]
+          },
+          "item_count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1024
+          },
+          "collection_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "canonical_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "id",
+                "x",
+                "y",
+                "width",
+                "height",
+                "extracted_sha256"
+              ],
+              "properties": {
+                "ordinal": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+                },
+                "x": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "y": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "width": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "height": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "extracted_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "recipe_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "filename": {
+                  "type": "string"
+                },
+                "mode": {
+                  "type": ["string", "null"]
+                },
+                "transparency_kind": {
+                  "type": ["string", "null"]
+                },
+                "has_transparency": {
+                  "type": ["boolean", "null"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "recipes": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "id",
+          "name",
+          "source_sha256",
+          "operations",
+          "semantics",
+          "canonical_sha256"
+        ],
+        "properties": {
+          "schema": {
+            "const": "rsf.image-recipe/v1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "source_filename": {
+            "type": ["string", "null"]
+          },
+          "operations": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["op"],
+              "properties": {
+                "op": {
+                  "enum": [
+                    "crop",
+                    "flip",
+                    "scale",
+                    "offset",
+                    "matte_key",
+                    "color_mode"
+                  ]
+                },
+                "x": { "type": "integer" },
+                "y": { "type": "integer" },
+                "width": { "type": "integer", "minimum": 1 },
+                "height": { "type": "integer", "minimum": 1 },
+                "direction": { "enum": ["horizontal", "vertical", "both"] },
+                "scale_x": { "type": "number", "exclusiveMinimum": 0 },
+                "scale_y": { "type": "number", "exclusiveMinimum": 0 },
+                "filter": { "enum": ["nearest", "bilinear", "bicubic"] },
+                "offset_x": { "type": "integer" },
+                "offset_y": { "type": "integer" },
+                "canvas_width": { "type": "integer", "minimum": 1 },
+                "canvas_height": { "type": "integer", "minimum": 1 },
+                "overflow": { "enum": ["clip", "expand"] },
+                "color": {
+                  "type": "array",
+                  "items": { "type": "integer", "minimum": 0, "maximum": 255 },
+                  "minItems": 3,
+                  "maxItems": 4
+                },
+                "tolerance": { "type": "integer", "minimum": 0, "maximum": 255 },
+                "replacement_alpha": { "type": "integer", "minimum": 0, "maximum": 255 },
+                "target_mode": { "enum": ["RGBA", "RGB", "P", "L", "LA"] },
+                "dither": { "type": "boolean" }
+              }
+            }
+          },
+          "semantics": {
+            "const": "1.0.0"
+          },
+          "canonical_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "compilations": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "required": [
+          "schema",
+          "id",
+          "writer_version",
+          "compilation_mode",
+          "replacement_policy",
+          "isolation_strategy",
+          "part",
+          "input_resources",
+          "output_resources",
+          "replacements",
+          "preservation_summary",
+          "verification",
+          "status",
+          "canonical_sha256"
+        ],
+        "properties": {
+          "schema": {
+            "const": "rsf.compilation-manifest/v1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+          },
+          "writer_version": {
+            "enum": ["1.0.0", "1.1.0", "1.2.0"]
+          },
+          "compilation_mode": {
+            "enum": ["preserve", "bounded_replacement", "production_export"]
+          },
+          "replacement_policy": {
+            "enum": ["preserve_pool", "explicit_rgba", "indexed_exact"]
+          },
+          "isolation_strategy": {
+            "enum": ["auto", "always_append", "in_place_only"]
+          },
+          "part": {
+            "enum": ["body", "head"]
+          },
+          "canonical_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {}
+}

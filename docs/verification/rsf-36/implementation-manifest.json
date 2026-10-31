@@ -1,0 +1,35 @@
+{
+  "task": "RSF-36",
+  "changes": [
+    {
+      "path": "NOTICE.md",
+      "before_sha256": null,
+      "sha256": "3698aaa4b5a77becb3100a560515cb53a61fe66ebe1bf1857144a9410336e65c"
+    },
+    {
+      "path": "MANIFEST.in",
+      "before_sha256": null,
+      "sha256": "1f2333548ef6348468fc4fa1e66c8c489a828ef76f60e3febc537d41db70f9a0"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "before_sha256": null,
+      "sha256": "d04224ada8896449b85ce2346c4214c2adb0706bc60a5c02bd7ad38ecf6a26fa"
+    },
+    {
+      "path": "tests/test_packaging_and_distribution.py",
+      "before_sha256": null,
+      "sha256": "28c0b7421d41d50247ab82b5f8bf244ffc1b4e8b34979df4483c81cbff7246b4"
+    },
+    {
+      "path": "tests/check_distribution.py",
+      "before_sha256": null,
+      "sha256": "9485ac68cc4f723c7d7bace1c3af5b7ab7b8f5da1a198f71856d81ff09878ee1"
+    },
+    {
+      "path": "scripts/generate_release_manifest.py",
+      "before_sha256": null,
+      "sha256": "4950f06012c2a9248c1cb41d51f49b593a290bc38bb19ac9a930e60bb1ff8629"
+    }
+  ]
+}

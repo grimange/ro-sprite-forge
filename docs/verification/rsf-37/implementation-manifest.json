@@ -1,0 +1,15 @@
+{
+  "task": "RSF-37",
+  "changes": [
+    {
+      "path": "src/ro_sprite_forge/core/project.py",
+      "sha256": "7a5ea31445c90c02d8555b77f6a7303c1cbfd373cbea56db1958f6dd4ab72b4a",
+      "summary": "Added version classification (classify_project_version), deterministic schema migrations (migrate_project), crash-safe recovery (recover_project), integrity auditing (audit_project_integrity), strict JSON parse bounds (parse_manifest_bytes with duplicate-key rejection, nonfinite float rejection, nesting depth bounds), and path traversal/symlink escape hardening."
+    },
+    {
+      "path": "tests/test_project_hardening.py",
+      "sha256": "efed86851833397d2a8b1b20a1e4e4b3ef10c1fcd258e4568b3f70278c2ce378",
+      "summary": "Added dedicated adversarial and fault-injection test suite covering all 30 scenarios from prompt Part J (migration, recovery idempotency, interrupted writes, corrupted manifests, blob tampering, path traversal, symlink escapes, resource bounds, approval preservation/invalidation, and package compatibility)."
+    }
+  ]
+}

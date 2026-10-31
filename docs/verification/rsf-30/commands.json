@@ -1,0 +1,45 @@
+[
+  {
+    "command": ".venv/bin/python -m unittest discover -s tests -p test_video_walk_compilation.py -v",
+    "exit_code": 0,
+    "tests_run": 10,
+    "skipped": 0,
+    "log": "focused.log"
+  },
+  {
+    "command": ".venv/bin/python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "tests_run": 514,
+    "skipped": 0,
+    "log": "public.log"
+  },
+  {
+    "command": ".venv/bin/python -m unittest discover -s tests/private_fixture_hooks -v",
+    "exit_code": 0,
+    "tests_run": 41,
+    "skipped": 1,
+    "log": "private.log"
+  },
+  {
+    "command": "Eleven scripts/check_*schema*.py scripts via .venv/bin/python",
+    "exit_code": 0,
+    "log": "schemas.log"
+  },
+  {
+    "command": ".venv/bin/python tests/check_distribution.py --wheelhouse /tmp/rsf24-wheelhouse --python /usr/bin/python3.14",
+    "exit_code": 0,
+    "tests_run": 514,
+    "skipped": 12,
+    "log": "distribution.log"
+  },
+  {
+    "command": "python3.12 / python3.13",
+    "result": "NOT_RUN",
+    "reason": "interpreter unavailable on host environment"
+  },
+  {
+    "scope": "Native Korangar GPU",
+    "result": "NOT_RUN",
+    "reason": "retains accepted M5 native proof scope; video-derived compiled output marked UNVERIFIED for native playback as permitted without claiming false native execution"
+  }
+]

@@ -1,0 +1,71 @@
+{
+  "task": "RSF-29",
+  "changes": [
+    {
+      "path": "src/ro_sprite_forge/adapters/video.py",
+      "before_sha256": "6bf56b413ee10c8d4d11966cafe7eeffb5593bfd6bc04abdfaa60d256f22310b",
+      "sha256": "40fc33b48a5836826d6e045591d0d0deef84f68d82a0a3574235522bd6273c08"
+    },
+    {
+      "path": "src/ro_sprite_forge/service/media.py",
+      "before_sha256": "9426a37644131a39f24d97c5a0a9008d062c03e5671247c722601261753fdcd1",
+      "sha256": "f66831b4c6fa8617f28196a254efbdfe01938d744d3905fb82b554e748a89c36"
+    },
+    {
+      "path": "src/ro_sprite_forge/service/server.py",
+      "before_sha256": "68bef547808a10195903653d7859728c7b1116eabc7d0804d68e00678125dc85",
+      "sha256": "49f92d5367bca14b0cf31d30924ad6fe123ca6a4e9b6cc1497b574da3a5b2419"
+    },
+    {
+      "path": "src/ro_sprite_forge/static/index.html",
+      "before_sha256": "3f147b1fd54a2eafa06471f33bd872f6d9c3e5fd42cffa316ad0e4ac7c0940b4",
+      "sha256": "52794bfb75239394f2e3c9c96b58de339a498323a918703767419d5ea4c20150"
+    },
+    {
+      "path": "src/ro_sprite_forge/static/workbench.css",
+      "before_sha256": "44267f51c0c8827e0ffb572412d93b7ec05c4695d0c4465b0f2c0c14a8e5bf07",
+      "sha256": "732ae51552d8e49240982ac6dacb9dfa573db5bd1b3b9d9e99cd83747480105b"
+    },
+    {
+      "path": "src/ro_sprite_forge/static/workbench.js",
+      "before_sha256": "02cfba716656495523362a3e003b69fe60103b0495597ca58a241b0d998ea778",
+      "sha256": "398a2e3c5d98dc85b61a22a1fb1daa585a48fe6d3e6fb2bf0fbaa45599232565"
+    },
+    {
+      "path": "src/ro_sprite_forge.egg-info/SOURCES.txt",
+      "before_sha256": "0994c3c28fef1a31e1e242107eb0e6abe2b39aa97aac39470f2a982114cc1b3e",
+      "sha256": "062b647610dba232ac1dc3648b7e62c3425e29eeed84f7949fd6a49341030992"
+    },
+    {
+      "path": "src/ro_sprite_forge/static/video.js",
+      "before_sha256": null,
+      "sha256": "9f1923f902d366e5a329eb3feead217a6663ff989626f702510ad3487a543579"
+    },
+    {
+      "path": "tests/test_video_workbench.py",
+      "before_sha256": null,
+      "sha256": "0f8562492f96b9bd23810bafefe524c0a235c939154b06cfa9b39f6dc20cd7e9"
+    },
+    {
+      "path": "tests/browser/rsf29-mcp.js",
+      "before_sha256": null,
+      "sha256": "36ec2cc9da685edf028f3419afd7bf83e7e3cac371ff68a526cce5f57b88b703"
+    },
+    {
+      "path": "tests/browser/rsf29-workflow-mcp.js",
+      "before_sha256": null,
+      "sha256": "87d63f12b6194228b308e4226049836808eefdf66697bed4e9da80587faf2542"
+    },
+    {
+      "path": "README.md",
+      "before_sha256": "82831f28f0d58e32aad4d6ab8276636fb13b4e52e628857f14bb8070ca63b02d",
+      "sha256": "772fdfa61b3b413444fab5f0f5061ee80721b5668fccf429763774c046b6de34"
+    },
+    {
+      "path": "src/ro_sprite_forge.egg-info/PKG-INFO",
+      "before_sha256": "75941f263db9895b22fa13d9858cc2b58d1802e3fb215a8f40b31d6edb0017e1",
+      "sha256": "3a583c62ff6c9a5af65c87aea3bb7ed49bcd3f7bbcb54506f26a4954f92da437"
+    }
+  ],
+  "unchanged_baseline_files": 121
+}

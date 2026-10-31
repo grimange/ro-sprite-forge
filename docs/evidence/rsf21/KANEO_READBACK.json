@@ -1,0 +1,18 @@
+{
+  "id": "tnco42miae37x8m268gi6s4g",
+  "title": "[M4] Explicit reversible image transformation recipes",
+  "number": 21,
+  "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M4\n**Stable plan reference:** RSF-v1.1/M4-03\n**Implementation status:** Accepted (done); verified by independent QA.\n**Responsible implementer:** AGY (Codex Senior Graphics Pipeline / Transformation Architect)\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.1–2.3, 4.6, 6/M4\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Make operator-requested processing reproducible and reviewable.\n\n**Scope:** Versioned crop/flip/scale/alignment/matte-background removal/palette conversion recipes and before/after preview.\n\n## Acceptance criteria\n\n- [x] Every transform class is operator-requested and recorded with pinned algorithm/settings and source/staged hashes; originals remain recoverable.\n- [x] Show before/after and require operator approval for applied transform classes; no hidden aesthetic repair or generated imagery.\n- [x] Raw bytes, staged pixels, preview RGBA and encoded output representation remain distinct; palette conversion reports information loss.\n- [x] Identical source/recipe versions produce identical staged hashes; recipe edits invalidate only affected composition approval.\n\n## Verification\n\nRecipe round-trip/provenance, deterministic transformations, loss-report and affected-review invalidation tests.\n\nEvidence packet: docs/evidence/rsf21/VERIFICATION.md\nQA Review: docs/evidence/rsf21/QA_REVIEW.md (QA_PASS)\nAll 395 public tests, 36 private reference tests, and 22 transformation tests passed. Isolated wheel distribution passed (DISTRIBUTION_CHECK_PASS).\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-20 (M4-02; task ID okckipkcfdqspilmisaewm5y)\n\n**Non-goals / gate qualifications:** Processing supplies candidates; never asserts anatomy/style validity.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code changes / diff: Documented in docs/evidence/rsf21/implementation-manifest.json\n- Test commands / exit statuses / artifact hashes: 22/22 unit tests, 395/395 public regression tests, 36/36 private tests, isolated wheel build and test pass.\n- Milestone gates / limitations: Structural, coverage, visual, preview and native states remain separate.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nQA_PASS by forge-qa-reviewer on 2026-10-30. Moved to Accepted (done).",
+  "status": "done",
+  "columnId": "vnkxm3fyt0tmewq1rdokfops",
+  "priority": "no-priority",
+  "startDate": null,
+  "dueDate": null,
+  "position": 20,
+  "createdAt": "2026-10-29T10:08:03.940Z",
+  "userId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+  "assigneeName": "AGY",
+  "assigneeId": "ICJQmirJliEFAZN3jBl3ZitHCandT0FG",
+  "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+  "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+}

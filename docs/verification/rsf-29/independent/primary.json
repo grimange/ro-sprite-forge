@@ -1,0 +1,27 @@
+{
+  "pid": "rsf29-browser-1793406878461",
+  "browser": "156.0.8078.73",
+  "video_sha256": "51f0173b6b4dfd615acf3cb9d55e8131dd87c28b8e528098668b9fefd4c53a9d",
+  "previewSha": "8f92a9dfd224fdf3275a835caa14a8e04f5b03bf367d026520c28e2aa55a44e3",
+  "reorderedSha": "9e03b30d55141d79f361c1f36290f9f2ade7434ab0b6d81809c0c64ec04d646c",
+  "pixelHashes": [
+    "f8630b2a2e8ecb0f293bbd525fad3d6961c8b33c50a098e85568997bb5409c6f",
+    "adf63562c07856fcfc2564a135d54d4de89c0ef0136f6c6fc197611515874631",
+    "4de13be716c171641092c025d6821c7ffe597e95c207e95a055c11838a0bc94f"
+  ],
+  "journeys": [
+    "A metadata and stream",
+    "B exact VFR 300/0/120, keyboard, independent RGBA hashes",
+    "C operator reorder 300/120/0",
+    "D preview unchanged, explicit immutable stage, idempotency, reopen",
+    "F missing PTS, invalid ordinal, unsupported large PTS, unsupported stream, stale revision"
+  ],
+  "errors": [],
+  "failures": [],
+  "expectedErrors": [
+    "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)",
+    "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)",
+    "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)",
+    "Failed to load resource: the server responded with a status of 409 (Conflict)"
+  ]
+}

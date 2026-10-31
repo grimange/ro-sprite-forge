@@ -1,0 +1,87 @@
+{
+  "task_id": "bcez9nz3cvf77pewx0q7zgz9",
+  "task_key": "RSF-39",
+  "verification_suite": {
+    "synthetic_release_tutorial": {
+      "command": ".venv/bin/python -m unittest tests/test_synthetic_release_tutorial.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_run": 3,
+      "passed": 3,
+      "failed": 0,
+      "log": "docs/verification/rsf-39/synthetic-tutorial.log",
+      "sha256": "4a4358e556e928b95f0c2cf25768099682e828144e96b962a587943f841c55f0"
+    },
+    "playwright_browser_suite": {
+      "command": ".venv/bin/python -m unittest tests/test_playwright_workbench.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_run": 7,
+      "passed": 7,
+      "failed": 0,
+      "screenshots": [
+        "docs/verification/rsf-39/screenshots/viewport_1920x1080.png",
+        "docs/verification/rsf-39/screenshots/viewport_1280x800.png",
+        "docs/verification/rsf-39/screenshots/viewport_1024x768.png"
+      ]
+    },
+    "wheel_distribution_isolated_matrix": {
+      "command": ".venv/bin/python tests/check_distribution.py --wheelhouse /tmp/rsf24-wheelhouse --python /usr/bin/python3.14",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_run": 698,
+      "passed": 675,
+      "skipped": 23,
+      "verdict": "DISTRIBUTION_CHECK_PASS",
+      "log": "docs/verification/rsf-39/distribution.log",
+      "sha256": "3163034b5e7c82ec64796152f3b90fdfab09a4a627c4ffa0835f26bdb7e74b55"
+    },
+    "native_korangar_verification_suite": {
+      "command": "PYTHONPATH=tools/korangar-native .venv/bin/python -m unittest discover -s tools/korangar-native -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_run": 17,
+      "passed": 17,
+      "failed": 0,
+      "log": "docs/verification/rsf-39/native.log",
+      "sha256": "ec7d9cb0bcaa8e1b20f340c5e944249a252523d9d0003b4290a9bc02699a7ce4"
+    },
+    "rust_oracle_parity_suite": {
+      "command": ".venv/bin/python tools/rust-oracle/test_parity.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_run": 11,
+      "passed": 11,
+      "failed": 0
+    },
+    "schema_validators": {
+      "command": "for s in scripts/check_*schema*.py; do python3 \"$s\" || exit 1; done",
+      "status": "PASS",
+      "exit_code": 0,
+      "schemas_checked": 13,
+      "log": "docs/verification/rsf-39/schemas.log",
+      "sha256": "3601d1c79cc21d89f2d519556cb4e1bffb94bdb12cdbb6a9c552e48e3334b99b"
+    },
+    "private_fixture_hooks": {
+      "command": ".venv/bin/python -m unittest discover -s tests/private_fixture_hooks -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_run": 52,
+      "passed": 51,
+      "skipped": 1,
+      "failed": 0,
+      "log": "docs/verification/rsf-39/private.log",
+      "sha256": "6e91c98b5ffbe0a8a35dfffb5350b46afbe8646c7ce88d7946cb33911c7c465a"
+    },
+    "public_regression_suite": {
+      "command": ".venv/bin/python -m unittest discover -s tests -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_run": 698,
+      "passed": 698,
+      "failed": 0,
+      "log": "docs/verification/rsf-39/public.log",
+      "sha256": "4750e8664fa2199e18fb071c15c670516572e702f5f0798b0d1713674bf965e4"
+    }
+  }
+}

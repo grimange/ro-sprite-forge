@@ -1,0 +1,60 @@
+[
+  {
+    "id": "oarvz4gk3um6gp1ajyc9qa8f",
+    "sourceTaskId": "rnecskanbq7j2i8m936ti62p",
+    "targetTaskId": "akj2012swhvsebugprsl0v5j",
+    "relationType": "blocks",
+    "createdAt": "2026-10-29T10:08:18.776Z",
+    "sourceTask": {
+      "id": "rnecskanbq7j2i8m936ti62p",
+      "title": "[M1] Versioned actor, target and runtime-profile contracts",
+      "status": "done",
+      "isCompleted": true,
+      "priority": "no-priority",
+      "number": 7,
+      "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+      "userId": null,
+      "assigneeName": null
+    },
+    "targetTask": {
+      "id": "akj2012swhvsebugprsl0v5j",
+      "title": "[M1] Explicit or inherited ordered layer-topology requirements",
+      "status": "to-do",
+      "isCompleted": false,
+      "priority": "no-priority",
+      "number": 8,
+      "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+      "userId": null,
+      "assigneeName": null
+    }
+  },
+  {
+    "id": "phkh7frqtzkqjm1uue5d77st",
+    "sourceTaskId": "akj2012swhvsebugprsl0v5j",
+    "targetTaskId": "bbiahdelxdqg6o5aupyfj699",
+    "relationType": "blocks",
+    "createdAt": "2026-10-29T10:08:18.804Z",
+    "sourceTask": {
+      "id": "akj2012swhvsebugprsl0v5j",
+      "title": "[M1] Explicit or inherited ordered layer-topology requirements",
+      "status": "to-do",
+      "isCompleted": false,
+      "priority": "no-priority",
+      "number": 8,
+      "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+      "userId": null,
+      "assigneeName": null
+    },
+    "targetTask": {
+      "id": "bbiahdelxdqg6o5aupyfj699",
+      "title": "[M1] Artwork ledger and explicit transform-reuse graph",
+      "status": "to-do",
+      "isCompleted": false,
+      "priority": "no-priority",
+      "number": 9,
+      "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+      "userId": null,
+      "assigneeName": null
+    }
+  }
+]

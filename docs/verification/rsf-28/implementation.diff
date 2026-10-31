@@ -1,0 +1,1097 @@
+--- before/src/ro_sprite_forge/cli.py
++++ after/src/ro_sprite_forge/cli.py
+@@ -220,6 +220,31 @@
+     seq.add_argument('--json', help='Optional additional output path for the manifest JSON.')
+     seq.add_argument('--stdout-json', action='store_true', help='Print manifest JSON to stdout.')
+ 
++    commands.add_parser('video-capabilities', help='Check optional local FFprobe/FFmpeg availability and policy.')
++    video = commands.add_parser('video-inspect', help='Inspect bounded local video streams and actual presentation timestamps.')
++    video.add_argument('--video', required=True)
++    video.add_argument('--stream', type=int, help='Absolute video stream index; required for multiple video streams.')
++    video.add_argument('--expected-sha256')
++    video.add_argument('--json', help='Optional new canonical inspection report path.')
++    stage = commands.add_parser('video-stage', help='Explicitly extract and stage video candidates; no assignment or approval.')
++    stage.add_argument('--video', required=True)
++    stage.add_argument('--stream', type=int)
++    stage.add_argument('--expected-sha256')
++    selection = stage.add_mutually_exclusive_group(required=True)
++    selection.add_argument('--ordinal', type=int, action='append', help='Exact zero-based presentation ordinal; repeat in desired order.')
++    selection.add_argument('--pts', type=int, action='append', help='Exact integer source PTS in inspected stream time base; repeat in desired order.')
++    stage.add_argument('--projects-dir', required=True)
++    stage.add_argument('--project-id', required=True)
++    stage.add_argument('--expected-revision', type=int, required=True)
++    preview = commands.add_parser('video-extract', help='Extract a preview bundle before explicitly staging candidates.')
++    preview.add_argument('--video', required=True)
++    preview.add_argument('--stream', type=int)
++    preview.add_argument('--expected-sha256')
++    preview.add_argument('--output-dir', required=True)
++    selection = preview.add_mutually_exclusive_group(required=True)
++    selection.add_argument('--ordinal', type=int, action='append')
++    selection.add_argument('--pts', type=int, action='append')
++
+     serve = commands.add_parser('serve', help='Start local loopback HTTP service for workbench.')
+     serve.add_argument('--host', default='127.0.0.1', help='Host interface to bind (default: 127.0.0.1; must be loopback).')
+     serve.add_argument('--port', type=int, default=8080, help='Port to listen on (default: 8080).')
+@@ -373,6 +398,42 @@
+     """Render expected errors on stderr; help/version use argparse's zero exit."""
+     try:
+         args = build_parser().parse_args(argv)
++        if args.command == 'video-capabilities':
++            from ro_sprite_forge.adapters.video import capabilities
++            sys.stdout.write(canonical_bytes(capabilities()).decode('utf-8'))
++            return 0
++        if args.command == 'video-inspect':
++            from ro_sprite_forge.adapters.video import inspect_video, read_local_video
++            if args.json:
++                _output(args.json)
++            report = inspect_video(read_local_video(args.video), stream_index=args.stream,
++                                   expected_sha256=args.expected_sha256)
++            if args.json:
++                publish(args.json, report)
++            sys.stdout.write(canonical_bytes(report).decode('utf-8'))
++            return 0
++        if args.command == 'video-extract':
++            from ro_sprite_forge.adapters.video import extract_candidates, read_local_video
++            from ro_sprite_forge.core.build import publish_bundle
++            result = extract_candidates(read_local_video(args.video), stream_index=args.stream,
++                mode='ordinal' if args.ordinal is not None else 'pts',
++                values=args.ordinal if args.ordinal is not None else args.pts,
++                expected_sha256=args.expected_sha256)
++            contents = {'video-candidates.json': canonical_bytes(result['manifest'])}
++            contents.update({f'candidate-{n:04d}.png': data for n, data in enumerate(result['pngs'])})
++            publish_bundle(Path(args.output_dir), contents)
++            sys.stdout.write(canonical_bytes(result['manifest']).decode('utf-8'))
++            return 0
++        if args.command == 'video-stage':
++            from ro_sprite_forge.adapters.video import read_local_video
++            from ro_sprite_forge.service.media import stage_video
++            project = stage_video(args.projects_dir, args.project_id, read_local_video(args.video),
++                expected_revision=args.expected_revision, stream_index=args.stream,
++                mode='ordinal' if args.ordinal is not None else 'pts',
++                values=args.ordinal if args.ordinal is not None else args.pts,
++                expected_sha256=args.expected_sha256)
++            sys.stdout.write(canonical_bytes(project).decode('utf-8'))
++            return 0
+         if args.command == 'animation':
+             from ro_sprite_forge.core.animation import AnimationInspector
+             from ro_sprite_forge.core.canonical import check
+--- before/src/ro_sprite_forge/schemas/project-v1.json
++++ after/src/ro_sprite_forge/schemas/project-v1.json
+@@ -103,54 +103,103 @@
+             "type": "string"
+           },
+           "width": {
+-            "type": ["integer", "null"],
++            "type": [
++              "integer",
++              "null"
++            ],
+             "minimum": 1
+           },
+           "height": {
+-            "type": ["integer", "null"],
++            "type": [
++              "integer",
++              "null"
++            ],
+             "minimum": 1
+           },
+           "mode": {
+-            "type": ["string", "null"]
++            "type": [
++              "string",
++              "null"
++            ]
+           },
+           "transparency_kind": {
+-            "type": ["string", "null"]
++            "type": [
++              "string",
++              "null"
++            ]
+           },
+           "has_transparency": {
+-            "type": ["boolean", "null"]
++            "type": [
++              "boolean",
++              "null"
++            ]
+           },
+           "sequence_id": {
+-            "type": ["string", "null"]
++            "type": [
++              "string",
++              "null"
++            ]
+           },
+           "ordinal": {
+-            "type": ["integer", "null"],
++            "type": [
++              "integer",
++              "null"
++            ],
+             "minimum": 0
+           },
+           "extraction_id": {
+-            "type": ["string", "null"]
++            "type": [
++              "string",
++              "null"
++            ]
+           },
+           "recipe_sha256": {
+-            "type": ["string", "null"]
++            "type": [
++              "string",
++              "null"
++            ]
+           },
+           "source_sheet_sha256": {
+-            "type": ["string", "null"]
++            "type": [
++              "string",
++              "null"
++            ]
+           },
+           "rect_id": {
+-            "type": ["string", "null"]
++            "type": [
++              "string",
++              "null"
++            ]
+           },
+           "crop_rect": {
+-            "type": ["array", "null"],
+-            "items": { "type": "integer" }
++            "type": [
++              "array",
++              "null"
++            ],
++            "items": {
++              "type": "integer"
++            }
+           },
+           "recipe_id": {
+-            "type": ["string", "null"]
++            "type": [
++              "string",
++              "null"
++            ]
+           },
+           "source_sha256": {
+-            "type": ["string", "null"]
++            "type": [
++              "string",
++              "null"
++            ]
+           },
+           "loss_report": {
+-            "type": ["array", "null"],
+-            "items": { "type": "string" }
++            "type": [
++              "array",
++              "null"
++            ],
++            "items": {
++              "type": "string"
++            }
+           }
+         }
+       }
+@@ -439,21 +488,36 @@
+                   "maxLength": 256
+                 },
+                 "width": {
+-                  "type": ["integer", "null"],
++                  "type": [
++                    "integer",
++                    "null"
++                  ],
+                   "minimum": 1
+                 },
+                 "height": {
+-                  "type": ["integer", "null"],
++                  "type": [
++                    "integer",
++                    "null"
++                  ],
+                   "minimum": 1
+                 },
+                 "mode": {
+-                  "type": ["string", "null"]
++                  "type": [
++                    "string",
++                    "null"
++                  ]
+                 },
+                 "transparency_kind": {
+-                  "type": ["string", "null"]
++                  "type": [
++                    "string",
++                    "null"
++                  ]
+                 },
+                 "has_transparency": {
+-                  "type": ["boolean", "null"]
++                  "type": [
++                    "boolean",
++                    "null"
++                  ]
+                 }
+               }
+             }
+@@ -495,7 +559,10 @@
+             "pattern": "^[0-9a-f]{64}$"
+           },
+           "source_filename": {
+-            "type": ["string", "null"]
++            "type": [
++              "string",
++              "null"
++            ]
+           },
+           "item_count": {
+             "type": "integer",
+@@ -561,13 +628,22 @@
+                   "type": "string"
+                 },
+                 "mode": {
+-                  "type": ["string", "null"]
++                  "type": [
++                    "string",
++                    "null"
++                  ]
+                 },
+                 "transparency_kind": {
+-                  "type": ["string", "null"]
++                  "type": [
++                    "string",
++                    "null"
++                  ]
+                 },
+                 "has_transparency": {
+-                  "type": ["boolean", "null"]
++                  "type": [
++                    "boolean",
++                    "null"
++                  ]
+                 }
+               }
+             }
+@@ -608,7 +684,10 @@
+             "pattern": "^[0-9a-f]{64}$"
+           },
+           "source_filename": {
+-            "type": ["string", "null"]
++            "type": [
++              "string",
++              "null"
++            ]
+           },
+           "operations": {
+             "type": "array",
+@@ -617,7 +696,9 @@
+             "items": {
+               "type": "object",
+               "additionalProperties": false,
+-              "required": ["op"],
++              "required": [
++                "op"
++              ],
+               "properties": {
+                 "op": {
+                   "enum": [
+@@ -629,29 +710,94 @@
+                     "color_mode"
+                   ]
+                 },
+-                "x": { "type": "integer" },
+-                "y": { "type": "integer" },
+-                "width": { "type": "integer", "minimum": 1 },
+-                "height": { "type": "integer", "minimum": 1 },
+-                "direction": { "enum": ["horizontal", "vertical", "both"] },
+-                "scale_x": { "type": "number", "exclusiveMinimum": 0 },
+-                "scale_y": { "type": "number", "exclusiveMinimum": 0 },
+-                "filter": { "enum": ["nearest", "bilinear", "bicubic"] },
+-                "offset_x": { "type": "integer" },
+-                "offset_y": { "type": "integer" },
+-                "canvas_width": { "type": "integer", "minimum": 1 },
+-                "canvas_height": { "type": "integer", "minimum": 1 },
+-                "overflow": { "enum": ["clip", "expand"] },
++                "x": {
++                  "type": "integer"
++                },
++                "y": {
++                  "type": "integer"
++                },
++                "width": {
++                  "type": "integer",
++                  "minimum": 1
++                },
++                "height": {
++                  "type": "integer",
++                  "minimum": 1
++                },
++                "direction": {
++                  "enum": [
++                    "horizontal",
++                    "vertical",
++                    "both"
++                  ]
++                },
++                "scale_x": {
++                  "type": "number",
++                  "exclusiveMinimum": 0
++                },
++                "scale_y": {
++                  "type": "number",
++                  "exclusiveMinimum": 0
++                },
++                "filter": {
++                  "enum": [
++                    "nearest",
++                    "bilinear",
++                    "bicubic"
++                  ]
++                },
++                "offset_x": {
++                  "type": "integer"
++                },
++                "offset_y": {
++                  "type": "integer"
++                },
++                "canvas_width": {
++                  "type": "integer",
++                  "minimum": 1
++                },
++                "canvas_height": {
++                  "type": "integer",
++                  "minimum": 1
++                },
++                "overflow": {
++                  "enum": [
++                    "clip",
++                    "expand"
++                  ]
++                },
+                 "color": {
+                   "type": "array",
+-                  "items": { "type": "integer", "minimum": 0, "maximum": 255 },
++                  "items": {
++                    "type": "integer",
++                    "minimum": 0,
++                    "maximum": 255
++                  },
+                   "minItems": 3,
+                   "maxItems": 4
+                 },
+-                "tolerance": { "type": "integer", "minimum": 0, "maximum": 255 },
+-                "replacement_alpha": { "type": "integer", "minimum": 0, "maximum": 255 },
+-                "target_mode": { "enum": ["RGBA", "RGB", "P", "L", "LA"] },
+-                "dither": { "type": "boolean" }
++                "tolerance": {
++                  "type": "integer",
++                  "minimum": 0,
++                  "maximum": 255
++                },
++                "replacement_alpha": {
++                  "type": "integer",
++                  "minimum": 0,
++                  "maximum": 255
++                },
++                "target_mode": {
++                  "enum": [
++                    "RGBA",
++                    "RGB",
++                    "P",
++                    "L",
++                    "LA"
++                  ]
++                },
++                "dither": {
++                  "type": "boolean"
++                }
+               }
+             }
+           },
+@@ -695,19 +841,38 @@
+             "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+           },
+           "writer_version": {
+-            "enum": ["1.0.0", "1.1.0", "1.2.0"]
++            "enum": [
++              "1.0.0",
++              "1.1.0",
++              "1.2.0"
++            ]
+           },
+           "compilation_mode": {
+-            "enum": ["preserve", "bounded_replacement", "production_export"]
++            "enum": [
++              "preserve",
++              "bounded_replacement",
++              "production_export"
++            ]
+           },
+           "replacement_policy": {
+-            "enum": ["preserve_pool", "explicit_rgba", "indexed_exact"]
++            "enum": [
++              "preserve_pool",
++              "explicit_rgba",
++              "indexed_exact"
++            ]
+           },
+           "isolation_strategy": {
+-            "enum": ["auto", "always_append", "in_place_only"]
++            "enum": [
++              "auto",
++              "always_append",
++              "in_place_only"
++            ]
+           },
+           "part": {
+-            "enum": ["body", "head"]
++            "enum": [
++              "body",
++              "head"
++            ]
+           },
+           "canonical_sha256": {
+             "type": "string",
+@@ -715,6 +880,612 @@
+           }
+         }
+       }
++    },
++    "video_imports": {
++      "type": "array",
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "required": [
++          "schema",
++          "policy",
++          "inspection",
++          "ffmpeg",
++          "request",
++          "items",
++          "visual_review",
++          "automatic_assignment",
++          "canonical_sha256"
++        ],
++        "properties": {
++          "schema": {
++            "const": "rsf.video-candidates/v1"
++          },
++          "policy": {
++            "const": "rsf.video-rgba-presentation/v1"
++          },
++          "inspection": {
++            "type": "object",
++            "additionalProperties": false,
++            "required": [
++              "schema",
++              "source",
++              "policy",
++              "ffprobe",
++              "container",
++              "streams",
++              "selected_stream",
++              "stream_selection",
++              "time_base",
++              "timing",
++              "decoded_frame_count",
++              "frames",
++              "canonical_sha256"
++            ],
++            "properties": {
++              "schema": {
++                "const": "rsf.video-inspection/v1"
++              },
++              "source": {
++                "type": "object",
++                "additionalProperties": false,
++                "required": [
++                  "sha256",
++                  "size"
++                ],
++                "properties": {
++                  "sha256": {
++                    "type": "string",
++                    "pattern": "^[0-9a-f]{64}$"
++                  },
++                  "size": {
++                    "type": "integer",
++                    "minimum": 1,
++                    "maximum": 33554432
++                  }
++                }
++              },
++              "policy": {
++                "const": "rsf.video-rgba-presentation/v1"
++              },
++              "ffprobe": {
++                "type": "object",
++                "additionalProperties": false,
++                "required": [
++                  "version",
++                  "version_report_sha256",
++                  "executable_sha256"
++                ],
++                "properties": {
++                  "version": {
++                    "type": "string",
++                    "maxLength": 2048
++                  },
++                  "version_report_sha256": {
++                    "type": "string",
++                    "pattern": "^[0-9a-f]{64}$"
++                  },
++                  "executable_sha256": {
++                    "type": "string",
++                    "pattern": "^[0-9a-f]{64}$"
++                  }
++                }
++              },
++              "container": {
++                "type": "object",
++                "additionalProperties": false,
++                "required": [
++                  "format",
++                  "start",
++                  "duration"
++                ],
++                "properties": {
++                  "format": {
++                    "type": [
++                      "string",
++                      "null"
++                    ],
++                    "maxLength": 2048
++                  },
++                  "start": {
++                    "type": [
++                      "object",
++                      "null"
++                    ],
++                    "additionalProperties": false,
++                    "required": [
++                      "numerator",
++                      "denominator"
++                    ],
++                    "properties": {
++                      "numerator": {
++                        "type": "integer"
++                      },
++                      "denominator": {
++                        "type": "integer",
++                        "minimum": 1
++                      }
++                    }
++                  },
++                  "duration": {
++                    "type": [
++                      "object",
++                      "null"
++                    ],
++                    "additionalProperties": false,
++                    "required": [
++                      "numerator",
++                      "denominator"
++                    ],
++                    "properties": {
++                      "numerator": {
++                        "type": "integer"
++                      },
++                      "denominator": {
++                        "type": "integer",
++                        "minimum": 1
++                      }
++                    }
++                  }
++                }
++              },
++              "streams": {
++                "type": "array",
++                "items": {
++                  "type": "object",
++                  "additionalProperties": false,
++                  "required": [
++                    "codec_name",
++                    "pix_fmt",
++                    "color_transfer",
++                    "color_space",
++                    "color_range",
++                    "coded_width",
++                    "coded_height",
++                    "start_pts",
++                    "duration_ts",
++                    "nb_frames",
++                    "time_base",
++                    "r_frame_rate",
++                    "avg_frame_rate",
++                    "index",
++                    "width",
++                    "height"
++                  ],
++                  "properties": {
++                    "codec_name": {
++                      "type": [
++                        "string",
++                        "null"
++                      ],
++                      "maxLength": 2048
++                    },
++                    "pix_fmt": {
++                      "type": [
++                        "string",
++                        "null"
++                      ],
++                      "maxLength": 2048
++                    },
++                    "color_transfer": {
++                      "type": [
++                        "string",
++                        "null"
++                      ],
++                      "maxLength": 2048
++                    },
++                    "color_space": {
++                      "type": [
++                        "string",
++                        "null"
++                      ],
++                      "maxLength": 2048
++                    },
++                    "color_range": {
++                      "type": [
++                        "string",
++                        "null"
++                      ],
++                      "maxLength": 2048
++                    },
++                    "coded_width": {
++                      "type": [
++                        "integer",
++                        "null"
++                      ]
++                    },
++                    "coded_height": {
++                      "type": [
++                        "integer",
++                        "null"
++                      ]
++                    },
++                    "start_pts": {
++                      "type": [
++                        "integer",
++                        "null"
++                      ]
++                    },
++                    "duration_ts": {
++                      "type": [
++                        "integer",
++                        "null"
++                      ]
++                    },
++                    "nb_frames": {
++                      "type": [
++                        "integer",
++                        "null"
++                      ]
++                    },
++                    "time_base": {
++                      "type": [
++                        "object",
++                        "null"
++                      ],
++                      "additionalProperties": false,
++                      "required": [
++                        "numerator",
++                        "denominator"
++                      ],
++                      "properties": {
++                        "numerator": {
++                          "type": "integer"
++                        },
++                        "denominator": {
++                          "type": "integer",
++                          "minimum": 1
++                        }
++                      }
++                    },
++                    "r_frame_rate": {
++                      "type": [
++                        "object",
++                        "null"
++                      ],
++                      "additionalProperties": false,
++                      "required": [
++                        "numerator",
++                        "denominator"
++                      ],
++                      "properties": {
++                        "numerator": {
++                          "type": "integer"
++                        },
++                        "denominator": {
++                          "type": "integer",
++                          "minimum": 1
++                        }
++                      }
++                    },
++                    "avg_frame_rate": {
++                      "type": [
++                        "object",
++                        "null"
++                      ],
++                      "additionalProperties": false,
++                      "required": [
++                        "numerator",
++                        "denominator"
++                      ],
++                      "properties": {
++                        "numerator": {
++                          "type": "integer"
++                        },
++                        "denominator": {
++                          "type": "integer",
++                          "minimum": 1
++                        }
++                      }
++                    },
++                    "index": {
++                      "type": "integer",
++                      "minimum": 0
++                    },
++                    "width": {
++                      "type": "integer",
++                      "minimum": 1,
++                      "maximum": 4096
++                    },
++                    "height": {
++                      "type": "integer",
++                      "minimum": 1,
++                      "maximum": 4096
++                    }
++                  }
++                },
++                "minItems": 1,
++                "maxItems": 16
++              },
++              "selected_stream": {
++                "type": "integer",
++                "minimum": 0
++              },
++              "stream_selection": {
++                "enum": [
++                  "ONLY_VIDEO_STREAM",
++                  "EXPLICIT"
++                ]
++              },
++              "time_base": {
++                "type": "object",
++                "additionalProperties": false,
++                "required": [
++                  "numerator",
++                  "denominator"
++                ],
++                "properties": {
++                  "numerator": {
++                    "type": "integer"
++                  },
++                  "denominator": {
++                    "type": "integer",
++                    "minimum": 1
++                  }
++                }
++              },
++              "timing": {
++                "enum": [
++                  "UNKNOWN",
++                  "IRREGULAR_PTS",
++                  "REGULAR_PTS_OBSERVED"
++                ]
++              },
++              "decoded_frame_count": {
++                "type": "integer",
++                "minimum": 1,
++                "maximum": 4096
++              },
++              "frames": {
++                "type": "array",
++                "items": {
++                  "type": "object",
++                  "additionalProperties": false,
++                  "required": [
++                    "ordinal",
++                    "pts",
++                    "best_effort_timestamp",
++                    "packet_dts",
++                    "picture_type"
++                  ],
++                  "properties": {
++                    "ordinal": {
++                      "type": "integer",
++                      "minimum": 0,
++                      "maximum": 4095
++                    },
++                    "pts": {
++                      "type": [
++                        "integer",
++                        "null"
++                      ]
++                    },
++                    "best_effort_timestamp": {
++                      "type": [
++                        "integer",
++                        "null"
++                      ]
++                    },
++                    "packet_dts": {
++                      "type": [
++                        "integer",
++                        "null"
++                      ]
++                    },
++                    "picture_type": {
++                      "type": [
++                        "string",
++                        "null"
++                      ],
++                      "maxLength": 2048
++                    }
++                  }
++                },
++                "minItems": 1,
++                "maxItems": 4096
++              },
++              "canonical_sha256": {
++                "type": "string",
++                "pattern": "^[0-9a-f]{64}$"
++              }
++            }
++          },
++          "ffmpeg": {
++            "type": "object",
++            "additionalProperties": false,
++            "required": [
++              "version",
++              "version_report_sha256",
++              "executable_sha256"
++            ],
++            "properties": {
++              "version": {
++                "type": "string",
++                "maxLength": 2048
++              },
++              "version_report_sha256": {
++                "type": "string",
++                "pattern": "^[0-9a-f]{64}$"
++              },
++              "executable_sha256": {
++                "type": "string",
++                "pattern": "^[0-9a-f]{64}$"
++              }
++            }
++          },
++          "request": {
++            "type": "object",
++            "additionalProperties": false,
++            "required": [
++              "stream",
++              "mode",
++              "values",
++              "ordering",
++              "timestamp_policy",
++              "decoder_threads",
++              "synchronization",
++              "autorotate",
++              "output"
++            ],
++            "properties": {
++              "stream": {
++                "type": "integer",
++                "minimum": 0
++              },
++              "mode": {
++                "enum": [
++                  "ordinal",
++                  "pts"
++                ]
++              },
++              "values": {
++                "type": "array",
++                "items": {
++                  "type": "integer"
++                },
++                "minItems": 1,
++                "maxItems": 64,
++                "uniqueItems": true
++              },
++              "ordering": {
++                "const": "REQUEST_ORDER"
++              },
++              "timestamp_policy": {
++                "const": "EXACT_SOURCE_PTS_ONLY"
++              },
++              "decoder_threads": {
++                "const": 1
++              },
++              "synchronization": {
++                "const": "PASSTHROUGH"
++              },
++              "autorotate": {
++                "const": false
++              },
++              "output": {
++                "const": "RGBA8_PNG_BITEXACT"
++              }
++            }
++          },
++          "items": {
++            "type": "array",
++            "items": {
++              "type": "object",
++              "additionalProperties": false,
++              "required": [
++                "order",
++                "requested",
++                "ordinal",
++                "pts",
++                "best_effort_timestamp",
++                "time_base",
++                "png_sha256",
++                "rgba_sha256",
++                "width",
++                "height",
++                "size",
++                "mode",
++                "transparency_kind",
++                "has_transparency"
++              ],
++              "properties": {
++                "order": {
++                  "type": "integer",
++                  "minimum": 0,
++                  "maximum": 63
++                },
++                "requested": {
++                  "type": "integer"
++                },
++                "ordinal": {
++                  "type": "integer",
++                  "minimum": 0,
++                  "maximum": 4095
++                },
++                "pts": {
++                  "type": [
++                    "integer",
++                    "null"
++                  ]
++                },
++                "best_effort_timestamp": {
++                  "type": [
++                    "integer",
++                    "null"
++                  ]
++                },
++                "time_base": {
++                  "type": "object",
++                  "additionalProperties": false,
++                  "required": [
++                    "numerator",
++                    "denominator"
++                  ],
++                  "properties": {
++                    "numerator": {
++                      "type": "integer"
++                    },
++                    "denominator": {
++                      "type": "integer",
++                      "minimum": 1
++                    }
++                  }
++                },
++                "png_sha256": {
++                  "type": "string",
++                  "pattern": "^[0-9a-f]{64}$"
++                },
++                "rgba_sha256": {
++                  "type": "string",
++                  "pattern": "^[0-9a-f]{64}$"
++                },
++                "width": {
++                  "type": "integer",
++                  "minimum": 1,
++                  "maximum": 4096
++                },
++                "height": {
++                  "type": "integer",
++                  "minimum": 1,
++                  "maximum": 4096
++                },
++                "size": {
++                  "type": "integer",
++                  "minimum": 1,
++                  "maximum": 33554432
++                },
++                "mode": {
++                  "const": "RGBA"
++                },
++                "transparency_kind": {
++                  "enum": [
++                    "OPAQUE",
++                    "PARTIALLY_TRANSPARENT",
++                    "FULLY_TRANSPARENT"
++                  ]
++                },
++                "has_transparency": {
++                  "type": "boolean"
++                }
++              }
++            },
++            "minItems": 1,
++            "maxItems": 64
++          },
++          "visual_review": {
++            "const": "UNVERIFIED"
++          },
++          "automatic_assignment": {
++            "const": false
++          },
++          "canonical_sha256": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{64}$"
++          }
++        }
++      },
++      "minItems": 0,
++      "maxItems": 64
+     }
+   },
+   "$defs": {}
+--- before/tests/test_codecs.py
++++ after/tests/test_codecs.py
+@@ -380,8 +380,21 @@
+ 
+     def test_public_repo_contains_no_proprietary_art(self):
+         repo_root = Path(__file__).resolve().parents[1]
++        # Accepted RSF-27 generated marker fixtures are redistributable evidence.
++        # Permit only these exact path/content pairs, never a directory-wide exemption.
++        synthetic = {
++            'docs/verification/rsf-27/synthetic-resources/original.act': '255df7d22edd06fc323b5e02fa85ac3973c74e674f6ef3e1508d56fa4013a52d',
++            'docs/verification/rsf-27/synthetic-resources/original.spr': '670ac543acfa7323e2be20ec7cf093d78d4337d20186649256da3c30d92d213d',
++            'docs/verification/rsf-27/synthetic-resources/modified.act': '43fffe83c1333772126a51e171a5d33d3b03ab1706f670f869099b1633b7617b',
++            'docs/verification/rsf-27/synthetic-resources/modified.spr': '0d49b375c22b5cd738c8a448d564409e4bfdbf90a1a6593a62ec4db3756a6a81',
++        }
+         for path in repo_root.glob("**/*"):
+             if path.is_file() and not any(p in path.parts for p in (".git", ".venv", "tests/private_fixture_hooks")):
++                expected = synthetic.get(path.relative_to(repo_root).as_posix())
++                if expected is not None:
++                    self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), expected,
++                                     f'Synthetic fixture content changed: {path}')
++                    continue
+                 self.assertFalse(
+                     path.suffix.lower() in (".act", ".spr", ".grf"),
+                     f"Public source tree must not contain proprietary Ragnarok files: {path}",

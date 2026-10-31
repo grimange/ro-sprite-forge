@@ -1,0 +1,16 @@
+{
+  "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43",
+  "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+  "pillow": "12.1.1",
+  "jsonschema": "4.19.2",
+  "interpreters": {
+    "python3.12": null,
+    "python3.13": null,
+    "python3.14": "/usr/bin/python3.14",
+    "python3.15": null
+  },
+  "browser": "Chromium 156.0.8078.73",
+  "ffmpeg": "8.0.1-3ubuntu2",
+  "ffprobe": "8.0.1-3ubuntu2",
+  "rust_oracle": "rsf-rust-oracle debug build (Cargo 1.89+)"
+}

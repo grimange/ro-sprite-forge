@@ -1,0 +1,40 @@
+{
+  "account_id": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+  "excluded_later_evidence": [
+    "QA_REVIEW.md",
+    "KANEO_FINAL.json",
+    "KANEO_QA.json",
+    "NEXT_TASK.json"
+  ],
+  "existing_baseline_unchanged": true,
+  "files": {
+    "docs/verification/rsf-26/KANEO_START.json": "b4fc29f5134acd34fda24220fa7a97a23bb335208f0a1a1b666df0ad300f1e49",
+    "docs/verification/rsf-26/PLAN.md": "843691fabf00a502c3786fb432de17ca35360704cd96a29cdcb65c76efcfcb3b",
+    "docs/verification/rsf-26/VERIFICATION.md": "06e5d0592bd54c3f8cdc0be1806b7a05783d3ee796f9bbf5203359803dcc4a27",
+    "docs/verification/rsf-26/baseline-hashes.json": "cf9529245a16e930136ab8d5078c0b6b77e156fbbbe2038552b522212446e1e9",
+    "docs/verification/rsf-26/clean-builds.json": "557eec64323818f099531cd10d9a2c774d95bfa3c46a98d1be7cd54e67f595af",
+    "docs/verification/rsf-26/commands.json": "90e2c3d8e5e520833a2894f20cefef794a66bbd32556a864056c8e26080ef738",
+    "docs/verification/rsf-26/distribution.log": "f20b226540ab655075c6632409bd6de5d4f50a051da9816ff60796eab3325c70",
+    "docs/verification/rsf-26/golden-build.json": "3a7832608569ed9248bf42e1d3f0274ba0548937c76897e3450918aa219d1bd1",
+    "docs/verification/rsf-26/golden-compilation.json": "456fc60cb1fde32c618412517717b757d5b3f0b0ed02b79ee661850c1c1e8ba8",
+    "docs/verification/rsf-26/implementation.diff": "87000d499cfcc3c43aa6be17e979e4de275e09b244b073259acec4c18d2f1b6a",
+    "docs/verification/rsf-26/novice-regression.json": "8cf3650f8cd99d05608206f3cd9294c886d820b51018e667e67a6be135645d35",
+    "docs/verification/rsf-26/orc-regression.json": "d82450c190571d85e8aeb1c2ad484879c23da17f896c187142645f37b4d48ac7",
+    "docs/verification/rsf-26/preservation.json": "4f087607de51d67f3aaa00daeddce9c44b0dbd01a8caad6d8c5176e4f242712d",
+    "docs/verification/rsf-26/private-summary.json": "bd3491fe3a7e0a3f8ee34277123c4ea62ce84e52b4ee6ab9432ad5e75623717a",
+    "docs/verification/rsf-26/private.log": "163a1877c4d5fac436aa2bf1f3ed56b112d7ac56ce145d34b7fe5825c8810a99",
+    "docs/verification/rsf-26/public.log": "c9e793df2806381287f96b8ea9cfcd3437821bc863f46ba646e7a209a2b3f88a",
+    "docs/verification/rsf-26/python-matrix.json": "6082318e02872e0f76c4569fb3460d82a811eab62547668ae814cfceb2a1e8ad",
+    "docs/verification/rsf-26/reproduce.py": "16541075687c310bd75cb2b82fecd9e0245cf6f7429b6d94fcbaefc263212299",
+    "docs/verification/rsf-26/rust.log": "7dc47305e58f2e86fb1ff53ddbad04a0f5e8800c56cef5092a09e7a8ebaf7a4e",
+    "docs/verification/rsf-26/schemas.json": "fa2b42d32b0497a9c54e9c9b9f3116410953df164dea4b28d0e47923dec87d58",
+    "docs/verification/rsf-26/synthetic-effective-mapping.json": "8f3685df84d47bb713de0469be6365fb46eef85a89e49df8250eda83de89535a",
+    "docs/verification/rsf-26/synthetic-snapshot.json": "a6355b85bc649197a5693d4846791256a3bb9cd5ac450f092560390ac2ceeba9",
+    "tests/private_fixture_hooks/test_walk_compilation_fixtures.py": "1c62787ca7da5629dcf535754157f7afd0b71ccd0dd17d36f4ac99d81667c902",
+    "tests/test_walk_compilation.py": "5cfd37609f4a2cc043a50345c96d0309d520c7025e29d54929ffd60a40481b3b"
+  },
+  "git": "pre-existing source untracked; no commit/push",
+  "implementer": "Codex",
+  "production_paths_changed": [],
+  "task": "RSF-26"
+}

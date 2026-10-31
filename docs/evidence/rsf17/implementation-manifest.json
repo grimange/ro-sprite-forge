@@ -1,0 +1,45 @@
+{
+  "accepted_source_archive_sha256": "4cd7b6c3ccae4af0db514c87139b74a5aacd834867d1a3d8b0fda7bd5dab0542",
+  "baseline_file_count": 364,
+  "changed_baseline_files": [
+    "src/ro_sprite_forge.egg-info/SOURCES.txt",
+    "src/ro_sprite_forge/schemas/project-v1.json",
+    "src/ro_sprite_forge/service/server.py",
+    "src/ro_sprite_forge/static/index.html",
+    "src/ro_sprite_forge/static/workbench.css",
+    "src/ro_sprite_forge/static/workbench.js"
+  ],
+  "files": {
+    "docs/architecture/RSF17_INTERACTIVE.md": "2959382fa1c81728e97c5d18be4fad8f258d2e852bd0def553490188881485c2",
+    "docs/evidence/rsf17/QA_REVIEW.md": "d7f74ff4f1929b4c8f5c4965985d6e26ba8187c49ffb846b7b18056412e73f15",
+    "docs/evidence/rsf17/VERIFICATION.md": "a39ac69c15d590a8af5d10544f963e7e561f8896a86fbcdeb86e2f3f79f4a6e4",
+    "docs/evidence/rsf17/accepted-baseline.json": "71ac5f955d3401affdd8e00c4b3c80a15b341b9f7503dac853d4525e5a4f8ae3",
+    "docs/evidence/rsf17/browser-results.json": "c215196df041f26430282f1724a5e22c968c10f425b1c675feaa5df9d802c847",
+    "docs/evidence/rsf17/determinism.json": "9e3bc497084c7b2a9697ca13579e232e6b977db2b00608ab53b317152ca61768",
+    "docs/evidence/rsf17/distribution.log": "df0d5f7087b290d79df9604faa4181e0e7617deffb570831ee3349bb6416e213",
+    "docs/evidence/rsf17/private-tests.log": "58c3fad1af979685f8657ec3ded08729d146de745429c87b407f053be87f29bc",
+    "docs/evidence/rsf17/public-tests.log": "f9bffec5de648ca6c745a701fc3695e0fd87589f4555056a65afdf4fcdbfbf3f",
+    "docs/evidence/rsf17/schemas.log": "8db366730b810254c0fea79480266cf1e192068bd28de75a250518c99f3dbbc4",
+    "docs/evidence/rsf17/synthetic-workbench.png": "16492e3e72ea67bad2833fe95d8819636d9d962bd7c6f900aacf38dc86982d62",
+    "src/ro_sprite_forge/schemas/project-v1.json": "b02e5c7544f77186007014da490877a17be20c1174c045bac5e9a414e117fcae",
+    "src/ro_sprite_forge/service/server.py": "c4344e8ceac42aedf2547e58809093395691bbf505f5122a228053ef06ab7af8",
+    "src/ro_sprite_forge/service/workbench.py": "deca71de420807d2283b9ec7161c7588c7cafaf2b025dcf4e9fffeaa69fb5355",
+    "src/ro_sprite_forge/static/index.html": "9681190b4b20285c660081a6d94a8355be80f4c83271e0bfb188a626c65cad94",
+    "src/ro_sprite_forge/static/workbench.css": "ca2ad636f627e4cf6f5633e61f64d93cb0570e10a624bbf79c15b3b007157bd9",
+    "src/ro_sprite_forge/static/workbench.js": "9c3e9095e58c4ebf9ef2c4f3d7bf3c96a694f1e8bc9db5f271ba37659717fd5a",
+    "tests/browser/rsf17-mcp.js": "4d6ab28022dc1c3f46b1feaac8620744dc04e94324c6d87d238138e1ff4b19b2",
+    "tests/browser/rsf17-private-mcp.js": "8c143b67826f1da342e5cff021e894a3da8889bc594c17ba05ad2efdaf69aedf",
+    "tests/test_interactive.py": "265fbdcba0bc0a61039a06b057d03bbff156fdf8aaabb881fbf2e44bbabbd8e1"
+  },
+  "implementation_commit": null,
+  "implementer": "Codex",
+  "missing_baseline_files": [],
+  "private_assets_included": false,
+  "qa": "QA_PASS",
+  "schema": "rsf17-implementation-evidence/v1",
+  "task_id": "j4bq4r7uxi9z6l378go7oomo",
+  "wheel": {
+    "name": "ro_sprite_forge-0.1.0-py3-none-any.whl",
+    "sha256": "56232d721f7ae998ef3e7f33f99e4c838665f5062c552f27f5e62c92f92ad9f2"
+  }
+}

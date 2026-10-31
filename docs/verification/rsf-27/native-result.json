@@ -1,0 +1,31 @@
+{
+  "captures": 56,
+  "cases": 176,
+  "levels": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "UNVERIFIED"
+  },
+  "native_report_sha256": "af20687d42dcd9dda8bc9b9288daf81b498723e9676837f666009bf1a6db46c5",
+  "prepared_frames": 1060,
+  "prepared_layers": 2796,
+  "preserved_samples": 196,
+  "resource_hashes": {
+    "data\\sprite\\modified.act": "43fffe83c1333772126a51e171a5d33d3b03ab1706f670f869099b1633b7617b",
+    "data\\sprite\\modified.spr": "0d49b375c22b5cd738c8a448d564409e4bfdbf90a1a6593a62ec4db3756a6a81",
+    "data\\sprite\\novice_body.act": "a82086ba005506a16ee0740ebd1d33c43de8cc4ee1a622ea933ff9e0502c1c77",
+    "data\\sprite\\novice_body.spr": "7f4efe357b0f80e71ba2dcdb93d1c110988b1b8f382e1dbfc722e3a2cf85a533",
+    "data\\sprite\\novice_head.act": "96cb4c7daada65ead29ade650c34da1cba93937d3b360c5468506c3d056219de",
+    "data\\sprite\\novice_head.spr": "dfc548c5cfd9aeb66616c5912df78773c2798834f9412a309a5a2b4f5868ac95",
+    "data\\sprite\\orc_skeleton.act": "31e1e75241bc534422e468ae134892c7b234d66022456b87b0423df5858370e2",
+    "data\\sprite\\orc_skeleton.spr": "a39f864209d63ae75bd62438da61775c510d7c55a78344b3065fb5918a55ce8f",
+    "data\\sprite\\original.act": "255df7d22edd06fc323b5e02fa85ac3973c74e674f6ef3e1508d56fa4013a52d",
+    "data\\sprite\\original.spr": "670ac543acfa7323e2be20ec7cf093d78d4337d20186649256da3c30d92d213d"
+  },
+  "result": "NATIVE_CHECKS_PASSED",
+  "scope": "isolated native presentation; binary-alpha upload identity; no artistic approval",
+  "selected_frames": 1080,
+  "selected_layers": 4144,
+  "targeted_occurrences": 3
+}

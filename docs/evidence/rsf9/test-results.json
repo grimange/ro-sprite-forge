@@ -1,0 +1,62 @@
+{
+  "commands": [
+    {
+      "exit_status": 0,
+      "log": "ledger-tests.log",
+      "sha256": "53d62201ef8962ecaa5ed80f079504e78899ccbe68f4a1168e397fc50a9bb4c9"
+    },
+    {
+      "exit_status": 0,
+      "log": "public-tests.log",
+      "sha256": "df1334ecb537d70a877b859b19d4ffb78607bb0ce5358b7765698c1ab799f266"
+    },
+    {
+      "exit_status": 0,
+      "log": "private-tests.log",
+      "sha256": "7fe0d30267a56b2e5b6a41bd22c40df6a3e38b5b1918c4cd60799996b7e6b708"
+    },
+    {
+      "exit_status": 0,
+      "log": "contract-schemas.log",
+      "sha256": "69a486ca5ef068e45bb2e405d03eb668002af1b2ba91cf05b6138c1dd0f83c07"
+    },
+    {
+      "exit_status": 0,
+      "log": "ledger-schema.log",
+      "sha256": "60284cd5699965b5745e1f7d4c693ed949ea19ceae9bf969917e14b26d546891"
+    },
+    {
+      "exit_status": 0,
+      "log": "distribution.log",
+      "sha256": "b6d386740bdcfaf38bd196cb80d2e6b9c470ab43c59aabe55046fe4f67864788"
+    }
+  ],
+  "counts": {
+    "independent_malformed_report_cases": 284,
+    "installed_tests": 153,
+    "ledger_tests": 34,
+    "private_tests": 16,
+    "public_tests": 153
+  },
+  "examples_sha256": "26c83addfa19fd636ee41067f9d1357b9d461d1d36a0399e459cf50ade7e5ed8",
+  "gates": {
+    "M0": "M0_VERIFIED",
+    "M0-I": "PASS",
+    "M0-N": "PASS",
+    "M0-S": "PASS"
+  },
+  "implementation_manifest_sha256": "f0c0a7a125e25b1430da6f895c1d5ddcdf5d818aa188f550bee70a7d0520f74b",
+  "not_run": [
+    "Python3.12 unavailable",
+    "Python3.13 unavailable",
+    "Rust parity unchanged inputs",
+    "Native playback unchanged inputs"
+  ],
+  "python": "3.14.4",
+  "qa": {
+    "reviewer": "/root/rsf9_independent_qa",
+    "verdict": "QA_PASS"
+  },
+  "schema": "rsf.verification-evidence/v1",
+  "task": "RSF-9"
+}

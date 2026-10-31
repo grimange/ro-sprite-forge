@@ -1,0 +1,138 @@
+{
+  "task": "RSF-25",
+  "task_id": "udjjt7jp22k3owbo05s8mnf8",
+  "implementer": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+  "modified": [
+    {
+      "path": "README.md",
+      "before_sha256": "79294c05e6735e7055f4a56a6774ebb67b332b42d95a6afa670ed9b85f2b7312",
+      "sha256": "82831f28f0d58e32aad4d6ab8276636fb13b4e52e628857f14bb8070ca63b02d"
+    },
+    {
+      "path": "src/ro_sprite_forge/core/compiler.py",
+      "before_sha256": "7cada20a4a578aee50ce4cda749354b97373e9c24ff96aed2df8b797d617c99f",
+      "sha256": "e6d603f0712683e98d9aed0be4ad31131a3febfbb42287af13a06d44484e44e1"
+    },
+    {
+      "path": "src/ro_sprite_forge/cli.py",
+      "before_sha256": "6fef27000b3be3fad6cc97831e8182bf33c59d2ffcd94d79084cacdbf0885284",
+      "sha256": "1ea6938de62ed39679280439c94790174bbde14e6626e411f65024b18ead4a35"
+    },
+    {
+      "path": "src/ro_sprite_forge/schemas/compilation-manifest-v1.json",
+      "before_sha256": "c8b285d0bc6fa1e9cc824749037b2ae67453d2cbd9a78eeeba12d219a735a1c3",
+      "sha256": "4873078e1c34d2118031f8ab0a3d91e069c2b8bd9642adcf300fe3ee5aac04e5"
+    },
+    {
+      "path": "src/ro_sprite_forge/schemas/project-v1.json",
+      "before_sha256": "01af7b773a449d16844c9c99d2533ea012f3574583d9096144331c72de623b30",
+      "sha256": "af881760d3016dc1778bdeee7e0b46c89cc3b838f05eff277a7b94d5ccb3299c"
+    }
+  ],
+  "added": [
+    {
+      "path": "src/ro_sprite_forge/core/build.py",
+      "sha256": "0fc251e0740fea26c66187d89e4820f33e128cbcca21d2bf6c4ac569811c7884"
+    },
+    {
+      "path": "tests/test_canonical_builds.py",
+      "sha256": "f59494f55959cd1bdb15b42052f99dea8c0cedca393bd1821b1d3bddfa7af787"
+    }
+  ],
+  "preserved": [
+    {
+      "path": "src/ro_sprite_forge/formats/act.py",
+      "sha256": "fd618d580cfc43f4c3ebcc6af41b6a721535aafe3be4edcf83e562aeb8946447"
+    },
+    {
+      "path": "src/ro_sprite_forge/formats/spr.py",
+      "sha256": "9ed664e175c92c8a417c8fc7985be142dc81c98e34977d8de4aef05f87f198d1"
+    },
+    {
+      "path": "tools/rust-oracle/src/main.rs",
+      "sha256": "b68081e95a11af04bf5b459c934252de4c90b8ba7849d9fc468ce002889d146d"
+    },
+    {
+      "path": "src/ro_sprite_forge/service/workbench.py",
+      "sha256": "75a803a36738ee06b5b5376993a03392709944889a1fc6810ca513ff6bfa134a"
+    },
+    {
+      "path": "tests/test_compiler.py",
+      "sha256": "763b31305ee7537a45dc42d80cfb7acc386f8f06d53ce26245a16f7d3b85697b"
+    },
+    {
+      "path": "tests/test_image_pool_remapping.py",
+      "sha256": "201547cd2a6126712a155341ba8add3452c256485efe5eb3c5b488ebe0d7e823"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "docs/verification/rsf-25/CONTRACT.md",
+      "sha256": "ba35040deb1645cc0a30a78b37042e25b0f87e7fadbd0f9955dc30755132e7cf"
+    },
+    {
+      "path": "docs/verification/rsf-25/KANEO_HANDOFF.json",
+      "sha256": "323ba0e329020feccea80fecc63bcb35c2378f1921863e98ca410c583b25ea50"
+    },
+    {
+      "path": "docs/verification/rsf-25/PLAN.md",
+      "sha256": "a45168f5282d4b27671a1be2ed7dcc644c66f5b0f288ca16f22c52e5b1ea741d"
+    },
+    {
+      "path": "docs/verification/rsf-25/QA_INITIAL.md",
+      "sha256": "b06dc53862c1b5e202adec3244b43094ac290b0d135a881c9a1ba01388cb50c3"
+    },
+    {
+      "path": "docs/verification/rsf-25/VERIFICATION.md",
+      "sha256": "c1b878ab4ea727bc02fcd51d5a9a6853a2febc7886aff90f1417118ab5093328"
+    },
+    {
+      "path": "docs/verification/rsf-25/clean-builds.log",
+      "sha256": "260b01fd3cf30651583e39f632c870442ff37090d55642ee320e57a40b350cf2"
+    },
+    {
+      "path": "docs/verification/rsf-25/distribution.log",
+      "sha256": "4bb714a39f1c4bb4749aa2fc7560d4ac5aed97ae075bc5995f2fc7b431f798fc"
+    },
+    {
+      "path": "docs/verification/rsf-25/environment.json",
+      "sha256": "1eb222eeab0fcf78a547ea93ec926b88da11ba6b48a538df9503b77bf076ef49"
+    },
+    {
+      "path": "docs/verification/rsf-25/focused.log",
+      "sha256": "d835efe87b7b89b0900274fa4f58eba129018acf63380a129fc32f2f103f170d"
+    },
+    {
+      "path": "docs/verification/rsf-25/golden-build.json",
+      "sha256": "226129845c393d8899ea031c9e08f9e6b31efb534fb8fbf7a05f7fb7d2b0ebce"
+    },
+    {
+      "path": "docs/verification/rsf-25/golden-compilation.json",
+      "sha256": "c37880c5bfb7aebef0547bf575ab1b0ba09c5519b5efe03d0bbd0b943bcd5e95"
+    },
+    {
+      "path": "docs/verification/rsf-25/implementation.diff",
+      "sha256": "d6cb2cfd8814b86896ff6d3d96d2129b081f31c47edf6eef92ec994f2b46cc14"
+    },
+    {
+      "path": "docs/verification/rsf-25/private.log",
+      "sha256": "01aab29c178f8fce36e613e184dc206db2f7ff493a1b6943d76f101f5e2722b1"
+    },
+    {
+      "path": "docs/verification/rsf-25/public.log",
+      "sha256": "73b9ddddbb1f6fff0c994638ec60410ca5b73ff4e85fb9e07ad5e8275dac1c86"
+    },
+    {
+      "path": "docs/verification/rsf-25/reproduce.py",
+      "sha256": "4e754e2ef89682ebfcd50d61583cd7a838cf2f54e6339e8040975060fff91137"
+    },
+    {
+      "path": "docs/verification/rsf-25/rust-parity.log",
+      "sha256": "9063edd6650c03242307718177fc5fa660ffd16e07e74e3bfa4b7923945cfcef"
+    },
+    {
+      "path": "docs/verification/rsf-25/schemas.json",
+      "sha256": "fa2b42d32b0497a9c54e9c9b9f3116410953df164dea4b28d0e47923dec87d58"
+    }
+  ]
+}

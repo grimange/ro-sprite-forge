@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ro-sprite-forge.local/schemas/preview-parity-report-v1.json",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "rsf.preview-parity-report/v1"
+    },
+    "semantics": {
+      "type": "object",
+      "properties": {
+        "renderer": { "const": "1.1.0" },
+        "geometry": { "const": "1.0.0" },
+        "timing": { "const": "1.0.0" },
+        "parity": { "const": "1.0.0" }
+      },
+      "required": ["renderer", "geometry", "timing", "parity"],
+      "additionalProperties": false
+    },
+    "native_reference": {
+      "type": "object",
+      "properties": {
+        "korangar_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "native_report_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "entity_spirv_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "wboit_resolve_spirv_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "required": [
+        "korangar_commit",
+        "native_report_sha256",
+        "entity_spirv_sha256",
+        "wboit_resolve_spirv_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "object",
+      "properties": {
+        "novice_body_act": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "novice_body_spr": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "novice_head_act": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "novice_head_spr": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "orc_skeleton_act": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "orc_skeleton_spr": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "required": [
+        "novice_body_act",
+        "novice_body_spr",
+        "novice_head_act",
+        "novice_head_spr",
+        "orc_skeleton_act",
+        "orc_skeleton_spr"
+      ],
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "actors": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "total_cases_evaluated": { "type": "integer", "minimum": 1 },
+        "total_frame_selections_evaluated": { "type": "integer", "minimum": 1 },
+        "total_prepared_layers_evaluated": { "type": "integer", "minimum": 1 }
+      },
+      "required": [
+        "actors",
+        "total_cases_evaluated",
+        "total_frame_selections_evaluated",
+        "total_prepared_layers_evaluated"
+      ],
+      "additionalProperties": false
+    },
+    "results": {
+      "type": "object",
+      "properties": {
+        "layer_transforms_match": { "type": "boolean" },
+        "layer_ordering_match": { "type": "boolean" },
+        "anchor_placement_match": { "type": "boolean" },
+        "timeline_stepping_match": { "type": "boolean" },
+        "slot_resolution_match": { "type": "boolean" },
+        "mismatches_count": { "type": "integer", "minimum": 0 }
+      },
+      "required": [
+        "layer_transforms_match",
+        "layer_ordering_match",
+        "anchor_placement_match",
+        "timeline_stepping_match",
+        "slot_resolution_match",
+        "mismatches_count"
+      ],
+      "additionalProperties": false
+    },
+    "fidelity": {
+      "type": "object",
+      "properties": {
+        "overall": { "const": "PARTIAL" },
+        "geometry": { "const": "VERIFIED" },
+        "native_pixel_parity": { "const": "UNVERIFIED" },
+        "limitations": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      },
+      "required": ["overall", "geometry", "native_pixel_parity", "limitations"],
+      "additionalProperties": false
+    },
+    "differences": {
+      "type": "object",
+      "properties": {
+        "blending_model": { "type": "string" },
+        "coordinate_projection": { "type": "string" },
+        "motion_compaction": { "type": "string" }
+      },
+      "required": ["blending_model", "coordinate_projection", "motion_compaction"],
+      "additionalProperties": false
+    },
+    "technical_difference_only": { "const": true },
+    "artistic_approval": { "const": "UNVERIFIED" },
+    "canonical_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schema",
+    "semantics",
+    "native_reference",
+    "sources",
+    "scope",
+    "results",
+    "fidelity",
+    "differences",
+    "technical_difference_only",
+    "artistic_approval",
+    "canonical_sha256"
+  ],
+  "additionalProperties": false
+}

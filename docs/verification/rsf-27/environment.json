@@ -1,0 +1,22 @@
+{
+  "adapter": {
+    "adapter": "AdapterInfo { name: \"llvmpipe (LLVM 21.1.8, 256 bits)\", vendor: 65541, device: 0, device_type: Cpu, device_pci_bus_id: \"\", driver: \"llvmpipe\", driver_info: \"Mesa 26.0.8-1ubuntu0.3 (LLVM 21.1.8)\", backend: Vulkan, subgroup_min_size: 8, subgroup_max_size: 8, transient_saves_memory: false }"
+  },
+  "browser": "NOT_RUN: no UI changes",
+  "cargo_lock_sha256": "2e99ed42a9c4c435feae537d0095a2d63d87e2c643002e2a09d88dc147bc9f59",
+  "executable_sha256": "27986612b7cb3af691f6f0b2853721d03c11089e66bdc921ee9d460f441f391d",
+  "formatting": "NOT_RUN: rustfmt component absent in pinned image",
+  "native_executable": "/tmp/rsf27-native-target/debug/rsf-korangar-native",
+  "native_stage": "/tmp/rsf27-native-sealed",
+  "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43",
+  "python": "3.14.4",
+  "python_matrix": {
+    "3.12": "NOT_RUN: interpreter unavailable",
+    "3.13": "NOT_RUN: interpreter unavailable",
+    "3.14.4": "PASS"
+  },
+  "rust": "rustc 1.95.0-nightly (905b92696 2026-01-31)",
+  "source_manifest_sha256": "37fe70d34bcb9a2b873b13cd84166624d20acc5155d0215f2019a557dc6df740",
+  "toolchain": "nightly-2026-02-01",
+  "vulkan_icd": "/usr/share/vulkan/icd.d/lvp_icd.json"
+}

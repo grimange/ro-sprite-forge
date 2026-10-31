@@ -1,0 +1,122 @@
+[
+  {
+    "fixture": "novice_body",
+    "mismatches": [],
+    "python_report_sha256": "b3e0b850e243e43c4a2a3962dc86b750e260c921c485f7b63a7b94565ee2ed30",
+    "python_summary": {
+      "distinct_referenced_contents": 108,
+      "groups": 13,
+      "layers": 456,
+      "motions": 456,
+      "referenced": 110,
+      "slots": 104,
+      "stored": 110,
+      "unused": [],
+      "visible_layers": 456
+    },
+    "result": "AGREEMENT",
+    "rust_report_sha256": "b3e0b850e243e43c4a2a3962dc86b750e260c921c485f7b63a7b94565ee2ed30",
+    "rust_summary": {
+      "distinct_referenced_contents": 108,
+      "groups": 13,
+      "layers": 456,
+      "motions": 456,
+      "referenced": 110,
+      "slots": 104,
+      "stored": 110,
+      "unused": [],
+      "visible_layers": 456
+    },
+    "schema": "rsf.oracle-parity/v1",
+    "sources": {
+      "act": "a82086ba005506a16ee0740ebd1d33c43de8cc4ee1a622ea933ff9e0502c1c77",
+      "spr": "7f4efe357b0f80e71ba2dcdb93d1c110988b1b8f382e1dbfc722e3a2cf85a533"
+    }
+  },
+  {
+    "fixture": "novice_head",
+    "mismatches": [],
+    "python_report_sha256": "93f6625b59edfef897dbf35258eaf442ef9d4f4a9cceb2d4ee7c772661c2246e",
+    "python_summary": {
+      "distinct_referenced_contents": 15,
+      "groups": 13,
+      "layers": 912,
+      "motions": 456,
+      "referenced": 15,
+      "slots": 104,
+      "stored": 15,
+      "unused": [],
+      "visible_layers": 456
+    },
+    "result": "AGREEMENT",
+    "rust_report_sha256": "93f6625b59edfef897dbf35258eaf442ef9d4f4a9cceb2d4ee7c772661c2246e",
+    "rust_summary": {
+      "distinct_referenced_contents": 15,
+      "groups": 13,
+      "layers": 912,
+      "motions": 456,
+      "referenced": 15,
+      "slots": 104,
+      "stored": 15,
+      "unused": [],
+      "visible_layers": 456
+    },
+    "schema": "rsf.oracle-parity/v1",
+    "sources": {
+      "act": "96cb4c7daada65ead29ade650c34da1cba93937d3b360c5468506c3d056219de",
+      "spr": "dfc548c5cfd9aeb66616c5912df78773c2798834f9412a309a5a2b4f5868ac95"
+    }
+  },
+  {
+    "fixture": "orc_skeleton",
+    "mismatches": [],
+    "python_report_sha256": "caa22f4f574e71b0ae1fac45223bf9c4024f23fb2408908d67e573490379edc4",
+    "python_summary": {
+      "distinct_referenced_contents": 55,
+      "groups": 5,
+      "layers": 1776,
+      "motions": 512,
+      "referenced": 55,
+      "slots": 40,
+      "stored": 57,
+      "unused": [
+        [
+          0,
+          36
+        ],
+        [
+          0,
+          39
+        ]
+      ],
+      "visible_layers": 1776
+    },
+    "result": "AGREEMENT",
+    "rust_report_sha256": "caa22f4f574e71b0ae1fac45223bf9c4024f23fb2408908d67e573490379edc4",
+    "rust_summary": {
+      "distinct_referenced_contents": 55,
+      "groups": 5,
+      "layers": 1776,
+      "motions": 512,
+      "referenced": 55,
+      "slots": 40,
+      "stored": 57,
+      "unused": [
+        [
+          0,
+          36
+        ],
+        [
+          0,
+          39
+        ]
+      ],
+      "visible_layers": 1776
+    },
+    "schema": "rsf.oracle-parity/v1",
+    "sources": {
+      "act": "31e1e75241bc534422e468ae134892c7b234d66022456b87b0423df5858370e2",
+      "spr": "a39f864209d63ae75bd62438da61775c510d7c55a78344b3065fb5918a55ce8f"
+    }
+  }
+]

@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ro-sprite-forge.local/schemas/contact-sheet-v1.json",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "rsf.contact-sheet/v1"
+    },
+    "semantics": {
+      "type": "object",
+      "properties": {
+        "renderer": { "const": "1.1.0" },
+        "geometry": { "const": "1.0.0" },
+        "timing": { "const": "1.0.0" },
+        "contact_sheet": { "const": "1.0.0" }
+      },
+      "required": ["renderer", "geometry", "timing", "contact_sheet"],
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "object",
+      "properties": {
+        "body_act": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "body_spr": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "head_act": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "head_spr": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "required": ["body_act", "body_spr"],
+      "additionalProperties": false
+    },
+    "selection": {
+      "type": "object",
+      "properties": {
+        "category": { "type": "string" },
+        "action": { "type": ["string", "null"] },
+        "slot": { "type": "integer", "minimum": 0 },
+        "view": { "type": "integer", "minimum": 0, "maximum": 7 },
+        "direction": { "type": ["integer", "null"], "minimum": 0, "maximum": 7 },
+        "camera_direction": { "type": "integer", "minimum": 0, "maximum": 7 }
+      },
+      "required": ["category", "slot", "view", "camera_direction"],
+      "additionalProperties": false
+    },
+    "grid": {
+      "type": "object",
+      "properties": {
+        "columns": { "type": "integer", "minimum": 1 },
+        "rows": { "type": "integer", "minimum": 1 },
+        "total_tiles": { "type": "integer", "minimum": 1 },
+        "tile_dimensions": {
+          "type": "object",
+          "properties": {
+            "width": { "type": "integer", "minimum": 1 },
+            "height": { "type": "integer", "minimum": 1 }
+          },
+          "required": ["width", "height"],
+          "additionalProperties": false
+        },
+        "padding": { "type": "integer", "minimum": 0 },
+        "margin": { "type": "integer", "minimum": 0 },
+        "scale": { "type": "integer", "minimum": 1 }
+      },
+      "required": ["columns", "rows", "total_tiles", "tile_dimensions", "padding", "margin", "scale"],
+      "additionalProperties": false
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 }
+      },
+      "required": ["width", "height"],
+      "additionalProperties": false
+    },
+    "tiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tile_index": { "type": "integer", "minimum": 0 },
+          "frame": { "type": "integer", "minimum": 0 },
+          "source_delay": { "type": ["number", "null"] },
+          "duration_ms": { "type": ["number", "null"] },
+          "bounds": {
+            "anyOf": [
+              { "type": "null" },
+              {
+                "type": "array",
+                "items": { "type": "integer" },
+                "minItems": 4,
+                "maxItems": 4
+              }
+            ]
+          },
+          "png_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "labels": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["tile_index", "frame", "source_delay", "duration_ms", "bounds", "png_sha256", "labels"],
+        "additionalProperties": false
+      }
+    },
+    "overlays": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "fidelity": {
+      "type": "object",
+      "properties": {
+        "overall": { "type": "string", "enum": ["PARTIAL", "VERIFIED", "UNVERIFIED", "INVALID"] },
+        "geometry": { "const": "VERIFIED" },
+        "native_pixel_parity": { "const": "UNVERIFIED" },
+        "limitations": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["overall", "geometry", "native_pixel_parity", "limitations"],
+      "additionalProperties": false
+    },
+    "png_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "canonical_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  },
+  "required": [
+    "schema",
+    "semantics",
+    "sources",
+    "selection",
+    "grid",
+    "dimensions",
+    "tiles",
+    "overlays",
+    "fidelity",
+    "png_sha256",
+    "canonical_sha256"
+  ],
+  "additionalProperties": false
+}

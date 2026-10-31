@@ -1,0 +1,25 @@
+{
+  "baseline_files_present": 163,
+  "files": {
+    "KANEO_READBACK.json": "8ce9f170bd2463defb6f2d1fa4cf6df0c5cf3bbcc13561436d8f14b8bdc5cb21",
+    "QA_REVIEW.md": "cd47c01db370a650bc55f2abddfd91cb757491a5014d1d1d3aab033192a38161",
+    "VERIFICATION.md": "7ba580254ce1b15209914d0f38d9e20ba3f4f6f00c747f646772b0b0575dd50a",
+    "baseline-manifest.json": "5b670c840feeb00c8ba34c3830140e2382fe366ffd86498f9b1885c8c9e47f16",
+    "baseline-source.tar.gz": "b626d1e5592a71429c3d75f868b78f1b4e8ce414a927b85fd0fbf24c88350fa0",
+    "examples.json": "26c83addfa19fd636ee41067f9d1357b9d461d1d36a0399e459cf50ade7e5ed8",
+    "implementation-manifest.json": "f0c0a7a125e25b1430da6f895c1d5ddcdf5d818aa188f550bee70a7d0520f74b",
+    "implementation-source.tar.gz": "907dfb90c51016e240650d807bff06c1a0f22166b248e88902dca85fcd68c3a8",
+    "test-results.json": "b178c0ce70c6caccc9a7abe41860a16d6847700ce881e094954f9b16592c95ac"
+  },
+  "git_commit_created": false,
+  "implementation_files_verified": 7,
+  "private_assets_in_implementation_archive": false,
+  "push_performed": false,
+  "rsf9_existing_file_changes": [
+    "src/ro_sprite_forge/cli.py"
+  ],
+  "schema": "rsf.source-audit/v1",
+  "unrelated_preserved_changes": [
+    ".gitignore (.idea/ ignore enabled)"
+  ]
+}

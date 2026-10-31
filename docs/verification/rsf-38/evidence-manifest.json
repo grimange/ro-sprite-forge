@@ -1,0 +1,59 @@
+{
+  "task_id": "u6ktol9i5uld3lnmxrub22si",
+  "task_key": "RSF-38",
+  "verification_suite": {
+    "focused_tests": {
+      "command": ".venv/bin/python -m unittest tests/test_operator_documentation_and_ux.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_run": 11,
+      "passed": 11,
+      "failed": 0,
+      "log": "docs/verification/rsf-38/focused.log",
+      "sha256": "3903937832fae4d50d46c9184470ab768c0a3ac02446da1f9dea792233255869"
+    },
+    "public_tests": {
+      "command": ".venv/bin/python -m unittest discover -s tests -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_run": 688,
+      "passed": 688,
+      "failed": 0,
+      "log": "docs/verification/rsf-38/public.log",
+      "sha256": "e820dc47b2d7027fd06086c82b4aa6fbbe0301b3e696936e3ef4d87d8d92d298"
+    },
+    "private_fixture_hooks": {
+      "command": ".venv/bin/python -m unittest discover -s tests/private_fixture_hooks -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_run": 52,
+      "passed": 51,
+      "skipped": 1,
+      "failed": 0,
+      "log": "docs/verification/rsf-38/private.log",
+      "sha256": "8bc8b49861d5383e534508d89d04d75e65ef54413db4b24ebd93b67789bbf76b"
+    },
+    "schema_checkers": {
+      "command": "for s in scripts/check_*schema*.py; do python3 \"$s\" || exit 1; done",
+      "status": "PASS",
+      "exit_code": 0,
+      "schemas_checked": 13,
+      "log": "docs/verification/rsf-38/schemas.log",
+      "sha256": "3601d1c79cc21d89f2d519556cb4e1bffb94bdb12cdbb6a9c552e48e3334b99b"
+    },
+    "wheel_distribution_check": {
+      "command": ".venv/bin/python tests/check_distribution.py --wheelhouse /tmp/rsf24-wheelhouse --python /usr/bin/python3.14",
+      "status": "PASS",
+      "exit_code": 0,
+      "verdict": "DISTRIBUTION_CHECK_PASS",
+      "log": "docs/verification/rsf-38/distribution.log",
+      "sha256": "1b9b793f855c0d6ef28762eadb50db75e19a4d1610d7e8f33469a17b2c0cc7fe"
+    },
+    "browser_dom_and_visual": {
+      "command": ".venv/bin/python scripts/verify_workbench_browser.py",
+      "status": "PASS",
+      "screenshot": "docs/verification/rsf-38/workbench-browser.png",
+      "sha256": "136a0ae707e871f67cd26368bb03822bd44329930845c4cc1745cebdeb575951"
+    }
+  }
+}

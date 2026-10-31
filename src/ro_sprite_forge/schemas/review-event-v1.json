@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ro-sprite-forge.invalid/schemas/review-event-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "canonical_sha256",
+    "project_id",
+    "project_revision",
+    "revision",
+    "target",
+    "decision",
+    "policy",
+    "provenance",
+    "identity_assurance",
+    "preview_semantics",
+    "limitations",
+    "members"
+  ],
+  "properties": {
+    "schema": {
+      "const": "rsf.review-event/v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^review-[0-9a-f]{64}$",
+      "maxLength": 2048
+    },
+    "canonical_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "maxLength": 2048
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+      "maxLength": 2048
+    },
+    "project_revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000000
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000000
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "canonical_sha256"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:-]{0,127})(?![\\s\\S])"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "canonical_sha256": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^(?:[a-f0-9]{64})(?![\\s\\S])"
+        }
+      }
+    },
+    "decision": {
+      "enum": [
+        "APPROVED",
+        "REJECTED",
+        "NOT_REQUIRED"
+      ]
+    },
+    "policy": {
+      "enum": [
+        null,
+        "UNCHANGED_REFERENCE_STRUCTURAL_ONLY"
+      ]
+    },
+    "provenance": {
+      "const": "EXPLICIT_SINGLE_OPERATOR_WORKBENCH_ACTION"
+    },
+    "identity_assurance": {
+      "const": "LOCAL_REQUEST_ONLY"
+    },
+    "preview_semantics": {
+      "const": "rsf.operator-layer-review/v1"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 2048
+      },
+      "minItems": 1,
+      "maxItems": 256
+    },
+    "members": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "requirement_id",
+          "basis_sha256",
+          "evidence_sha256"
+        ],
+        "properties": {
+          "requirement_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "basis_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "maxLength": 2048
+          },
+          "evidence_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "maxLength": 2048
+          }
+        }
+      }
+    }
+  },
+  "$defs": {}
+}

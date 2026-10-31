@@ -1,0 +1,48 @@
+{
+  "task": "RSF-15",
+  "title": "[M3] Safe local service and atomic project persistence",
+  "milestone": "M3",
+  "status": "ACCEPTED",
+  "files": {
+    "src/ro_sprite_forge/schemas/project-v1.json": {
+      "bytes": 2782,
+      "sha256": "e3088b87ac7c58eaf631122f8bacbe6a05704a63506d5e53b919f12ce1c56042"
+    },
+    "src/ro_sprite_forge/core/project.py": {
+      "bytes": 15862,
+      "sha256": "3ffacf467cc86fd34f3271bb2dfcae0e5e35e3bdb96fac5fb6717ad5ad8ffa1d"
+    },
+    "src/ro_sprite_forge/service/__init__.py": {
+      "bytes": 277,
+      "sha256": "dd21c74b8ee25bd87ec7510bd1707788cc3c7a65e1f5b8a62eb39e768c8bc096"
+    },
+    "src/ro_sprite_forge/service/security.py": {
+      "bytes": 5738,
+      "sha256": "76cb0b6efe23cd52f0e8c063e0d06a0789424060f3116012fef3a544a4158586"
+    },
+    "src/ro_sprite_forge/service/server.py": {
+      "bytes": 16175,
+      "sha256": "0df5a696da6129667b73996fb888d90776574cd09d034a868f48cb1e91191d4c"
+    },
+    "src/ro_sprite_forge/core/errors.py": {
+      "bytes": 784,
+      "sha256": "324b0669452000c4b2594338ee04701cb57b1bb9dc70b9ebb3d931308a007a69"
+    },
+    "src/ro_sprite_forge/cli.py": {
+      "bytes": 46354,
+      "sha256": "001fa676c2bbec37fc68ece69cf4bf2a198acaba39f8a3598d4aaee7d128eb05"
+    },
+    "tests/test_project.py": {
+      "bytes": 10603,
+      "sha256": "7648224fd051e67515de7795813bb43537ad70cacb3706b1e8d11a6bac5efd98"
+    },
+    "tests/test_service.py": {
+      "bytes": 15903,
+      "sha256": "e16e4b0f509c9eae748777a43aee88ce5196efdfe6dca4bbe4587420216f8866"
+    },
+    "docs/architecture/RSF15_SERVICE.md": {
+      "bytes": 8091,
+      "sha256": "bc751049389f189f024ee9fc39917552877d8609a8d867c947e9e8e38e4ba825"
+    }
+  }
+}

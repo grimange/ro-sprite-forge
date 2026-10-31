@@ -1,0 +1,14 @@
+{
+  "task": "RSF-22",
+  "title": "Bounded Walk image assignment and operator review workflow",
+  "milestone": "M4",
+  "hashes": {
+    "tests/test_walk_workflow.py": "ba89b88271dca8c3c65784db75c5a61fa554ba172323dc310a6841eff2eb1191",
+    "tests/browser/rsf22-mcp.js": "b1dca72cfe5a78bc5a5b81a997e655981bf756a8036c7c674626db5ac0f811c9",
+    "docs/architecture/RSF22_BOUNDED_WALK.md": "6a02baf49a24fa102eb0b927c69a37ecb7411dfbdca7e64c6e95704b28976177",
+    "src/ro_sprite_forge/core/transformations.py": "cba06b238ae94d338e2aae22b98fa39b866d4e767f2de37697e3ec46d02932be",
+    "src/ro_sprite_forge/service/workbench.py": "60603cc9cda7bbe1eb467819b8c7ec2070339a54ba4b89a2fd58043429f725d7",
+    "src/ro_sprite_forge/service/server.py": "6707f64a3bc483996734bf9e3cdd23d0ff99ae46577b15256da3ad46cdc91ac0",
+    "src/ro_sprite_forge/static/workbench.js": "9bbdb1bf7d6d9e39824cde3935239c2eb920626077a97e5a92f15d8337fdf85d"
+  }
+}

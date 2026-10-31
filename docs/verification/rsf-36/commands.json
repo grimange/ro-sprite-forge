@@ -1,0 +1,41 @@
+{
+  "task": "RSF-36",
+  "commands": [
+    {
+      "name": "focused_packaging_tests",
+      "command": ".venv/bin/python -m unittest tests/test_packaging_and_distribution.py -v",
+      "log": "focused.log",
+      "expected_exit": 0
+    },
+    {
+      "name": "public_test_suite",
+      "command": ".venv/bin/python -m unittest discover -s tests -p 'test_*.py' -v",
+      "log": "public.log",
+      "expected_exit": 0
+    },
+    {
+      "name": "private_fixture_hooks",
+      "command": ".venv/bin/python -m unittest discover -s tests/private_fixture_hooks -p 'test_*.py' -v",
+      "log": "private.log",
+      "expected_exit": 0
+    },
+    {
+      "name": "schema_checks",
+      "command": "for s in scripts/check_*schema*.py; do python3 \"$s\" || exit 1; done",
+      "log": "schemas.log",
+      "expected_exit": 0
+    },
+    {
+      "name": "distribution_check",
+      "command": ".venv/bin/python tests/check_distribution.py --wheelhouse /tmp/rsf24-wheelhouse --python /usr/bin/python3.14",
+      "log": "distribution.log",
+      "expected_exit": 0
+    },
+    {
+      "name": "generate_release_manifest",
+      "command": ".venv/bin/python scripts/generate_release_manifest.py",
+      "output": "release-manifest.json",
+      "expected_exit": 0
+    }
+  ]
+}

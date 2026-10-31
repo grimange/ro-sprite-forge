@@ -1,0 +1,15 @@
+include LICENSE
+include NOTICE.md
+include README.md
+include pyproject.toml
+include requirements-build.txt
+include requirements-test.txt
+recursive-include docs/provenance *.md
+recursive-include docs/operator *.md
+recursive-include src/ro_sprite_forge/schemas *.json
+recursive-include src/ro_sprite_forge/static *
+recursive-include tests *.py *.md
+prune tests/private_fixture_hooks
+prune tools/rust-oracle/target
+global-exclude *.act *.spr *.grf
+

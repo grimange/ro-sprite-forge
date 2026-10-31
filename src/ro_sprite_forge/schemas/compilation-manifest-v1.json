@@ -1,0 +1,1354 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ro-sprite-forge.local/schemas/compilation-manifest-v1.json",
+  "title": "RSF Deterministic ACT/SPR Compilation Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "writer_version",
+    "compilation_mode",
+    "replacement_policy",
+    "isolation_strategy",
+    "part",
+    "target",
+    "runtime_profile",
+    "requirements_sha256",
+    "ledger",
+    "input_resources",
+    "output_resources",
+    "replacements",
+    "preservation_summary",
+    "verification",
+    "status",
+    "canonical_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "const": "rsf.compilation-manifest/v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+    },
+    "writer_version": {
+      "enum": [
+        "1.0.0",
+        "1.1.0",
+        "1.2.0"
+      ]
+    },
+    "compilation_mode": {
+      "enum": [
+        "preserve",
+        "bounded_replacement",
+        "production_export"
+      ]
+    },
+    "replacement_policy": {
+      "enum": [
+        "preserve_pool",
+        "explicit_rgba",
+        "indexed_exact"
+      ]
+    },
+    "isolation_strategy": {
+      "enum": [
+        "auto",
+        "always_append",
+        "in_place_only"
+      ]
+    },
+    "part": {
+      "enum": [
+        "body",
+        "head"
+      ]
+    },
+    "target": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/contract_ref"
+        }
+      ]
+    },
+    "runtime_profile": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/contract_ref"
+        },
+        {
+          "$ref": "#/$defs/profile_ref"
+        }
+      ]
+    },
+    "requirements_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ledger": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/contract_ref"
+        }
+      ]
+    },
+    "input_resources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "act",
+        "spr",
+        "head_act",
+        "head_spr"
+      ],
+      "properties": {
+        "act": {
+          "$ref": "#/$defs/act_info"
+        },
+        "spr": {
+          "$ref": "#/$defs/spr_info"
+        },
+        "head_act": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/act_info"
+            }
+          ]
+        },
+        "head_spr": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/spr_info"
+            }
+          ]
+        }
+      }
+    },
+    "output_resources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "act",
+        "spr",
+        "head_act",
+        "head_spr"
+      ],
+      "properties": {
+        "act": {
+          "$ref": "#/$defs/output_act_info"
+        },
+        "spr": {
+          "$ref": "#/$defs/output_spr_info"
+        },
+        "head_act": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/output_act_info"
+            }
+          ]
+        },
+        "head_spr": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/output_spr_info"
+            }
+          ]
+        }
+      }
+    },
+    "replacements": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "requirement_id",
+          "assignment_id",
+          "assignment_revision",
+          "slot",
+          "action",
+          "view",
+          "frame",
+          "layer_ordinal",
+          "clip_ordinal",
+          "source_id",
+          "source_sha256",
+          "source_origin",
+          "derived_processing",
+          "executed_ledger_ops",
+          "review_state",
+          "composition_sha256",
+          "original_image",
+          "output_image",
+          "resolution_mode",
+          "shared_consumers_count",
+          "unaffected_consumers_count",
+          "representational_notes"
+        ],
+        "properties": {
+          "requirement_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "assignment_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "assignment_revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "slot": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "action": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "view": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "frame": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "layer_ordinal": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "clip_ordinal": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "source_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "source_origin": {
+            "enum": [
+              "AUTHORED",
+              "CLASSIC_REFERENCE"
+            ]
+          },
+          "derived_processing": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "recipe_id",
+              "recipe_sha256",
+              "source_sha256",
+              "reapplied_in_compiler"
+            ],
+            "properties": {
+              "recipe_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "recipe_sha256": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "source_sha256": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "reapplied_in_compiler": {
+                "const": false
+              }
+            }
+          },
+          "executed_ledger_ops": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "review_state": {
+            "enum": [
+              "APPROVED",
+              "NOT_REQUIRED"
+            ]
+          },
+          "composition_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "original_image": {
+            "$ref": "#/$defs/image_ref"
+          },
+          "output_image": {
+            "$ref": "#/$defs/image_ref"
+          },
+          "resolution_mode": {
+            "enum": [
+              "IN_PLACE_UNSHARED",
+              "COPY_ON_WRITE_APPEND",
+              "REUSED_COMPILATION_ENTRY"
+            ]
+          },
+          "shared_consumers_count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "unaffected_consumers_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "representational_notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "preservation_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_action_slots",
+        "modified_action_slots",
+        "untouched_action_slots",
+        "total_frames",
+        "modified_frames",
+        "untouched_frames",
+        "total_visible_clips",
+        "modified_clips",
+        "unaffected_visible_clips",
+        "hidden_clips_preserved",
+        "anchors_preserved",
+        "events_preserved",
+        "delays_preserved",
+        "head_resources_preserved_unchanged",
+        "classic_retained_outside_completeness"
+      ],
+      "properties": {
+        "total_action_slots": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "modified_action_slots": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "untouched_action_slots": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total_frames": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "modified_frames": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "untouched_frames": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total_visible_clips": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "modified_clips": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unaffected_visible_clips": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hidden_clips_preserved": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "anchors_preserved": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "events_preserved": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "delays_preserved": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "head_resources_preserved_unchanged": {
+          "type": "boolean"
+        },
+        "classic_retained_outside_completeness": {
+          "type": "boolean"
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decode_after_write",
+        "metadata_preservation",
+        "targeted_pixel_verification",
+        "unaffected_reference_preservation",
+        "shared_reference_isolation",
+        "noop_byte_equal",
+        "rust_oracle",
+        "rust_oracle_report_sha256",
+        "native_korangar"
+      ],
+      "properties": {
+        "decode_after_write": {
+          "const": "PASS"
+        },
+        "metadata_preservation": {
+          "const": "PASS"
+        },
+        "targeted_pixel_verification": {
+          "const": "PASS"
+        },
+        "unaffected_reference_preservation": {
+          "const": "PASS"
+        },
+        "shared_reference_isolation": {
+          "const": "PASS"
+        },
+        "noop_byte_equal": {
+          "type": "boolean"
+        },
+        "rust_oracle": {
+          "enum": [
+            "PASS",
+            "NOT_RUN"
+          ]
+        },
+        "rust_oracle_report_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "native_korangar": {
+          "const": "UNVERIFIED"
+        }
+      }
+    },
+    "status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result",
+        "production_authorized",
+        "export_ready",
+        "experimental_bounded_output",
+        "visual_approval_authority",
+        "diagnostics"
+      ],
+      "properties": {
+        "result": {
+          "const": "COMPILED"
+        },
+        "production_authorized": {
+          "type": "boolean"
+        },
+        "export_ready": {
+          "type": "boolean"
+        },
+        "experimental_bounded_output": {
+          "type": "boolean"
+        },
+        "visual_approval_authority": {
+          "const": "OPERATOR_ONLY"
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "export_label": {
+          "enum": [
+            "PRODUCTION",
+            "PARTIAL_DIAGNOSTIC",
+            "PRESERVED_REFERENCE"
+          ]
+        },
+        "declared_scope_completeness": {
+          "enum": [
+            "COMPLETE_FOR_FULL_PROFILE",
+            "COMPLETE_FOR_DECLARED_SCOPE",
+            "INCOMPLETE",
+            "UNDERSPECIFIED",
+            "NOT_EVALUATED"
+          ]
+        },
+        "full_profile_completeness": {
+          "enum": [
+            "COMPLETE_FOR_FULL_PROFILE",
+            "INCOMPLETE"
+          ]
+        }
+      }
+    },
+    "canonical_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "remapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "semantics",
+        "ordering",
+        "reuse",
+        "input_counts",
+        "output_counts",
+        "palette_sha256",
+        "before",
+        "after",
+        "unaffected_count",
+        "conversion_loss"
+      ],
+      "properties": {
+        "semantics": {
+          "type": "string"
+        },
+        "ordering": {
+          "type": "string"
+        },
+        "reuse": {
+          "type": "string"
+        },
+        "input_counts": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "output_counts": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "palette_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "unaffected_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "before": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/occurrence"
+          }
+        },
+        "after": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/occurrence"
+          }
+        },
+        "conversion_loss": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "requirement_id",
+              "loss",
+              "original_palette_and_entries_retained"
+            ],
+            "properties": {
+              "requirement_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "loss": {
+                "const": "replacement-does-not-retain-original-palette-indices"
+              },
+              "original_palette_and_entries_retained": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "inputs",
+        "input_sha256",
+        "remapping_sha256",
+        "output_sha256",
+        "canonical_sha256"
+      ],
+      "properties": {
+        "schema": {
+          "const": "rsf.canonical-build/v1"
+        },
+        "inputs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_sha256",
+            "target",
+            "runtime_profile",
+            "requirements_sha256",
+            "ledger_revision",
+            "approved_composition",
+            "approved_composition_sha256",
+            "output_policy",
+            "writer_version",
+            "toolchain"
+          ],
+          "properties": {
+            "source_sha256": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "act",
+                "spr",
+                "head_act",
+                "head_spr"
+              ],
+              "properties": {
+                "act": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "spr": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "head_act": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "head_spr": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            "target": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/$defs/contract_ref"
+                }
+              ]
+            },
+            "runtime_profile": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/$defs/contract_ref"
+                },
+                {
+                  "$ref": "#/$defs/profile_ref"
+                }
+              ]
+            },
+            "requirements_sha256": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "ledger_revision": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "approved_composition": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "schema",
+                "target",
+                "runtime_profile",
+                "members"
+              ],
+              "properties": {
+                "schema": {
+                  "const": "rsf.build-composition/v1"
+                },
+                "target": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "$ref": "#/$defs/contract_ref"
+                    }
+                  ]
+                },
+                "runtime_profile": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "$ref": "#/$defs/contract_ref"
+                    },
+                    {
+                      "$ref": "#/$defs/profile_ref"
+                    }
+                  ]
+                },
+                "members": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "requirement_id",
+                      "operator_composition_sha256",
+                      "assignment_composition_sha256",
+                      "source_sha256",
+                      "review_state"
+                    ],
+                    "properties": {
+                      "requirement_id": {
+                        "type": "string"
+                      },
+                      "operator_composition_sha256": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      },
+                      "assignment_composition_sha256": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      },
+                      "source_sha256": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      },
+                      "review_state": {
+                        "enum": [
+                          "APPROVED",
+                          "NOT_REQUIRED"
+                        ]
+                      }
+                    }
+                  },
+                  "maxItems": 4096
+                }
+              }
+            },
+            "approved_composition_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "output_policy": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "compilation_mode",
+                "part",
+                "replacement_policy",
+                "isolation_strategy"
+              ],
+              "properties": {
+                "compilation_mode": {
+                  "enum": [
+                    "preserve",
+                    "bounded_replacement",
+                    "production_export"
+                  ]
+                },
+                "part": {
+                  "enum": [
+                    "body",
+                    "head"
+                  ]
+                },
+                "replacement_policy": {
+                  "enum": [
+                    "preserve_pool",
+                    "explicit_rgba",
+                    "indexed_exact"
+                  ]
+                },
+                "isolation_strategy": {
+                  "enum": [
+                    "auto",
+                    "always_append",
+                    "in_place_only"
+                  ]
+                }
+              }
+            },
+            "writer_version": {
+              "const": "1.2.0"
+            },
+            "toolchain": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "python",
+                "pillow",
+                "zlib",
+                "png_decode",
+                "resampler",
+                "color_space",
+                "palette",
+                "encoders",
+                "ordering",
+                "numeric",
+                "canonical_json",
+                "source_sha256"
+              ],
+              "properties": {
+                "python": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "implementation",
+                    "version"
+                  ],
+                  "properties": {
+                    "implementation": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "pillow": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "zlib": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "build",
+                        "runtime"
+                      ],
+                      "properties": {
+                        "build": {
+                          "type": "string"
+                        },
+                        "runtime": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "png_decode": {
+                  "type": "string"
+                },
+                "resampler": {
+                  "type": "string"
+                },
+                "color_space": {
+                  "type": "string"
+                },
+                "palette": {
+                  "type": "string"
+                },
+                "encoders": {
+                  "type": "string"
+                },
+                "ordering": {
+                  "type": "string"
+                },
+                "numeric": {
+                  "type": "string"
+                },
+                "canonical_json": {
+                  "type": "string"
+                },
+                "source_sha256": {
+                  "type": "object",
+                  "minProperties": 1,
+                  "additionalProperties": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "input_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "remapping_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "output_sha256": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "act",
+            "spr",
+            "head_act",
+            "head_spr"
+          ],
+          "properties": {
+            "act": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "spr": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "head_act": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "head_spr": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "canonical_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "contract_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "canonical_sha256"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "canonical_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "act_info": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "format": {
+          "const": "ACT 2.4"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 16
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "output_act_info": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "bytes",
+        "sha256",
+        "filename"
+      ],
+      "properties": {
+        "format": {
+          "const": "ACT 2.4"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 16
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "filename": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_.-]+$"
+        }
+      }
+    },
+    "spr_info": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "bytes",
+        "sha256",
+        "indexed_count",
+        "rgba_count"
+      ],
+      "properties": {
+        "format": {
+          "const": "SPR 2.1"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 8
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "indexed_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rgba_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "output_spr_info": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "bytes",
+        "sha256",
+        "indexed_count",
+        "rgba_count",
+        "filename"
+      ],
+      "properties": {
+        "format": {
+          "const": "SPR 2.1"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 8
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "indexed_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rgba_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "filename": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_.-]+$"
+        }
+      }
+    },
+    "image_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pool",
+        "index",
+        "width",
+        "height",
+        "decoded_rgba_sha256"
+      ],
+      "properties": {
+        "pool": {
+          "enum": [
+            0,
+            1
+          ]
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "decoded_rgba_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "profile_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "profile_version",
+        "canonical_sha256"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "profile_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "canonical_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "occurrence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot",
+        "frame",
+        "layer",
+        "index",
+        "texture_index",
+        "pool",
+        "representation",
+        "decoded_rgba_sha256",
+        "metadata_sha256"
+      ],
+      "properties": {
+        "slot": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "frame": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "layer": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "texture_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pool": {
+          "enum": [
+            0,
+            1
+          ]
+        },
+        "representation": {
+          "enum": [
+            "indexed",
+            "rgba"
+          ]
+        },
+        "decoded_rgba_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "metadata_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "writer_version": {
+            "enum": [
+              "1.1.0",
+              "1.2.0"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "remapping"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "writer_version": {
+            "const": "1.2.0"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "build"
+        ],
+        "properties": {
+          "status": {
+            "required": [
+              "export_label",
+              "declared_scope_completeness",
+              "full_profile_completeness"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

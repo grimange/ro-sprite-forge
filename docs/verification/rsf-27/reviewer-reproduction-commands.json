@@ -1,0 +1,66 @@
+[
+  {
+    "argv": [
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python",
+      "/home/ra/Documents/ro-sprite-forge/tools/korangar-native/walk_fixture.py",
+      "/tmp/rsf27-qa-reproduce/input",
+      "--private"
+    ],
+    "cwd": "/home/ra/Documents/ro-sprite-forge",
+    "exit": 0
+  },
+  {
+    "argv": [
+      "/tmp/rsf27-native-target/debug/rsf-korangar-native",
+      "/tmp/rsf27-qa-reproduce/input/inputs.json",
+      "/tmp/rsf27-qa-reproduce/native-1"
+    ],
+    "cwd": "/tmp/rsf27-native-sealed",
+    "exit": 0
+  },
+  {
+    "argv": [
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python",
+      "/home/ra/Documents/ro-sprite-forge/tools/korangar-native/verify_walk.py",
+      "/tmp/rsf27-qa-reproduce/input/inputs.json",
+      "/tmp/rsf27-qa-reproduce/input/provenance.json",
+      "/tmp/rsf27-qa-reproduce/native-1/native-report.json"
+    ],
+    "cwd": "/home/ra/Documents/ro-sprite-forge",
+    "exit": 0
+  },
+  {
+    "argv": [
+      "/tmp/rsf27-native-target/debug/rsf-korangar-native",
+      "/tmp/rsf27-qa-reproduce/input/inputs.json",
+      "/tmp/rsf27-qa-reproduce/native-2"
+    ],
+    "cwd": "/tmp/rsf27-native-sealed",
+    "exit": 0
+  },
+  {
+    "argv": [
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python",
+      "/home/ra/Documents/ro-sprite-forge/tools/korangar-native/verify_walk.py",
+      "/tmp/rsf27-qa-reproduce/input/inputs.json",
+      "/tmp/rsf27-qa-reproduce/input/provenance.json",
+      "/tmp/rsf27-qa-reproduce/native-2/native-report.json"
+    ],
+    "cwd": "/home/ra/Documents/ro-sprite-forge",
+    "exit": 0
+  },
+  {
+    "argv": [
+      "/home/ra/Documents/ro-sprite-forge/.venv/bin/python",
+      "/home/ra/Documents/ro-sprite-forge/tools/korangar-native/walk_controls.py",
+      "/tmp/rsf27-qa-reproduce/input/inputs.json",
+      "/tmp/rsf27-qa-reproduce/input/provenance.json",
+      "/tmp/rsf27-qa-reproduce/native-1/native-report.json",
+      "/tmp/rsf27-native-target/debug/rsf-korangar-native",
+      "/tmp/rsf27-native-sealed",
+      "/tmp/rsf27-qa-reproduce/controls"
+    ],
+    "cwd": "/home/ra/Documents/ro-sprite-forge",
+    "exit": 0
+  }
+]

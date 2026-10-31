@@ -1,0 +1,16 @@
+{
+  "id": "uzuir12040jroddz4idk8ahi",
+  "title": "[M1] Coverage evaluation and exported missing-art work orders",
+  "number": 10,
+  "status": "done",
+  "columnId": "vnkxm3fyt0tmewq1rdokfops",
+  "columnName": "Accepted",
+  "priority": "no-priority",
+  "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+  "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il",
+  "createdAt": "2026-10-29T10:07:56.546Z",
+  "updatedAt": "2026-10-30T04:11:27.206Z",
+  "acceptanceCriteriaChecked": 5,
+  "acceptanceCriteriaTotal": 5,
+  "qa_verdict": "QA_PASS"
+}

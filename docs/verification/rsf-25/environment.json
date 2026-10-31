@@ -1,0 +1,15 @@
+{
+  "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+  "platform": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43",
+  "input_act": "645b5fa1381b520d1740bfe5610dda73158e07344f45428f9399bb454addab4b",
+  "input_spr": "670ac543acfa7323e2be20ec7cf093d78d4337d20186649256da3c30d92d213d",
+  "output_act": "120ab61c15f4de8658baa6aaabe5f860262e05f6b4f188e5b4378c9eacba3bea",
+  "output_spr": "2706d9c70e260db35c87d11097d6a718c197989e26db918726c3f0b6a886bad9",
+  "build_manifest_sha256": "226129845c393d8899ea031c9e08f9e6b31efb534fb8fbf7a05f7fb7d2b0ebce",
+  "build_input_sha256": "604af6575a0d8d8136df6746d8d1361f536e1836ef729c98cf7b1721581d019a",
+  "rust_oracle": "PASS",
+  "native_korangar": "UNVERIFIED",
+  "independent_clean_builds": 2,
+  "canonical_build_and_binaries_equal": true,
+  "invocation_manifests_differ": true
+}

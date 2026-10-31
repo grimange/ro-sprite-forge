@@ -1,0 +1,17 @@
+{
+  "task": "RSF-30",
+  "files": {
+    "commands.json": "3c21605822a0ac4371ae607b9c8f53f0ec209226c434f03f497f8cbb2190ac7d",
+    "distribution.log": "868b78fed4f0018a19d74aa08a777409cb659e9f6842037038141df510b45bb9",
+    "environment.json": "5125e5c7827b6884696d864f5c1cc165811daff6ed476c3d4d11de797196849b",
+    "focused.log": "77ab1994f4f054f2b4ca668cc721fe68187a8aa1c4b9456adebf591d2e492704",
+    "implementation-manifest.json": "e5448de8a88acc4ccb1eb7edea7cc3c9fbf6b026237fdb7a620fdedd66ea38fa",
+    "independent/QA_REPORT.md": "7dad9c36f5c7c41bf6b5f0947900330424fd2e4c468b025b110f25be29325cc8",
+    "kaneo-start.json": "02d1ac74550ff56a4bdf5823d419d6232ca93e0642cec1880d28c3adb087d7c2",
+    "PLAN.md": "a4594f00caa3963d9cbf6daf5809f9cd9f35e7a630bc6b147ffc46116875af11",
+    "private.log": "c06912a483e175f0de60a7d230e71424a08305c54a4c78d41c0d1a261562629d",
+    "public.log": "cd845a8892f0408c7f579a1ad1e357cdcb0dfd1556d51800ae294285a859a828",
+    "REPORT.md": "88894d9e443c95629c9d92992f43c327e4a0722d6f65a84b5f27e4e103bc7097",
+    "schemas.log": "a054808fa116a8c7c7e7d3a3e95d15564611049136ce520335fb9e3f5cc77d44"
+  }
+}

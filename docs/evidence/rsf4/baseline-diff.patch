@@ -1,0 +1,643 @@
+--- baseline/README.md
++++ working/README.md
+@@ -1,8 +1,9 @@
+ # RO Sprite Forge
+ 
+-Standalone local, human-operated sprite tooling. RSF-1–3 provide the installable
++Standalone local, human-operated sprite tooling. RSF-1–4 provide the installable
+ foundation, bounded SPR 2.1 / ACT 2.4 decoding, canonical resource inventory and
+-finite declared-target work orders. Verification gates and compilation are later tasks.
++finite declared-target work orders, byte preservation and bounded ACT semantic verification.
++Independent Rust/native gates and compilation are later tasks.
+ Python 3.12–3.14 is supported (`>=3.12,<3.15`). There are no runtime dependencies.
+ No LWR checkout, GRF, private fixture, client, server or network service is needed.
+ 
+@@ -52,16 +53,20 @@
+ | --- | --- | --- |
+ | `inspect` | `--act FILE --spr FILE --json NEW_FILE` | Produce canonical inventory; optional `--actor`, `--part`, `--runtime-profile player\|npc\|monster\|unverified` |
+ | `plan` | `--inventory FILE --profile FILE --target FILE --output NEW_FILE` | Produce exact or provisional finite requirements |
+-| `verify` | `--project DIRECTORY --scope full\|declared` | Explicitly NOT_IMPLEMENTED pending RSF-4 |
+-| `roundtrip` | `--act FILE --spr FILE --output-act NEW_FILE --output-spr NEW_FILE` | Explicitly NOT_IMPLEMENTED pending RSF-4 |
++| `verify` | `--act FILE --spr FILE` | Validate structure/references and ACT semantic roundtrip; canonical JSON on stdout |
++| `roundtrip` | `--act FILE --spr FILE --output-act NEW_FILE --output-spr NEW_FILE` | Preserve original bytes; optional `--mode act-semantic` serializes ACT, SPR remains unchanged |
+ 
+ The CLI checks argument syntax, existing regular input files (or a project directory),
+ and new, distinct output paths whose parent directories exist. It rejects existing
+ outputs, including dangling symlinks, without overwriting them. Input symlinks are
+ followed for file-kind checks. `inspect` and `plan` read at most 128 MiB per input,
+ validate content and publish reports atomically without replacing existing files.
+-Invalid inputs create no report. `verify` and `roundtrip` remain fail-closed and
+-create no output. No command modifies source ACT/SPR resources.
++Invalid inputs create no report or resource output. `verify` creates no files;
++`roundtrip` publishes validated new resources and reports source/output hashes.
++Legacy `verify --project DIRECTORY --scope full|declared` remains NOT_IMPLEMENTED.
++No command modifies source ACT/SPR resources. See the
++[RSF-4 contract](docs/architecture/RSF4_PRESERVATION.md) for policy, independent
++test coverage, unsupported conversions and publication limits.
+ 
+ See [the versioned contracts](docs/architecture/RSF3_CONTRACTS.md) for target
+ examples, exact topology rules, canonical hashing and report status semantics.
+--- baseline/docs/architecture/RSF4_PRESERVATION.md
++++ working/docs/architecture/RSF4_PRESERVATION.md
+@@ -0,0 +1,61 @@
++# RSF-4 preservation and verification contract
++
++`roundtrip --act INPUT --spr INPUT --output-act NEW --output-spr NEW`
++validates the supported ACT 2.4 / SPR 2.1 resource pair, then publishes original
++bytes. `--mode preserve` is the default. `--mode act-semantic` separately runs the
++ACT writer on the decoded document; SPR still retains its original bytes.
++`verify --act INPUT --spr INPUT` performs the same structural, reference and Python
++semantic checks without publishing files. Both commands print canonical
++`rsf.verification/v1` JSON to stdout. No timestamps or paths enter its hash.
++The legacy `verify --project DIR --scope full|declared` remains NOT_IMPLEMENTED;
++RSF-4 has no project authoring/assignment contract. Conversions and pool remapping
++are unsupported and rejected; the existing low-level truecolor writer is not an
++indexed writer and is never used by preservation.
++
++Each resource identity is its input SHA-256. The report binds the ACT and SPR
++hashes together and records output hashes. A caller must compare those identities
++with its intended source pair; structurally compatible but unintended art cannot
++be identified from binary structure alone. Pair validation uses the existing
++inventory engine, including pool-local image references and event references.
++Unused stored identities, original palette, raw indexed RLE, pool order, and all
++ACT bytes survive pass-through. No composition or PNG is involved.
++
++The ACT serializer validates the complete supported dictionary before encoding:
++header reserved bytes, action/motion/layer order, bounds, all nine layer fields,
++raw 40-byte events, all four anchor fields, and per-action delays. Unknown keys
++and malformed edits fail explicitly instead of being silently dropped. Counts,
++integer ranges, finite float32 values, positive representable delays and event
++references are bounded. A standalone ACT writer cannot check image references
++against an absent SPR; paired verification performs that check.
++
++For supported parsed finite float32 records, ACT serialization is byte-exact;
++no known supported semantic-preserving binary difference is required. Caller
++supplied Python floats are rounded to float32 during encoding, so arbitrary
++Python precision is not a byte-preservation promise. Nonfinite scales/delays and
++nonpositive/underflowing delays are outside paired semantic support. Raw parsing
++and validated paired operations have different contracts. There is no implicit
++indexed-to-RGBA conversion, nor a decoded-pixel equivalence claim for conversion.
++
++The verification report's PASS covers its declared Python structural/preservation
++checks. `independent_binary_tests=NOT_RUN` explicitly means the CLI did not execute
++the independent synthetic golden-layout suite; the durable task evidence records
++that separate suite. Rust is NOT_RUN and native is UNVERIFIED. No artwork or human
++visual approval is inferred.
++
++Inputs are read with the existing 128 MiB adapter limit. Outputs must be distinct,
++new paths with existing parents; existing files and symlinks are never replaced.
++All output bytes are staged before publishing, each file appears atomically, and
++both are read back before success. Exceptions remove outputs created by this
++operation without removing pre-existing files. Two arbitrary filesystem paths
++cannot form a crash-atomic transaction: process termination/power loss during
++publication can leave an incomplete pair, with no success report. This is not a
++production build/approval protocol.
++
++`tests/test_preservation.py` independently constructs a 424-byte two-action,
++three-motion, multilayer ACT with mixed pools and nonzero opaque records. Expected
++semantics are supplied separately from both codecs. Eighteen single-field edits
++are checked with literal byte offsets and `struct.pack_into`; complete byte
++comparison proves unrelated bytes remain unchanged. An inserted anchor tests a
++layout-changing edit against independently spliced bytes. Every truncation is
++rejected. Original indexed, mixed and truecolor SPR bytes, including nonzero
++palettes and unused identities, are tested separately from ACT serialization.
+--- baseline/src/ro_sprite_forge/cli.py
++++ working/src/ro_sprite_forge/cli.py
+@@ -10,10 +10,12 @@
+ from ro_sprite_forge import __version__
+ from ro_sprite_forge.core.errors import ErrorCode, ForgeError
+ from ro_sprite_forge.core.operations import Operation, Request, execute
++from ro_sprite_forge.core.preservation import roundtrip_pair
++from ro_sprite_forge.core.canonical import canonical_bytes
+ from ro_sprite_forge.core.inventory import inventory
+ from ro_sprite_forge.core.profiles import get_profile
+ from ro_sprite_forge.core.requirements import requirements
+-from ro_sprite_forge.report_io import publish, read_bytes, read_json
++from ro_sprite_forge.report_io import publish, publish_resources, read_bytes, read_json
+ 
+ 
+ class Parser(argparse.ArgumentParser):
+@@ -35,8 +37,8 @@
+     for operation, purpose in (
+         (Operation.INSPECT, "Inventory supported ACT 2.4 / SPR 2.1 resources as canonical JSON."),
+         (Operation.PLAN, "Calculate bounded target requirements; unresolved declarations stay provisional."),
+-        (Operation.VERIFY, "Verify a saved project scope (not yet implemented)."),
+-        (Operation.ROUNDTRIP, "Preserve unchanged ACT/SPR resources (not yet implemented)."),
++        (Operation.VERIFY, "Verify ACT/SPR structure and Python semantic roundtrip; no Rust/native claim."),
++        (Operation.ROUNDTRIP, "Preserve unchanged ACT/SPR resources or explicitly serialize ACT."),
+     ):
+         sub = commands.add_parser(operation.value, help=purpose, description=purpose)
+         if operation in (Operation.INSPECT, Operation.ROUNDTRIP):
+@@ -52,11 +54,14 @@
+                 sub.add_argument(f"--{flag}", required=True, help=f"Existing versioned {flag} JSON input; profile must match frozen record.")
+             sub.add_argument("--output", required=True, help="New canonical requirements JSON path; parent must exist.")
+         elif operation == Operation.VERIFY:
+-            sub.add_argument("--project", required=True, help="Existing project directory; contents are not validated.")
+-            sub.add_argument("--scope", required=True, choices=("full", "declared"), help="Explicit full-profile or declared-target scope.")
++            sub.add_argument("--project", help="Legacy project verification (not yet implemented).")
++            sub.add_argument("--act", help="Existing ACT 2.4 input.")
++            sub.add_argument("--spr", help="Existing SPR 2.1 input.")
++            sub.add_argument("--scope", choices=("full", "declared"), help="Explicit full-profile or declared-target scope.")
+         else:
+-            sub.add_argument("--output-act", required=True, help="New ACT path; parent must exist. No output in RSF-1.")
+-            sub.add_argument("--output-spr", required=True, help="New SPR path; parent must exist. No output in RSF-1.")
++            sub.add_argument("--output-act", required=True, help="New ACT path; parent must exist.")
++            sub.add_argument("--output-spr", required=True, help="New SPR path; parent must exist.")
++            sub.add_argument("--mode", choices=("preserve", "act-semantic"), default="preserve", help="SPR always retains original bytes; conversion unsupported.")
+     return parser
+ 
+ 
+@@ -109,6 +114,14 @@
+         Operation.INSPECT: ("output",), Operation.PLAN: ("output",),
+         Operation.VERIFY: (), Operation.ROUNDTRIP: ("output_act", "output_spr"),
+     }[operation]
++    if operation == Operation.VERIFY:
++        if args.project:
++            if args.act or args.spr or not args.scope:
++                raise ForgeError(ErrorCode.INVALID_ARGUMENT, "Legacy project verification requires --scope and no resource inputs.")
++        else:
++            if not args.act or not args.spr or args.scope:
++                raise ForgeError(ErrorCode.INVALID_ARGUMENT, "Resource verification requires --act and --spr without --scope.")
++            input_names = ("act", "spr")
+     inputs = tuple((name, getattr(args, name)) for name in input_names)
+     outputs = tuple((name, getattr(args, name)) for name in output_names)
+     for name, value in inputs:
+@@ -132,6 +145,11 @@
+         elif request.operation == Operation.PLAN:
+             report = requirements(read_json(args.inventory), read_json(args.profile), read_json(args.target))
+             publish(args.output, report)
++        elif request.operation == Operation.ROUNDTRIP or (request.operation == Operation.VERIFY and not args.project):
++            act, spr, report = roundtrip_pair(read_bytes(args.act), read_bytes(args.spr), mode=getattr(args, "mode", "preserve"))
++            if request.operation == Operation.ROUNDTRIP:
++                publish_resources(((args.output_act, act), (args.output_spr, spr)))
++            sys.stdout.write(canonical_bytes(report).decode("utf-8"))
+         else:
+             execute(request)
+     except ForgeError as exc:
+--- baseline/src/ro_sprite_forge/core/preservation.py
++++ working/src/ro_sprite_forge/core/preservation.py
+@@ -0,0 +1,32 @@
++"""Pure, bounded pair verification; raw preservation and ACT encoding are distinct."""
++
++from ro_sprite_forge.core.canonical import check, digest, sealed
++from ro_sprite_forge.core.inventory import inventory
++from ro_sprite_forge.formats.act import read_act, write_act
++
++
++def roundtrip_pair(act: bytes, spr: bytes, *, mode: str = "preserve") -> tuple[bytes, bytes, dict]:
++    check(mode in ("preserve", "act-semantic"),
++          "Unsupported roundtrip mode; indexed SPR writing/conversion is not supported.")
++    observed = inventory(act, spr)  # Includes finite fields and pool-local references.
++    parsed = read_act(act)
++    encoded = write_act(parsed)
++    check(read_act(encoded) == parsed, "ACT semantic roundtrip mismatch.")
++    output_act = act if mode == "preserve" else encoded
++    # SPR is always passed through, including unused entries and original RLE/palette.
++    checks = {"structure": "PASS", "pair_references": "PASS",
++              "act_semantic_roundtrip": "PASS",
++              "act_serializer_byte_equal": encoded == act,
++              "act_output_byte_equal": output_act == act,
++              "spr_output_byte_equal": True,
++              "independent_binary_tests": "NOT_RUN",
++              "rust_oracle": "NOT_RUN", "native": "UNVERIFIED"}
++    report = sealed({"schema": "rsf.verification/v1", "policy": mode,
++                     "result": "PASS", "checks": checks,
++                     "resources": {name: {"input_sha256": digest(source),
++                                           "output_sha256": digest(output)}
++                                   for name, source, output in (("act", act, output_act), ("spr", spr, spr))},
++                     "inventory_sha256": observed["canonical_sha256"],
++                     "summary": observed["summary"],
++                     "spr_policy": "original-bytes; no pool reorder or representation conversion"})
++    return output_act, spr, report
+--- baseline/src/ro_sprite_forge/formats/act.py
++++ working/src/ro_sprite_forge/formats/act.py
+@@ -1,5 +1,6 @@
+ """ACT 2.4 parser and serializer with byte-exact round-trip preservation."""
+ 
++import math
+ import struct
+ from typing import Any
+ 
+@@ -77,8 +78,83 @@
+     return dict(reserved=reserved.hex(), actions=actions, events=events, delays=delays)
+ 
+ 
++def _validate_act(act: dict[str, Any], *, path: str | None = None) -> None:
++    """Reject malformed/unsupported edits before allocating serialized output."""
++    def keys(record, expected):
++        require(isinstance(record, dict) and set(record) == set(expected),
++                "unsupported or missing ACT fields", path=path)
++
++    def integer(value, low, high):
++        require(type(value) is int and low <= value <= high, "ACT integer out of range", path=path)
++
++    def floating(value, positive=False):
++        require(type(value) in (int, float) and abs(value) <= 3.4028234663852886e38
++                and math.isfinite(value) and (not positive or value > 0),
++                "ACT float must be finite, representable and positive for delays", path=path)
++        require(not positive or struct.unpack("<f", struct.pack("<f", value))[0] > 0,
++                "ACT delay underflows float32", path=path)
++
++    def raw(value, size):
++        require(isinstance(value, str) and len(value) == size * 2,
++                "ACT raw record must have exact hexadecimal length", path=path)
++        try:
++            decoded = bytes.fromhex(value)
++        except ValueError:
++            require(False, "ACT raw record must be hexadecimal", path=path)
++        require(len(decoded) == size, "invalid ACT raw record length", path=path)
++
++    def sequence(value, limit):
++        require(isinstance(value, (list, tuple)) and len(value) <= limit,
++                "invalid ACT sequence/count", path=path)
++
++    keys(act, ("reserved", "actions", "events", "delays"))
++    raw(act["reserved"], 10)
++    sequence(act["actions"], MAX_ACTIONS)
++    require(len(act["actions"]) > 0, "invalid action count", path=path)
++    sequence(act["delays"], MAX_ACTIONS)
++    require(len(act["delays"]) == len(act["actions"]), "delay count must match action count", path=path)
++    for delay in act["delays"]:
++        floating(delay, positive=True)
++    sequence(act["events"], MAX_EVENTS)
++    for event in act["events"]:
++        raw(event, EVENT_RECORD_SIZE)
++    motions = clips = 0
++    for action in act["actions"]:
++        sequence(action, MAX_MOTIONS_PER_ACTION)
++        motions += len(action)
++        require(motions <= MAX_TOTAL_MOTIONS, "cumulative motion budget exceeded", path=path)
++        for motion in action:
++            keys(motion, ("bounds", "clips", "event", "anchors"))
++            sequence(motion["bounds"], 8)
++            require(len(motion["bounds"]) == 8, "ACT bounds must contain eight integers", path=path)
++            for value in motion["bounds"]:
++                integer(value, -2**31, 2**31-1)
++            integer(motion["event"], -1, len(act["events"])-1)
++            sequence(motion["clips"], MAX_CLIPS_PER_MOTION)
++            clips += len(motion["clips"])
++            require(clips <= MAX_TOTAL_CLIPS, "cumulative clip budget exceeded", path=path)
++            for clip in motion["clips"]:
++                keys(clip, CLIP_FIELDS)
++                for field in ("x", "y", "angle"):
++                    integer(clip[field], -2**31, 2**31-1)
++                integer(clip["sprite"], -1, 2**31-1)
++                for field in ("mirror", "color", "pool"):
++                    integer(clip[field], 0, 2**32-1)
++                # Preserve raw uint mirror/pool metadata; pair validation checks visible pools.
++                for field in ("scale_x", "scale_y"):
++                    floating(clip[field])
++            sequence(motion["anchors"], MAX_ANCHORS_PER_MOTION)
++            for anchor in motion["anchors"]:
++                keys(anchor, ANCHOR_FIELDS)
++                for field in ("x", "y"):
++                    integer(anchor[field], -2**31, 2**31-1)
++                for field in ("opaque", "attribute"):
++                    integer(anchor[field], 0, 2**32-1)
++
++
+ def write_act(act: dict[str, Any], *, path: str | None = None) -> bytes:
+     """Serialize structured ACT data into ACT 2.4 binary format."""
++    _validate_act(act, path=path)
+     require("actions" in act and "reserved" in act and "events" in act and "delays" in act, "malformed ACT dictionary", path=path)
+     actions = act["actions"]
+     count = len(actions)
+--- baseline/src/ro_sprite_forge/report_io.py
++++ working/src/ro_sprite_forge/report_io.py
+@@ -60,3 +60,43 @@
+     finally:
+         if temporary is not None:
+             os.unlink(temporary)
++
++
++def publish_resources(resources: tuple[tuple[str, bytes], ...]) -> None:
++    """Stage all bytes, then publish without replacement; roll back on exceptions.
++
++    Each file appears atomically. Separate output paths are not a crash-atomic pair.
++    No success report is emitted until both published files are read back.
++    """
++    staged = []
++    published = []
++    try:
++        if len({str(Path(path).resolve()) for path, _ in resources}) != len(resources):
++            raise ForgeError(ErrorCode.INVALID_OUTPUT, "Output paths must be distinct.")
++        for path, data in resources:
++            with tempfile.NamedTemporaryFile(dir=Path(path).parent, prefix=".rsf-resource-", delete=False) as stream:
++                staged.append((stream.name, path, data))
++                stream.write(data)
++                stream.flush()
++                os.fsync(stream.fileno())
++        for temporary, path, data in staged:
++            os.link(temporary, path)
++            published.append((path, os.stat(temporary)))
++        for _, path, data in staged:
++            if read_bytes(path) != data:
++                raise ForgeError(ErrorCode.IO_ERROR, "Published resource read-back differs.", path=path)
++    except (OSError, ForgeError) as exc:
++        for path, original in reversed(published):
++            try:
++                current = os.lstat(path)
++                if (current.st_dev, current.st_ino) == (original.st_dev, original.st_ino):
++                    os.unlink(path)
++            except FileNotFoundError:
++                pass
++        if isinstance(exc, ForgeError):
++            raise
++        code = ErrorCode.INVALID_OUTPUT if isinstance(exc, FileExistsError) else ErrorCode.IO_ERROR
++        raise ForgeError(code, "Cannot publish resource pair; incomplete outputs removed.") from exc
++    finally:
++        for temporary, _, _ in staged:
++            os.unlink(temporary)
+--- baseline/tests/check_distribution.py
++++ working/tests/check_distribution.py
+@@ -80,11 +80,14 @@
+ from ro_sprite_forge.core.inventory import inventory
+ from ro_sprite_forge.core.profiles import get_profile
+ from ro_sprite_forge.core.requirements import requirements
++from ro_sprite_forge.core.preservation import roundtrip_pair
+ from ro_sprite_forge.formats.act import write_act
+ from ro_sprite_forge.formats.spr import write_rgba_spr, RgbaImage
+ assert importlib.util.find_spec('PIL') is None
+ a = write_act(dict(reserved='00'*10,actions=[[dict(bounds=(0,)*8,clips=[],event=-1,anchors=[])]],events=[],delays=[4.0]))
+ s = write_rgba_spr([RgbaImage(1,1,bytes(4))])
++assert roundtrip_pair(a,s)[:2] == (a,s)
++assert roundtrip_pair(a,s,mode='act-semantic')[:2] == (a,s)
+ p = get_profile('player')
+ i = inventory(a,s,profile=p)
+ t = dict(schema='rsf.target/v1',actor='synthetic',part='body',scope='scoped',actions=[dict(action='Walk',requirement='required',views=[dict(view=0,frame_count=1,topology=dict(kind='explicit',layers=['body']))])])
+--- baseline/tests/private_fixture_hooks/test_preservation_fixtures.py
++++ working/tests/private_fixture_hooks/test_preservation_fixtures.py
+@@ -0,0 +1,46 @@
++"""Optional hash-pinned resource preservation; no private outputs in the checkout."""
++
++from pathlib import Path
++import tempfile
++import unittest
++
++from ro_sprite_forge.core.canonical import canonical_bytes, digest
++from ro_sprite_forge.core.preservation import roundtrip_pair
++from ro_sprite_forge.formats.act import read_act
++from ro_sprite_forge.report_io import publish_resources
++from test_audited_fixtures import AUDITED_HASHES, find_fixture
++
++
++class PrivatePreservationTests(unittest.TestCase):
++    def check_pair(self, name):
++        paths = [find_fixture(f'{name}_{ext}') for ext in ('act','spr')]
++        if not all(paths):
++            self.skipTest(f'NOT_RUN: hash-pinned {name} fixtures unavailable')
++        sources = [p.read_bytes() for p in paths]
++        for ext, data in zip(('act','spr'), sources):
++            self.assertEqual(digest(data), AUDITED_HASHES[f'{name}_{ext}'])
++        for mode in ('preserve','act-semantic'):
++            a,s,report = roundtrip_pair(*sources,mode=mode)
++            self.assertEqual((a,s),tuple(sources))
++            self.assertEqual(read_act(a),read_act(sources[0]))
++            self.assertEqual(canonical_bytes(report),canonical_bytes(roundtrip_pair(*sources,mode=mode)[2]))
++            with tempfile.TemporaryDirectory(prefix='rsf4-private-') as tmp:
++                outputs = [Path(tmp)/f'output.{ext}' for ext in ('act','spr')]
++                publish_resources(tuple((str(p),data) for p,data in zip(outputs,(a,s))))
++                self.assertEqual([p.read_bytes() for p in outputs],sources)
++            self.assertEqual([p.read_bytes() for p in paths],sources)
++            print('PRIVATE_PRESERVATION',name,mode,report['resources'],report['summary'])
++        return report
++
++    def test_novice_body(self):
++        r=self.check_pair('novice_body')
++        self.assertEqual([r['summary'][k] for k in ('action_slots','frame_occurrences','referenced_images','distinct_referenced_contents')],[104,456,110,108])
++
++    def test_novice_head(self):
++        r=self.check_pair('novice_head')
++        self.assertEqual(r['summary']['stored_images'],15)
++
++    def test_orc_multilayer_and_unused(self):
++        r=self.check_pair('orc_skeleton')
++        self.assertEqual([r['summary'][k] for k in ('frame_occurrences','visible_layer_references','referenced_images','stored_images','unused_images')],[512,1776,55,57,2])
++        # Existing private inventory hook independently asserts unused identities 36/39.
+--- baseline/tests/test_foundation.py
++++ working/tests/test_foundation.py
+@@ -92,10 +92,10 @@
+             self.assertIn(name.value, top_help)
+             result = self.run_cli(name.value, "--help")
+             self.assertEqual(result.returncode, 0, result.stderr)
+-            if name in (Operation.VERIFY, Operation.ROUNDTRIP):
++            if name == Operation.VERIFY:
+                 self.assertIn("not yet implemented", result.stdout)
+             else:
+-                self.assertIn("--output" if name == Operation.PLAN else "--json", result.stdout)
++                self.assertIn("--output" if name in (Operation.PLAN, Operation.ROUNDTRIP) else "--json", result.stdout)
+         self.assertEqual(list(self.root.iterdir()), [self.source])
+ 
+     def test_installed_version_and_module_entry_point(self):
+@@ -115,7 +115,7 @@
+     def test_invalid_or_unimplemented_commands_create_nothing(self):
+         for args in self.valid_commands():
+             with self.subTest(command=args[0]):
+-                if args[0] in ("inspect", "plan"):
++                if args[0] in ("inspect", "plan", "roundtrip"):
+                     self.assert_error(args, 3, "INVALID_INPUT")
+                 else:
+                     self.assert_error(args, 4, "NOT_IMPLEMENTED")
+--- baseline/tests/test_preservation.py
++++ working/tests/test_preservation.py
+@@ -0,0 +1,200 @@
++"""Independent ACT 2.4 golden layout and controlled one-field binary mutations."""
++
++import copy
++import json
++from pathlib import Path
++import struct
++import subprocess
++import sys
++import tempfile
++import unittest
++from unittest.mock import patch
++
++from ro_sprite_forge.core.canonical import canonical_bytes, digest
++from ro_sprite_forge.core.errors import ForgeError
++from ro_sprite_forge.core.preservation import roundtrip_pair
++from ro_sprite_forge.formats.act import read_act, write_act
++from ro_sprite_forge.formats.spr import read_spr
++from ro_sprite_forge.report_io import publish_resources
++
++
++def golden():
++    # Constructed without either production writer or their field-name constants.
++    header = b'AC\x04\x02\x02\x00' + bytes(range(10))
++    bounds = struct.pack('<8i', -1, 2, -3, 4, -5, 6, -7, 8)
++    c0 = struct.pack('<iiiIIffiI', 12, -23, 0, 0, 0x12345678, 1.25, 0.5, -30, 0)
++    c1 = struct.pack('<iiiIIffiI', -42, 17, 0, 1, 0x87654321, 2.0, -1.0, 90, 1)
++    c2 = struct.pack('<iiiIIffiI', 5, 6, 1, 0, 0xFFFFFFFF, 1.0, 1.0, 0, 0)
++    hidden = struct.pack('<iiiIIffiI', 7, 8, -1, 7, 0, 1.0, 1.0, 360, 99)
++    anchor = struct.pack('<IiiI', 0xDEADBEEF, -9, 10, 0xCAFEBABE)
++    m0 = bounds + struct.pack('<I', 2) + c0 + c1 + struct.pack('<iI', 0, 1) + anchor
++    m1 = bounds + struct.pack('<I', 1) + c2 + struct.pack('<iI', -1, 1) + anchor
++    m2 = bounds + struct.pack('<I', 1) + hidden + struct.pack('<iI', 1, 0)
++    events = bytes(range(40)) + bytes(range(40, 80))  # Includes opaque bytes after NUL.
++    data = header + struct.pack('<I', 2) + m0 + m1 + struct.pack('<I', 1) + m2
++    data += struct.pack('<I', 2) + events + struct.pack('<ff', 4.0, 6.25)
++    assert len(data) == 424
++    return data
++
++
++def expected():
++    def clip(x, y, sprite, mirror, color, sx, sy, angle, pool):
++        return dict(x=x,y=y,sprite=sprite,mirror=mirror,color=color,scale_x=sx,scale_y=sy,angle=angle,pool=pool)
++    def motion(clips, event, anchors):
++        return dict(bounds=[-1,2,-3,4,-5,6,-7,8],clips=clips,event=event,anchors=anchors)
++    anchor = dict(opaque=0xDEADBEEF,x=-9,y=10,attribute=0xCAFEBABE)
++    return dict(reserved=bytes(range(10)).hex(), actions=[[
++        motion([clip(12,-23,0,0,0x12345678,1.25,0.5,-30,0),clip(-42,17,0,1,0x87654321,2.,-1.,90,1)],0,[anchor.copy()]),
++        motion([clip(5,6,1,0,0xFFFFFFFF,1.,1.,0,0)],-1,[anchor.copy()])],
++        [motion([clip(7,8,-1,7,0,1.,1.,360,99)],1,[])]],
++        events=[bytes(range(40)).hex(),bytes(range(40,80)).hex()],delays=[4.,6.25])
++
++
++def sprite(kind='mixed'):
++    # Three indexed identities (last unused), raw zero-run variants and nonzero palette.
++    indexed = b''.join(struct.pack('<HHH',2,1,3)+bytes([i,0,0]) for i in (1,2,3))
++    rgba = struct.pack('<HH',1,1)+bytes([255,3,2,1])
++    if kind == 'indexed':
++        return b'SP\x01\x02'+struct.pack('<HH',3,0)+indexed+bytes(range(256))*4
++    if kind == 'truecolor':
++        return b'SP\x01\x02'+struct.pack('<HH',0,1)+rgba+bytes(range(256))*4
++    return b'SP\x01\x02'+struct.pack('<HH',3,1)+indexed+rgba+bytes(range(256))*4
++
++
++class SemanticTests(unittest.TestCase):
++    def test_independent_golden_complete_fields(self):
++        self.assertEqual(read_act(golden()), expected())
++        self.assertEqual(write_act(expected()), golden())
++        self.assertEqual(write_act(read_act(golden())), golden())
++
++    def test_single_field_mutations_independent_offsets(self):
++        # Literal offsets from golden record layout, independent of production reader.
++        cases = [
++            (('actions',0,0,'clips',1,'x'),92,'i',-51),
++            (('actions',0,0,'clips',1,'y'),96,'i',-19),
++            (('actions',0,0,'clips',1,'mirror'),104,'I',0),
++            (('actions',0,0,'clips',1,'color'),108,'I',0x01020304),
++            (('actions',0,0,'clips',1,'scale_x'),112,'f',3.5),
++            (('actions',0,0,'clips',1,'scale_y'),116,'f',0.25),
++            (('actions',0,0,'clips',1,'angle'),120,'i',-120),
++            (('actions',0,0,'clips',0,'sprite'),64,'i',1),
++            (('actions',0,0,'clips',0,'pool'),88,'I',1),
++            (('actions',0,0,'bounds',0),20,'i',-100),
++            (('actions',0,0,'anchors',0,'x'),140,'i',-81),
++            (('actions',0,0,'anchors',0,'y'),144,'i',-82),
++            (('actions',0,0,'anchors',0,'opaque'),136,'I',42),
++            (('actions',0,0,'anchors',0,'attribute'),148,'I',43),
++            (('actions',0,0,'event'),128,'i',1),
++            (('delays',1),420,'f',2.5),
++            (('events',1),376,'40s',b'new.wav\x00'+bytes(range(32))),
++            (('reserved',),6,'10s',bytes(range(10,20))),
++        ]
++        for path, offset, fmt, value in cases:
++            with self.subTest(path=path):
++                model = copy.deepcopy(expected())
++                node = model
++                for key in path[:-1]: node = node[key]
++                node[path[-1]] = value.hex() if fmt.endswith('s') else value
++                independently_patched = bytearray(golden())
++                struct.pack_into('<'+fmt, independently_patched, offset, value)
++                output = write_act(model)
++                self.assertEqual(output, independently_patched)  # EVERY unrelated byte.
++                self.assertEqual(struct.unpack_from('<'+fmt,output,offset)[0],value)
++                reparsed = read_act(output)
++                self.assertEqual(reparsed,model)
++                self.assertEqual(write_act(model),output)
++                self.assertEqual(roundtrip_pair(output,sprite())[0],output)
++
++    def test_layout_changing_anchor_insertion(self):
++        model = expected()
++        model['actions'][0][0]['anchors'].append(dict(opaque=11,x=-12,y=13,attribute=14))
++        output = write_act(model)
++        patched = bytearray(golden())
++        struct.pack_into('<I',patched,132,2)
++        patched[152:152] = struct.pack('<IiiI',11,-12,13,14)
++        self.assertEqual(output,patched)
++        self.assertEqual(read_act(output),model)
++        self.assertEqual(roundtrip_pair(output,sprite())[0],output)
++
++    def test_every_truncation_rejected(self):
++        for end in range(len(golden())):
++            with self.subTest(end=end),self.assertRaises(ForgeError):read_act(golden()[:end])
++
++    def test_writer_rejects_malformed_edits(self):
++        cases = []
++        for value in ('00', 'zz', '00'*41):
++            doc=expected();doc['events'][0]=value;cases.append(doc)
++        for field,value in [('x',2**31),('scale_x',float('nan')),('scale_y',1e100),('sprite',-2)]:
++            doc=expected();doc['actions'][0][0]['clips'][0][field]=value;cases.append(doc)
++        doc=expected();doc['actions'][0][0]['event']=2;cases.append(doc)
++        doc=expected();doc['delays'][0]=0;cases.append(doc)
++        doc=expected();doc['unknown']='not silently dropped';cases.append(doc)
++        doc=expected();doc['actions'][0][0]['clips'][0]['unknown']=1;cases.append(doc)
++        doc=expected();doc['actions'][0][0]['anchors']*=65;cases.append(doc)
++        for doc in cases:
++            with self.subTest(doc=doc), self.assertRaises(ForgeError): write_act(doc)
++
++
++class PreservationTests(unittest.TestCase):
++    def test_modes_and_indexed_mixed_unused_representation(self):
++        for mode in ('preserve','act-semantic'):
++            a,s,r=roundtrip_pair(golden(),sprite(),mode=mode)
++            self.assertEqual((a,s),(golden(),sprite()))
++            self.assertEqual(r['summary']['stored_images'],4)
++            self.assertEqual(r['summary']['unused_images'],1)
++            self.assertEqual(r['summary']['visible_layer_references'],3)
++            self.assertEqual(canonical_bytes(r),canonical_bytes(roundtrip_pair(golden(),sprite(),mode=mode)[2]))
++        for kind in ('indexed','truecolor'):
++            # Empty clips valid for both pools; verify original palette even for RGBA.
++            model=expected()
++            for action in model['actions']:
++                for m in action:m['clips']=[]
++            raw=write_act(model)
++            self.assertEqual(roundtrip_pair(raw,sprite(kind))[:2],(raw,sprite(kind)))
++            self.assertEqual(read_spr(sprite(kind)).palette,bytes(range(256))*4)
++
++    def test_unsupported_and_invalid_inputs(self):
++        for mode in ('rgba','indexed-write','remap'):
++            with self.assertRaises(ForgeError): roundtrip_pair(golden(),sprite(),mode=mode)
++        for a,s in ((golden()[:-1],sprite()),(golden(),sprite()[:-1]),(golden()+b'x',sprite())):
++            with self.assertRaises(ForgeError):roundtrip_pair(a,s)
++        for field,value in (('sprite',99),('pool',9)):
++            doc=expected();doc['actions'][0][0]['clips'][0][field]=value
++            with self.assertRaises(ForgeError):roundtrip_pair(write_act(doc),sprite())
++
++    def test_publication_failure_cleanup_and_no_overwrite(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root=Path(tmp);a=root/'a';s=root/'s';s.write_bytes(b'existing')
++            with self.assertRaises(ForgeError):publish_resources(((str(a),golden()),(str(s),sprite())))
++            self.assertFalse(a.exists());self.assertEqual(s.read_bytes(),b'existing')
++            self.assertEqual(sorted(p.name for p in root.iterdir()),['s'])
++            with patch('ro_sprite_forge.report_io.read_bytes',return_value=b'bad'):
++                with self.assertRaises(ForgeError):publish_resources(((str(a),golden()),))
++            self.assertFalse(a.exists())
++
++    def test_cli_modes_hashes_source_immutability_and_errors(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root=Path(tmp);a=root/'source.act';s=root/'source.spr'
++            a.write_bytes(golden());s.write_bytes(sprite())
++            def run(*args):
++                return subprocess.run([sys.executable,'-I','-m','ro_sprite_forge',*map(str,args)],capture_output=True,text=True,cwd=tmp)
++            first=run('verify','--act',a,'--spr',s)
++            self.assertEqual(first.returncode,0,first.stderr)
++            self.assertEqual(json.loads(first.stdout)['checks']['rust_oracle'],'NOT_RUN')
++            for i,mode in enumerate(('preserve','act-semantic','preserve')):
++                oa=root/f'{i}.act';os=root/f'{i}.spr'
++                result=run('roundtrip','--act',a,'--spr',s,'--output-act',oa,'--output-spr',os,'--mode',mode)
++                self.assertEqual(result.returncode,0,result.stderr)
++                self.assertEqual((oa.read_bytes(),os.read_bytes()),(golden(),sprite()))
++                report=json.loads(result.stdout)
++                self.assertEqual(report['resources']['act']['input_sha256'],digest(golden()))
++                self.assertEqual(report['resources']['spr']['output_sha256'],digest(sprite()))
++            bad=run('roundtrip','--act',a,'--spr',s,'--output-act',a,'--output-spr',root/'absent')
++            self.assertEqual(bad.returncode,3);self.assertFalse((root/'absent').exists())
++            bad=run('roundtrip','--act',a,'--spr',s,'--output-act',root/'bad.act','--output-spr',root/'bad.spr','--mode','rgba')
++            self.assertEqual(bad.returncode,2);self.assertFalse((root/'bad.act').exists())
++            self.assertEqual((a.read_bytes(),s.read_bytes()),(golden(),sprite()))
++            a.write_bytes(golden()[:-1])
++            bad=run('roundtrip','--act',a,'--spr',s,'--output-act',root/'bad.act','--output-spr',root/'bad.spr')
++            self.assertEqual(bad.returncode,3);self.assertEqual(bad.stdout,'')
++            self.assertFalse((root/'bad.act').exists());self.assertFalse((root/'bad.spr').exists())

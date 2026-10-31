@@ -1,0 +1,198 @@
+{
+  "task": {
+    "id": "tju1c32n1jrxitklr5hnj6la",
+    "title": "[M5] Walk compilation and independent multilayer regression verification",
+    "number": 26,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M5\n**Stable plan reference:** RSF-v1.1/M5-04\n**Implementation status:** Backlog (to-do); planned only, no implementation or verification claimed. Kaneo column is authoritative if later changed.\n**Responsible implementer:** Unassigned. Required skill: Authorized engineer for this bounded deliverable; independent reviewer is separate.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§6/M5 acceptance, 7, 14\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Prove the M4 Walk composition compiles correctly before native acceptance.\n\n**Scope:** Synthetic Walk image-to-compiler exercise, Rust canonical verification and Novice/Orc regressions.\n\n## Acceptance criteria\n\n- [ ] Use a synthetic legally distributable test monster with Walk action/views/frames/layers declared before art, exact PNG assignments and operator-approved composition.\n- [ ] Compile through production pipeline twice, compare output hashes and independently decode ordered layers/image mapping/timing/anchors with Rust.\n- [ ] Reconstruct real Orc Skeleton multilayer package without losing 12-layer death motion or transformed placement; bounded Novice replacement leaves unrelated slots/head unchanged.\n- [ ] Record requirements/assignment/composition snapshot, output hashes, structural/coverage and oracle results; missing private fixtures are NOT_RUN and do not erase their regression requirement.\n- [ ] One-view or smaller-than-runtime scope stays diagnostic/incomplete for full profile; structural/oracle PASS cannot claim native Walk proof.\n\n## Verification\n\nReproduce synthetic bounded Walk end-to-end build/oracle comparison and private optional Novice/Orc regressions; capture commands/versions/statuses/hashes.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-25 (M5-03; task ID udjjt7jp22k3owbo05s8mnf8); RSF-5 (M0-05; task ID dpexmlk6wggb1xri9yefzjnq)\n\n**Non-goals / gate qualifications:** Native runtime claim belongs to M5-05, no automatic visual decisions.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code changes / diff: Not implemented by this planning sync.\n- Test commands / exit statuses / artifact hashes: NOT_RUN (planning only).\n- Milestone gates / limitations: Not evaluated; structural, coverage, visual, preview and native states remain separate.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nNot performed for implementation. Implementer supplies evidence and moves to QA Review; a distinct read-only reviewer records QA_PASS / QA_FAIL / QA_BLOCKED. Operator-only visual/native decisions remain separate. No acceptance is granted by backlog creation.",
+    "status": "to-do",
+    "columnId": "eog035o4rzn6u301ylyctbvg",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 25,
+    "createdAt": "2026-10-29T10:08:08.004Z",
+    "userId": null,
+    "assigneeName": null,
+    "assigneeId": null,
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "relations": [
+    {
+      "id": "nic0w9yfi2j9kmappk64tmu0",
+      "sourceTaskId": "udjjt7jp22k3owbo05s8mnf8",
+      "targetTaskId": "tju1c32n1jrxitklr5hnj6la",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.366Z",
+      "sourceTask": {
+        "id": "udjjt7jp22k3owbo05s8mnf8",
+        "title": "[M5] Canonical deterministic builds, export gates and provenance",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 25,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": "aM3as9DCoQ7pMoO3V9XsDbL3q2j9pWjn",
+        "assigneeName": "Codex"
+      },
+      "targetTask": {
+        "id": "tju1c32n1jrxitklr5hnj6la",
+        "title": "[M5] Walk compilation and independent multilayer regression verification",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 26,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "t4j11zachwvrsorlnfvdb2dj",
+      "sourceTaskId": "dpexmlk6wggb1xri9yefzjnq",
+      "targetTaskId": "tju1c32n1jrxitklr5hnj6la",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.393Z",
+      "sourceTask": {
+        "id": "dpexmlk6wggb1xri9yefzjnq",
+        "title": "[M0] Independent Rust decoding and structural parity gate",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 5,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "tju1c32n1jrxitklr5hnj6la",
+        "title": "[M5] Walk compilation and independent multilayer regression verification",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 26,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "q57ho41paw9cd4hcw9iil3p1",
+      "sourceTaskId": "tju1c32n1jrxitklr5hnj6la",
+      "targetTaskId": "yuc7bv78trwofm1c8a0iilaf",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.417Z",
+      "sourceTask": {
+        "id": "tju1c32n1jrxitklr5hnj6la",
+        "title": "[M5] Walk compilation and independent multilayer regression verification",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 26,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "yuc7bv78trwofm1c8a0iilaf",
+        "title": "[M5] Exact native Walk proof and authoring-to-native acceptance",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 27,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "jkgfvvaoioow8vmkb4f0zs4z",
+      "sourceTaskId": "tju1c32n1jrxitklr5hnj6la",
+      "targetTaskId": "mdehayoorrfc43z930ij72wx",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.453Z",
+      "sourceTask": {
+        "id": "tju1c32n1jrxitklr5hnj6la",
+        "title": "[M5] Walk compilation and independent multilayer regression verification",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 26,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "mdehayoorrfc43z930ij72wx",
+        "title": "[M6] Optional bounded FFprobe/FFmpeg candidate-frame import",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 28,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "ypo5wzhvl5bakyx7ep7gubla",
+      "sourceTaskId": "tju1c32n1jrxitklr5hnj6la",
+      "targetTaskId": "wbh6jvha6imo9jeub9zmhovj",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.580Z",
+      "sourceTask": {
+        "id": "tju1c32n1jrxitklr5hnj6la",
+        "title": "[M5] Walk compilation and independent multilayer regression verification",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 26,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "wbh6jvha6imo9jeub9zmhovj",
+        "title": "[M7] Additional job/body profiles and compatibility registry",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 32,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "mga1b3ox2lryz28ajh7gzxu5",
+      "sourceTaskId": "tju1c32n1jrxitklr5hnj6la",
+      "targetTaskId": "zhk7olqfex25j8tewzoragi0",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.735Z",
+      "sourceTask": {
+        "id": "tju1c32n1jrxitklr5hnj6la",
+        "title": "[M5] Walk compilation and independent multilayer regression verification",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 26,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "zhk7olqfex25j8tewzoragi0",
+        "title": "[M8] Portable packaging, CI and reproducible release artifacts",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 36,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    }
+  ],
+  "recommended_implementer": "Codex CLI / GPT-6 High for ACT/SPR compilation and Rust regression work; Medium for documentation; forge-codec/verification/qa/kaneo tools; independent forge_qa_reviewer",
+  "started": false
+}

@@ -1,0 +1,128 @@
+{
+  "task": {
+    "id": "bbiahdelxdqg6o5aupyfj699",
+    "title": "[M1] Artwork ledger and explicit transform-reuse graph",
+    "number": 9,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M1\n**Stable plan reference:** RSF-v1.1/M1-03\n**Implementation status:** Implemented; corrected independent QA_PASS obtained. Accepted via existing workflow after evidence/checklist synchronization.\n**Responsible implementer:** Codex primary session. Independent reviewer: /root/rsf9_independent_qa (configured forge_qa_reviewer, read-only).\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§2.3, 3.1, 3.4, 4.3–4.4, 6/M1\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Record exactly which supplied artwork fulfills each ordered requirement and who approved reuse.\n\n**Scope:** Source-hash assignments, transforms/crops, reuse edges, cycle validation and orthogonal review/validity records.\n\n## Acceptance criteria\n\n- [x] Ledger maps stable part/action/view/frame/layer IDs to exact source hash, crop/transform recipe, revisions and declared reuse; attachment parent/child/anchor links are explicit.\n- [x] Reuse graph detects cycles, invalid/missing references and hash changes; mirroring/transform reuse counts only when explicitly declared and accepted.\n- [x] Missing source, invalid hash, available-but-unapproved art, reused original/classic fallback and runtime unsupported states remain distinct.\n- [x] Source-art effort counts derive only from declared approved reuse; duplicate decoded pixels never imply aesthetic equivalence or newly authored replacement coverage.\n\n## Verification\n\nGraph cycle and broken-edge tests; mixed validation/review/runtime states and explicit versus inferred reuse regression cases.\n\nActual commands, exit statuses and hashes are recorded in docs/evidence/rsf9/VERIFICATION.md, test-results.json and QA_REVIEW.md. CPython3.14.4:153 public/16 private/34 ledger tests; existing3 schemas13valid55invalid,newledger1schema4valid8invalid; installed153 and repeat wheel/package exclusions PASS. All commands exit0. Python3.12/3.13 unavailable NOT_RUN; fresh Rust parity/native playback NOT_RUN because those inputs are unchanged. No artwork approvals generated.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-8 (M1-02; task ID akj2012swhvsebugprsl0v5j)\n\n**Non-goals / gate qualifications:** No automatic visual approval, generated imagery or runtime fallback completion.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence\n\n- New immutable assignment-ledger/v1, source identity/observations, direct/reuse/unassigned occurrences, ordered crop/mirror/offset/rational-scale/rotation recipes, explicit attachment links, iterative graph/cycle validation, resolved-ledger/v1 and ledger-impact/v1. Existing target/topology contracts remain unchanged.\n- CLI ledger and ledger-impact use typed diagnostics and atomic no-overwrite report publication. Image processing is not implemented or claimed. VALID means observed nonempty content/hash identity only; no visual approval follows from validity.\n- Exact changed paths/hashes: docs/evidence/rsf9/implementation-manifest.json SHA256 f0c0a7a125e25b1430da6f895c1d5ddcdf5d818aa188f550bee70a7d0520f74b.\n- Accepted163-file baseline manifest SHA256 5b670c840feeb00c8ba34c3830140e2382fe366ffd86498f9b1885c8c9e47f16 and archived source retained; only preexisting cli.py changed. No commit/push; private art excluded. Unrelated operator files preserved.\n- Synthetic computed48frames/48layers:2direct,2explicit reuse,44unassigned,zero approved roots/accepted reuse. A→B→C retains mirror→translate; source A change affects A/B/C, D unaffected. examples.json SHA25626c83addfa19fd636ee41067f9d1357b9d461d1d36a0399e459cf50ade7e5ed8.\n- Existing private Novice body/head and Orc hashes/counts/topology remain unchanged; imported topology does not assign replacement art.\n- M0-S PASS,M0-I PASS,M0-N PASS; previously accepted M0_VERIFIED remains applicable. No new native/artistic acceptance, coverage evaluation or export readiness claim.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nQA_PASS after one corrected finding. Initial QA_FAIL: a sealed malformed resolved report could cause KeyError/CLI traceback instead of typed INVALID_INPUT. Implementer added bounded report shape/enums/identity/reference/cycle checks and3 regressions. Reviewer independently reproduced correction:exit3,no traceback/no output;284 additional malformed report probes all typed,zero unhandled exceptions. Reviewer independently reran153public,16private,bothschema checks,installed153/repeatwheel/exclusions PASS on final manifest. See docs/evidence/rsf9/QA_REVIEW.md SHA256cd47c01db370a650bc55f2abddfd91cb757491a5014d1d1d3aab033192a38161. Reviewer made no implementation/Kaneo edits. Operator-only visual/native decisions remain separate.",
+    "status": "done",
+    "columnId": "vnkxm3fyt0tmewq1rdokfops",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 8,
+    "createdAt": "2026-10-29T10:07:56.525Z",
+    "userId": null,
+    "assigneeName": null,
+    "assigneeId": null,
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "next_task": {
+    "id": "uzuir12040jroddz4idk8ahi",
+    "title": "[M1] Coverage evaluation and exported missing-art work orders",
+    "number": 10,
+    "description": "**Project:** RO Sprite Forge (oq6fp33cmdnwl5h0v48zcr3u)\n**Milestone:** M1\n**Stable plan reference:** RSF-v1.1/M1-04\n**Implementation status:** Backlog (to-do); planned only, no implementation or verification claimed. Kaneo column is authoritative if later changed.\n**Responsible implementer:** Unassigned. Required skill: Authorized engineer for this bounded deliverable; independent reviewer is separate.\n**Source reference:** docs/architecture/RO_SPRITE_FORGE_COMPREHENSIVE_IMPLEMENTATION_PLAN_v1.1.md §§3.3–3.4, 4.4, 6/M1, 12, 14\n**Planning source SHA-256:** 5edfbebcdb47620c59a915e8874094f35092125dd0444b79468aa55a191a361e\n\n## Problem and expected outcome\n\n**Objective:** Give the operator an exact production checklist before artwork creation.\n\n**Scope:** Requirements/ledger comparison, missing/report CLI exports and orthogonal completeness decisions.\n\n## Acceptance criteria\n\n- [ ] New fully declared monster target produces exact finite frame/layer checklist without artwork, including part, semantic action/numeric slot when known, view/frame/layer ordinal/role, required status and topology provenance.\n- [ ] Report separate frame occurrences, layer occurrences, stored/referenced identities/content classes and approved reuse; no misleading single effort count.\n- [ ] Missing, invalid, unreviewed, excluded, original fallback, runtime unsupported and unverified attachments remain separately actionable with exact IDs.\n- [ ] COMPLETE_FOR_DECLARED_SCOPE requires specified topology and valid approved required assignments; COMPLETE_FOR_FULL_PROFILE additionally covers full profile. Visual, preview and native evidence stay independent.\n- [ ] CLI/core reports expose precise remaining gaps and declaration/inheritance unknowns; one-view/one-action completion never becomes full-profile completion.\n\n## Verification\n\nNo-art checklist golden tests, mixed-state ledger coverage tests and scoped/full negative cases; independent QA compares exact IDs.\n\nRecord actual commands, environment/tool versions, exit statuses, artifact hashes and NOT_RUN blockers at handoff. No tests, approvals or native runs are claimed by this planning record.\n\n## Non-goals and dependencies\n\n**Dependencies:** RSF-9 (M1-03; task ID bbiahdelxdqg6o5aupyfj699)\n\n**Non-goals / gate qualifications:** Only the stated deliverable; no adjacent milestone implementation or automatic artistic/native acceptance.\n\nOriginal Ragnarok artwork/GRFs and private fixtures stay outside public Git/deliverables. Use synthetic redistributable fixtures for public verification. Private fixture/tool availability must be checked during execution, never assumed.\n\n## Implementation evidence (add at QA handoff)\n\n- Code changes / diff: Not implemented by this planning sync.\n- Test commands / exit statuses / artifact hashes: NOT_RUN (planning only).\n- Milestone gates / limitations: Not evaluated; structural, coverage, visual, preview and native states remain separate.\n\n## Independent QA result (reviewer reports, coordinator syncs)\n\nNot performed for implementation. Implementer supplies evidence and moves to QA Review; a distinct read-only reviewer records QA_PASS / QA_FAIL / QA_BLOCKED. Operator-only visual/native decisions remain separate. No acceptance is granted by backlog creation.",
+    "status": "to-do",
+    "columnId": "eog035o4rzn6u301ylyctbvg",
+    "priority": "no-priority",
+    "startDate": null,
+    "dueDate": null,
+    "position": 9,
+    "createdAt": "2026-10-29T10:07:56.546Z",
+    "userId": null,
+    "assigneeName": null,
+    "assigneeId": null,
+    "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+    "workspaceId": "30VyoMQZ4LROnW3UUeAYGg8bIF9mj1il"
+  },
+  "next_relations": [
+    {
+      "id": "tnt3p9dm0js7c5gh5teua92j",
+      "sourceTaskId": "bbiahdelxdqg6o5aupyfj699",
+      "targetTaskId": "uzuir12040jroddz4idk8ahi",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:18.830Z",
+      "sourceTask": {
+        "id": "bbiahdelxdqg6o5aupyfj699",
+        "title": "[M1] Artwork ledger and explicit transform-reuse graph",
+        "status": "done",
+        "isCompleted": true,
+        "priority": "no-priority",
+        "number": 9,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "uzuir12040jroddz4idk8ahi",
+        "title": "[M1] Coverage evaluation and exported missing-art work orders",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 10,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "zpqcz3xi1u98bwjaf67iae4a",
+      "sourceTaskId": "uzuir12040jroddz4idk8ahi",
+      "targetTaskId": "e7nsxcjfb2xk226im4v11aic",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:18.963Z",
+      "sourceTask": {
+        "id": "uzuir12040jroddz4idk8ahi",
+        "title": "[M1] Coverage evaluation and exported missing-art work orders",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 10,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "e7nsxcjfb2xk226im4v11aic",
+        "title": "[M3] Safe local service and atomic project persistence",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 15,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    },
+    {
+      "id": "a5vyszs3x43bowmdb42kaoh1",
+      "sourceTaskId": "uzuir12040jroddz4idk8ahi",
+      "targetTaskId": "wbh6jvha6imo9jeub9zmhovj",
+      "relationType": "blocks",
+      "createdAt": "2026-10-29T10:08:19.603Z",
+      "sourceTask": {
+        "id": "uzuir12040jroddz4idk8ahi",
+        "title": "[M1] Coverage evaluation and exported missing-art work orders",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 10,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      },
+      "targetTask": {
+        "id": "wbh6jvha6imo9jeub9zmhovj",
+        "title": "[M7] Additional job/body profiles and compatibility registry",
+        "status": "to-do",
+        "isCompleted": false,
+        "priority": "no-priority",
+        "number": 32,
+        "projectId": "oq6fp33cmdnwl5h0v48zcr3u",
+        "userId": null,
+        "assigneeName": null
+      }
+    }
+  ],
+  "pending_writes": false
+}

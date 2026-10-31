@@ -1,0 +1,13 @@
+{
+  "docs/architecture/RSF12_ANIMATION.md": "6e38b40876cd76395553641daebdcf99ac7d6a44222f225b407b64d888e00288",
+  "docs/workflows/KANEO_PMP.md": "b16e5563ddb56bf4ef6e056ce9453f81ce99aa96f084a1c354ca121bf1eac7ef",
+  "scripts/check_animation_schema.py": "820368523f61b034f0af769e1d4ed940992581c50ba098c519d4975f5df01e40",
+  "src/ro_sprite_forge/cli.py": "8f26bbc3797bf020a1badece3ef9481b92f7c67e29db92f46cba70a970dcad03",
+  "src/ro_sprite_forge/core/animation.py": "33ad645374e196272a8b7bb94dbf49d4cd613e35ab13b6432b97665bfff13b66",
+  "src/ro_sprite_forge/core/timeline.py": "fb7f364b6284f03e825b843e76c71813de1b384674c7de4c6e09cb4d0bd3d9fb",
+  "src/ro_sprite_forge/formats/preview.py": "33df1e286eed879d13c32548e5ca5d30cbd1e9176a25e1432c56015608aefb19",
+  "src/ro_sprite_forge/schemas/animation-inspection-v1.json": "a285537e0219a98c21dd7f15f106ba932fad1d7d3283ad07e31e58abb28d4979",
+  "src/ro_sprite_forge/schemas/timeline-selection-v1.json": "5a56621fedd20cb994ca73ee797e3ea32f121920a1def35dbdeb33d629b4075d",
+  "tests/private_fixture_hooks/test_animation_fixtures.py": "7eae2da964923100f68bda0916ddda46efe53743e8ff6355ad482ddc1fca86a3",
+  "tests/test_animation.py": "072bf2f8be18375622d2df8f8f98f1e5871b7a9325ba57a9cb47574fa5fbb46b"
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "rsf19.implementation-manifest/v1",
+  "task": "RSF-19",
+  "files": {
+    "src/ro_sprite_forge/core/ingestion.py": "ffcf0fe7cf71a3e89635219de7dfe3adf81f55dd969ed8feec926fe556855c1a",
+    "src/ro_sprite_forge/schemas/project-v1.json": "edc22a73485ac26b43daba6b5fbde1822af5b695db8f8ef041bbff82e9e9775c",
+    "src/ro_sprite_forge/service/server.py": "f5e5bb03f24ab2acdf2818524fd4c65e2020dd578140df4a5319043db2cfa712",
+    "src/ro_sprite_forge/service/workbench.py": "83460b070343dcb546be3dfdfb6e725272f0c47d7891b51b44bea37a485b5c87",
+    "src/ro_sprite_forge/static/index.html": "5726c4ba97a854fed8e01369274dd5f9744ff04ef6486fff751c03f300f20aed",
+    "src/ro_sprite_forge/static/workbench.js": "52ecfeb18224377f816d5229a8ca8054458aedf49cbcee71102c96a1029416a8",
+    "tests/test_ingestion.py": "1591626aea39c8c37fd90c7bb5e59799df62487b040a45d7ae19000aa69f7aea",
+    "tests/browser/rsf19-mcp.js": "da9cba19f47d005a357f1fe7389a784eee752f016cf6ac0df6b18bc1644fc4b8",
+    "scripts/check_ingestion_schema.py": "bd837697231c18fed73e430036ff0a29f4a6a15133f303e1cb9764a1cc8ab049",
+    "docs/architecture/RSF19_INGESTION.md": "8926300d388fc4108adb390646813048824d61bfac0322777ccef9c5592b4ef5"
+  }
+}

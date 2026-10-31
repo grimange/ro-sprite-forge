@@ -1,0 +1,11 @@
+[package]
+name="ragnarok-formats"
+version="0.1.0"
+edition="2024"
+license="MIT"
+
+[dependencies]
+cgmath="=0.18.0"
+ragnarok-bytes={path="../ragnarok-bytes",features=["derive","cgmath"]}
+[features]
+interface=[]

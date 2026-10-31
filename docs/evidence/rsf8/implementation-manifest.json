@@ -1,0 +1,10 @@
+{
+  "docs/architecture/RSF8_TOPOLOGY.md": "bb348bf62da114f5670ef64536256b8b7f4282bb8b7cfdadbdfad71acd9a2951",
+  "scripts/check_contract_schemas.py": "762b2887d78ed7448812b64528d084de597b0fde1402b46a55fc5c3ea8609464",
+  "src/ro_sprite_forge/cli.py": "6e304c914b023fc6c4df6398c3883a48e694ff8be8c789d5fb569b8e63088dd5",
+  "src/ro_sprite_forge/core/contracts.py": "3802fdf7b9916e832e53385b99380b053a4946aec835b9a9a648900dcf4fdcc1",
+  "src/ro_sprite_forge/core/topology.py": "aefe75307d3d7f6f2f0d8bbdb24cdacf986e49ee6604e1813a110452062b2631",
+  "src/ro_sprite_forge/schemas/target-v2.json": "263c0f0797a7aaab16a1458fee223ad4f1db14eece4fc0f00039f1acd2a0e4b1",
+  "tests/private_fixture_hooks/test_topology_fixtures.py": "50ca56522f5899ea6f0c2082931437eb4eb4c0fd74ff2b545a7f840b6139c69d",
+  "tests/test_topology.py": "53421268c3e547aba5da402ce8e23419d66852b23bf4a316e0c2a7b7705a7c57"
+}

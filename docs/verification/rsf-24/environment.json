@@ -1,0 +1,13 @@
+{
+  "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+  "platform": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43",
+  "oracle_sha256": "e3acc98fe5a1d40df8aff6c373152cecd002ffae0b17a5017d4019866baa1d7b",
+  "input_act": "1a067143e8ceaa4e69398674ec058e46048cdbf57e95fa29bcd1feffa3d20072",
+  "input_spr": "670ac543acfa7323e2be20ec7cf093d78d4337d20186649256da3c30d92d213d",
+  "output_act": "2ac52f933b5f78cdc1959ceb20c1b7be34e8c6ea92f42d21c1d70b1d71de1778",
+  "output_spr": "ea072d9946582629e3e721ad30d973a71366c609dab080cf23ea08110bf7ee40",
+  "manifest_sha256": "a0ade4bde83afee5309c550554fc44b3b29fa35190612961f80c9b760f2b17b4",
+  "canonical_compilation_sha256": "381f0b70c493d7be90f784ddd7a18aadcdd55c35b4da2ded9041fe8386cd990f",
+  "independent_runs_equal": 3,
+  "native_korangar": "UNVERIFIED"
+}

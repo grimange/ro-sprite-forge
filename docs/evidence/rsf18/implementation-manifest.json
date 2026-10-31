@@ -1,0 +1,56 @@
+{
+  "schema": "rsf18.implementation-manifest/v1",
+  "git_head": "472b1d3f9e29630b505fc2b3b7315f6b4e00beba",
+  "accepted_files": 386,
+  "missing_accepted_files": [],
+  "changed_accepted_files": {
+    "src/ro_sprite_forge.egg-info/SOURCES.txt": {
+      "before": "ac6169cc2baa79c5ad44d3bef50c59cdb36f5d531f46273d9d25269f323aab28",
+      "after": "56f5ac88bdfc47e4a72088cd4dc69beb75c31d8fec87df289953b79cdfdbd113"
+    },
+    "src/ro_sprite_forge/schemas/project-v1.json": {
+      "before": "b02e5c7544f77186007014da490877a17be20c1174c045bac5e9a414e117fcae",
+      "after": "dbf11a4877ca0cf20dfc9552be3c86c25c66832ca17826f09262753944051e87"
+    },
+    "src/ro_sprite_forge/service/server.py": {
+      "before": "c4344e8ceac42aedf2547e58809093395691bbf505f5122a228053ef06ab7af8",
+      "after": "1cb4f9a8617c7ab4ec5fc9e1ddb5889bb7336d2ed89c95a6cceacd015f1a0992"
+    },
+    "src/ro_sprite_forge/service/workbench.py": {
+      "before": "deca71de420807d2283b9ec7161c7588c7cafaf2b025dcf4e9fffeaa69fb5355",
+      "after": "1941897a66e58aadba2e46eb3cf4bae9ee3d0a077455348f390b817227da0e1d"
+    },
+    "src/ro_sprite_forge/static/index.html": {
+      "before": "9681190b4b20285c660081a6d94a8355be80f4c83271e0bfb188a626c65cad94",
+      "after": "b425ecc1b6542f5dba7684da040f8dbc66afed863b529fd932227ecb0769124f"
+    },
+    "src/ro_sprite_forge/static/workbench.css": {
+      "before": "ca2ad636f627e4cf6f5633e61f64d93cb0570e10a624bbf79c15b3b007157bd9",
+      "after": "44267f51c0c8827e0ffb572412d93b7ec05c4695d0c4465b0f2c0c14a8e5bf07"
+    },
+    "src/ro_sprite_forge/static/workbench.js": {
+      "before": "9c3e9095e58c4ebf9ef2c4f3d7bf3c96a694f1e8bc9db5f271ba37659717fd5a",
+      "after": "3f0ee67906edb9e219d938371eff5ff9d6d719a923908ec2568679639270c8c9"
+    }
+  },
+  "new_files": {
+    "docs/architecture/RSF18_REVIEW.md": "4b0c4b41be96ad329f00d9d550505753a71a2b9e4aedc65fc09782bb1fb5057c",
+    "docs/evidence/rsf18/M3_GATE_PACKET.md": "a4579430cef69ee25b66433b602e7ab57490703d998f5589ee519eeb1c582780",
+    "docs/evidence/rsf18/QA_REVIEW.md": "171adc04277536cd3a49bafcef6bc14527132560476f6435c922dc4dd806bc06",
+    "docs/evidence/rsf18/VERIFICATION.md": "cc39e680eb8bd087f40c02b0ffd514997b3da42d2cce6f373fdff203ee81d62c",
+    "docs/evidence/rsf18/accepted-baseline.json": "44486e33e0133c07477ee05e161b7f0abd692c29915388e7ccc5eb69c64a3747",
+    "docs/evidence/rsf18/browser-release-results.json": "0ad8ae2ed829cc3db6c71bb9db7a327b732b047ee784ffbf05d72467dee59014",
+    "docs/evidence/rsf18/browser-results.json": "7d0330cb2d3a580592c740315ac2fbc329544933f239e8b73cb77a85a944b97d",
+    "docs/evidence/rsf18/determinism.json": "8521dee5152947f47df5a64269ac4b72b38145b20487fd46074364f88d5694a5",
+    "docs/evidence/rsf18/synthetic-review-dialog-qa.png": "3d3c2cf0d49e1a7fb2256f652adfb1bae5bc5873f11aa14eff5d22f2e9ab5abe",
+    "docs/evidence/rsf18/synthetic-review-workbench-qa.png": "d59ae2ac42c8e3a0591ecb41e9039146d00dcd551468ccd983a33c64029a9eaa",
+    "docs/evidence/rsf18/synthetic-review-workbench.png": "8f10c551b41eb9e508b75094a222e4f199620cf0cc2d9e5d42b595fa6827a0d1",
+    "scripts/check_review_schema.py": "fcf448b2757339e8c79a47c99b60c0f902c18c51498ea0c9181cae1790e6a0c0",
+    "src/ro_sprite_forge/core/review.py": "d3353ac7a5ad7c86e7ef00e20a223258f368fadc381d1f3dde2eb89ab7e629e7",
+    "src/ro_sprite_forge/schemas/review-event-v1.json": "26ff84f69b07624c0492621242f8e1503eb90990a05fc054fcb8a342f98b984d",
+    "tests/browser/rsf18-mcp.js": "06496923edf758d5d946559ba76d7f1b4bf66a23d35ab5eae9eaa001f9518e6c",
+    "tests/test_review.py": "004c0306d44c904ba7c9e25e1032f124168b8872b824dc6d66f3b8277aeb51f2"
+  },
+  "private_assets_included": false,
+  "implementation_committed": false
+}

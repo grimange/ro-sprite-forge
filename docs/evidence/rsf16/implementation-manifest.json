@@ -1,0 +1,44 @@
+{
+  "task": "RSF-16",
+  "title": "[M3] Requirements-first operator workspace and readiness reports",
+  "milestone": "M3",
+  "status": "IMPLEMENTED",
+  "files": {
+    "src/ro_sprite_forge/core/project.py": {
+      "bytes": 16461,
+      "sha256": "89e3f4de48569e90a3c27f56b01bd4c6449a9981d4e6191b93f02dae16364847"
+    },
+    "src/ro_sprite_forge/service/server.py": {
+      "bytes": 27150,
+      "sha256": "7bb9ae94bff48f88f59c22b44f55d357d602f0f7c7f3b2024f0b29f2735c0221"
+    },
+    "src/ro_sprite_forge/static/workbench.css": {
+      "bytes": 12791,
+      "sha256": "5ff5cd74e353e14202106179065300ce4c026cea28007dba628fddf8bd4a0d15"
+    },
+    "src/ro_sprite_forge/static/workbench.js": {
+      "bytes": 31035,
+      "sha256": "73c35668a42845bdc8774365b1cea3c9669bcce0b8317240a017eac2fa428fca"
+    },
+    "src/ro_sprite_forge/static/index.html": {
+      "bytes": 15083,
+      "sha256": "61d86ee34bed8681274144d07811ca6ed1df87ab83d78d9ddabc5d28f1d61532"
+    },
+    "pyproject.toml": {
+      "bytes": 768,
+      "sha256": "e517ab56281e72d79985d7a12868a07e206243667909d1873a25c2951b33ca6b"
+    },
+    "MANIFEST.in": {
+      "bytes": 215,
+      "sha256": "6835e14456b0c9a0b2c71d88db007e59f6109ab2a4cf9c8490cdab69f37d15a1"
+    },
+    "tests/test_workbench.py": {
+      "bytes": 12872,
+      "sha256": "683453ccd4f727cacb5338067cf3ab9c835add07bd071b54ce5e063b321d7344"
+    },
+    "docs/architecture/RSF16_WORKBENCH.md": {
+      "bytes": 7636,
+      "sha256": "7aa226b39419d4780175d7c27c65c66183943a5b1830c67cc596ce9d7828e20a"
+    }
+  }
+}

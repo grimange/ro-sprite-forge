@@ -1,0 +1,2276 @@
+{
+  "indexed_spr_sha256": "57a162cc555f39c21eadc89a1cc3fa2224fdee82e17be685fb6d7a350743a2b9",
+  "mutations": [
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -51,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "eebfc4143a8439cc5738afc94b9da7635e9e0c50e89d516f2e1ea89cccbd2a3b"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": -19
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "319e8a5b3ea1cbb055c5b1892ebebd467c1158b7b955012bf11291890be2ade6"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 0,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "4c003e9e1ee3d063968a330e74463dbb6ffbf731d6e651d3b87e1f8a83a54665"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 16909060,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "d8d2f7e3e116201cf127608351131b7883addf77514be83ac651d9ec2cf3a588"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 3.5,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "9d0364c4451eeb15d0ce03e70800ecd0910db5be6acf7d8e47d8ddd4dbed8ff1"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": 0.25,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "0cefad891e9c9e293f3b0498d4d339734250d47cb75fada64bd5e08edaba430f"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": -120,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "f25793d95319b72c5871f0149edcb76931b770f081d58fb39fb83ecf57af39d2"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 1,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "e6ee49e5400914e9dcba70470dff130357efa6386d812aa244d7ecd4fc472545"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 1,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "dc992a871ef48756510c222623a6331f1d17b4873eb40ffed2fe1e2fcaf2222f"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -100,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "765e644f510fe0e7b0d515a3c9e028a1f05f898c7a226f3bfa764e641c0e2221"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -81,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "3d2abf46ebb2fcc7790a3fdd0e32d3f147b40e12a24fb4d539b73687e8e22d4c"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": -82
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "cf93815f05baf8716011c5f758c492b225d7102e02a816a73197a2e05baec8fd"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 42,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "cad805d3a5ffb9f195a35b547fb20e938dbfbf365af33a4adff446f65c31e7e4"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 43,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "0869cfeff9e552ccd83c8a6b1ec05c4a11e91dbf7b78d7933f73b83924d3c723"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 1
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "bd29a9f8c51570895aa5c75469d39c6d730aa12e31e98f520c3a3f3c9591ff90"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          2.5
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "8ed88c45fd01e3fff458d4c39b19309c5116c1daf4e5cdca4c455e6096daa438"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "6e65772e77617600000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+        ],
+        "reserved": "00010203040506070809"
+      },
+      "output_sha256": "dc7ad47be96db243d6345f626366e6e2077be06073b49a6c1871064bf28e71bf"
+    },
+    {
+      "expected_document": {
+        "actions": [
+          [
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": -30,
+                  "color": 305419896,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.25,
+                  "scale_y": 0.5,
+                  "sprite": 0,
+                  "x": 12,
+                  "y": -23
+                },
+                {
+                  "angle": 90,
+                  "color": 2271560481,
+                  "mirror": 1,
+                  "pool": 1,
+                  "scale_x": 2.0,
+                  "scale_y": -1.0,
+                  "sprite": 0,
+                  "x": -42,
+                  "y": 17
+                }
+              ],
+              "event": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attribute": 3405691582,
+                  "opaque": 3735928559,
+                  "x": -9,
+                  "y": 10
+                }
+              ],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 0,
+                  "color": 4294967295,
+                  "mirror": 0,
+                  "pool": 0,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": 1,
+                  "x": 5,
+                  "y": 6
+                }
+              ],
+              "event": -1
+            }
+          ],
+          [
+            {
+              "anchors": [],
+              "bounds": [
+                -1,
+                2,
+                -3,
+                4,
+                -5,
+                6,
+                -7,
+                8
+              ],
+              "clips": [
+                {
+                  "angle": 360,
+                  "color": 0,
+                  "mirror": 7,
+                  "pool": 99,
+                  "scale_x": 1.0,
+                  "scale_y": 1.0,
+                  "sprite": -1,
+                  "x": 7,
+                  "y": 8
+                }
+              ],
+              "event": 1
+            }
+          ]
+        ],
+        "delays": [
+          4.0,
+          6.25
+        ],
+        "events": [
+          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+          "28292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+        ],
+        "reserved": "0a0b0c0d0e0f10111213"
+      },
+      "output_sha256": "8d37081f03d203101f4189233c99ae603348e267a9e380d3e73d3d0efc26a32a"
+    }
+  ],
+  "source_act_sha256": "75c87b11243b3855b122d17eda926b59f2214a89147397a8e6ecc7672423ca8c",
+  "source_spr_sha256": "9bb523b13f2318d56639bea53a14c9f7116c199960c3c9cc637c816777a24a1d",
+  "truecolor_spr_sha256": "9d35ecd341e0611c639a43bb168dc71a6a516e0cd2ef524fd59830f135f7508a"
+}
